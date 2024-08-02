@@ -6,7 +6,8 @@ const events = [
   { id: '1', name: 'event1' },
   { id: '2', name: 'event2' },
   { id: '3', name: 'event3' },
-  { id: '4', name: 'event4' }
+  { id: '4', name: 'event4' },
+  { id: '5', name: 'event5' }
 ];
 
 const Home: React.FC = () => {
