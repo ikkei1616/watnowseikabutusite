@@ -23,19 +23,21 @@ npm install
   - bugfix/機能名
 
 機能名は、ケバブケース（kebab-case）で表記する。
+
 例）〇〇〇-〇〇〇-〇〇
-(https://www.bioerrorlog.work/entry/naming-cases-list)[命名規則のケース一覧]
+
+[命名規則のケース一覧](https://www.bioerrorlog.work/entry/naming-cases-list)
 
 
 ## 参考サイト
 
 - HTML
-  - [https://developer.mozilla.org/ja/docs/Web/HTML/](mdn_web_docs/HTML)
+  - [mdn_web_docs/HTML](https://developer.mozilla.org/ja/docs/Web/HTML/)
 - CSS
-  - [https://developer.mozilla.org/ja/docs/Web/CSS](mdn_web_docs/CSS)
+  - [mdn_web_docs/CSS](https://developer.mozilla.org/ja/docs/Web/CSS)
 - JavaScript
-  - [https://developer.mozilla.org/ja/docs/Web/JavaScript](mdn_web_docs/JavaScript)
+  - [mdn_web_docs/JavaScript](https://developer.mozilla.org/ja/docs/Web/JavaScript)
 - React
-  - [https://ja.react.dev/blog/2023/03/16/introducing-react-dev](React公式サイト)
+  - [React公式サイト](https://ja.react.dev/blog/2023/03/16/introducing-react-dev)
 - Next.js
-  - [https://nextjs.org/docs](Next.js公式サイト)
+  - [Next.js公式サイト](https://nextjs.org/docs)
