@@ -23,6 +23,9 @@ const Home: React.FC = () => {
           </li>
         ))}
       </ul>
+      <Link href="/events/new" className={styles.newEventButton}>
+        新規作成
+      </Link>
     </div>
   );
 };
