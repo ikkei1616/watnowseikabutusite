@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 import styles from './page.module.css';
 import { useEffect, useState } from 'react';
-import LoadingSpinner from './LoadingSpinner';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 // mockイベントデータの型を定義
 type EventData = {
@@ -28,7 +28,6 @@ export default function EventDetailPage() {
 
   //event_idの変更をトリガーにしてsetEventを実行
   useEffect(() => {
-    debugger
     if (event_id) {
     const eventData = mockEvents[event_id];
     setEvent(eventData);
