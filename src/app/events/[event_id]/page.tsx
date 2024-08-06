@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import styles from './page.module.css';
 import { useEffect, useState } from 'react';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 // mockイベントデータの型を定義
 type EventData = {
@@ -24,19 +25,23 @@ export default function EventDetailPage() {
   const params = useParams();
   const event_id: string = params.event_id as string;
   const [event, setEvent] = useState<EventData | null>(null);
+  const [loading, setLoading] = useState(true);
 
   // event_idの変更をトリガーにしてsetEventを実行
   useEffect(() => {
     if (event_id) {
-      console.log('event_idを表示します:',event_id);//debug
-      const eventData = mockEvents[event_id];
-      setEvent(eventData);
-      console.log('対応するイベントデータを表示します:',eventData);
-      
+    const eventData = mockEvents[event_id];
+    setEvent(eventData);
+    setLoading(false);
     }
   }, [event_id]);
 
-  // イベントが正常に取得されなかった場合の処理
+  
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+  
+  //(DBに登録されていないeventの詳細を見ようとした場合(event_id = 5を取得しようとした場合))
   if (!event) {
     return <p className={styles.notFound}>イベントが見つかりませんでした。</p>;
   }
