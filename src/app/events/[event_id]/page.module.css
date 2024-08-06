@@ -1,0 +1,47 @@
+/* src/app/events/[event_id]/page.module.css */
+
+.fullScreen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* ビューポート全体の高さに合わせる */
+    background-color: #f0f0f0; /* 背景色を追加 */
+}
+
+.container {
+    padding: 20px;
+    max-width: 700px;
+    width: 100%; /* コンテナの幅を100%にして中央揃え */
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #007bff;
+    text-align: center;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+
+.description {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #333;
+    padding: 10px 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.notFound {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #d9534f;
+    margin-top: 40px;
+}

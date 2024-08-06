@@ -48,3 +48,19 @@
   text-decoration: underline;
   color: #0056b3; /* ホバー時の色を暗めに設定 */
 }
+
+.newEventButton {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff; /* ボタンの背景色をリンクと同じ青に設定 */
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.newEventButton:hover {
+  background-color: #0056b3; /* ホバー時の背景色を暗めに設定 */
+}
