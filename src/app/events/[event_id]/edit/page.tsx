@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import styles from './page.module.css';
 import { useEffect, useState } from 'react';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
 
 // mockイベントデータの型を定義
 type EventData = {
@@ -26,6 +27,7 @@ export default function EventEditPage() {
   const [event, setEvent] = useState<EventData | null>(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [loading, setLoading] = useState(true);
 
   // event_idの変更をトリガーにしてsetEventを実行
   useEffect(() => {
@@ -35,8 +37,13 @@ export default function EventEditPage() {
       console.log(eventData); // debug
       setTitle(eventData.title);
       setDescription(eventData.description);
+      setLoading(false);
     }
   }, [event_id]);
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   // イベントが正常に取得されなかった場合の処理
   if (!event) {
