@@ -17,6 +17,12 @@ const NewEventPage: React.FC = () => {
     setSubmitted(true);
   };
 
+  //API未実装なのでコンソールログのみ
+  const handleSaveClick = () => {
+    console.log('保存されたイベント:', { eventName, eventDescription });
+  }
+
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>新規イベント作成</h1>
@@ -42,16 +48,8 @@ const NewEventPage: React.FC = () => {
             required
           />
         </div>
-        <button type="submit" className={styles.button}>完了</button>
+        <button type="submit" className={styles.button} onClick = {handleSaveClick}>完了</button>
       </form>
-
-      {submitted && ( //ここから完了ボタンが押された時の処理(入力内容を画面に表示)
-        <div className={styles.submittedData}>
-          <h2>入力されたイベント情報</h2>
-          <p><strong>イベント名:</strong> {eventName}</p>
-          <p><strong>イベント情報:</strong> {eventDescription}</p>
-        </div>
-      )}
     </div>
   );
 };

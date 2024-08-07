@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import styles from './page.module.css';
 import { useEffect, useState } from 'react';
-import LoadingSpinner from '../../../components/LoadingSpinner';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
 
 // mockイベントデータの型を定義
 type EventData = {
@@ -21,39 +21,61 @@ const mockEvents: Record<string, EventData> = {
   '4': { title: 'イベント 4', description: 'これはイベント 4 の説明です。' },
 };
 
-export default function EventDetailPage() {
+export default function EventEditPage() {
   const params = useParams();
   const event_id: string = params.event_id as string;
   const [event, setEvent] = useState<EventData | null>(null);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(true);
 
   // event_idの変更をトリガーにしてsetEventを実行
   useEffect(() => {
     if (event_id) {
-    const eventData = mockEvents[event_id];
-    setEvent(eventData);
-    setLoading(false);
+      const eventData = mockEvents[event_id];
+      setEvent(eventData);
+      console.log(eventData); // debug
+      setTitle(eventData.title);
+      setDescription(eventData.description);
+      setLoading(false);
     }
   }, [event_id]);
 
-  
   if (loading) {
     return <LoadingSpinner />;
   }
-  
-  //(DBに登録されていないeventの詳細を見ようとした場合(event_id = 5を取得しようとした場合))
+
+  // イベントが正常に取得されなかった場合の処理
   if (!event) {
     return <p className={styles.notFound}>イベントが見つかりませんでした。</p>;
   }
 
-  // イベントが正常に処理された場合の処理（イベント詳細を記述）
+  // 編集完了リンククリック時の動作を記述
+  // API未実装なので変更データをコンソールに表示するだけ
+  const handleSaveClick = () => {
+    console.log('保存されたイベント:', { title, description });
+  };
+
   return (
     <div className={styles.fullScreen}>
       <div className={styles.container}>
-        <h1 className={styles.title}>{event.title}</h1>
-        <p className={styles.description}>{event.description}</p>
-        <Link href={`/events/${event_id}/edit`} className={styles.editButton}>
-          編集
+        <h1 className={styles.title}>イベント編集</h1>
+        <label className={styles.label}>タイトル</label>
+        <input
+          className={styles.input}
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+
+        <label className={styles.label}>説明</label>
+        <textarea
+          className={styles.textarea}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <Link href={`/events/${event_id}`} className={styles.saveButton} onClick={handleSaveClick}>
+          編集完了
         </Link>
       </div>
     </div>
