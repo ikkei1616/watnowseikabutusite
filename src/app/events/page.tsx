@@ -1,28 +1,20 @@
 import React from 'react';
 import Link from 'next/link';
 import styles from './Page.module.css';
+import EventCard from '../../components/EventCard'; // Adjust the import path if necessary
 
-const events = [
-  { id: '1', name: 'event1' },
-  { id: '2', name: 'event2' },
-  { id: '3', name: 'event3' },
-  { id: '4', name: 'event4' },
-  { id: '5', name: 'event5' }
+const mock_events = [
+  { id: '1', name: 'Watnowハッカソン2024', date: '2024-9', comment: 'みんな開発をいっぱい頑張りました！' },
+  { id: '2', name: 'Watnowハッカソン2024 春プロ', date: '2024-4', comment: 'みんな開発をいっぱい頑張りました！' },
+  { id: '3', name: 'Watnowハッカソン2024 秋プロ', date: '2024-9', comment: 'みんな開発をいっぱい頑張りました！' }
 ];
 
 const Home: React.FC = () => {
   return (
     <div className={styles.pageHeader}>
       <h1>これはイベント一覧ページです</h1>
-      <ul className={styles.eventList}>
-        {events.map((event) => (
-          <li key={event.id} className={styles.eventItem}>
-            <Link href={`/events/${event.id}`} className={styles.eventLink}>
-              {event.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      
+      <EventCard events={mock_events} />
       <Link href="/events/new" className={styles.newEventButton}>
         新規作成
       </Link>

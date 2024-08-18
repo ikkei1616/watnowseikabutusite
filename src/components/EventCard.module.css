@@ -1,0 +1,36 @@
+/* 全体のリストをスタイリング */
+.event {
+    list-style-type: none; /* デフォルトのリストスタイルを無効化 */
+    padding: 0; /* 余白を取り除く */
+    margin: 0; /* 外側の余白を取り除く */
+  }
+  
+  /* 各イベントカードのスタイリング */
+  .card {
+    border: 1px solid #ccc; /* カードの枠線 */
+    margin-bottom: 10px; /* カード間の余白 */
+    padding: 15px; /* カード内の余白 */
+    border-radius: 8px; /* カードの角を丸める */
+    transition: box-shadow 0.3s ease; /* ホバー時の影の変化をアニメーション */
+  }
+  
+  /* カードにホバーしたときの影のエフェクト */
+  .card:hover {
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* ホバー時の影 */
+  }
+  
+  /* 日付をスタイリング */
+  .date {
+    margin: 0; /* 日付の外側の余白を取り除く */
+    font-size: 1.2em; /* 日付のフォントサイズを指定 */
+    color: #333; /* 日付の文字色 */
+    font-weight: bold; /* 日付を太字に */
+  }
+  
+  /* コメントのスタイリング */
+  .comment {
+    margin-top: 8px; /* コメントの上部に余白を追加 */
+    color: #666; /* コメントの文字色 */
+    font-size: 1em; /* コメントのフォントサイズを指定 */
+  }
+  
