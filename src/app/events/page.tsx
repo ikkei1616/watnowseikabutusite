@@ -9,12 +9,13 @@ const mock_events = [
   { id: '3', name: 'Watnowハッカソン2024 秋プロ', date: '2024-9', comment: 'みんな開発をいっぱい頑張りました！' }
 ];
 
-const Home: React.FC = () => {
+const EventPage: React.FC = () => {
   return (
     <div className={styles.pageHeader}>
       <h1>これはイベント一覧ページです</h1>
-      
-      <EventCard events={mock_events} />
+      {mock_events.map((event) => (
+        <EventCard key={event.id} event={event} />
+       ))}
       <Link href="/events/new" className={styles.newEventButton}>
         新規作成
       </Link>
@@ -22,4 +23,5 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default EventPage;
+
