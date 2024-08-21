@@ -5,55 +5,63 @@ import Link from 'next/link';
 import styles from './page.module.css';
 import { useEffect, useState } from 'react';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
-
-// mockイベントデータの型を定義
-type EventData = {
-  title: string;
-  description: string;
-};
-
-// mockEventsを定義
-// supabaseでデータ構造が決まり次第変更、APIでデータ取得
-const mockEvents: Record<string, EventData> = {
-  '1': { title: 'イベント 1', description: 'これはイベント 1 の説明です。' },
-  '2': { title: 'イベント 2', description: 'これはイベント 2 の説明です。' },
-  '3': { title: 'イベント 3', description: 'これはイベント 3 の説明です。' },
-  '4': { title: 'イベント 4', description: 'これはイベント 4 の説明です。' },
-};
+import { supabase } from '@/supabase/supabase';
+import { EventDetail } from '@/types/Event';
 
 export default function EventEditPage() {
   const params = useParams();
   const event_id: string = params.event_id as string;
-  const [event, setEvent] = useState<EventData | null>(null);
+  const [event, setEvent] = useState<EventDetail | null>(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(true);
 
-  // event_idの変更をトリガーにしてsetEventを実行
   useEffect(() => {
-    if (event_id) {
-      const eventData = mockEvents[event_id];
-      setEvent(eventData);
-      console.log(eventData); // debug
-      setTitle(eventData.title);
-      setDescription(eventData.description);
-      setLoading(false);
-    }
+    const fetchEventData = async () => {
+      if (event_id) {
+        const { data, error } = await supabase
+          .from('events')
+          .select('*')
+          .eq('id', event_id)
+          .single();
+
+        if (error) {
+          console.error('Error fetching event data:', error);
+          setEvent(null);
+        } else {
+          setEvent(data as EventDetail);
+          setTitle(data.name);
+          setDescription(data.comment);
+          setUrl(data.url);
+        }
+        setLoading(false);
+      }
+    };
+
+    fetchEventData();
   }, [event_id]);
 
   if (loading) {
     return <LoadingSpinner />;
   }
 
-  // イベントが正常に取得されなかった場合の処理
   if (!event) {
     return <p className={styles.notFound}>イベントが見つかりませんでした。</p>;
   }
 
-  // 編集完了リンククリック時の動作を記述
-  // API未実装なので変更データをコンソールに表示するだけ
-  const handleSaveClick = () => {
-    console.log('保存されたイベント:', { title, description });
+  const handleSaveClick = async () => {
+    const { error } = await supabase
+      .from('events')
+      .update({ name: title, comment: description, url: url })
+      .eq('id', event_id);
+
+    if (error) {
+      console.error('Error updating event:', error);
+    } else {
+      console.log('Event updated successfully:', { title, description, url });
+      // 編集完了後にリンクにより画面遷移が発生
+    }
   };
 
   return (
@@ -74,6 +82,15 @@ export default function EventEditPage() {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+
+        <label className={styles.label}>URL</label>
+        <input
+          className={styles.input}
+          type="text"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+        />
+
         <Link href={`/events/${event_id}`} className={styles.saveButton} onClick={handleSaveClick}>
           編集完了
         </Link>
