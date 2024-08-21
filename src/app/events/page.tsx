@@ -5,9 +5,10 @@ import Link from 'next/link';
 import styles from './Page.module.css';
 import EventCard from '../../components/EventCard'; 
 import { supabase } from '../../supabase/supabase';
+import { Event } from '../../types/Event';
 
 const EventPage: React.FC = () => {
-  const [events, setEvents] = useState<any[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -21,7 +22,7 @@ const EventPage: React.FC = () => {
         console.error('Error fetching events:', error);
       } else {
         console.log('Fetched data:', data); // デバッグ用に取得データを出力
-        setEvents(data || []); // データがnullのときの対策として空配列を設定
+        setEvents(data as Event[] || []); // データがnullのときの対策として空配列を設定
       }
 
     };

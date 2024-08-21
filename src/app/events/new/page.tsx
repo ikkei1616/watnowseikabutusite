@@ -4,18 +4,31 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './page.module.css';
 import { supabase } from '@/supabase/supabase';
+import { EventDetail } from '@/types/Event';
 
 const NewEventPage: React.FC = () => {
   const router = useRouter();
-  // 各イベントの状態管理
-  const [eventName, setEventName] = useState('');
-  const [eventDate, setEventDate] = useState('');
-  const [eventUrl, setEventUrl] = useState('');
-  const [eventComment, setEventComment] = useState('');
+  
+  // EventDetail型に基づく初期状態を設定
+  const [event, setEvent] = useState<EventDetail>({
+    id: '', // idは新規作成時には空文字列
+    name: '',
+    date: '',
+    url: '',
+    comment: ''
+  });
   
   // 登録完了状態管理
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setEvent((prevEvent) => ({
+      ...prevEvent,
+      [id]: value
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,7 +37,12 @@ const NewEventPage: React.FC = () => {
 
     const { data, error } = await supabase
       .from('events')
-      .insert([{ name: eventName, date: eventDate, url: eventUrl, comment: eventComment }]);
+      .insert([{ 
+        name: event.name, 
+        date: event.date, 
+        url: event.url, 
+        comment: event.comment 
+      }]);
 
     if (error) {
       console.error('Error inserting event:', error);
@@ -42,44 +60,44 @@ const NewEventPage: React.FC = () => {
       <h1 className={styles.title}>新規イベント作成</h1>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
-          <label htmlFor="eventName" className={styles.label}>イベント名</label>
+          <label htmlFor="name" className={styles.label}>イベント名</label>
           <input
             type="text"
-            id="eventName"
-            value={eventName}
-            onChange={(e) => setEventName(e.target.value)}
+            id="name"
+            value={event.name}
+            onChange={handleChange}
             className={styles.input}
             required
           />
         </div>
         <div className={styles.formGroup}>
-          <label htmlFor="eventDate" className={styles.label}>開催日</label>
+          <label htmlFor="date" className={styles.label}>開催日</label>
           <input
             type="date"
-            id="eventDate"
-            value={eventDate}
-            onChange={(e) => setEventDate(e.target.value)}
+            id="date"
+            value={event.date}
+            onChange={handleChange}
             className={styles.input}
             required
           />
         </div>
         <div className={styles.formGroup}>
-          <label htmlFor="eventUrl" className={styles.label}>URL</label>
+          <label htmlFor="url" className={styles.label}>URL</label>
           <input
             type="text"
-            id="eventUrl"
-            value={eventUrl}
-            onChange={(e) => setEventUrl(e.target.value)}
+            id="url"
+            value={event.url}
+            onChange={handleChange}
             className={styles.input}
             required
           />
         </div>
         <div className={styles.formGroup}>
-          <label htmlFor="eventComment" className={styles.label}>コメント</label>
+          <label htmlFor="comment" className={styles.label}>コメント</label>
           <textarea
-            id="eventComment"
-            value={eventComment}
-            onChange={(e) => setEventComment(e.target.value)}
+            id="comment"
+            value={event.comment}
+            onChange={handleChange}
             className={styles.textarea}
             required
           />
