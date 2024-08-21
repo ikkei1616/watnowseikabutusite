@@ -1,27 +1,41 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './page.module.css';
-
+import { supabase } from '@/supabase/supabase';
 
 const NewEventPage: React.FC = () => {
-  //入力されたイベント名、イベント情報の状態管理
+  const router = useRouter();
+  // 各イベントの状態管理
   const [eventName, setEventName] = useState('');
-  const [eventDescription, setEventDescription] = useState('');
+  const [eventDate, setEventDate] = useState('');
+  const [eventUrl, setEventUrl] = useState('');
+  const [eventComment, setEventComment] = useState('');
+  
+  // 登録完了状態管理
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  //完了ボタンを押したかの状態管理
-  const [submitted, setSubmitted] = useState(false);//初期値false(完了してない)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
 
-  const handleSubmit = (e: React.FormEvent) => { //eはReact.FormEvent(フォーム送信イベント)
-    e.preventDefault(); 
-    setSubmitted(true);
+    const { data, error } = await supabase
+      .from('events')
+      .insert([{ name: eventName, date: eventDate, url: eventUrl, comment: eventComment }]);
+
+    if (error) {
+      console.error('Error inserting event:', error);
+      setError('イベントの追加に失敗しました。');
+      setLoading(false);
+    } else {
+      console.log('Event added successfully:', data);
+      // 追加成功後にイベント一覧ページに遷移
+      router.push('/events');
+    }
   };
-
-  //API未実装なのでコンソールログのみ
-  const handleSaveClick = () => {
-    console.log('保存されたイベント:', { eventName, eventDescription });
-  }
-
 
   return (
     <div className={styles.container}>
@@ -39,16 +53,41 @@ const NewEventPage: React.FC = () => {
           />
         </div>
         <div className={styles.formGroup}>
-          <label htmlFor="eventDescription" className={styles.label}>イベント情報</label>
+          <label htmlFor="eventDate" className={styles.label}>開催日</label>
+          <input
+            type="date"
+            id="eventDate"
+            value={eventDate}
+            onChange={(e) => setEventDate(e.target.value)}
+            className={styles.input}
+            required
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label htmlFor="eventUrl" className={styles.label}>URL</label>
+          <input
+            type="text"
+            id="eventUrl"
+            value={eventUrl}
+            onChange={(e) => setEventUrl(e.target.value)}
+            className={styles.input}
+            required
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label htmlFor="eventComment" className={styles.label}>コメント</label>
           <textarea
-            id="eventDescription"
-            value={eventDescription}
-            onChange={(e) => setEventDescription(e.target.value)}
+            id="eventComment"
+            value={eventComment}
+            onChange={(e) => setEventComment(e.target.value)}
             className={styles.textarea}
             required
           />
         </div>
-        <button type="submit" className={styles.button} onClick = {handleSaveClick}>完了</button>
+        <button type="submit" className={styles.button} disabled={loading}>
+          {loading ? '保存中...' : '完了'}
+        </button>
+        {error && <p className={styles.error}>{error}</p>}
       </form>
     </div>
   );
