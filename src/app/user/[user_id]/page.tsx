@@ -3,10 +3,11 @@
 import React, { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import { supabase } from "@/supabase/supabase";
+import type User from "@/types/User";
 
 const UserPage = ({ params }: { params: { user_id: string } }) => {
   const userID = params.user_id;
-  const [userData, setUserData] = useState<any | null>(null);
+  const [userData, setUserData] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,7 +24,12 @@ const UserPage = ({ params }: { params: { user_id: string } }) => {
         setUserData(null);
       } else {
         console.log("Fetched data:", data);
-        setUserData(data);
+        setUserData({
+          userID: data?.user_id,
+          name: data?.name,
+          nickname: data?.nickname,
+          introduction: data?.introduction || "",
+        } as User);
       }
       setLoading(false);
     };
