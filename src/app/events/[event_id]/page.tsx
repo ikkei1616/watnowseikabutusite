@@ -5,35 +5,38 @@ import Link from 'next/link';
 import styles from './page.module.css';
 import { useEffect, useState } from 'react';
 import LoadingSpinner from '../../../components/LoadingSpinner';
+import { supabase } from '@/supabase/supabase';
+import { EventDetail } from '@/types/Event';
 
-// mockイベントデータの型を定義
-type EventData = {
-  title: string;
-  description: string;
-};
-
-// mockEventsを定義
-// supabaseでデータ構造が決まり次第変更、APIでデータ取得
-const mockEvents: Record<string, EventData> = {
-  '1': { title: 'イベント 1', description: 'これはイベント 1 の説明です。' },
-  '2': { title: 'イベント 2', description: 'これはイベント 2 の説明です。' },
-  '3': { title: 'イベント 3', description: 'これはイベント 3 の説明です。' },
-  '4': { title: 'イベント 4', description: 'これはイベント 4 の説明です。' },
-};
 
 export default function EventDetailPage() {
   const params = useParams();
   const event_id: string = params.event_id as string;
-  const [event, setEvent] = useState<EventData | null>(null);
+  const [event, setEvent] = useState<EventDetail | null>(null);
   const [loading, setLoading] = useState(true);
 
   // event_idの変更をトリガーにしてsetEventを実行
   useEffect(() => {
-    if (event_id) {
-    const eventData = mockEvents[event_id];
-    setEvent(eventData);
-    setLoading(false);
-    }
+    const fetchEventData = async () => {
+      if (event_id) {
+        const { data, error } = await supabase
+          .from('events')
+          .select('*')
+          .eq('id', event_id)
+          .single();
+        
+        //データ取得時のエラーハンドリング
+        if (error) {
+          console.error('Error fetching event data:', error);
+          setEvent(null);
+        } else {
+          setEvent(data as EventDetail);
+        }
+        setLoading(false);
+      }
+    };
+
+    fetchEventData();
   }, [event_id]);
 
   
@@ -48,14 +51,16 @@ export default function EventDetailPage() {
 
   // イベントが正常に処理された場合の処理（イベント詳細を記述）
   return (
-    <div className={styles.fullScreen}>
+    <main className={styles.fullScreen}>
       <div className={styles.container}>
-        <h1 className={styles.title}>{event.title}</h1>
-        <p className={styles.description}>{event.description}</p>
+        <h1 className={styles.title}>{event.name}</h1>
+        <p className={styles.description}>{event.comment}</p>
+        <p className={styles.details}>開催日: {event.date}</p>
+        <p className={styles.details}>URL: {event.url}</p>
         <Link href={`/events/${event_id}/edit`} className={styles.editButton}>
           編集
         </Link>
       </div>
-    </div>
+    </main>
   );
 }
