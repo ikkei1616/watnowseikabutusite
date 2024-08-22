@@ -26,18 +26,16 @@ const UserPage = ({ params }: { params: { user_id: string } }) => {
           break;
         }
       }
-      console.log(imageUrl);
       return imageUrl;
     };
 
     const fetchUserData = async () => {
       const { data, error } = await supabase
         .from("users")
-        .select("user_id, name, nickname, introduction")
+        .select()
         .eq("user_id", userID)
         .single();
 
-      console.log("data:", data);
       if (error) {
         console.error("Error fetching user data:", error);
         setUserData(null);
