@@ -78,7 +78,7 @@ export default function EventEditPage() {
   };
 
   return (
-    <div className={styles.fullScreen}>
+    <main className={styles.fullScreen}>
       <div className={styles.container}>
         <h1 className={styles.title}>イベント編集</h1>
         <label className={styles.label}>タイトル</label>
@@ -115,6 +115,6 @@ export default function EventEditPage() {
           編集完了
         </button>
       </div>
-    </div>
+    </main>
   );
 }

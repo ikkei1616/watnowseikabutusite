@@ -33,7 +33,7 @@ const EventPage: React.FC = () => {
 
 
   return (
-    <div className={styles.pageHeader}>
+    <main className={styles.pageHeader}>
       <h1>これはイベント一覧ページです</h1>
       {events.map((event) => (       
         <EventCard key={event.id} event={event} />
@@ -41,7 +41,7 @@ const EventPage: React.FC = () => {
       <Link href="/events/new" className={styles.newEventButton}>
         新規作成
       </Link>
-    </div>
+    </main>
   );
 };
 

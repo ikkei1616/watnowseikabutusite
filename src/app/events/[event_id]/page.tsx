@@ -51,7 +51,7 @@ export default function EventDetailPage() {
 
   // イベントが正常に処理された場合の処理（イベント詳細を記述）
   return (
-    <div className={styles.fullScreen}>
+    <main className={styles.fullScreen}>
       <div className={styles.container}>
         <h1 className={styles.title}>{event.name}</h1>
         <p className={styles.description}>{event.comment}</p>
@@ -61,6 +61,6 @@ export default function EventDetailPage() {
           編集
         </Link>
       </div>
-    </div>
+    </main>
   );
 }

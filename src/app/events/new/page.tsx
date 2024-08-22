@@ -56,7 +56,7 @@ const NewEventPage: React.FC = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <h1 className={styles.title}>新規イベント作成</h1>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
@@ -105,7 +105,7 @@ const NewEventPage: React.FC = () => {
         </button>
         {error && <p className={styles.error}>{error}</p>}
       </form>
-    </div>
+    </main>
   );
 };
 
