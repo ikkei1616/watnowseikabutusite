@@ -1,44 +1,82 @@
+"use client";
 import React from 'react';
 import TextInput from '@/components/TextInput';
+import TextareaInput from '@/components/TextareaInput';
+import ImageInput from '@/components/ImageInput';
+import NumberInput from '@/components/NumberInput';
+import Select from '@/components/Select';
+import { SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const NewServicesPage = () => {
+
+const serviceSchema = z
+    .object({
+        serviceName: z.string().min(1,"サービス名は必須です"),
+        description: z.string(),
+        teamName: z.string(),
+        serviceImage: z.string(),
+        award: z.string(),
+        selectEvent: z.string(),
+        serviceDetail: z.string(),
+        developmentPeriodNum: z.number(),
+        developmentPeriod: z.string(),
+    })
+
+    type Service = z.infer<typeof serviceSchema>;
+
+    const { register, handleSubmit,formState: { errors } } = useForm<Service>({
+        mode: "onChange",
+        resolver: zodResolver(serviceSchema),
+    });
+
+    const onSubmit= (data: Service) => {
+        console.log(data); 
+    }
+    
+
+    const event = [
+        { value: 'event1', label: 'event1' },
+        { value: 'event2', label: 'event2' },
+        { value: 'event3', label: 'event3' },
+    ]
+
+    const period = [
+        {value: "1", label: "days"},
+        {value: "2", label: "weeks"},
+        {value: "3", label: "months"},
+        {value: "4", label: "years"},
+    ]
   return (
     <>
       <main>
         <h1>新規サービス作成</h1>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div>
-            <label htmlFor="serviceName">サービス名</label>
-            <TextInput id="serviceName" label='serviceName' />
+            <TextInput id="serviceName" label='サービス名' register={register} errors={errors}/>
           </div>
           <div>
-            <label htmlFor="description">サービス情報</label>
-            <textarea id="description" />
+            <TextareaInput id="description" label='サービス情報' />
           </div>
           <div>
-            <label htmlFor="teamName">チーム名</label>
-            <input type="text" id="teamName" />
+            <TextInput id="teamName" label='チーム名' register={register}/>
           </div>
           <div>
-            <label htmlFor="serviceImage">画像</label>
-            <input type="file" id="serviceImage" />
+            <ImageInput id="serviceImage" label='画像' />
           </div>
           <div>
-            <label htmlFor="award">賞</label>
-            <input type="number" id="award" />
+            <TextInput id="award" label='賞' register={register}/>
           </div>
           <div>
-            <label htmlFor="selectEvent">イベント</label>
-            <input type="text" id="selectEvent" />
+            <Select id="selectEvent" label='イベント' options={event} />
           </div>
           <div>
-            <label htmlFor="serviceDetail">サービス詳細情報</label>
-            <textarea id="serviceDetail" />
+            <TextareaInput id="serviceDetail" label='サービス詳細情報' />
           </div>
           <div>
-            <label htmlFor="developmentPeriodNum">開発期間</label>
-            <input type="number" id="developmentPeriodNum" />
-            <p>month</p>
+            <NumberInput id="developmentPeriodNum" label='開発期間' />
+            <Select id="developmentPeriod" label='' options={period} />
           </div>
           <button type="submit">完了</button>
         </form>
