@@ -2,15 +2,11 @@
 export interface Event {
     id: string; 
     name: string;
-    date: string;
-    comment: string;
+    date?: string;
+    comment?: string;
 }
 
 //Event詳細ページで利用する型定義
-export interface EventDetail{
-    id: string
-    name: string
-    date: string
-    comment: string
-    url: string
+export interface EventDetail extends Event{
+    url?: string
 }
