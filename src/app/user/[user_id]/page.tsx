@@ -7,6 +7,7 @@ import { supabase } from "@/supabase/supabase";
 const UserPage = ({ params }: { params: { user_id: string } }) => {
   const userID = params.user_id;
   const [userData, setUserData] = useState<any | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -23,10 +24,19 @@ const UserPage = ({ params }: { params: { user_id: string } }) => {
         console.log("Fetched data:", data);
         setUserData(data);
       }
+      setLoading(false);
     };
 
     fetchUserData();
   }, []);
+
+  if (loading) {
+    return (
+      <main className={styles.main}>
+        <p>Loading...</p>
+      </main>
+    );
+  }
 
   return (
     <main className={styles.main}>
