@@ -1,9 +1,9 @@
 import React from 'react'
 
 type TextInputProps = {
-    label: string
-    id: string
-    }
+    label: string;
+    id: string;
+};
 
 const TextInput = ({
     label = "",
@@ -11,6 +11,7 @@ const TextInput = ({
 }:TextInputProps): JSX.Element => {
   return (
     <>
+      <label htmlFor={id}>{label}</label>
         <input type="text" id={id}/>
     </>
   );
