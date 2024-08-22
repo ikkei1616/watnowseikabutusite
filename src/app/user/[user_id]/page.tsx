@@ -1,36 +1,41 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./page.module.css";
-// import { supabase } from "../../../supabase/supabase";
+import { supabase } from "@/supabase/supabase";
 
 const UserPage = ({ params }: { params: { user_id: string } }) => {
   const userID = params.user_id;
-  // const [events, setEvents] = useState<any[]>([]);
+  const [userData, setUserData] = useState<any | null>(null);
 
-  // useEffect(() => {
-  //   const fetchEvents = async () => {
-  //     const { data, error } = await supabase
-  //       .from("events")
-  //       .select("id, name, date, comment")
-  //       .order("id", { ascending: true }); // 'id'で昇順にソート
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const { data, error } = await supabase
+        .from("users")
+        .select("user_id, name, nickname, introduction")
+        .eq("user_id", userID)
+        .single();
 
-  //     //取得に関するエラーハンドリング
-  //     if (error) {
-  //       console.error("Error fetching events:", error);
-  //     } else {
-  //       console.log("Fetched data:", data); // デバッグ用に取得データを出力
-  //       setEvents(data || []); // データがnullのときの対策として空配列を設定
-  //     }
-  //   };
+      console.log("data:", data);
+      if (error) {
+        console.error("Error fetching user data:", error);
+      } else {
+        console.log("Fetched data:", data);
+        setUserData(data);
+      }
+    };
 
-  //   fetchEvents();
-  // }, []);
+    fetchUserData();
+  }, []);
 
   return (
     <main className={styles.main}>
       <h1>これはユーザの詳細ページです</h1>
       <h2>ユーザID: {userID}</h2>
+      <br />
+      <h3>名前: {userData.name}</h3>
+      <h3>ニックネーム: {userData.nickname}</h3>
+      <h3>自己紹介: {userData.introduction}</h3>
     </main>
   );
 };
