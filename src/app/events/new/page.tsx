@@ -82,14 +82,13 @@ const NewEventPage: React.FC = () => {
           />
         </div>
         <div className={styles.formGroup}>
-          <label htmlFor="url" className={styles.label}>URL</label>
+          <label htmlFor="関連url" className={styles.label}>URL</label>
           <input
-            type="text"
+            type="url"
             id="url"
             value={event.url}
             onChange={handleChange}
             className={styles.input}
-            required
           />
         </div>
         <div className={styles.formGroup}>
