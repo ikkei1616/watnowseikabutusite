@@ -1,7 +1,6 @@
 "use client";
 
-import { useParams } from 'next/navigation';
-import Link from 'next/link';
+import { useParams, useRouter } from 'next/navigation';
 import styles from './page.module.css';
 import { useEffect, useState } from 'react';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
@@ -10,12 +9,24 @@ import { EventDetail } from '@/types/Event';
 
 export default function EventEditPage() {
   const params = useParams();
+  const router = useRouter();
   const event_id: string = params.event_id as string;
-  const [event, setEvent] = useState<EventDetail | null>(null);
-  const [name, setName] = useState('');
-  const [comment, setComment] = useState('');
-  const [url, setUrl] = useState('');
+  const [event, setEvent] = useState<EventDetail>({
+    id: '',
+    name: '',
+    date: '',
+    url: '',
+    comment: ''
+  });
   const [loading, setLoading] = useState(true);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setEvent((prevEvent) => ({
+      ...prevEvent,
+      [id]: value
+    }));
+  };
 
   useEffect(() => {
     const fetchEventData = async () => {
@@ -28,12 +39,14 @@ export default function EventEditPage() {
 
         if (error) {
           console.error('Error fetching event data:', error);
-          setEvent(null);
         } else {
-          setEvent(data as EventDetail);
-          setName(data.name);
-          setComment(data.comment);
-          setUrl(data.url);
+          setEvent({
+            id: data.id,
+            name: data.name,
+            date: data.date,
+            url: data.url,
+            comment: data.comment
+          } as EventDetail);
         }
         setLoading(false);
       }
@@ -53,14 +66,14 @@ export default function EventEditPage() {
   const handleSaveClick = async () => {
     const { error } = await supabase
       .from('events')
-      .update({ name: name, comment: comment, url: url })
+      .update({ name: event.name, comment: event.comment, url: event.url })
       .eq('id', event_id);
 
     if (error) {
       console.error('Error updating event:', error);
     } else {
-      console.log('Event updated successfully:', { name, comment, url });
-      // 編集完了後にリンクにより画面遷移が発生
+      console.log('Event updated successfully:', event);
+      router.push(`/events/${event_id}`);
     }
   };
 
@@ -72,29 +85,35 @@ export default function EventEditPage() {
         <input
           className={styles.input}
           type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          id="name"  
+          value={event.name}
+          onChange={handleChange}
           required
         />
 
         <label className={styles.label}>説明</label>
         <textarea
           className={styles.textarea}
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
+          id="comment"  
+          value={event.comment}
+          onChange={handleChange}
         />
 
         <label className={styles.label}>URL</label>
         <input
           className={styles.input}
           type="text"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
+          id="url"  
+          value={event.url}
+          onChange={handleChange}
         />
 
-        <Link href={`/events/${event_id}`} className={styles.saveButton} onClick={handleSaveClick}>
+        <button 
+          className={styles.saveButton} 
+          onClick={handleSaveClick}
+        >
           編集完了
-        </Link>
+        </button>
       </div>
     </div>
   );
