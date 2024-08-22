@@ -20,6 +20,7 @@ const UserPage = ({ params }: { params: { user_id: string } }) => {
       console.log("data:", data);
       if (error) {
         console.error("Error fetching user data:", error);
+        setUserData(null);
       } else {
         console.log("Fetched data:", data);
         setUserData(data);
@@ -34,6 +35,17 @@ const UserPage = ({ params }: { params: { user_id: string } }) => {
     return (
       <main className={styles.main}>
         <p>Loading...</p>
+      </main>
+    );
+  }
+
+  if (!userData) {
+    return (
+      <main className={styles.main}>
+        <h1>これはユーザの詳細ページです</h1>
+        <h2>ユーザID: {userID}</h2>
+        <br />
+        <p>存在しないユーザです</p>
       </main>
     );
   }
