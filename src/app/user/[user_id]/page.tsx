@@ -23,8 +23,8 @@ const UserPage = ({ params }: { params: { user_id: string } }) => {
         console.error("Error fetching user data:", error);
         setUserData(null);
       } else {
-        console.log("Fetched data:", data);
         setUserData({
+          id: data?.id,
           userID: data?.user_id,
           name: data?.name,
           nickname: data?.nickname,
