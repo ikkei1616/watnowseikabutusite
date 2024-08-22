@@ -98,7 +98,6 @@ const NewEventPage: React.FC = () => {
             value={event.comment}
             onChange={handleChange}
             className={styles.textarea}
-            required
           />
         </div>
         <button type="submit" className={styles.button} disabled={loading}>
