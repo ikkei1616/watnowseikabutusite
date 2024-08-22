@@ -12,8 +12,8 @@ export default function EventEditPage() {
   const params = useParams();
   const event_id: string = params.event_id as string;
   const [event, setEvent] = useState<EventDetail | null>(null);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [name, setName] = useState('');
+  const [comment, setComment] = useState('');
   const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(true);
 
@@ -31,8 +31,8 @@ export default function EventEditPage() {
           setEvent(null);
         } else {
           setEvent(data as EventDetail);
-          setTitle(data.name);
-          setDescription(data.comment);
+          setName(data.name);
+          setComment(data.comment);
           setUrl(data.url);
         }
         setLoading(false);
@@ -53,13 +53,13 @@ export default function EventEditPage() {
   const handleSaveClick = async () => {
     const { error } = await supabase
       .from('events')
-      .update({ name: title, comment: description, url: url })
+      .update({ name: name, comment: comment, url: url })
       .eq('id', event_id);
 
     if (error) {
       console.error('Error updating event:', error);
     } else {
-      console.log('Event updated successfully:', { title, description, url });
+      console.log('Event updated successfully:', { name, comment, url });
       // 編集完了後にリンクにより画面遷移が発生
     }
   };
@@ -72,15 +72,16 @@ export default function EventEditPage() {
         <input
           className={styles.input}
           type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
         />
 
         <label className={styles.label}>説明</label>
         <textarea
           className={styles.textarea}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
         />
 
         <label className={styles.label}>URL</label>
