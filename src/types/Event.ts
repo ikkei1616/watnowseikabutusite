@@ -1,6 +1,6 @@
 //Event一覧ページで利用する型定義
 export interface Event {
-    id: string; 
+    id: string | null; 
     name: string;
     date?: string;
     comment?: string;

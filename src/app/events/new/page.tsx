@@ -11,7 +11,7 @@ const NewEventPage: React.FC = () => {
   
   // EventDetail型に基づく初期状態を設定
   const [event, setEvent] = useState<EventDetail>({
-    id: '', // idは新規作成時には空文字列
+    id: null, 
     name: '',
     date: '',
     url: '',

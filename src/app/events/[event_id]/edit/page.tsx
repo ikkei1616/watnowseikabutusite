@@ -12,7 +12,7 @@ export default function EventEditPage() {
   const router = useRouter();
   const event_id: string = params.event_id as string;
   const [event, setEvent] = useState<EventDetail>({
-    id: '',
+    id: null,
     name: '',
     date: '',
     url: '',
