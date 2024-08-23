@@ -3,11 +3,15 @@ import React from 'react'
 type ImageInputProps = {
     label: string;
     id: string;
+    register: any;
+    errors?: any;
 };
 
 const ImageInput = ({
     label = "",
-    id = ""
+    id = "",
+    register,
+    errors
 }: ImageInputProps): JSX.Element => {
     return (
         <>
@@ -17,7 +21,9 @@ const ImageInput = ({
                 accept='.png, .jpg'
                 multiple
                 id={id}
+                {...register(id)}
             />
+            {errors && errors[id] && <p style={{ color: "red" }}>{errors[id]?.message}</p>}
         </>
     );
 };
