@@ -1,83 +1,120 @@
 "use client";
 
-import { useParams } from 'next/navigation';
-import Link from 'next/link';
+import { useParams, useRouter } from 'next/navigation';
 import styles from './page.module.css';
 import { useEffect, useState } from 'react';
 import LoadingSpinner from '../../../../components/LoadingSpinner';
-
-// mockイベントデータの型を定義
-type EventData = {
-  title: string;
-  description: string;
-};
-
-// mockEventsを定義
-// supabaseでデータ構造が決まり次第変更、APIでデータ取得
-const mockEvents: Record<string, EventData> = {
-  '1': { title: 'イベント 1', description: 'これはイベント 1 の説明です。' },
-  '2': { title: 'イベント 2', description: 'これはイベント 2 の説明です。' },
-  '3': { title: 'イベント 3', description: 'これはイベント 3 の説明です。' },
-  '4': { title: 'イベント 4', description: 'これはイベント 4 の説明です。' },
-};
+import { supabase } from '@/supabase/supabase';
+import { EventDetail } from '@/types/Event';
 
 export default function EventEditPage() {
   const params = useParams();
+  const router = useRouter();
   const event_id: string = params.event_id as string;
-  const [event, setEvent] = useState<EventData | null>(null);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [event, setEvent] = useState<EventDetail>({
+    id: null,
+    name: '',
+    date: '',
+    url: '',
+    comment: ''
+  });
   const [loading, setLoading] = useState(true);
 
-  // event_idの変更をトリガーにしてsetEventを実行
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setEvent((prevEvent) => ({
+      ...prevEvent,
+      [id]: value
+    }));
+  };
+
   useEffect(() => {
-    if (event_id) {
-      const eventData = mockEvents[event_id];
-      setEvent(eventData);
-      console.log(eventData); // debug
-      setTitle(eventData.title);
-      setDescription(eventData.description);
-      setLoading(false);
-    }
+    const fetchEventData = async () => {
+      if (event_id) {
+        const { data, error } = await supabase
+          .from('events')
+          .select('*')
+          .eq('id', event_id)
+          .single();
+
+        if (error) {
+          console.error('Error fetching event data:', error);
+        } else {
+          setEvent({
+            id: data.id,
+            name: data.name,
+            date: data.date,
+            url: data.url,
+            comment: data.comment
+          } as EventDetail);
+        }
+        setLoading(false);
+      }
+    };
+
+    fetchEventData();
   }, [event_id]);
 
   if (loading) {
     return <LoadingSpinner />;
   }
 
-  // イベントが正常に取得されなかった場合の処理
   if (!event) {
     return <p className={styles.notFound}>イベントが見つかりませんでした。</p>;
   }
 
-  // 編集完了リンククリック時の動作を記述
-  // API未実装なので変更データをコンソールに表示するだけ
-  const handleSaveClick = () => {
-    console.log('保存されたイベント:', { title, description });
+  const handleSaveClick = async () => {
+    const { error } = await supabase
+      .from('events')
+      .update({ name: event.name, comment: event.comment, url: event.url })
+      .eq('id', event_id);
+
+    if (error) {
+      console.error('Error updating event:', error);
+    } else {
+      console.log('Event updated successfully:', event);
+      router.push(`/events/${event_id}`);
+    }
   };
 
   return (
-    <div className={styles.fullScreen}>
+    <main className={styles.fullScreen}>
       <div className={styles.container}>
         <h1 className={styles.title}>イベント編集</h1>
         <label className={styles.label}>タイトル</label>
         <input
           className={styles.input}
           type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          id="name"  
+          value={event.name}
+          onChange={handleChange}
+          required
         />
 
         <label className={styles.label}>説明</label>
         <textarea
           className={styles.textarea}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          id="comment"  
+          value={event.comment}
+          onChange={handleChange}
         />
-        <Link href={`/events/${event_id}`} className={styles.saveButton} onClick={handleSaveClick}>
+
+        <label className={styles.label}>URL</label>
+        <input
+          className={styles.input}
+          type="text"
+          id="url"  
+          value={event.url}
+          onChange={handleChange}
+        />
+
+        <button 
+          className={styles.saveButton} 
+          onClick={handleSaveClick}
+        >
           編集完了
-        </Link>
+        </button>
       </div>
-    </div>
+    </main>
   );
 }

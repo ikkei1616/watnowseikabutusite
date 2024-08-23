@@ -4,14 +4,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* ビューポート全体の高さに合わせる */
-    background-color: #f0f0f0; /* 背景色を追加 */
+    min-height: 100vh;
+    background-color: #f0f0f0;
 }
 
 .container {
     padding: 20px;
     max-width: 700px;
-    width: 100%; /* コンテナの幅を100%にして中央揃え */
+    width: 100%;
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -39,6 +39,15 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.details {
+    font-size: 1.1rem;
+    color: #555;
+    margin-top: 10px;
+    padding: 8px 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 .editButton {
     display: inline-block;
     margin-top: 20px;
@@ -51,6 +60,7 @@
     cursor: pointer;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
 }
 
 .editButton:hover {
