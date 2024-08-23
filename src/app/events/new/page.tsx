@@ -15,7 +15,8 @@ const NewEventPage: React.FC = () => {
     name: '',
     date: '',
     url: '',
-    comment: ''
+    comment: '',
+    awards: [{order_num: null, name: ''}]
   });
   
   // 登録完了状態管理
@@ -54,6 +55,9 @@ const NewEventPage: React.FC = () => {
       router.push('/events');
     }
   };
+
+
+
 
   return (
     <main className={styles.container}>
