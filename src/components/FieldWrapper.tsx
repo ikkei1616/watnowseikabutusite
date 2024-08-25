@@ -1,21 +1,24 @@
 import React, { PropsWithChildren } from 'react'
 
-export type FieldWrapperProps = PropsWithChildren<{
+type FieldWrapperProps = PropsWithChildren<{
     label: string;
     id: string;
+    error ?: any;
 }>;
 
-const FieldWrapper: React.FC<FieldWrapperProps>= ({
+const FieldWrapper: React.FC<FieldWrapperProps> = ({
     label = "",
     id="",
     children,
+    error,
 }) => {
   return (
     <>
       <label htmlFor={id}>{label}</label>
       {children}
+      {error && <p style={{color:"red"}}>{error.message}</p>}
     </>
   )
 }
 
-export default FieldWrapper
+export default FieldWrapper;
