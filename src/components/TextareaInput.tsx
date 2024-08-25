@@ -1,4 +1,5 @@
 import React from 'react'
+import FieldWrapper from './FieldWrapper';
 
 type TextareaInputProps = {
   label: string;
@@ -15,9 +16,10 @@ const TextareaInput = ({
 }: TextareaInputProps): JSX.Element => {
   return (
     <>
-      <label htmlFor={id}>{label}</label>
-      <textarea id={id} {...register(id)} />
-      {errors && errors[id] && <p style={{ color: "red" }}>{errors[id]?.message}</p>}
+      <FieldWrapper label={label} id={id} error={errors[id]}>
+        <textarea id={id} {...register(id)} />
+      </FieldWrapper>
+
     </>
   );
 };
