@@ -71,7 +71,6 @@ export default function EventEditPage() {
           .select('*')
           .eq('id', event_id)
           .single();
-  
         if (eventError) {
           console.error('Error fetching event data:', eventError);
         } else {
@@ -84,6 +83,7 @@ export default function EventEditPage() {
             comment: eventData.comment
           }));
         }        
+        //賞のリストを取得
         const { data: awardsData, error: awardsError } = await supabase
           .from('awards')
           .select('*')
@@ -108,6 +108,7 @@ export default function EventEditPage() {
   }, [event_id]);
   
 
+  //編集完了ボタンを押したときの処理
   const handleSaveClick = async () => {
     const { error: eventError } = await supabase
       .from('events')
@@ -131,7 +132,7 @@ export default function EventEditPage() {
       }
 
       const awardsToInsert = event.awards.map((award) => ({
-        event_id,
+        event_id: event_id,
         order_num: award.order_num,
         name: award.name,
       }));

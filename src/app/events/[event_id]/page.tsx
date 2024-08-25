@@ -14,6 +14,7 @@ export default function EventDetailPage() {
   const [event, setEvent] = useState<EventDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  
   // event_idの変更をトリガーにしてsetEventを実行
   useEffect(() => {
     const fetchEventData = async () => {

@@ -43,7 +43,6 @@ const NewEventPage: React.FC = () => {
   };
 
   // 賞の追加
-
   const addAward = () => {
     setEvent((prevEvent) => ({
       ...prevEvent,
@@ -64,7 +63,7 @@ const NewEventPage: React.FC = () => {
 };
 
 
-  // フォームの送信ハンドラ
+  //イベントの新規登録時の処理
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
