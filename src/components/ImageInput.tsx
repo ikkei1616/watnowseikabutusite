@@ -1,4 +1,5 @@
 import React from 'react'
+import FieldWrapper from './FieldWrapper';
 
 type ImageInputProps = {
     label: string;
@@ -15,15 +16,15 @@ const ImageInput = ({
 }: ImageInputProps): JSX.Element => {
     return (
         <>
-            <label htmlFor={id}>{label}</label>
-            <input
-                type="file"
-                accept='.png, .jpg'
-                multiple
-                id={id}
-                {...register(id)}
-            />
-            {errors && errors[id] && <p style={{ color: "red" }}>{errors[id]?.message}</p>}
+            <FieldWrapper label={label} id={id} error={errors[id]}>
+                <input
+                    type="file"
+                    accept='.png, .jpg'
+                    multiple
+                    id={id}
+                    {...register(id)}
+                />
+            </FieldWrapper>
         </>
     );
 };
