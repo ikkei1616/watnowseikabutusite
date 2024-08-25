@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import styles from './page.module.css';
 import { useEffect, useState } from 'react';
@@ -13,7 +13,7 @@ export default function EventDetailPage() {
   const event_id: string = params.event_id as string;
   const [event, setEvent] = useState<EventDetail | null>(null);
   const [loading, setLoading] = useState(true);
-
+  const router = useRouter();
   // event_idの変更をトリガーにしてsetEventを実行
   useEffect(() => {
     const fetchEventData = async () => {
@@ -73,10 +73,10 @@ export default function EventDetailPage() {
             ))}
           </div>
         )}
-
-        <Link href={`/events/${event_id}/edit`} className={styles.editButton}>
-          編集
-        </Link>
+        <button 
+          onClick={() => router.push(`/events/${event_id}/edit`)} 
+          className={styles.editButton}
+          >編集</button>
       </div>
     </main>
   );
