@@ -60,7 +60,7 @@ const NewEventPage: React.FC = () => {
       ...prevEvent,
       awards: updatedAwards.map((award, i) => ({ ...award, order_num: (i + 1).toString() })) // 削除後、順番を繰り上げる(iを基準にすることで要素数からorder_numをもとめる)
     }));
-};
+  };
 
 
   //イベントの新規登録時の処理
@@ -163,8 +163,7 @@ const NewEventPage: React.FC = () => {
           <h2>賞の登録</h2>
           {event.awards?.map((award, index) => (
             <div key={index} className={styles.formGroup}>
-              <label className={styles.label}>賞の表示順
-              </label>
+              <label className={styles.label}>賞の表示順</label>
               <input
                 type="number"
                 readOnly
