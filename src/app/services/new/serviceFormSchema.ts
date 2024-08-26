@@ -3,7 +3,7 @@ import * as z from "zod";
 
 const serviceSchema = z.object({
     serviceName: z.string().min(1,"サービス名は必須です"),
-    description: z.string(),
+    serviceInfo: z.string(),
     teamName: z.string(),
     serviceImage: z.nullable(z.instanceof(FileList)),
     award: z.string(),
