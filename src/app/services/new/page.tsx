@@ -6,60 +6,53 @@ import ImageInput from '@/components/ImageInput';
 import NumberInput from '@/components/NumberInput';
 import Select from '@/components/Select';
 import { SubmitHandler, useForm } from "react-hook-form";
-import {ServiceInputSchema,ServiceOutputSchema,resolver } from "./serviceFormSchema"
+import { ServiceInputSchema, ServiceOutputSchema, resolver } from "./serviceFormSchema"
+import { event, period } from "@/constants"
 
 const NewServicesPage = () => {
+  const { control, handleSubmit } = useForm<ServiceInputSchema>({
+    mode: "onChange",
+    resolver: resolver,
+  });
 
-    const { register, handleSubmit,formState: { errors } } = useForm<ServiceInputSchema>({
-        mode: "onChange",
-        resolver: resolver,
-    });
 
-    const onSubmit= (data:ServiceOutputSchema) => {
-        console.log(data);
-    }
-    
-    const event = [
-        { value: 'event1', label: 'event1' },
-        { value: 'event2', label: 'event2' },
-        { value: 'event3', label: 'event3' },
-    ]
+  const onSubmit = (data: ServiceOutputSchema) => {
+    console.log(data);
+  }
 
-    const period = [
-        {value: "1", label: "days"},
-        {value: "2", label: "weeks"},
-        {value: "3", label: "months"},
-        {value: "4", label: "years"},
-    ]
   return (
     <>
       <main>
         <h1>新規サービス作成</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit((_d) => {
+          const d = (_d as unknown) as ServiceOutputSchema;
+          onSubmit(d);
+        })}>
           <div>
-            <TextInput id="serviceName" label='サービス名' register={register} errors={errors}/>
+            <TextInput control={control} name="serviceName" label='サービス名'  />
+          </div>
+           <div>
+            <TextareaInput control={control} name="serviceInfo" label='サービス情報'  />
           </div>
           <div>
-            <TextareaInput id="description" label='サービス情報' register={register} errors={errors}/>
+            <TextInput control={control} name="teamName" label='チーム名' />
+          </div>
+          
+          <div>
+            <ImageInput control={control} name="serviceImage" label='画像' />
           </div>
           <div>
-            <TextInput id="teamName" label='チーム名' register={register} errors={errors}/>
+            <TextInput control={control} name="award" label='賞' />
           </div>
           <div>
-            <ImageInput id="serviceImage" label='画像' register={register} errors={errors}/>
+            <Select control={control} name="selectEvent" label='イベント' options={event} />
           </div>
           <div>
-            <TextInput id="award" label='賞' register={register} errors={errors}/>
+            <TextareaInput control={control} name="serviceDetail" label='サービス詳細情報' />
           </div>
           <div>
-            <Select id="selectEvent" label='イベント' options={event} register={register} errors={errors}/>
-          </div>
-          <div>
-            <TextareaInput id="serviceDetail" label='サービス詳細情報' register={register} errors={errors}/>
-          </div>
-          <div>
-            <NumberInput id="developmentPeriodNum" label='開発期間' register={register} errors={errors}/>
-            <Select id="developmentPeriod" label='' options={period} register={register} errors={errors}/>
+            <NumberInput control={control} name="developmentPeriodNum" label='開発期間' />
+            <Select control={control} name="developmentPeriod" label='' options={period} /> 
           </div>
           <button type="submit">送信</button>
         </form>
