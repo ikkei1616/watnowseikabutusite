@@ -1,24 +1,32 @@
 import React from 'react'
-import { useForm } from "react-hook-form";
-import  FieldWrapper  from './FieldWrapper';
+import TextField from "@mui/material/TextField";
+import  FieldWrapper, {FieldWrapperProps}  from './FieldWrapper';
+import {
+  FieldValues,
+  useController,
+  UseControllerProps,
+} from "react-hook-form";
 
-type TextInputProps = {
-  label: string;
-  id: string;
-  register: any;
-  errors?: any;
-};
+export type TextInputProps<T extends FieldValues> = {
+    control: any;
+    name: string;
+    label: string;
+  }
+& Pick<FieldWrapperProps, "label">;
 
-const TextInput = ({
-  label = "",
-  id = "",
-  register,
-  errors
-}: TextInputProps): JSX.Element => {
+
+const TextInput = <T extends FieldValues>({
+  label,
+  ...props
+}: TextInputProps<T>): JSX.Element => {
+  const {
+    field,
+    fieldState: { error },
+  } = useController(props);
   return (
     <>
-      <FieldWrapper label={label} id={id} error={errors[id]}>
-        <input type="text" id={id} {...register(id)} />
+      <FieldWrapper label={label} errorMessage={error?.message}>
+        <TextField {...field} />
       </FieldWrapper>
     </>
   );
