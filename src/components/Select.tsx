@@ -1,34 +1,44 @@
 import React from 'react'
-import FieldWrapper from './FieldWrapper';
+import  FieldWrapper, {FieldWrapperProps}  from './FieldWrapper';
+import {
+  FieldValues,
+  useController,
+  UseControllerProps,
+} from "react-hook-form";
+import { Select as MuiSelect, MenuItem } from "@mui/material";
 
 type Option = {
   label: string;
   value: string;
 }
 
-type SelectProps = {
+export type SelectProps<T extends FieldValues> = {
+  control: any;
+  name: string;
   label: string;
   options: Option[];
-  id: string;
-  register: any;
-  errors?: any;
-};
+}
+& Pick<FieldWrapperProps, "label">;
 
-const Select = ({
-  id = "",
-  label = "",
-  options = [],
-  register,
-  errors
-}: SelectProps): JSX.Element => {
+const Select = <T extends FieldValues>({
+  label,
+  options,
+  ...props
+}: SelectProps<T>): JSX.Element => {
+  const {
+    field:{value, onChange},
+    fieldState: { error },
+  } = useController(props);
   return (
-    <>
-      <FieldWrapper label={label} id={id} error={errors[id]}>
-        <select id={id} {...register(id)}>
-          {options.map((option) => (
-            <option value={option.value}>{option.label}</option>
+    <> 
+      <FieldWrapper label={label} errorMessage={error?.message}>
+        <MuiSelect value={value} onChange={onChange}>
+          {options.map(({label, value}) => (
+            <MenuItem key={label} value={value}>
+              {label}
+            </MenuItem>
           ))}
-        </select>
+        </MuiSelect>
       </FieldWrapper>
     </>
   );
