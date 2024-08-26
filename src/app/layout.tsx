@@ -8,11 +8,11 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "WatBox",
-  description: "Watnowの成果物一覧サイト",
+  title: "watbox",
+  description: "watnowの成果物一覧サイト",
   openGraph:{
-    title: "WatBox",
-    description: "Watnowの成果物一覧サイト"
+    title: "watbox",
+    description: "watnowの成果物一覧サイト"
   }
 };
 
