@@ -5,7 +5,8 @@ import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "../../../../components/LoadingSpinner";
 import { supabase } from "@/supabase/supabase";
-import { EventDetail, Award } from "@/types/Event";
+import { EventDetail } from "@/types/Event";
+import { Award } from "@/types/Award"
 
 export default function EventEditPage() {
   const params = useParams();
