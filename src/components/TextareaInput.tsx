@@ -1,25 +1,36 @@
-import React from 'react'
-import FieldWrapper from './FieldWrapper';
+import React from 'react';
+import { TextareaAutosize } from '@mui/material';
+import FieldWrapper, { FieldWrapperProps } from './FieldWrapper';
+import {
+  FieldValues,
+  useController,
+  UseControllerProps,
+} from 'react-hook-form';
 
-type TextareaInputProps = {
+export type TextareaInputProps<T extends FieldValues> = {
+  control: any;
+  name: string;
   label: string;
-  id: string;
-  register: any;
-  errors?: any;
-};
+} & Pick<FieldWrapperProps, 'label'>;
 
-const TextareaInput = ({
-  label = "",
-  id = "",
-  register,
-  errors
-}: TextareaInputProps): JSX.Element => {
+const TextareaInput = <T extends FieldValues>({
+  label,
+  ...props
+}: TextareaInputProps<T>): JSX.Element => {
+  const {
+    field,
+    fieldState: { error },
+  } = useController(props);
+
   return (
     <>
-      <FieldWrapper label={label} id={id} error={errors[id]}>
-        <textarea id={id} {...register(id)} />
+      <FieldWrapper label={label} errorMessage={error?.message}>
+        <TextareaAutosize
+          {...field}
+          minRows={3}
+          style={{ width: '100%' }}
+        />
       </FieldWrapper>
-
     </>
   );
 };
