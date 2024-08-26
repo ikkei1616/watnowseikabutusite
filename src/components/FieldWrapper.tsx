@@ -1,23 +1,27 @@
-import React, { PropsWithChildren } from 'react'
+import FormControl from "@mui/material/FormControl";
+import Typography from "@mui/material/Typography";
+import { PropsWithChildren } from "react";
 
-type FieldWrapperProps = PropsWithChildren<{
+export type FieldWrapperProps = PropsWithChildren<{
     label: string;
-    id: string;
-    error ?: any;
+    errorMessage?: string;
 }>;
 
 const FieldWrapper: React.FC<FieldWrapperProps> = ({
     label = "",
-    id="",
+    errorMessage = "",
     children,
-    error,
 }) => {
   return (
-    <>
-      <label htmlFor={id}>{label}</label>
+    <FormControl fullWidth error={!!errorMessage}>
+      <Typography >{label}</Typography>
       {children}
-      {error && <p style={{color:"red"}}>{error.message}</p>}
-    </>
+      {errorMessage && (
+        <Typography color="error">
+          {errorMessage}
+        </Typography>
+      )}
+    </FormControl>
   )
 }
 
