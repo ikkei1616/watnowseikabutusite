@@ -1,23 +1,36 @@
-import React from 'react'
-import FieldWrapper from './FieldWrapper';
+import React from 'react';
+import TextField from "@mui/material/TextField";
+import FieldWrapper, { FieldWrapperProps } from './FieldWrapper';
+import {
+  FieldValues,
+  useController,
+  UseControllerProps,
+} from "react-hook-form";
 
-type NumberInputProps = {
+export type NumberInputProps<T extends FieldValues> = {
+  control: any;
+  name: string;
   label: string;
-  id: string;
-  register: any;
-  errors?: any;
-};
+}
+  & Pick<FieldWrapperProps, "label">;
 
-const NumberInput = ({
-  label = "",
-  id = "",
-  register,
-  errors
-}: NumberInputProps): JSX.Element => {
+const NumberInput = <T extends FieldValues>({
+  label,
+  ...props
+}: NumberInputProps<T>): JSX.Element => {
+  const {
+    field,
+    fieldState: { error },
+  } = useController(props);
+
   return (
     <>
-      <FieldWrapper label={label} id={id} error={errors[id]}>
-        <input type="number" id={id} {...register(id, { valueAsNumber: true })} />
+      <FieldWrapper label={label} errorMessage={error?.message}>
+        <TextField
+          {...field}
+          type="number"
+          onChange={(e) => field.onChange(parseFloat(e.target.value))}
+        />
       </FieldWrapper>
     </>
   );
