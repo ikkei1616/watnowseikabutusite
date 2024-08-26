@@ -1,12 +1,12 @@
 "use client";
 
-import { useParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
-import styles from './page.module.css';
-import { useEffect, useState } from 'react';
-import LoadingSpinner from '../../../components/LoadingSpinner';
-import { supabase } from '@/supabase/supabase';
-import { EventDetail, Award } from '@/types/Event';
+import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
+import styles from "./page.module.css";
+import { useEffect, useState } from "react";
+import LoadingSpinner from "../../../components/LoadingSpinner";
+import { supabase } from "@/supabase/supabase";
+import { EventDetail, Award } from "@/types/Event";
 
 export default function EventDetailPage() {
   const params = useParams();
@@ -14,30 +14,33 @@ export default function EventDetailPage() {
   const [event, setEvent] = useState<EventDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  
+
   // event_idの変更をトリガーにしてsetEventを実行
   useEffect(() => {
     const fetchEventData = async () => {
       if (event_id) {
         const { data: eventData, error: eventError } = await supabase
-          .from('events')
-          .select('*')
-          .eq('id', event_id)
+          .from("events")
+          .select("*")
+          .eq("id", event_id)
           .single();
 
         const { data: awardsData, error: awardsError } = await supabase
-          .from('awards')
-          .select('*')
-          .eq('event_id', event_id)
-          .order('order_num', { ascending: true });
+          .from("awards")
+          .select("*")
+          .eq("event_id", event_id)
+          .order("order_num", { ascending: true });
 
         if (eventError || awardsError) {
-          console.error('Error fetching event or awards data:', eventError || awardsError);
+          console.error(
+            "Error fetching event or awards data:",
+            eventError || awardsError
+          );
           setEvent(null);
         } else {
           setEvent({
             ...eventData,
-            awards: awardsData || []
+            awards: awardsData || [],
           } as EventDetail);
         }
         setLoading(false);
@@ -74,10 +77,12 @@ export default function EventDetailPage() {
             ))}
           </div>
         )}
-        <button 
-          onClick={() => router.push(`/events/${event_id}/edit`)} 
+        <button
+          onClick={() => router.push(`/events/${event_id}/edit`)}
           className={styles.editButton}
-          >編集</button>
+        >
+          編集
+        </button>
       </div>
     </main>
   );
