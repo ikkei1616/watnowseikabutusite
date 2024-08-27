@@ -4,7 +4,7 @@ import {
   FieldValues,
   useController,
 } from "react-hook-form";
-import { Select as MuiSelect, MenuItem } from "@mui/material";
+import { Select, MenuItem } from "@mui/material";
 
 type Option = {
   label: string;
@@ -18,7 +18,7 @@ export type SelectProps<T extends FieldValues> = {
   options: Option[];
 };
 
-const Select = <T extends FieldValues>({
+const SelectInput = <T extends FieldValues>({
   label,
   options,
   ...props
@@ -30,16 +30,16 @@ const Select = <T extends FieldValues>({
   return (
     <> 
       <FieldWrapper label={label} errorMessage={error?.message}>
-        <MuiSelect value={value} onChange={onChange}>
+        <Select value={value} onChange={onChange}>
           {options.map(({label, value}) => (
             <MenuItem key={value} value={value}>
               {label}
             </MenuItem>
           ))}
-        </MuiSelect>
+        </Select>
       </FieldWrapper>
     </>
   );
 };
 
-export default Select;
+export default SelectInput;

@@ -71,7 +71,7 @@ export const useFormFields = (
     },
     {
         id: 6,
-        type: "SELECT",
+        type: "SELECT_INPUT",
         props: {
         control,
         name: "selectEvent",
@@ -99,7 +99,7 @@ export const useFormFields = (
     },
     {
         id: 9,
-        type: "SELECT",
+        type: "SELECT_INPUT",
         props: {
         control,
         name: "developmentPeriod",

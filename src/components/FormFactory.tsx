@@ -1,7 +1,7 @@
 import TextInput, {TextInputProps} from './TextInput';
 import TextareaInput, {TextareaInputProps} from './TextareaInput';
 import ImageInput, {ImageInputProps} from './ImageInput';
-import Select, {SelectProps} from './Select';
+import SelectInput, {SelectProps} from './Select';
 import NumberInput, {NumberInputProps} from './NumberInput';
 import { FieldValues } from 'react-hook-form';
 
@@ -19,7 +19,7 @@ export type FormFactoryProps<T extends FieldValues> =
     props:ImageInputProps<T>;
 }
 |{
-    type:"SELECT";
+    type:"SELECT_INPUT";
     props:SelectProps<T>;
 }
 |{
@@ -38,8 +38,8 @@ export const FormFactory = <T extends FieldValues>({
             return <TextareaInput {...props}/>
         case "IMAGE_INPUT":
             return <ImageInput {...props}/>
-        case "SELECT":
-            return <Select {...props}/>
+        case "SELECT_INPUT":
+            return <SelectInput {...props}/>
         case "NUMBER_INPUT":
             return <NumberInput {...props}/>
         default:
