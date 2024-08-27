@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
-import LoadingSpinner from "../../../components/LoadingSpinner";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { supabase } from "@/supabase/supabase";
 import { EventDetail } from "@/types/Event";
 import { Award } from "@/types/Award";
