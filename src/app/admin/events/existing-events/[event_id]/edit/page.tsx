@@ -8,10 +8,13 @@ import { supabase } from "@/supabase/supabase";
 import type { EventDetail } from "@/types/Event";
 import type { Award } from "@/types/Award";
 
-export default function EventEditPage() {
-  const params = useParams();
+export default function EventEditPage({
+  params,
+}: {
+  params: { event_id: string };
+}) {
+  const event_ID = params.event_id;
   const router = useRouter();
-  const event_id: string = params.event_id as string;
 
   // EventDetail型に基づく初期状態を設定
   const [event, setEvent] = useState<EventDetail>({
@@ -76,11 +79,11 @@ export default function EventEditPage() {
 
   useEffect(() => {
     const fetchEventData = async () => {
-      if (event_id) {
+      if (event_ID) {
         const { data: eventData, error: eventError } = await supabase
           .from("events")
           .select("*")
-          .eq("id", event_id)
+          .eq("id", event_ID)
           .single();
         if (eventError) {
           console.error("Error fetching event data:", eventError);
@@ -98,7 +101,7 @@ export default function EventEditPage() {
         const { data: awardsData, error: awardsError } = await supabase
           .from("awards")
           .select("*")
-          .eq("event_id", event_id)
+          .eq("event_id", event_ID)
           .order("order_num", { ascending: true }); //order_numを昇順にソート
         if (awardsError) {
           console.error("Error fetching awards data:", awardsError);
@@ -116,14 +119,14 @@ export default function EventEditPage() {
     };
 
     fetchEventData();
-  }, [event_id]);
+  }, [event_ID]);
 
   //編集完了ボタンを押したときの処理
   const handleSaveClick = async () => {
     const { error: eventError } = await supabase
       .from("events")
       .update({ name: event.name, comment: event.comment, url: event.url })
-      .eq("id", event_id);
+      .eq("id", event_ID);
 
     if (eventError) {
       console.error("イベントの更新中にエラーが発生しました:", eventError);
@@ -134,7 +137,7 @@ export default function EventEditPage() {
       const { error: deleteError } = await supabase
         .from("awards")
         .delete()
-        .eq("event_id", event_id);
+        .eq("event_id", event_ID);
 
       if (deleteError) {
         console.error("賞の削除中にエラーが発生しました:", deleteError);
@@ -142,7 +145,7 @@ export default function EventEditPage() {
       }
 
       const awardsToInsert = event.awards.map((award) => ({
-        event_id: event_id,
+        event_id: event_ID,
         order_num: award.order_num,
         name: award.name,
       }));
@@ -157,7 +160,7 @@ export default function EventEditPage() {
       }
     }
 
-    router.push(`/events/${event_id}`);
+    router.push(`/events/${event_ID}`);
   };
 
   if (loading) {

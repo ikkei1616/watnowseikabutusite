@@ -9,9 +9,13 @@ import { supabase } from "@/supabase/supabase";
 import type { EventDetail } from "@/types/Event";
 import type { Award } from "@/types/Award";
 
-export default function EventDetailPage() {
-  const params = useParams();
-  const event_id: string = params.event_id as string;
+export default function EventDetailPage({
+  params,
+}: {
+  params: { event_id: string };
+}) {
+  const event_ID = params.event_id;
+
   const [event, setEvent] = useState<EventDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -19,17 +23,17 @@ export default function EventDetailPage() {
   // event_idの変更をトリガーにしてsetEventを実行
   useEffect(() => {
     const fetchEventData = async () => {
-      if (event_id) {
+      if (event_ID) {
         const { data: eventData, error: eventError } = await supabase
           .from("events")
           .select("*")
-          .eq("id", event_id)
+          .eq("id", event_ID)
           .single();
 
         const { data: awardsData, error: awardsError } = await supabase
           .from("awards")
           .select("*")
-          .eq("event_id", event_id)
+          .eq("event_id", event_ID)
           .order("order_num", { ascending: true });
 
         if (eventError || awardsError) {
@@ -49,7 +53,7 @@ export default function EventDetailPage() {
     };
 
     fetchEventData();
-  }, [event_id]);
+  }, [event_ID]);
 
   if (loading) {
     return <LoadingSpinner />;
@@ -79,7 +83,7 @@ export default function EventDetailPage() {
           </div>
         )}
         <button
-          onClick={() => router.push(`/events/${event_id}/edit`)}
+          onClick={() => router.push(`/events/${event_ID}/edit`)}
           className={styles.editButton}
         >
           編集
