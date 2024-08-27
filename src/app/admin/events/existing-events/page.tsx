@@ -31,10 +31,19 @@ const EventPage: React.FC = () => {
 
   return (
     <main className={styles.pageHeader}>
-      <h1>これはイベント一覧ページです</h1>
-      {events.map((event) => (
-        <EventCard key={event.id} event={event} />
-      ))}
+      <h1>これはイベント一覧ページ</h1>
+      <ul className={styles.eventList}>
+        {events.map((event) => (
+          <li key={event.id} className={styles.eventItem}>
+            <Link
+              href={`./existing-events/${event.id}/edit`}
+              className={styles.eventLink}
+            >
+              <p>{event.name}</p>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </main>
   );
 };

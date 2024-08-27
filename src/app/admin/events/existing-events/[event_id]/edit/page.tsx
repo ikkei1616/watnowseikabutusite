@@ -3,10 +3,10 @@
 import { useParams, useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
-import LoadingSpinner from "../../../../components/LoadingSpinner";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { supabase } from "@/supabase/supabase";
 import { EventDetail } from "@/types/Event";
-import { Award } from "@/types/Award"
+import { Award } from "@/types/Award";
 
 export default function EventEditPage() {
   const params = useParams();

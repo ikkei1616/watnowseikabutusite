@@ -3,11 +3,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* ビューポートの高さ全体を使用 */
-  background-color: #f7f9fc; /* 背景色を薄いグレーに */
+  height: 100vh;
+  background-color: #f7f9fc;
   padding: 20px;
   box-sizing: border-box;
-  text-align: center; /* テキストを中央揃え */
+  text-align: center;
 }
 
 .pageHeader h1 {
@@ -18,49 +18,33 @@
 }
 
 .eventList {
-  list-style-type: none; /* デフォルトのリストスタイルを削除 */
+  list-style-type: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 15px; /* 各リストアイテム間にスペースを追加 */
-  align-items: center; /* アイテムを中央に揃える */
+  gap: 15px;
+  align-items: center;
 }
 
 .eventItem {
-  background-color: #ffffff; /* 背景色を白に設定 */
-  border: 1px solid #ddd; /* 軽いグレーのボーダー */
-  border-radius: 8px; /* 角を丸める */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽いシャドウを追加 */
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 15px;
   width: 100%;
-  max-width: 500px; /* アイテムの最大幅を設定 */
+  max-width: 500px;
 }
 
 .eventLink {
   text-decoration: none;
-  color: #007bff; /* リンクの色を青に設定 */
+  color: #007bff;
   font-size: 1.25rem;
   font-weight: 500;
 }
 
 .eventLink:hover {
   text-decoration: underline;
-  color: #0056b3; /* ホバー時の色を暗めに設定 */
-}
-
-.newEventButton {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #007bff; /* ボタンの背景色をリンクと同じ青に設定 */
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 1.25rem;
-  font-weight: 500;
-}
-
-.newEventButton:hover {
-  background-color: #0056b3; /* ホバー時の背景色を暗めに設定 */
+  color: #0056b3;
 }
