@@ -5,8 +5,6 @@ import Select, {SelectProps} from './Select';
 import NumberInput, {NumberInputProps} from './NumberInput';
 import { FieldValues } from 'react-hook-form';
 
-type FormType = "TEXT_INPUT" | "TEXTAREA_INPUT" | "IMAGE_INPUT" | "SELECT" | "NUMBER_INPUT";
-
 export type FormFactoryProps<T extends FieldValues> =
 |{
     type:"TEXT_INPUT";
