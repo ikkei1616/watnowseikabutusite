@@ -1,27 +1,28 @@
-import FormControl from "@mui/material/FormControl";
-import Typography from "@mui/material/Typography";
-import { PropsWithChildren } from "react";
+import { Box, FormHelperText, FormLabel, useTheme } from '@mui/material'
+import { ReactNode } from 'react'
 
-export type FieldWrapperProps = PropsWithChildren<{
-    label: string;
-    errorMessage?: string;
-}>;
+type Props = {
+  label: string
+  children: ReactNode
+  errorMessage ?: string
+}
+ const FieldWrapper = ({ children, errorMessage, label }: Props) => {
+  const theme = useTheme()
 
-const FieldWrapper: React.FC<FieldWrapperProps> = ({
-    label = "",
-    errorMessage = "",
-    children,
-}) => {
   return (
-    <FormControl fullWidth error={!!errorMessage}>
-      <Typography >{label}</Typography>
+    <Box>
+      <FormLabel component="legend">{label}</FormLabel>
       {children}
-      {errorMessage && (
-        <Typography color="error">
+      {errorMessage ? (
+        <FormHelperText
+          style={{ color: errorMessage ? theme.palette.error.main : undefined }}
+        >
           {errorMessage}
-        </Typography>
+        </FormHelperText>
+      ) : (
+        ''
       )}
-    </FormControl>
+    </Box>
   )
 }
 
