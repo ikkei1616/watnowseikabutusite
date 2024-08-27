@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import { supabase } from "@/supabase/supabase";
 import { EventDetail } from "@/types/Event";
-import { Award } from "@/types/Award"
+import { Award } from "@/types/Award";
 
 const NewEventPage: React.FC = () => {
   const router = useRouter();
