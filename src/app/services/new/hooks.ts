@@ -1,6 +1,5 @@
 import { ServiceInputSchema } from "./serviceFormSchema";
 import { Control } from "react-hook-form";
-import {event, period} from "@/constants";
 import { FieldValues } from "react-hook-form";
 import {FormFactoryProps} from "@/components/FormFactory";
 
@@ -9,7 +8,18 @@ type FormField<T extends FieldValues> ={
     id:number;
 }& FormFactoryProps<T>;
 
-type FormType = "TEXT_INPUT" | "TEXTAREA_INPUT" | "IMAGE_INPUT" | "SELECT" | "NUMBER_INPUT";
+export const event = [
+    { value: 'event1', label: 'event1' },
+    { value: 'event2', label: 'event2' },
+    { value: 'event3', label: 'event3' },
+]
+
+export const period = [
+    {value: "days", label: "days"},
+    {value: "weeks", label: "weeks"},
+    {value: "months", label: "months"},
+    {value: "years", label: "years"},
+]
 
 export const useFormFields = (
   control: Control<ServiceInputSchema>,
@@ -93,7 +103,7 @@ export const useFormFields = (
         props: {
         control,
         name: "developmentPeriod",
-        label: "",
+        label: "単位",
         options: period,
         },
     },
