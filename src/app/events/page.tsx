@@ -5,7 +5,7 @@ import Link from "next/link";
 import styles from "./Page.module.css";
 import EventCard from "@/components/EventCard";
 import { supabase } from "@/supabase/supabase";
-import { Event } from "@/types/Event";
+import type { Event } from "@/types/Event";
 
 const EventPage: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
