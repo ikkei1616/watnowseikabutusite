@@ -7,12 +7,12 @@ export default function AdminPage() {
       <h1 className={styles.heading}>イベント</h1>
       <ul className={styles.linkList}>
         <li className={styles.listItem}>
-          <Link href="(ここに遷移先指定)" className={styles.link}>
+          <Link href="./events/new" className={styles.link}>
             新規ページ作成
           </Link>
         </li>
         <li className={styles.listItem}>
-          <Link href="(ここに遷移先指定)" className={styles.link}>
+          <Link href="./events/existing-events" className={styles.link}>
             既存ページ編集
           </Link>
         </li>
