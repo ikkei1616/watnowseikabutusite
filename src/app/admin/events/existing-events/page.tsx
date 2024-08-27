@@ -35,9 +35,6 @@ const EventPage: React.FC = () => {
       {events.map((event) => (
         <EventCard key={event.id} event={event} />
       ))}
-      <Link href="/events/new" className={styles.newEventButton}>
-        新規作成
-      </Link>
     </main>
   );
 };

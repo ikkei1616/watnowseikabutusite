@@ -8,12 +8,12 @@ export default function AdminPage() {
       <ul className={styles.linkList}>
         <li className={styles.listItem}>
           <Link href="./events/new" className={styles.link}>
-            新規ページ作成
+            新規イベント作成
           </Link>
         </li>
         <li className={styles.listItem}>
           <Link href="./events/existing-events" className={styles.link}>
-            既存ページ編集
+            既存イベント編集
           </Link>
         </li>
       </ul>
