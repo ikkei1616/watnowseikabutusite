@@ -3,33 +3,36 @@ import TextareaInput, {TextareaInputProps} from './TextareaInput';
 import ImageInput, {ImageInputProps} from './ImageInput';
 import Select, {SelectProps} from './Select';
 import NumberInput, {NumberInputProps} from './NumberInput';
+import { FieldValues } from 'react-hook-form';
 
-export type FormFactoryProps =
+type FormType = "TEXT_INPUT" | "TEXTAREA_INPUT" | "IMAGE_INPUT" | "SELECT" | "NUMBER_INPUT";
+
+export type FormFactoryProps<T extends FieldValues> =
 |{
     type:"TEXT_INPUT";
-    props:TextInputProps;
+    props:TextInputProps<T>;
 }
 |{
     type:"TEXTAREA_INPUT";
-    props:TextareaInputProps;
+    props:TextareaInputProps<T>;
 }
 |{
     type:"IMAGE_INPUT";
-    props:ImageInputProps;
+    props:ImageInputProps<T>;
 }
 |{
     type:"SELECT";
-    props:SelectProps;
+    props:SelectProps<T>;
 }
 |{
     type:"NUMBER_INPUT";
-    props:NumberInputProps;
+    props:NumberInputProps<T>;
 }
 
-export const FormFactory = ({
+export const FormFactory = <T extends FieldValues>({
     type,
     props
-}:FormFactoryProps) => {
+}:FormFactoryProps<T>) => {
     switch(type){
         case "TEXT_INPUT":
             return <TextInput {...props}/>
