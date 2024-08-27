@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextareaAutosize } from '@mui/material';
-import FieldWrapper, { FieldWrapperProps } from './FieldWrapper';
+import FieldWrapper from './FieldWrapper';
 import {
   FieldValues,
   useController,
@@ -11,7 +11,7 @@ export type TextareaInputProps<T extends FieldValues> = {
   control: any;
   name: string;
   label: string;
-} & Pick<FieldWrapperProps, 'label'>;
+}
 
 const TextareaInput = <T extends FieldValues>({
   label,

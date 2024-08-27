@@ -1,18 +1,17 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
-import FieldWrapper, { FieldWrapperProps } from './FieldWrapper';
+import FieldWrapper from './FieldWrapper';
 import {
   FieldValues,
   useController,
-  UseControllerProps,
 } from "react-hook-form";
 
 export type ImageInputProps<T extends FieldValues> = {
   control: any;
   name: string;
   label: string;
-} & Pick<FieldWrapperProps, "label">;
+};
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',

@@ -1,18 +1,16 @@
 import React from 'react';
 import TextField from "@mui/material/TextField";
-import FieldWrapper, { FieldWrapperProps } from './FieldWrapper';
+import FieldWrapper from './FieldWrapper';
 import {
   FieldValues,
   useController,
-  UseControllerProps,
 } from "react-hook-form";
 
 export type NumberInputProps<T extends FieldValues> = {
   control: any;
   name: string;
   label: string;
-}
-  & Pick<FieldWrapperProps, "label">;
+};
 
 const NumberInput = <T extends FieldValues>({
   label,

@@ -1,10 +1,9 @@
 import React from 'react'
 import TextField from "@mui/material/TextField";
-import  FieldWrapper, {FieldWrapperProps}  from './FieldWrapper';
+import  FieldWrapper from './FieldWrapper';
 import {
   FieldValues,
   useController,
-  UseControllerProps,
 } from "react-hook-form";
 
 export type TextInputProps<T extends FieldValues> = {
@@ -12,7 +11,6 @@ export type TextInputProps<T extends FieldValues> = {
     name: string;
     label: string;
   }
-& Pick<FieldWrapperProps, "label">;
 
 
 const TextInput = <T extends FieldValues>({
