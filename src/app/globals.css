@@ -93,6 +93,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+    font-family: 'HannariMincho', sans-serif !important;
 }
 
 a {
@@ -104,4 +105,11 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+@font-face {
+  font-family: 'HannariMincho';
+  src: url('/HannariMincho-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
 }

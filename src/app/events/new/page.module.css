@@ -1,0 +1,99 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Center alignment adjusted for scrollable content */
+  align-items: center;
+  height: 100vh;
+  background-color: #f7f9fc;
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center;
+  overflow-y: auto; /* Allow vertical scrolling */
+}
+
+.title {
+  margin-bottom: 30px;
+  color: #333;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  max-height: 80vh; /* Limit form height */
+  overflow-y: auto; /* Allow scrolling within the form */
+}
+
+.formGroup {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.input, .textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.awardsSection {
+  max-height: 200px; /* Limit height of awards section */
+  overflow-y: auto; /* Enable scrolling for awards */
+  margin-bottom: 20px;
+}
+
+.submittedData {
+  margin-top: 30px;
+  text-align: left;
+  width: 100%;
+  max-width: 500px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.submittedData h2 {
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.submittedData p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.submittedData strong {
+  color: #000;
+}
