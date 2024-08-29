@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./Page.module.css";
-import EventCard from "@/components/EventCard";
 import { supabase } from "@/supabase/supabase";
 import type { Event } from "@/types/Event";
 
