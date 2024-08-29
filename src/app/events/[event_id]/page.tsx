@@ -14,7 +14,7 @@ export default function EventDetailPage({
 }: {
   params: { event_id: string };
 }) {
-  const event_ID = params.event_id;
+  const eventID = params.event_id;
 
   const [event, setEvent] = useState<EventDetail | null>(null);
   const [loading, setLoading] = useState(true);
@@ -23,17 +23,17 @@ export default function EventDetailPage({
   // event_idの変更をトリガーにしてsetEventを実行
   useEffect(() => {
     const fetchEventData = async () => {
-      if (event_ID) {
+      if (eventID) {
         const { data: eventData, error: eventError } = await supabase
           .from("events")
           .select("*")
-          .eq("id", event_ID)
+          .eq("id", eventID)
           .single();
 
         const { data: awardsData, error: awardsError } = await supabase
           .from("awards")
           .select("*")
-          .eq("event_id", event_ID)
+          .eq("event_id", eventID)
           .order("order_num", { ascending: true });
 
         if (eventError || awardsError) {
@@ -53,7 +53,7 @@ export default function EventDetailPage({
     };
 
     fetchEventData();
-  }, [event_ID]);
+  }, [eventID]);
 
   if (loading) {
     return <LoadingSpinner />;

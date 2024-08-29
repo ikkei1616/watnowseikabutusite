@@ -13,7 +13,7 @@ export default function EventEditPage({
 }: {
   params: { event_id: string };
 }) {
-  const event_ID = params.event_id;
+  const eventID = params.event_id;
   const router = useRouter();
 
   // EventDetail型に基づく初期状態を設定
@@ -79,11 +79,11 @@ export default function EventEditPage({
 
   useEffect(() => {
     const fetchEventData = async () => {
-      if (event_ID) {
+      if (eventID) {
         const { data: eventData, error: eventError } = await supabase
           .from("events")
           .select("*")
-          .eq("id", event_ID)
+          .eq("id", eventID)
           .single();
         if (eventError) {
           console.error("Error fetching event data:", eventError);
@@ -101,7 +101,7 @@ export default function EventEditPage({
         const { data: awardsData, error: awardsError } = await supabase
           .from("awards")
           .select("*")
-          .eq("event_id", event_ID)
+          .eq("event_id", eventID)
           .order("order_num", { ascending: true }); //order_numを昇順にソート
         if (awardsError) {
           console.error("Error fetching awards data:", awardsError);
@@ -119,14 +119,14 @@ export default function EventEditPage({
     };
 
     fetchEventData();
-  }, [event_ID]);
+  }, [eventID]);
 
   //編集完了ボタンを押したときの処理
   const handleSaveClick = async () => {
     const { error: eventError } = await supabase
       .from("events")
       .update({ name: event.name, comment: event.comment, url: event.url })
-      .eq("id", event_ID);
+      .eq("id", eventID);
 
     if (eventError) {
       console.error("イベントの更新中にエラーが発生しました:", eventError);
@@ -137,7 +137,7 @@ export default function EventEditPage({
       const { error: deleteError } = await supabase
         .from("awards")
         .delete()
-        .eq("event_id", event_ID);
+        .eq("event_id", eventID);
 
       if (deleteError) {
         console.error("賞の削除中にエラーが発生しました:", deleteError);
@@ -145,7 +145,7 @@ export default function EventEditPage({
       }
 
       const awardsToInsert = event.awards.map((award) => ({
-        event_id: event_ID,
+        event_id: eventID,
         order_num: award.order_num,
         name: award.name,
       }));
@@ -160,7 +160,7 @@ export default function EventEditPage({
       }
     }
 
-    router.push(`/events/${event_ID}`);
+    router.push(`/events/${eventID}`);
   };
 
   if (loading) {
