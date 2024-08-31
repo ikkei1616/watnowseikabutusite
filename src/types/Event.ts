@@ -11,5 +11,6 @@ export interface Event {
 //Event詳細ページで利用する型定義
 export interface EventDetail extends Event {
   url?: string;
+  location?: string;
   awards: Award[];
 }
