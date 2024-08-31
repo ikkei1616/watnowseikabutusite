@@ -1,17 +1,20 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
-import LoadingSpinner from "../../../components/LoadingSpinner";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { supabase } from "@/supabase/supabase";
-import { EventDetail } from "@/types/Event";
-import { Award } from "@/types/Award"
+import type { EventDetail } from "@/types/Event";
+import type { Award } from "@/types/Award";
 
-export default function EventDetailPage() {
-  const params = useParams();
-  const event_id: string = params.event_id as string;
+export default function EventDetailPage({
+  params,
+}: {
+  params: { event_id: string };
+}) {
+  const eventID = params.event_id;
+
   const [event, setEvent] = useState<EventDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -19,17 +22,17 @@ export default function EventDetailPage() {
   // event_idの変更をトリガーにしてsetEventを実行
   useEffect(() => {
     const fetchEventData = async () => {
-      if (event_id) {
+      if (eventID) {
         const { data: eventData, error: eventError } = await supabase
           .from("events")
           .select("*")
-          .eq("id", event_id)
+          .eq("id", eventID)
           .single();
 
         const { data: awardsData, error: awardsError } = await supabase
           .from("awards")
           .select("*")
-          .eq("event_id", event_id)
+          .eq("event_id", eventID)
           .order("order_num", { ascending: true });
 
         if (eventError || awardsError) {
@@ -49,7 +52,7 @@ export default function EventDetailPage() {
     };
 
     fetchEventData();
-  }, [event_id]);
+  }, [eventID]);
 
   if (loading) {
     return <LoadingSpinner />;
@@ -78,12 +81,6 @@ export default function EventDetailPage() {
             ))}
           </div>
         )}
-        <button
-          onClick={() => router.push(`/events/${event_id}/edit`)}
-          className={styles.editButton}
-        >
-          編集
-        </button>
       </div>
     </main>
   );
