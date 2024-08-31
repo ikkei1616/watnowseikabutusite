@@ -69,6 +69,7 @@ export default function EventDetailPage({
         <p className={styles.description}>{event.comment}</p>
         <p className={styles.details}>開催日: {event.date}</p>
         <p className={styles.details}>URL: {event.url}</p>
+        <p className={styles.details}>開催場所: {event.location}</p>
 
         {/* 賞のリストを表示 */}
         {event.awards && event.awards.length > 0 && (

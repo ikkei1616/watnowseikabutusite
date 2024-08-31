@@ -23,6 +23,7 @@ export default function EventEditPage({
     date: "",
     url: "",
     comment: "",
+    location: "",
     awards: [],
   });
   const [loading, setLoading] = useState(true);
@@ -95,6 +96,7 @@ export default function EventEditPage({
             date: eventData.date,
             url: eventData.url,
             comment: eventData.comment,
+            location: eventData.location,
           }));
         }
         //賞のリストを取得
@@ -125,7 +127,12 @@ export default function EventEditPage({
   const handleSaveClick = async () => {
     const { error: eventError } = await supabase
       .from("events")
-      .update({ name: event.name, comment: event.comment, url: event.url })
+      .update({
+        name: event.name,
+        comment: event.comment,
+        url: event.url,
+        location: event.location,
+      })
       .eq("id", eventID);
 
     if (eventError) {
@@ -199,6 +206,15 @@ export default function EventEditPage({
           type="text"
           id="url"
           value={event.url}
+          onChange={handleChange}
+        />
+
+        <label className={styles.label}>開催場所</label>
+        <input
+          className={styles.input}
+          type="text"
+          id="location"
+          value={event.location}
           onChange={handleChange}
         />
 
