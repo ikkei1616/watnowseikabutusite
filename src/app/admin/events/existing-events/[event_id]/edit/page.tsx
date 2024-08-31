@@ -160,7 +160,7 @@ export default function EventEditPage({
       }
     }
 
-    router.push(`/events/${eventID}`);
+    router.push("/admin/events/existing-events/");
   };
 
   if (loading) {
