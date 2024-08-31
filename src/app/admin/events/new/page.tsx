@@ -17,6 +17,7 @@ const NewEventPage: React.FC = () => {
     date: "",
     url: "",
     comment: "",
+    location: "",
     awards: [{ order_num: "1", name: "" }],
   });
   // 登録完了状態管理
@@ -88,6 +89,7 @@ const NewEventPage: React.FC = () => {
           date: event.date,
           url: event.url,
           comment: event.comment,
+          location: event.location,
         },
       ])
       .select()
@@ -173,6 +175,17 @@ const NewEventPage: React.FC = () => {
           <textarea
             id="comment"
             value={event.comment}
+            onChange={handleEventChange}
+            className={styles.textarea}
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label htmlFor="location" className={styles.label}>
+            開催場所
+          </label>
+          <textarea
+            id="location"
+            value={event.location}
             onChange={handleEventChange}
             className={styles.textarea}
           />
