@@ -7,12 +7,7 @@ import styles from "./EventForm.module.css";
 import { supabase } from "@/supabase/supabase";
 import type { EventDetail } from "@/types/Event";
 import type { Award } from "@/types/Award";
-
-type EventFormProps = {
-  initialEvent?: EventDetail;
-  isEditing: boolean; //新規イベント作成ページなのか編集ページを管理
-  onSuccess: () => void;
-};
+import type { EventFormProps } from "@/types/EventForm";
 
 const EventForm: React.FC<EventFormProps> = ({
   initialEvent = {
