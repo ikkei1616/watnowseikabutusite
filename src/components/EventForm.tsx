@@ -22,8 +22,6 @@ const EventForm: React.FC<EventFormProps> = ({
   isEditing,
   onSuccess,
 }) => {
-  const router = useRouter();
-
   const [event, setEvent] = useState<EventDetail>(initialEvent);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
