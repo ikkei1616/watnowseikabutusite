@@ -1,12 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { supabase } from "@/supabase/supabase";
 import type { EventDetail } from "@/types/Event";
-import type { Award } from "@/types/Award";
 import EventForm from "@/components/EventForm";
 
 export default function EventEditPage({
