@@ -2,7 +2,6 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import styles from "./page.module.css";
 import EventForm from "@/components/EventForm";
 
 const NewEventPage: React.FC = () => {
@@ -13,10 +12,9 @@ const NewEventPage: React.FC = () => {
   };
 
   return (
-    <main className={styles.container}>
-      <h1 className={styles.title}>新規イベント作成</h1>
+    <div>
       <EventForm isEditing={false} onSuccess={handleSuccess} />
-    </main>
+    </div>
   );
 };
 
