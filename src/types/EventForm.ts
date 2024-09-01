@@ -1,4 +1,4 @@
-import type { EventDetail } from "./Event";
+import type { EventDetail } from "@/types/Event";
 
 export type EventFormProps = {
   initialEvent?: EventDetail;
