@@ -58,7 +58,7 @@ export default function EventEditPage({
   }, [eventID]);
 
   const handleSuccess = () => {
-    router.push("/events");
+    router.push("/admin/events/existing-events");
   };
 
   if (loading)
