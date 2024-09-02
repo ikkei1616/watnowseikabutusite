@@ -50,3 +50,19 @@
   font-size: 18px;
   color: #333;
 }
+
+.passwordContainer {
+  position: relative;
+}
+
+.toggleButton {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #0070f3;
+  cursor: pointer;
+  font-size: 0.875rem;
+}

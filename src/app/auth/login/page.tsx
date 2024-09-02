@@ -6,6 +6,7 @@ import styles from "./page.module.css";
 
 export default function LoginPage() {
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // 追加
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,13 +30,20 @@ export default function LoginPage() {
   return (
     <main className={styles.main}>
       <form onSubmit={handleSubmit} className={styles.form}>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="パスワードを入力してください"
-          className={styles.input}
-        />
+        <div className={styles.passwordContainer}>
+          <input
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="パスワードを入力してください"
+            className={styles.input}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className={styles.toggleButton}
+          ></button>
+        </div>
         <button type="submit" className={styles.button}>
           ログイン
         </button>
