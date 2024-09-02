@@ -1,4 +1,4 @@
-import { Award } from ".//Award";
+import { Award } from "@/types/Award";
 
 //Event一覧ページで利用する型定義
 export interface Event {

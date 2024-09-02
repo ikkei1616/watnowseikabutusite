@@ -30,7 +30,7 @@ const EventPage: React.FC = () => {
 
   return (
     <main className={styles.pageHeader}>
-      <h1>これはイベント一覧ページです</h1>
+      <h1>イベント一覧ページ</h1>
       {events.map((event) => (
         <EventCard key={event.id} event={event} />
       ))}
