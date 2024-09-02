@@ -42,7 +42,9 @@ export default function LoginPage() {
             type="button"
             onClick={() => setShowPassword(!showPassword)}
             className={styles.toggleButton}
-          ></button>
+          >
+            {showPassword ? "非表示" : "表示"}
+          </button>
         </div>
         <button type="submit" className={styles.button}>
           ログイン
