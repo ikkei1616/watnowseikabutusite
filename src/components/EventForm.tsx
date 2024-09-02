@@ -2,12 +2,16 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import styles from "./EventForm.module.css";
 import { supabase } from "@/supabase/supabase";
 import type { EventDetail } from "@/types/Event";
 import type { Award } from "@/types/Award";
-import type { EventFormProps } from "@/types/EventForm";
+
+export interface EventFormProps {
+  initialEvent?: EventDetail;
+  isEditing: boolean; //新規イベント作成ページなのか編集ページを管理
+  onSuccess: () => void;
+}
 
 const EventForm: React.FC<EventFormProps> = ({
   initialEvent = {
