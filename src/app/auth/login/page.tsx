@@ -6,14 +6,24 @@ import styles from "./page.module.css";
 
 export default function LoginPage() {
   const [password, setPassword] = useState("");
-  const [submittedPassword, setSubmittedPassword] = useState<string | null>(
-    null
-  );
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmittedPassword(password);
+
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ password }),
+    });
+
+    if (response.ok) {
+      router.push("/admin"); // 管理者画面へリダイレクト
+    } else {
+      alert("パスワードが間違っています");
+    }
   };
 
   return (
@@ -30,11 +40,6 @@ export default function LoginPage() {
           ログイン
         </button>
       </form>
-      {submittedPassword && (
-        <div className={styles.result}>
-          入力されたパスワード: {submittedPassword}
-        </div>
-      )}
     </main>
   );
 }
