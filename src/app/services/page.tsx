@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import styles from "./Page.module.css";
+import Header from "@/components/Header";
 
 const Home: React.FC = () => {
   const services = [
@@ -12,7 +13,8 @@ const Home: React.FC = () => {
   ];
   return (
     <div className={styles.pageHeader}>
-      <h1>これはサービス一覧ページです。</h1>
+      <Header />
+
       <ul className={styles.serviceList}>
         {services.map((service, num) => (
           <li key={service.id} className={styles.serviceItem}>

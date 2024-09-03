@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import styles from './page.module.css';
+import Header from '@/components/Header';
+
 
 const Home: React.FC = () =>{
   const events = [
@@ -11,9 +13,12 @@ const Home: React.FC = () =>{
     {id:"5",name:"event5"},
   ];
   return(
-    <div className ={styles.pageHeader}>
-      <h1>これはサービスページです。</h1>
-    </div>
+
+      <div className ={styles.pageHeader}>
+        <Header/> 
+        <h1>これはサービスページです。</h1>
+      </div>
+
   );
 
 };

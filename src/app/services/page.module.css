@@ -10,12 +10,12 @@
   text-align: center; /* テキストを中央揃え */
 }
 
-.pageHeader h1 {
-  margin-bottom: 30px;
-  color: #333;
-  font-size: 2rem;
-  font-weight: bold;
+.header{
+  background-color: yellow;
+  justify-content: space-between;
 }
+
+
 
 .serviceList {
   list-style-type: none; /* デフォルトのリストスタイルを削除 */
