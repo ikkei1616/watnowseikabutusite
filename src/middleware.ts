@@ -14,5 +14,5 @@ export function middleware(req: NextRequest) {
 
 // ミドルウェアを適用するパス
 export const config = {
-  matcher: ["/admin/:path*"], // `/admin/` ディレクトリのページに対して適用
+  matcher: ["/admin/:path*"], // `/admin/` 以下のディレクトリのページに対して適用
 };

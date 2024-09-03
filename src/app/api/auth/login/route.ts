@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   const { password } = await req.json();
 
-  const correctPassword = process.env.WATNOW_LOGIN_CORRECT_PASSWORD; // 仮の登録パスワード(本来はlocal環境に記述、簡易化の為に直書き)
+  const correctPassword = process.env.WATNOW_LOGIN_CORRECT_PASSWORD; // 仮の登録パスワード(変更してlocal.envに記述済み)
 
   if (password === correctPassword) {
     // トークンの生成（今回は簡易的に固定文字列をトークンとする）(今後はJWTトークンを利用予定)
