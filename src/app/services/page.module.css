@@ -17,7 +17,7 @@
   font-weight: bold;
 }
 
-.eventList {
+.serviceList {
   list-style-type: none; /* デフォルトのリストスタイルを削除 */
   margin: 0;
   padding: 0;
@@ -27,7 +27,7 @@
   align-items: center; /* アイテムを中央に揃える */
 }
 
-.eventItem {
+.serviceItem {
   background-color: #007bff; /* 背景色を白に設定 */
   border: 1px solid #ddd; /* 軽いグレーのボーダー */
   border-radius: 8px; /* 角を丸める */
@@ -38,14 +38,3 @@
 }
 
 
-.eventLink {
-  text-decoration: none;
-  color: #007bff; /* リンクの色を青に設定 */
-  font-size: 1.25rem;
-  font-weight: 500;
-}
-
-.eventLink:hover {
-  text-decoration: underline;
-  color: #0056b3; /* ホバー時の色を暗めに設定 */
-}
