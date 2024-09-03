@@ -1,0 +1,40 @@
+.pageHeader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* ビューポートの高さ全体を使用 */
+  background-color: #f7f9fc; /* 背景色を薄いグレーに */
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center; /* テキストを中央揃え */
+}
+
+.header{
+  background-color: yellow;
+  justify-content: space-between;
+}
+
+
+
+.serviceList {
+  list-style-type: none; /* デフォルトのリストスタイルを削除 */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* 各リストアイテム間にスペースを追加 */
+  align-items: center; /* アイテムを中央に揃える */
+}
+
+.serviceItem {
+  background-color: #007bff; /* 背景色を白に設定 */
+  border: 1px solid #ddd; /* 軽いグレーのボーダー */
+  border-radius: 8px; /* 角を丸める */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽いシャドウを追加 */
+  padding: 15px;
+  width: 100%;
+  max-width: 500px; /* アイテムの最大幅を設定 */
+}
+
+
