@@ -15,7 +15,7 @@ const Home: React.FC = () =>{
       <h1>これはサービス一覧ページです。</h1>
       <ul className={styles.eventList}>
         {events.map((event,num)=>(
-          <li key = {event.id} className= {styles.evetnItem}>
+          <li key = {event.id} className= {styles.eventItem}>
             <Link rel="stylesheet" href="/services/serviceid">
               イベント{num+1}
             </Link>
