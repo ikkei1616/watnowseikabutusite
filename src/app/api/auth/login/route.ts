@@ -1,20 +1,23 @@
+import { SignJWT } from "jose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const { password } = await req.json();
 
-  const correctPassword = process.env.WATNOW_LOGIN_CORRECT_PASSWORD; // 仮の登録パスワード(変更してlocal.envに記述済み)
+  const correctPassword = process.env.WATNOW_LOGIN_CORRECT_PASSWORD;
 
   if (password === correctPassword) {
-    // トークンの生成（今回は簡易的に固定文字列をトークンとする）(今後はJWTトークンを利用予定)
-    const token = "authenticated";
+    // JWTトークンの生成
+    const token = await new SignJWT({})
+      .setProtectedHeader({ alg: "HS256" })
+      .setExpirationTime("1m")
+      .sign(new TextEncoder().encode(process.env.JWT_SECRET_KEY));
 
-    // Cookieをセット
     const response = NextResponse.json({ message: "Logged in" });
     response.cookies.set("authToken", token, {
-      httpOnly: true,
-      path: "/",
-      maxAge: 60 * 60 * 24, // 1日
+      httpOnly: true, //実装時はhttpsに指定する予定
+      path: "/", //アプリケーション内のすべてのpathに対してcookieを適用
+      maxAge: 60, // 1m
     });
     return response;
   } else {
