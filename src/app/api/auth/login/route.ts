@@ -1,12 +1,24 @@
 import { SignJWT } from "jose";
 import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/supabase/supabase";
 
 export async function POST(req: NextRequest) {
   const { password } = await req.json();
 
-  const correctPassword = process.env.WATNOW_LOGIN_CORRECT_PASSWORD;
+  const { data, error } = await supabase
+    .from("password")
+    .select("correct_password")
+    .single();
 
-  if (password === correctPassword) {
+  if (error) {
+    return NextResponse.json(
+      { message: "Error retrieving password" },
+      { status: 500 }
+    );
+  }
+  const correctPassword = data.correct_password as string;
+
+  if (password.trim() === correctPassword.trim()) {
     // JWTトークンの生成
     const token = await new SignJWT({})
       .setProtectedHeader({ alg: "HS256" })
