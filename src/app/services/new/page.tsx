@@ -25,8 +25,8 @@ const NewServicesPage = () => {
           onSubmit(d);
         })}>
           {
-          useFormFields(control).map((field) => (
-            <FormFactory<ServiceInputSchema> {...field} />
+          useFormFields(control).map((field, index) => (
+            <FormFactory<ServiceInputSchema> key={field.id} {...field} />
           ))
         }
           <button type="submit">送信</button>
