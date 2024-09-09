@@ -15,10 +15,10 @@ export const event = [
 ]
 
 export const period = [
-    {value: "days", label: "days"},
-    {value: "weeks", label: "weeks"},
-    {value: "months", label: "months"},
-    {value: "years", label: "years"},
+    {value: "days", label: "日"},
+    {value: "weeks", label: "週"},
+    {value: "months", label: "月"},
+    {value: "years", label: "年"},
 ]
 
 export const useFormFields = (
