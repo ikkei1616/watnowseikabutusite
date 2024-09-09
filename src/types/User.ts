@@ -1,3 +1,5 @@
+import type Technology from "./Technology";
+
 //Eventの型定義
 export default interface User {
     id: string;
@@ -5,4 +7,5 @@ export default interface User {
     name: string;
     nickname: string;
     introduction?: string;
+    technologies: Technology[];
 }
