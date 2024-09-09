@@ -1,19 +1,16 @@
-import React from 'react'
-import  FieldWrapper from './FieldWrapper';
-import {
-  FieldValues,
-  useController,
-} from "react-hook-form";
-import { Select, MenuItem } from "@mui/material";
+import React from 'react';
+import { FieldValues, useController, Control, Path } from 'react-hook-form';
+import { Select, MenuItem } from '@mui/material';
+import FieldWrapper from './FieldWrapper';
 
 type Option = {
   label: string;
   value: string;
-}
+};
 
 export type SelectProps<T extends FieldValues> = {
-  control: any;
-  name: string;
+  control: Control<T>;
+  name: Path<T>;
   label: string;
   options: Option[];
 };
@@ -21,24 +18,29 @@ export type SelectProps<T extends FieldValues> = {
 const SelectInput = <T extends FieldValues>({
   label,
   options,
-  ...props
+  control,
+  name,
 }: SelectProps<T>): JSX.Element => {
   const {
-    field:{value, onChange},
+    field: { value, onChange, onBlur, ref },
     fieldState: { error },
-  } = useController(props);
+  } = useController({ name, control });
+
   return (
-    <> 
-      <FieldWrapper label={label} errorMessage={error?.message}>
-        <Select value={value} onChange={onChange}>
-          {options.map(({label, value}) => (
-            <MenuItem key={value} value={value}>
-              {label}
-            </MenuItem>
-          ))}
-        </Select>
-      </FieldWrapper>
-    </>
+    <FieldWrapper label={label} errorMessage={error?.message}>
+      <Select
+        value={value || ''}
+        onChange={onChange}
+        onBlur={onBlur}
+        inputRef={ref}
+      >
+        {options.map(({ label, value }) => (
+          <MenuItem key={value} value={value}>
+            {label}
+          </MenuItem>
+        ))}
+      </Select>
+    </FieldWrapper>
   );
 };
 

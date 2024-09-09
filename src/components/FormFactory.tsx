@@ -33,7 +33,7 @@ export const FormFactory = <T extends FieldValues>({
 }:FormFactoryProps<T>) => {
     switch(type){
         case "TEXT_INPUT":
-            return <TextInput {...props}/>
+            return <TextInput {...props} defaultValue={"" as any}/>
         case "TEXTAREA_INPUT":
             return <TextareaInput {...props}/>
         case "IMAGE_INPUT":
@@ -41,7 +41,7 @@ export const FormFactory = <T extends FieldValues>({
         case "SELECT_INPUT":
             return <SelectInput {...props}/>
         case "NUMBER_INPUT":
-            return <NumberInput {...props}/>
+            return <NumberInput {...props} defaultValue={0 as any}/>
         default:
             return null;
     }
