@@ -1,10 +1,11 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import AppBar from "@mui/material/AppBar";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import { HeaderMode } from "@/types/HeaderMode";
+import Link from "next/link";
 
 const Header = ({ mode }: { mode: HeaderMode }) => {
   return (
@@ -64,80 +65,89 @@ const Header = ({ mode }: { mode: HeaderMode }) => {
           height: "100%",
         }}
       >
-        <Button
-          sx={{
-            backgroundColor:
-              mode === HeaderMode.SERVICES ? "#FAFBFB" : "#00AEEF",
-            padding: "1rem 2rem 0.8rem 2rem",
-            borderRadius: "1rem 1rem 0 0",
-            height: "100%",
-            transition: "padding-bottom 0.2s",
-            "&:hover": {
-              paddingBottom: "1.6rem",
-              backgroundColor:
-                mode === HeaderMode.SERVICES ? "#FAFBFB" : "#00AEEF",
-            },
-          }}
-        >
-          <Typography
-            sx={{
-              color: mode === HeaderMode.SERVICES ? "#4D4D4D" : "white",
-              fontFamily: "HannariMincho",
-            }}
-          >
-            サービス一覧
-          </Typography>
-        </Button>
-        <Button
-          sx={{
-            backgroundColor: mode === HeaderMode.EVENTS ? "#FAFBFB" : "#00AEEF",
-            padding: "1rem 2rem 0.8rem 2rem",
-            borderRadius: "1rem 1rem 0 0",
-            height: "100%",
-            transition: "padding-bottom 0.2s",
-            "&:hover": {
-              paddingBottom: "1.6rem",
-              backgroundColor:
-                mode === HeaderMode.EVENTS ? "#FAFBFB" : "#00AEEF",
-            },
-          }}
-        >
-          <Typography
-            sx={{
-              color: mode === HeaderMode.EVENTS ? "#4D4D4D" : "white",
-              fontFamily: "HannariMincho",
-            }}
-          >
-            イベント一覧
-          </Typography>
-        </Button>
-        <Button
-          sx={{
-            padding: "0.4rem 1rem",
-          }}
-        >
+        <Link href={"/services"}>
           <Box
             sx={{
-              padding: "0.4rem 1rem",
-              borderRadius: "1rem",
+              backgroundColor:
+                mode === HeaderMode.SERVICES ? "#FAFBFB" : "#00AEEF",
+              padding: "1rem 2rem 0.8rem 2rem",
+              borderRadius: "1rem 1rem 0 0",
+              height: "100%",
+              transition: "padding-bottom 0.2s",
               "&:hover": {
-                background: "#00AEEF33",
+                paddingBottom: "1.6rem",
+                backgroundColor:
+                  mode === HeaderMode.SERVICES ? "#FAFBFB" : "#00AEEF",
               },
             }}
           >
             <Typography
               sx={{
+                color: mode === HeaderMode.SERVICES ? "#4D4D4D" : "white",
                 fontFamily: "HannariMincho",
-                lineHeight: "1.25",
-                color: "white",
               }}
             >
-              管理者
-              <br />
-              ページ
+              サービス一覧
             </Typography>
           </Box>
-        </Button>
+        </Link>
+
+        <Link href={"/events"}>
+          <Box
+            sx={{
+              backgroundColor:
+                mode === HeaderMode.EVENTS ? "#FAFBFB" : "#00AEEF",
+              padding: "1rem 2rem 0.8rem 2rem",
+              borderRadius: "1rem 1rem 0 0",
+              height: "100%",
+              transition: "padding-bottom 0.2s",
+              "&:hover": {
+                paddingBottom: "1.6rem",
+                backgroundColor:
+                  mode === HeaderMode.EVENTS ? "#FAFBFB" : "#00AEEF",
+              },
+            }}
+          >
+            <Typography
+              sx={{
+                color: mode === HeaderMode.EVENTS ? "#4D4D4D" : "white",
+                fontFamily: "HannariMincho",
+              }}
+            >
+              イベント一覧
+            </Typography>
+          </Box>
+        </Link>
+
+        <Link href={"/admin"}>
+          <Box
+            sx={{
+              padding: "0.4rem 1rem",
+            }}
+          >
+            <Box
+              sx={{
+                padding: "0.4rem 1rem",
+                borderRadius: "1rem",
+                "&:hover": {
+                  background: "#00AEEF33",
+                },
+              }}
+            >
+              <Typography
+                sx={{
+                  fontFamily: "HannariMincho",
+                  lineHeight: "1.25",
+                  color: "white",
+                }}
+              >
+                管理者
+                <br />
+                ページ
+              </Typography>
+            </Box>
+          </Box>
+        </Link>
       </Box>
     </AppBar>
   );
