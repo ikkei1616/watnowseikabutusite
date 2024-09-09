@@ -6,8 +6,8 @@ import styles from "./page.module.css";
 import { supabase } from "@/supabase/supabase";
 import type User from "@/types/User";
 
-const UserPage = ({ params }: { params: { user_id: string } }) => {
-  const userID = params.user_id;
+const UserPage = ({ params }: { params: { account_id: string } }) => {
+  const accountID = params.account_id;
   const [userData, setUserData] = useState<User | null>(null);
   const [userIconUrl, setUserIconUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -32,8 +32,7 @@ const UserPage = ({ params }: { params: { user_id: string } }) => {
     const fetchUserData = async () => {
       const { data, error } = await supabase
         .from("users")
-        .select()
-        .eq("user_id", userID)
+        .eq("account_id", accountID)
         .single();
 
       if (error) {
@@ -42,7 +41,7 @@ const UserPage = ({ params }: { params: { user_id: string } }) => {
       } else {
         setUserData({
           id: data?.id,
-          userID: data?.user_id,
+          accountID: data?.account_id,
           name: data?.name,
           nickname: data?.nickname,
           introduction: data?.introduction || "",
@@ -70,7 +69,7 @@ const UserPage = ({ params }: { params: { user_id: string } }) => {
     return (
       <main className={styles.main}>
         <h1>これはユーザの詳細ページです</h1>
-        <h2>ユーザID: {userID}</h2>
+        <h2>ユーザID: {accountID}</h2>
         <br />
         <p>存在しないユーザです</p>
       </main>
@@ -80,7 +79,7 @@ const UserPage = ({ params }: { params: { user_id: string } }) => {
   return (
     <main className={styles.main}>
       <h1>これはユーザの詳細ページです</h1>
-      <h2>ユーザID: {userID}</h2>
+      <h2>ユーザID: {accountID}</h2>
       <br />
 
       {userIconUrl ? (
