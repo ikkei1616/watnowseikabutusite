@@ -16,7 +16,6 @@ const EventPage: React.FC = () => {
         .select("id, name, date, comment")
         .order("id", { ascending: true }); // 'id'で昇順にソート
 
-      //取得に関するエラーハンドリング
       if (error) {
         console.error("Error fetching events:", error);
       } else {
@@ -31,9 +30,13 @@ const EventPage: React.FC = () => {
   return (
     <main className={styles.pageHeader}>
       <h1>イベント一覧ページ</h1>
-      {events.map((event) => (
-        <EventCard key={event.id} event={event} />
-      ))}
+      <div className={styles.eventList}>
+        {events.map((event) => (
+          <div className={styles.eventItemWrapper} key={event.id}>
+            <EventCard event={event} />
+          </div>
+        ))}
+      </div>
     </main>
   );
 };
