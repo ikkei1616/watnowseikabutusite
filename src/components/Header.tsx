@@ -1,18 +1,16 @@
 import React from "react";
-import styles from "./Header.module.css";
+import AppBar from "@mui/material/AppBar";
 
-
-const Header = () =>{
+const Header = () => {
   return (
-    <header className={styles.header}>
-        <p>watnowプロダクト一覧サイト</p>
-        <h1>watbox</h1>
-        <p>サービス一覧</p>
-        <p>イベント一覧</p>
-        <p>管理者ページ</p>
-    </header>
+    <AppBar>
+      <p>watnowプロダクト一覧サイト</p>
+      <h1>watbox</h1>
+      <p>サービス一覧</p>
+      <p>イベント一覧</p>
+      <p>管理者ページ</p>
+    </AppBar>
   );
 };
 
 export default Header;
-
