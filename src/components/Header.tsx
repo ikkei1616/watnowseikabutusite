@@ -70,9 +70,11 @@ const Header = ({ mode }: { mode: HeaderMode }) => {
             sx={{
               backgroundColor:
                 mode === HeaderMode.SERVICES ? "#FAFBFB" : "#00AEEF",
-              padding: "1rem 2rem 0.8rem 2rem",
+              padding: "1rem",
+              paddingBottom: "0.8rem",
               borderRadius: "1rem 1rem 0 0",
               height: "100%",
+              width: "10rem",
               transition: "padding-bottom 0.2s",
               "&:hover": {
                 paddingBottom: "1.6rem",
@@ -97,10 +99,12 @@ const Header = ({ mode }: { mode: HeaderMode }) => {
             sx={{
               backgroundColor:
                 mode === HeaderMode.EVENTS ? "#FAFBFB" : "#00AEEF",
-              padding: "1rem 2rem 0.8rem 2rem",
+              padding: "1rem",
+              paddingBottom: "0.8rem",
               borderRadius: "1rem 1rem 0 0",
               height: "100%",
               transition: "padding-bottom 0.2s",
+              width: "10rem",
               "&:hover": {
                 paddingBottom: "1.6rem",
                 backgroundColor:
