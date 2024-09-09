@@ -18,6 +18,7 @@ const Header = ({ mode }: { mode: HeaderMode }) => {
         alignItems: "flex-end",
         boxShadow: "none",
         backgroundColor: "#85D5F3",
+        borderRadius: "0 0 20px 20px",
       }}
     >
       <Box sx={{ textAlign: "left", padding: "1rem" }}>
