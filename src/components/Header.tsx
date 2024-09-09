@@ -12,10 +12,13 @@ const Header = () => {
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-        padding: "1rem",
+        padding: "0 2rem",
+        alignContent: "flex-end",
+        alignItems: "flex-end",
+        boxShadow: "none",
       }}
     >
-      <Box sx={{ textAlign: "left" }}>
+      <Box sx={{ textAlign: "left", padding: "1rem" }}>
         <Typography
           variant="h6"
           component="div"
@@ -51,15 +54,57 @@ const Header = () => {
         </Box>
       </Box>
 
-      <Box>
-        <Button>
-          <Typography>サービス一覧</Typography>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "flex-end",
+          height: "100%",
+        }}
+      >
+        <Button
+          sx={{
+            backgroundColor: "white",
+            padding: "1rem 2rem 0.8rem 2rem",
+            borderRadius: "1rem 1rem 0 0",
+            height: "100%",
+          }}
+        >
+          <Typography
+            sx={{
+              fontFamily: "HannariMincho",
+            }}
+          >
+            サービス一覧
+          </Typography>
         </Button>
-        <Button>
-          <Typography>イベント一覧</Typography>
+        <Button
+          sx={{
+            backgroundColor: "white",
+            padding: "1rem 2rem 0.8rem 2rem",
+            borderRadius: "1rem 1rem 0 0",
+            height: "100%",
+          }}
+        >
+          <Typography
+            sx={{
+              fontFamily: "HannariMincho",
+            }}
+          >
+            イベント一覧
+          </Typography>
         </Button>
-        <Button>
-          <Typography>
+        <Button
+          sx={{
+            padding: "0.8rem 2rem",
+            borderRadius: "1rem 1rem 0 0",
+          }}
+        >
+          <Typography
+            sx={{
+              fontFamily: "HannariMincho",
+              lineHeight: "1.25",
+            }}
+          >
             管理者
             <br />
             ページ
