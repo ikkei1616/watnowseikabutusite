@@ -5,6 +5,8 @@ import styles from "./Page.module.css";
 import EventCard from "@/components/EventCard";
 import { supabase } from "@/supabase/supabase";
 import type { Event } from "@/types/Event";
+import Header from "@/components/Header";
+import { HeaderMode } from "@/types/HeaderMode";
 
 const EventPage: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
@@ -29,6 +31,7 @@ const EventPage: React.FC = () => {
 
   return (
     <main className={styles.pageHeader}>
+      <Header mode={HeaderMode.EVENTS} />
       <h1>イベント一覧ページ</h1>
       <div className={styles.eventList}>
         {events.map((event) => (
