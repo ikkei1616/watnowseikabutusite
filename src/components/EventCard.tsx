@@ -19,7 +19,14 @@ interface EventCardProp {
 
 const EventCard: React.FC<EventCardProp> = ({ event }) => {
   return (
-    <Box sx={{ display: "flex", justifyContent: "flex-end", margin: "16px 0" }}>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "flex-end",
+        margin: "16px 0",
+        paddingRight: "40px",
+      }}
+    >
       <Card
         sx={{
           display: "flex",
