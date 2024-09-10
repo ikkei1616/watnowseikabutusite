@@ -11,6 +11,7 @@ const serviceSchema = z.object({
   serviceDetail: z.string(),
   developmentPeriodNum: z.number({ invalid_type_error: "数値を入力してください" }).positive().int(),
   developmentPeriod: z.string(),
+  menberNames: z.string().array(),
 }).transform((x) => {
   const image = (x.serviceImage as FileList)?.item(0);
   return {
