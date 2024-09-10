@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Card,
   CardContent,
@@ -34,19 +35,26 @@ const EventCard: React.FC<EventCardProp> = ({ event }) => {
         <Box
           sx={{
             display: "flex",
-            alignItems: "center", // 中央揃え
+            alignItems: "flex-end", // 下方揃え
             justifyContent: "space-between", // 日付とボタンを左右に配置
-            padding: "8px 16px",
+            paddingTop: "8px", // 上の余白
+            paddingBottom: "0px", // 下の余白
+            paddingLeft: "16px", // 左の余白
+            paddingRight: "16px", // 右の余白
             position: "relative",
           }}
         >
           {/* 日付を表示 */}
           <Typography
             variant="subtitle1"
-            color="text.secondary"
+            color="#00AEEF"
             sx={{
+              fontSize: "1.40rem", // カスタムフォントサイズを指定
               backgroundColor: "#fff",
-              padding: "0 8px",
+              paddingTop: "6px", // 上の余白
+              paddingBottom: "0px", // 下の余白
+              paddingLeft: "8px", // 左の余白
+              paddingRight: "8px", // 右の余白
             }}
           >
             {event.date}
@@ -61,13 +69,26 @@ const EventCard: React.FC<EventCardProp> = ({ event }) => {
                 sx={{ textTransform: "none" }}
               >
                 詳細をみる
+                {/* 画像を挿入 */}
+                <Image
+                  src={"/paper_airplane.svg"}
+                  alt={"紙飛行機のアイコン"}
+                  height={20}
+                  width={20}
+                />
               </Button>
             </Link>
           </CardActions>
         </Box>
 
         {/* 上部に線を表示 */}
-        <Divider sx={{ width: "100%" }} />
+        <Divider
+          sx={{
+            width: "95%",
+            margin: "0 auto", // 自動マージンで中央に寄せる
+            borderColor: "#00AEEF",
+          }}
+        />
 
         {/* カードの内容部分 */}
         <Box sx={{ display: "flex", alignItems: "center", padding: "16px" }}>
@@ -98,6 +119,7 @@ const EventCard: React.FC<EventCardProp> = ({ event }) => {
               display: "flex",
               alignItems: "flex-start",
               height: "100%",
+              width: 492,
             }}
           >
             <CardContent
