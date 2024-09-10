@@ -3,6 +3,7 @@ import TextareaInput, {TextareaInputProps} from './TextareaInput';
 import ImageInput, {ImageInputProps} from './ImageInput';
 import SelectInput, {SelectProps} from './Select';
 import NumberInput, {NumberInputProps} from './NumberInput';
+import MultipleSelect, {MultipleSelectProps} from './MultipleSelect';
 import { FieldValues } from 'react-hook-form';
 
 export type FormFactoryProps<T extends FieldValues> =
@@ -26,6 +27,10 @@ export type FormFactoryProps<T extends FieldValues> =
     type:"NUMBER_INPUT";
     props:NumberInputProps<T>;
 }
+|{
+    type:"MULTIPLE_SELECT";
+    props:MultipleSelectProps<T>;
+}
 
 export const FormFactory = <T extends FieldValues>({
     type,
@@ -42,6 +47,8 @@ export const FormFactory = <T extends FieldValues>({
             return <SelectInput {...props}/>
         case "NUMBER_INPUT":
             return <NumberInput {...props} defaultValue={0 as any}/>
+        case "MULTIPLE_SELECT":
+            return <MultipleSelect {...props}/>
         default:
             return null;
     }
