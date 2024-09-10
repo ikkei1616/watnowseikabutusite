@@ -13,7 +13,7 @@ type Option = {
     value: string;
 };
 
-type MultipleSelectProps<T extends FieldValues> = {
+export type MultipleSelectProps<T extends FieldValues> = {
     control: Control<T>;
     name: Path<T>;
     label: string;
