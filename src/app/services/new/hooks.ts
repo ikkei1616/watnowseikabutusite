@@ -21,6 +21,12 @@ export const period = [
     {value: "years", label: "年"},
 ]
 
+export const menberNames = [
+    { value: '小林虎太郎', label: '小林虎太郎' },
+    { value: '小林寅之助', label: '小林寅之助' },
+    { value: '小林こたつ', label: '小林こたつ' },
+  ];
+
 export const useFormFields = (
   control: Control<ServiceInputSchema>,
 ): FormField<ServiceInputSchema>[] => [
@@ -107,4 +113,14 @@ export const useFormFields = (
         options: period,
         },
     },
+    {
+        id: 10,
+        type: "MULTIPLE_SELECT",
+        props: {
+        control,
+        name: "menberNames",
+        label: "メンバー名",
+        options: menberNames,
+        },
+    }
 ];
