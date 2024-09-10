@@ -1,18 +1,9 @@
 .pageHeader {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #f7f9fc;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.pageHeader h1 {
-  margin-bottom: 30px;
-  color: #333;
+  margin-bottom: 0%;
+  color: #00aeef; /* テキストの色を変更 */
   font-size: 2rem;
-  font-weight: bold;
+
+  margin-left: 40px; /* 右にずらすためのマージンを追加 */
 }
 
 .eventList {

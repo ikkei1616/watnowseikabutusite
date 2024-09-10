@@ -66,7 +66,12 @@ const EventCard: React.FC<EventCardProp> = ({ event }) => {
               <Button
                 size="small"
                 color="primary"
-                sx={{ textTransform: "none" }}
+                sx={{
+                  textTransform: "none",
+                  "&:hover": {
+                    backgroundColor: "#D9D9D9", // ホバー時の背景色を濃くする
+                  },
+                }}
               >
                 詳細をみる
                 {/* 画像を挿入 */}

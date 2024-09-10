@@ -7,6 +7,7 @@ import { supabase } from "@/supabase/supabase";
 import type { Event } from "@/types/Event";
 import Header from "@/components/Header";
 import { HeaderMode } from "@/types/HeaderMode";
+import { Divider } from "@mui/material";
 
 const EventPage: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
@@ -30,9 +31,16 @@ const EventPage: React.FC = () => {
   }, []);
 
   return (
-    <main className={styles.pageHeader}>
+    <main>
       <Header mode={HeaderMode.EVENTS} />
-      <h1>イベント一覧ページ</h1>
+      <h1 className={styles.pageHeader}>イベント一覧 </h1>
+      <Divider
+        sx={{
+          width: "95%",
+          margin: "0 auto", // 自動マージンで中央に寄せる
+          borderColor: "#00AEEF",
+        }}
+      />
       <div className={styles.eventList}>
         {events.map((event) => (
           <div className={styles.eventItemWrapper} key={event.id}>
