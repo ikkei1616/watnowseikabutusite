@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { ServiceInputSchema, ServiceOutputSchema, resolver } from "./serviceFormSchema";
 import { useFormFields } from "./hooks";
 import { FormFactory } from "@/components/FormFactory";
-import MultipleSelect from '@/components/MultipleSelect';
+import DateInput from '@/components/DateInput';
 
 const NewServicesPage = () => {
   const { control, handleSubmit } = useForm<ServiceInputSchema>({
@@ -12,21 +12,34 @@ const NewServicesPage = () => {
     resolver: resolver,
   });
 
-
   const onSubmit: SubmitHandler<ServiceOutputSchema> = (data) => {
     console.log(data);
   };
 
+
+  const formFields = useFormFields(control);
+
   return (
     <>
       <main>
-        <h1>新規サービス作成</h1>
+        <h1 style={{
+          borderBottom: "1px solid #9CABC7",
+          paddingBottom: "12px",
+          marginBottom: "12px",
+        }}>新規サービスページ作成</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {
-            useFormFields(control).map((field, index) => (
-              <FormFactory<ServiceInputSchema> key={field.id} {...field} />
-            ))
-          }
+          {formFields.map(({ title, fields }, index) => (
+            <section key={index} style={{
+              borderBottom: "1px solid #9CABC7",
+              paddingBottom: "12px",
+              marginBottom: "12px",
+            }}>
+              <h3>{title}</h3>
+              {fields.map((field) => (
+                <FormFactory<ServiceInputSchema> key={field.id} {...field} />
+              ))}
+            </section>
+          ))}
           <button type="submit">送信</button>
         </form>
       </main>
