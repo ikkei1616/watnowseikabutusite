@@ -4,7 +4,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { ServiceInputSchema, ServiceOutputSchema, resolver } from "./serviceFormSchema";
 import { useFormFields } from "./hooks";
 import { FormFactory } from "@/components/FormFactory";
-import DateInput from '@/components/DateInput';
 
 const NewServicesPage = () => {
   const { control, handleSubmit } = useForm<ServiceInputSchema>({
@@ -21,7 +20,11 @@ const NewServicesPage = () => {
 
   return (
     <>
-      <main>
+      <main style={{
+        width: "90%",
+        margin: "0 auto",
+      }
+      }>
         <h1 style={{
           borderBottom: "1px solid #9CABC7",
           paddingBottom: "12px",
