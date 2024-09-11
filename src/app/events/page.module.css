@@ -1,25 +1,35 @@
 .pageHeader {
   margin-bottom: 0%;
   color: #00aeef; /* テキストの色を変更 */
-  font-size: 2rem;
-
+  font-size: 2.5rem;
   margin-left: 40px; /* 右にずらすためのマージンを追加 */
+  padding-bottom: 20px;
+}
+
+.container {
+  margin-top: 30px;
+  margin-left: 40px;
+  margin-right: 40px;
+  display: flex; /* 横並びにするためにFlexboxを使用 */
+  justify-content: flex-start; /* コンポーネント間のスペースを調整 */
+  align-items: flex-start; /* 上揃え */
 }
 
 .eventList {
   list-style-type: none;
-  margin: 0;
   padding: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+  display: flex; /* 横並びにするためにFlexboxを使用 */
+  flex-direction: column; /* 横方向に並べる */
   gap: 15px;
+  width: 100%;
+  padding-top: 8px;
+  padding-right: 20px;
 }
 
 .eventItemWrapper {
   display: flex; /* 子要素をフレックスボックスで表示 */
-  justify-content: flex-end; /* 右寄せ */
-  width: 100%;
+  width: auto; /* 自動で幅を調整 */
+  margin-right: 16px; /* コンポーネント間のマージンを設定 */
 }
 
 .eventItem {

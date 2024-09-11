@@ -1,16 +1,21 @@
 import React from "react";
-import { List, ListItem, Typography, Divider } from "@mui/material";
+import { List, ListItem, Typography, Divider, Box } from "@mui/material";
 
 const EventYearList: React.FC = () => {
   const events = [
-    { year: 2024, count: 1 },
+    { year: 2024, count: 3 },
     { year: 2023, count: 1 },
     { year: 2022, count: 1 },
     { year: 2021, count: 1 },
   ];
 
   return (
-    <List sx={{ padding: 0, maxWidth: "200px", marginBottom: "16px" }}>
+    <List
+      sx={{
+        position: "relative",
+        maxWidth: "200px",
+      }}
+    >
       {events.map((event, index) => (
         <ListItem
           key={index}
@@ -27,20 +32,29 @@ const EventYearList: React.FC = () => {
             sx={{
               marginRight: "8px",
               borderWidth: "1px",
-              borderColor: "primary.main",
+              borderColor: "#00AEEF",
             }}
           />
-          {/* イベント数 */}
-          <Typography
-            variant="subtitle1"
-            sx={{ color: "gray", marginRight: "8px", fontSize: "14px" }}
+          {/* イベント数と年を縦に並べるコンテナ */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column", // 縦に並べる設定
+              alignItems: "center", // 中央揃え
+            }}
           >
-            {event.count}event{event.count > 1 ? "s" : ""}
-          </Typography>
-          {/* 年 */}
-          <Typography variant="h4" color="primary">
-            {event.year}
-          </Typography>
+            {/* イベント数 */}
+            <Typography
+              variant="subtitle1"
+              sx={{ color: "gray", marginRight: "8px", fontSize: "14px" }}
+            >
+              {event.count}event{event.count > 1 ? "s" : ""}
+            </Typography>
+            {/* 年 */}
+            <Typography variant="h4" color="#00AEEF">
+              {event.year}
+            </Typography>
+          </Box>
         </ListItem>
       ))}
     </List>

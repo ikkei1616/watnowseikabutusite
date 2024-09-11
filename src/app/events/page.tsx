@@ -8,6 +8,7 @@ import type { Event } from "@/types/Event";
 import Header from "@/components/Header";
 import { HeaderMode } from "@/types/HeaderMode";
 import { Divider } from "@mui/material";
+import EventYearList from "@/components/EventYearList";
 
 const EventPage: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
@@ -41,12 +42,15 @@ const EventPage: React.FC = () => {
           borderColor: "#00AEEF",
         }}
       />
-      <div className={styles.eventList}>
-        {events.map((event) => (
-          <div className={styles.eventItemWrapper} key={event.id}>
-            <EventCard event={event} />
-          </div>
-        ))}
+      <div className={styles.container}>
+        <EventYearList />
+        <div className={styles.eventList}>
+          {events.map((event) => (
+            <div className={styles.eventItemWrapper} key={event.id}>
+              <EventCard event={event} />
+            </div>
+          ))}
+        </div>
       </div>
     </main>
   );
