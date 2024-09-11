@@ -6,6 +6,7 @@ import styles from "./page.module.css";
 import useShowUser from "./useShowUser";
 import Header from "@/components/Header";
 import { HeaderMode } from "@/types/HeaderMode";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 const UserPage = ({ params }: { params: { account_id: string } }) => {
   const accountID = params.account_id;
@@ -14,7 +15,7 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
   if (loading) {
     return (
       <main className={styles.main_center}>
-        <p>Loading...</p>
+        <LoadingSpinner />
       </main>
     );
   }
