@@ -8,7 +8,15 @@ import { HeaderMode } from "@/types/HeaderMode";
 import Link from "next/link";
 
 const Header = ({ mode }: { mode: HeaderMode }) => {
-  const TabLink = (linkMode: HeaderMode, href: string, text: string) => (
+  const TabLink = ({
+    linkMode,
+    href,
+    text,
+  }: {
+    linkMode: HeaderMode;
+    href: string;
+    text: string;
+  }) => (
     <Link href={href}>
       <Box
         sx={{
@@ -94,8 +102,16 @@ const Header = ({ mode }: { mode: HeaderMode }) => {
           height: "100%",
         }}
       >
-        {TabLink(HeaderMode.SERVICES, "/services", "サービス一覧")}
-        {TabLink(HeaderMode.EVENTS, "/events", "イベント一覧")}
+        <TabLink
+          linkMode={HeaderMode.SERVICES}
+          href={"/services"}
+          text={"サービス一覧"}
+        />
+        <TabLink
+          linkMode={HeaderMode.EVENTS}
+          href={"/events"}
+          text={"イベント一覧"}
+        />
 
         <Link href={"/admin"}>
           <Box
