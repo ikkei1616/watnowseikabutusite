@@ -84,6 +84,7 @@ export const useFormFields = (
                     control,
                     name: "serviceName",
                     label: "サービスタイトル",
+                    required: true,
                 },
             },
             {
@@ -120,7 +121,8 @@ export const useFormFields = (
                     control,
                     name:["releaseYear", "releaseMonth"],
                     label:"リリース日",
-                    options:[releaseYear, releaseMonth]
+                    options:[releaseYear, releaseMonth],
+                    required:true
                 }
             },
             {
@@ -265,6 +267,21 @@ export const useFormFields = (
                     control,
                     name:"demoVideo",
                     label:"デモ動画"
+                }
+            }
+        ]
+    },
+    {
+        container:"public",
+        title:"公開設定",
+        fields:[
+            {
+                id:18,
+                type:"CHECKBOX",
+                props:{
+                    control,
+                    name:"publicCheck",
+                    label:"サービスを非公開にする（データは削除されません）"
                 }
             }
         ]
