@@ -79,8 +79,6 @@ const Header = ({ mode }: { mode: HeaderMode }) => {
               textAlign: "center",
               "&:hover": {
                 paddingBottom: "1.6rem",
-                backgroundColor:
-                  mode === HeaderMode.SERVICES ? "#FAFBFB" : "#00AEEF",
               },
             }}
           >
@@ -109,8 +107,6 @@ const Header = ({ mode }: { mode: HeaderMode }) => {
               width: "10rem",
               "&:hover": {
                 paddingBottom: "1.6rem",
-                backgroundColor:
-                  mode === HeaderMode.EVENTS ? "#FAFBFB" : "#00AEEF",
               },
             }}
           >
