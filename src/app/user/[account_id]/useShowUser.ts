@@ -2,30 +2,18 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/supabase/supabase";
 import type User from "@/types/User";
 import type Technology from "@/types/Technology";
+import useStorage from "@/hooks/useStorage";
+import { ImageType } from "@/types/ImageType";
 
 const useShowUser = (accountID: string) => {
   const [userData, setUserData] = useState<User | null>(null);
-  const [userIconUrl, setUserIconUrl] = useState<string | null>(null);
+  const [userIconURL, setUserIconURL] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const fetchImageURL = useStorage();
   console.log(userData);
 
   useEffect(() => {
-    const fetchUserIcons = async (id: string) => {
-      const extensions = ["JPG", "jpg", "jpeg", "png", "gif"];
-      let imageUrl = null;
-
-      for (const ext of extensions) {
-        const { data } = supabase.storage
-          .from("user_icons")
-          .getPublicUrl(`${id}.${ext}`);
-        if (data?.publicUrl) {
-          imageUrl = data.publicUrl;
-          break;
-        }
-      }
-      return imageUrl;
-    };
-
     const fetchUserData = async () => {
       const { data, error } = await supabase
         .from("users")
@@ -55,8 +43,8 @@ const useShowUser = (accountID: string) => {
             ) || [],
         } as User);
 
-        const fetchedURL = await fetchUserIcons(data?.id);
-        setUserIconUrl(fetchedURL);
+        const fetchedURL = await fetchImageURL(data?.id, ImageType.USER_ICONS);
+        setUserIconURL(fetchedURL);
       }
 
       setLoading(false);
@@ -65,7 +53,7 @@ const useShowUser = (accountID: string) => {
     fetchUserData();
   }, []);
 
-  return { userData, userIconUrl, loading };
+  return { userData, userIconURL, loading };
 };
 
 export default useShowUser;

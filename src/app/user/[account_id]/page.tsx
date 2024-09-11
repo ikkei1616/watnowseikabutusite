@@ -7,7 +7,7 @@ import useShowUser from "./useShowUser";
 
 const UserPage = ({ params }: { params: { account_id: string } }) => {
   const accountID = params.account_id;
-  const { userData, userIconUrl, loading } = useShowUser(accountID);
+  const { userData, userIconURL, loading } = useShowUser(accountID);
 
   if (loading) {
     return (
@@ -34,9 +34,9 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
       <h2>ユーザID: {accountID}</h2>
       <br />
 
-      {userIconUrl ? (
+      {userIconURL ? (
         <Image
-          src={userIconUrl}
+          src={userIconURL}
           alt={"ユーザのアイコン画像"}
           width={300}
           height={300}
