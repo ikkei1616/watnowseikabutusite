@@ -7,6 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import { FieldValues, useController, Control, Path } from 'react-hook-form';
+import FieldWrapper from './FieldWrapper';
 
 type Option = {
     label: string;
@@ -90,31 +91,56 @@ const MultipleSelect = <T extends FieldValues>({
                     />
                 ))}
             </Box>
-            <FormControl sx={{ m: 1, width: 300 }}>
-                <InputLabel id="multiple-select-label">{label}</InputLabel>
-                <Select
-                    labelId="multiple-select-label"
-                    id="multiple-select"
-                    multiple
-                    value={result}
-                    onChange={handleChange}
-                    onBlur={onBlur}
-                    inputRef={ref}
-                    renderValue={() => (
-                        <Box>追加してください</Box>
-                    )}
-                    MenuProps={MenuProps}
-                >
-                    {options.map(({ value, label }) => (
-                        <MenuItem
-                            key={value}
-                            value={value}
-                            style={getStyles(value, result, theme)}
-                        >
-                            {label}
-                        </MenuItem>
-                    ))}
-                </Select>
+            <FormControl>
+                <FieldWrapper label={label} errorMessage={error?.message}>
+                    <Select
+                        multiple
+                        value={result}
+                        onChange={handleChange}
+                        onBlur={onBlur}
+                        inputRef={ref}
+                        renderValue={(selected) => (
+                            selected.length === 0 ? (
+                                <Box>
+                                    選択されていません
+                                </Box>
+                            ) : (
+                                <Box>
+                                    追加してください
+                                </Box>
+                            )
+                        )}
+                        MenuProps={MenuProps}
+                        sx={{
+                            minWidth:"200px",
+                            height:"60%",
+                            '& .MuiSelect-select': {
+                              padding: '8px', 
+                              boxSizing: 'border-box',
+                            },
+                            '& .MuiOutlinedInput-notchedOutline': {
+                              borderColor: '#9CABC7',
+                            },
+                            '&:hover .MuiOutlinedInput-notchedOutline': {
+                              borderColor: '#85D5F3', 
+                            },
+                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                              borderColor: '#85D5F3', 
+                              borderWidth: '2px', 
+                            },
+                          }}
+                    >
+                        {options.map(({ value, label }) => (
+                            <MenuItem
+                                key={value}
+                                value={value}
+                                style={getStyles(value, result, theme)}
+                            >
+                                {label}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FieldWrapper>
             </FormControl>
         </div>
     );
