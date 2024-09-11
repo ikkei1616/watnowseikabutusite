@@ -13,7 +13,7 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
 
   if (loading) {
     return (
-      <main className={styles.main}>
+      <main className={styles.main_center}>
         <p>Loading...</p>
       </main>
     );
@@ -21,12 +21,9 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
 
   if (!userData) {
     return (
-      <main className={styles.main}>
+      <main className={styles.main_center}>
         <Header mode={HeaderMode.NONE} />
-        <h1>これはユーザの詳細ページです</h1>
-        <h2>ユーザID: {accountID}</h2>
-        <br />
-        <p>存在しないユーザです</p>
+        <h2>存在しないユーザです</h2>
       </main>
     );
   }
