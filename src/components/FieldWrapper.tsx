@@ -2,16 +2,18 @@ import { Box, FormHelperText, FormLabel, useTheme } from '@mui/material'
 import { ReactNode } from 'react'
 
 type Props = {
-  label: string
+  label?: string
   children: ReactNode
-  errorMessage ?: string
+  errorMessage?: string
 }
- const FieldWrapper = ({ children, errorMessage, label }: Props) => {
+const FieldWrapper = ({ children, errorMessage, label }: Props) => {
   const theme = useTheme()
 
   return (
-    <Box>
-      <FormLabel component="legend">{label}</FormLabel>
+    <Box sx={{
+      margin: label ? "12px 0" : "0",
+    }}>
+      {label && <FormLabel component="legend" sx={{ fontSize: "1rem", fontFamily: "HannariMincho, sans-serif" }}>{label}</FormLabel>}
       {children}
       {errorMessage ? (
         <FormHelperText
