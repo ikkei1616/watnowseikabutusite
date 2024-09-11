@@ -23,7 +23,8 @@ body {
 }
 
 main {
-  margin-top: 160px;
+  padding-top: 160px;
+  min-height: 100vh;
 }
 
 a {
