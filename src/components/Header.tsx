@@ -76,6 +76,7 @@ const Header = ({ mode }: { mode: HeaderMode }) => {
               height: "100%",
               width: "10rem",
               transition: "padding-bottom 0.2s",
+              textAlign: "center",
               "&:hover": {
                 paddingBottom: "1.6rem",
                 backgroundColor:
@@ -104,6 +105,7 @@ const Header = ({ mode }: { mode: HeaderMode }) => {
               borderRadius: "1rem 1rem 0 0",
               height: "100%",
               transition: "padding-bottom 0.2s",
+              textAlign: "center",
               width: "10rem",
               "&:hover": {
                 paddingBottom: "1.6rem",
