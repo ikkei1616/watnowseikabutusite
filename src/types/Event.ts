@@ -4,7 +4,7 @@ import { Award } from "@/types/Award";
 export interface Event {
   id: string | null;
   name: string;
-  date?: string;
+  date: string;
   comment?: string;
 }
 
