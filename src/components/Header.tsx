@@ -8,6 +8,43 @@ import { HeaderMode } from "@/types/HeaderMode";
 import Link from "next/link";
 
 const Header = ({ mode }: { mode: HeaderMode }) => {
+  const TabLink = ({
+    linkMode,
+    href,
+    text,
+  }: {
+    linkMode: HeaderMode;
+    href: string;
+    text: string;
+  }) => (
+    <Link href={href}>
+      <Box
+        sx={{
+          backgroundColor: mode === linkMode ? "#FAFBFB" : "#00AEEF",
+          padding: "1rem",
+          paddingBottom: "0.8rem",
+          borderRadius: "1rem 1rem 0 0",
+          height: "100%",
+          width: "10rem",
+          transition: "padding-bottom 0.2s",
+          textAlign: "center",
+          "&:hover": {
+            paddingBottom: "1.6rem",
+          },
+        }}
+      >
+        <Typography
+          sx={{
+            color: mode === linkMode ? "#4D4D4D" : "white",
+            fontFamily: "HannariMincho",
+          }}
+        >
+          {text}
+        </Typography>
+      </Box>
+    </Link>
+  );
+
   return (
     <AppBar
       sx={{
@@ -65,63 +102,16 @@ const Header = ({ mode }: { mode: HeaderMode }) => {
           height: "100%",
         }}
       >
-        <Link href={"/services"}>
-          <Box
-            sx={{
-              backgroundColor:
-                mode === HeaderMode.SERVICES ? "#FAFBFB" : "#00AEEF",
-              padding: "1rem",
-              paddingBottom: "0.8rem",
-              borderRadius: "1rem 1rem 0 0",
-              height: "100%",
-              width: "10rem",
-              transition: "padding-bottom 0.2s",
-              "&:hover": {
-                paddingBottom: "1.6rem",
-                backgroundColor:
-                  mode === HeaderMode.SERVICES ? "#FAFBFB" : "#00AEEF",
-              },
-            }}
-          >
-            <Typography
-              sx={{
-                color: mode === HeaderMode.SERVICES ? "#4D4D4D" : "white",
-                fontFamily: "HannariMincho",
-              }}
-            >
-              サービス一覧
-            </Typography>
-          </Box>
-        </Link>
-
-        <Link href={"/events"}>
-          <Box
-            sx={{
-              backgroundColor:
-                mode === HeaderMode.EVENTS ? "#FAFBFB" : "#00AEEF",
-              padding: "1rem",
-              paddingBottom: "0.8rem",
-              borderRadius: "1rem 1rem 0 0",
-              height: "100%",
-              transition: "padding-bottom 0.2s",
-              width: "10rem",
-              "&:hover": {
-                paddingBottom: "1.6rem",
-                backgroundColor:
-                  mode === HeaderMode.EVENTS ? "#FAFBFB" : "#00AEEF",
-              },
-            }}
-          >
-            <Typography
-              sx={{
-                color: mode === HeaderMode.EVENTS ? "#4D4D4D" : "white",
-                fontFamily: "HannariMincho",
-              }}
-            >
-              イベント一覧
-            </Typography>
-          </Box>
-        </Link>
+        <TabLink
+          linkMode={HeaderMode.SERVICES}
+          href={"/services"}
+          text={"サービス一覧"}
+        />
+        <TabLink
+          linkMode={HeaderMode.EVENTS}
+          href={"/events"}
+          text={"イベント一覧"}
+        />
 
         <Link href={"/admin"}>
           <Box
