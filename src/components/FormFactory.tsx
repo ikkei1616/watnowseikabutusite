@@ -4,6 +4,8 @@ import ImageInput, {ImageInputProps} from './ImageInput';
 import SelectInput, {SelectProps} from './Select';
 import NumberInput, {NumberInputProps} from './NumberInput';
 import MultipleSelect, {MultipleSelectProps} from './MultipleSelect';
+import Period, {PeriodProps} from './PeriodInput';
+import DateInput, {DateProps} from './DateInput';
 import { FieldValues } from 'react-hook-form';
 
 export type FormFactoryProps<T extends FieldValues> =
@@ -31,6 +33,13 @@ export type FormFactoryProps<T extends FieldValues> =
     type:"MULTIPLE_SELECT";
     props:MultipleSelectProps<T>;
 }
+|{
+    type:"PERIOD_INPUT";
+    props:PeriodProps<T>;
+}|{
+    type:"DATE_INPUT";
+    props:DateProps<T>;
+}
 
 export const FormFactory = <T extends FieldValues>({
     type,
@@ -49,6 +58,10 @@ export const FormFactory = <T extends FieldValues>({
             return <NumberInput {...props} defaultValue={0 as any}/>
         case "MULTIPLE_SELECT":
             return <MultipleSelect {...props}/>
+        case "PERIOD_INPUT":
+            return <Period {...props}/>
+        case "DATE_INPUT":
+            return <DateInput {...props}/>
         default:
             return null;
     }
