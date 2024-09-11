@@ -23,7 +23,7 @@ body {
 }
 
 main {
-  padding-top: 160px;
+  padding-top: calc(32px + 5rem);
   min-height: 100vh;
 }
 
