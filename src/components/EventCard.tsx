@@ -75,7 +75,7 @@ const EventCard: React.FC<EventCardProp> = ({ event }) => {
               詳細をみる
               {/* 画像を挿入 */}
               <Image
-                src={"/paper_airplane.svg"}
+                src={"/paper_airplane_blue.svg"}
                 alt={"紙飛行機のアイコン"}
                 height={20}
                 width={20}
