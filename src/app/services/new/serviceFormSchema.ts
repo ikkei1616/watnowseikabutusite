@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-// 画像ファイルのバリデーション用スキーマ
 const imageSchema = z.instanceof(File)
   .refine(file => file.type.startsWith('image/'), {
     message: 'ファイルの形式は画像でなければなりません。',
@@ -10,7 +9,6 @@ const imageSchema = z.instanceof(File)
     message: 'ファイルのサイズは5MB以下でなければなりません。',
   });
 
-// 動画ファイルのバリデーション用スキーマ
 const videoSchema = z.instanceof(File)
   .refine(file => file.type.startsWith('video/'), {
     message: 'ファイルの形式は動画でなければなりません。',
@@ -26,8 +24,8 @@ const serviceSchema = z.object({
   teamName: z.string().optional(),
   periodNumber: z.number().optional(),
   periodUnit: z.string().optional(),
-  releaseYear: z.number().optional(),
-  releaseMonth: z.number().optional(),
+  releaseYear: z.number({message: 'リリース日は必須です。'}),
+  releaseMonth: z.number({message: 'リリース日は必須です。'}),
   teamMenbers: z.string().array().optional(),
   technologies: z.string().array().optional(),
   eventYear: z.number().optional(),
@@ -57,10 +55,13 @@ const serviceSchema = z.object({
       message: 'デモ動画の形式またはサイズが無効です。',
     })
     .optional(),
+    publicCheck: z.boolean().optional(),
+}).refine(data => data.releaseYear && data.releaseMonth, {
+  message: 'リリース年と月の両方を入力してください。',
+  path: ['releaseYear', 'releaseMonth'],
 }).transform((data) => {
-  // FileList から File オブジェクトを抽出する
-  const thumbnailImageFile = data.thumbnailImage instanceof File ? data.thumbnailImage : null;
-  const demoVideoFile = data.demoVideo instanceof File ? data.demoVideo : null;
+  const thumbnailImageFile = data.thumbnailImage instanceof File ? data.thumbnailImage : undefined;
+  const demoVideoFile = data.demoVideo instanceof File ? data.demoVideo : undefined;
   return {
     ...data,
     thumbnailImage: thumbnailImageFile,
