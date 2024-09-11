@@ -4,6 +4,8 @@ import React from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
 import useShowUser from "./useShowUser";
+import Header from "@/components/Header";
+import { HeaderMode } from "@/types/HeaderMode";
 
 const UserPage = ({ params }: { params: { account_id: string } }) => {
   const accountID = params.account_id;
@@ -20,6 +22,7 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
   if (!userData) {
     return (
       <main className={styles.main}>
+        <Header mode={HeaderMode.NONE} />
         <h1>これはユーザの詳細ページです</h1>
         <h2>ユーザID: {accountID}</h2>
         <br />
@@ -30,6 +33,7 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
 
   return (
     <main className={styles.main}>
+      <Header mode={HeaderMode.NONE} />
       <h1>これはユーザの詳細ページです</h1>
       <h2>ユーザID: {accountID}</h2>
       <br />
