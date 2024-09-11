@@ -29,6 +29,29 @@ const NumberInput = <T extends FieldValues>({
         type="number"
         onChange={(e) => field.onChange(parseFloat(e.target.value))}
         value={field.value || ''}
+        sx={{
+          fontSize: '1rem',
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: '#9CABC7',
+              borderRadius: '8px',
+            },
+            '&:hover fieldset': {
+              borderColor: '#85D5F3',
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: '#85D5F3',
+            },
+          },
+        }}
+        InputProps={{
+          sx: {
+            padding: '4px 4px',
+            '& input': {
+              padding: '4px 4px',
+            },
+          },
+        }}
       />
     </FieldWrapper>
   );
