@@ -9,6 +9,7 @@ export type NumberInputProps<T extends FieldValues> = {
   name: Path<T>;
   label: string;
   defaultValue?: PathValue<T, Path<T>>;
+  required?: boolean;
 };
 
 const NumberInput = <T extends FieldValues>({
@@ -16,6 +17,7 @@ const NumberInput = <T extends FieldValues>({
   control,
   name,
   defaultValue,
+  required
 }: NumberInputProps<T>): JSX.Element => {
   const {
     field,
@@ -23,7 +25,7 @@ const NumberInput = <T extends FieldValues>({
   } = useController({ name, control, defaultValue });
 
   return (
-    <FieldWrapper label={label} errorMessage={error?.message}>
+    <FieldWrapper label={label} errorMessage={error?.message} required={required}>
       <TextField
         {...field}
         type="number"

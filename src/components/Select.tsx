@@ -14,6 +14,7 @@ export type SelectProps<T extends FieldValues> = {
   label?: string;
   options: Option[];
   ending?: string;
+  required?: boolean;
 };
 
 const SelectInput = <T extends FieldValues>({
@@ -21,7 +22,8 @@ const SelectInput = <T extends FieldValues>({
   options,
   control,
   name,
-  ending
+  ending,
+  required
 }: SelectProps<T>): JSX.Element => {
   const {
     field: { value, onChange, onBlur, ref },
@@ -32,7 +34,7 @@ const SelectInput = <T extends FieldValues>({
     <div style={{
       display:"flex",
     }}>
-      <FieldWrapper label={label} errorMessage={error?.message}>
+      <FieldWrapper label={label} errorMessage={error?.message} required={required}>
         <Select
           value={value || ''}
           onChange={onChange}
@@ -62,10 +64,8 @@ const SelectInput = <T extends FieldValues>({
             </MenuItem>
           ))}
         </Select>
-      </FieldWrapper>
-      {ending && (
+        {ending && (
         <span style={{
-          display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           fontSize: '1rem',
@@ -74,6 +74,7 @@ const SelectInput = <T extends FieldValues>({
         }}>{ending}</span>
       )
       }
+      </FieldWrapper>
     </div>
   );
 };

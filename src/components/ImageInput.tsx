@@ -9,6 +9,7 @@ export type ImageInputProps<T extends FieldValues> = {
   control: any;
   name: string;
   label: string;
+  required?: boolean;
 };
 
 const InputWrapper = styled('div')({
@@ -43,6 +44,7 @@ const ImageInput = <T extends FieldValues>({
   label,
   control,
   name,
+  required
 }: ImageInputProps<T>): JSX.Element => {
   const [preview, setPreview] = React.useState<string | ArrayBuffer | null>(null);
   const {
@@ -54,7 +56,7 @@ const ImageInput = <T extends FieldValues>({
     const files = event.target.files;
     if (files && files.length > 0) {
       const file = files[0];
-      field.onChange(file); // Form にファイルを通知
+      field.onChange(file);
 
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -62,12 +64,12 @@ const ImageInput = <T extends FieldValues>({
       };
       reader.readAsDataURL(file);
     } else {
-      setPreview(null); // ファイルが選択されていない場合はプレビューをクリア
+      setPreview(null);
     }
   };
 
   return (
-    <FieldWrapper label={label} errorMessage={error?.message}>
+    <FieldWrapper label={label} errorMessage={error?.message} required={required}>
       <InputWrapper>
         <ButtonStyled component="label" variant="outlined">
           ファイルを選択

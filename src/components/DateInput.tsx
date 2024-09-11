@@ -7,6 +7,7 @@ export type DateProps<T extends FieldValues> = {
     name: [Path<T>, Path<T>]; // Ensure name is a tuple of Path<T>
     label: string;
     options: Option[][];
+    required?: boolean;
 };
 
 const DateInput = <T extends FieldValues>({
@@ -14,6 +15,7 @@ const DateInput = <T extends FieldValues>({
     name,
     label,
     options,
+    required
 }: DateProps<T>): JSX.Element => {
     return (
         <div style={{ display: 'flex', justifyContent: "flex-start", gap:"12px" }}>
@@ -23,6 +25,7 @@ const DateInput = <T extends FieldValues>({
                 label={label}
                 options={options[0]}
                 ending='年'
+                required={required}
             />
             <SelectInput
                 control={control}

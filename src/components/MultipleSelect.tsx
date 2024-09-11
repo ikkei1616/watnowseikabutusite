@@ -19,6 +19,7 @@ export type MultipleSelectProps<T extends FieldValues> = {
     name: Path<T>;
     label: string;
     options: Option[];
+    required?: boolean;
 };
 
 const ITEM_HEIGHT = 48;
@@ -46,6 +47,7 @@ const MultipleSelect = <T extends FieldValues>({
     options,
     control,
     name,
+    required
 }: MultipleSelectProps<T>): JSX.Element => {
     const {
         field: { value, onChange, onBlur, ref },
@@ -92,7 +94,7 @@ const MultipleSelect = <T extends FieldValues>({
                 ))}
             </Box>
             <FormControl>
-                <FieldWrapper label={label} errorMessage={error?.message}>
+                <FieldWrapper label={label} errorMessage={error?.message} required={required}>
                     <Select
                         multiple
                         value={result}

@@ -8,6 +8,7 @@ export type TextInputProps<T extends FieldValues> = {
   name: Path<T>;
   label: string;
   defaultValue?: PathValue<T, Path<T>>;
+  required?: boolean;
 }
 
 const TextInput = <T extends FieldValues>({
@@ -15,6 +16,7 @@ const TextInput = <T extends FieldValues>({
   name,
   label,
   defaultValue,
+  required
 }: TextInputProps<T>): JSX.Element => {
   const {
     field,
@@ -22,37 +24,35 @@ const TextInput = <T extends FieldValues>({
   } = useController({ name, control, defaultValue });
 
   return (
-    <FieldWrapper label={label} errorMessage={error?.message}>
-<TextField
-  {...field}
-  sx={{
-    width: '100%',
-    fontSize: '1rem',
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: '#9CABC7',
-        borderRadius: '8px',
-      },
-      '&:hover fieldset': {
-        borderColor: '#85D5F3', 
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: '#85D5F3',
-      },
-    },
-  }}
-  InputProps={{
-    sx: {
-      padding: '4px 4px',
-      '& input': {
-        padding: '4px 4px',
-      },
-    },
-  }}
-  variant="outlined"
-/>
-
-
+    <FieldWrapper label={label} errorMessage={error?.message} required={required}>
+      <TextField
+        {...field}
+        sx={{
+          width: '100%',
+          fontSize: '1rem',
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: '#9CABC7',
+              borderRadius: '8px',
+            },
+            '&:hover fieldset': {
+              borderColor: '#85D5F3',
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: '#85D5F3',
+            },
+          },
+        }}
+        InputProps={{
+          sx: {
+            padding: '4px 4px',
+            '& input': {
+              padding: '4px 4px',
+            },
+          },
+        }}
+        variant="outlined"
+      />
     </FieldWrapper>
   );
 };
