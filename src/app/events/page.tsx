@@ -17,7 +17,7 @@ const EventPage: React.FC = () => {
       const { data, error } = await supabase
         .from("events")
         .select("id, name, date, comment")
-        .order("id", { ascending: true }); // 'id'で昇順にソート
+        .order("date", { ascending: false }); // 'date'降順ソート(新しい順でeventに格納)
 
       if (error) {
         console.error("Error fetching events:", error);
