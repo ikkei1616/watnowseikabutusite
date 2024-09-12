@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { ServiceInputSchema, ServiceOutputSchema, resolver } from "./serviceFormSchema";
 import { useFormFields } from "./hooks";
 import { FormFactory } from "@/components/FormFactory";
+import FormButton from '@/components/FormButton';
 
 const NewServicesPage = () => {
   const { control, handleSubmit } = useForm<ServiceInputSchema>({
@@ -43,7 +44,15 @@ const NewServicesPage = () => {
               ))}
             </section>
           ))}
-          <button type="submit">送信</button>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '60px',
+            margin:"20px 0"
+          }}>
+          <FormButton name="キャンセル" type='cancel'/>
+          <FormButton name="新規作成" type='submit'/>
+          </div>
         </form>
       </main>
     </>
