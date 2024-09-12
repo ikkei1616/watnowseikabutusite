@@ -81,14 +81,8 @@ const MultipleSelect = <T extends FieldValues>({
                         label={value}
                         onDelete={() => handleDelete(value)}
                         sx={{
-                            bgcolor: theme.palette.background.paper,
+                            bgcolor: "#EAEFF2",
                             border: `1px solid ${theme.palette.divider}`,
-                            '& .MuiChip-deleteIcon': {
-                                color: theme.palette.error.main,
-                            },
-                            '&:focus': {
-                                bgcolor: theme.palette.background.paper,
-                            }
                         }}
                     />
                 ))}
