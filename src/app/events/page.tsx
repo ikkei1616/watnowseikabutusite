@@ -9,56 +9,79 @@ import Header from "@/components/Header";
 import { HeaderMode } from "@/types/HeaderMode";
 import { Divider } from "@mui/material";
 import EventYearList from "@/components/EventYearList";
+import type { FileObject } from "@supabase/storage-js";
 
 const EventPage: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
 
   useEffect(() => {
     const fetchEvents = async () => {
+      // イベントデータを取得
       const { data: eventData, error: eventError } = await supabase
         .from("events")
         .select("id, name, date, comment")
-        .order("date", { ascending: false }); // 'date'降順ソート(新しい順でeventに格納)
+        .order("date", { ascending: false });
 
       if (eventError) {
         console.error("Error fetching events:", eventError);
         return;
       }
 
-      //画像Urlの取得
-      const fetchImageUrl = async (id: string): Promise<string | null> => {
-        const extensions = ["JPG", "jpg", "jpeg", "png", "gif"];
+      // 画像ファイルの一覧を取得
+      const fetchAllFiles = async () => {
+        let allFiles: FileObject[] = [];
+        let offset = 0;
+        const limit = 50; //一度に取得するファイル数上限
+        let hasMore = true;
 
-        for (const ext of extensions) {
-          const fileName = `${id}.${ext}`;
-
-          // ファイルが存在するか確認するためにダウンロードを試みる
-          const { error: downloadError } = await supabase.storage
+        while (hasMore) {
+          const { data: files, error } = await supabase.storage
             .from("event_images")
-            .download(fileName);
+            .list("", { limit, offset });
 
-          if (!downloadError) {
-            // ファイルが存在する場合にのみ公開URLを取得
-            const { data } = supabase.storage
-              .from("event_images")
-              .getPublicUrl(fileName);
+          if (error) {
+            console.error("Error listing files:", error);
+            return allFiles;
+          }
 
-            if (data?.publicUrl) {
-              return data.publicUrl; // 最初に見つかった画像URLを返す
-            }
+          if (files && files.length === 0) {
+            console.log("files is empty");
+          }
+          if (files && files.length > 0) {
+            console.log("you could get files");
+            allFiles = allFiles.concat(files);
+            offset += files.length;
+          } else {
+            hasMore = false;
           }
         }
 
-        return null; // 画像が見つからなければnullを返す
+        return allFiles;
       };
 
-      //イベントデータに画像URLを追加
-      const eventsWithImages = await Promise.all(
-        (eventData as Event[]).map(async (event) => {
-          const imageUrl = await fetchImageUrl(event.id as string); // 画像URLを取得
-          return { ...event, imageUrl }; // 画像URLをイベントデータに追加
-        })
-      );
+      const files = await fetchAllFiles();
+
+      // ファイル名のセットを作成
+      const fileNamesSet = new Set(files?.map((file) => file.name));
+
+      // イベントデータに画像URLを追加
+      const eventsWithImages = (eventData as Event[]).map((event) => {
+        const extensions = ["JPG", "jpg", "jpeg", "png", "gif"];
+        let imageUrl: string | null = null;
+
+        for (const ext of extensions) {
+          const fileName = `${event.id}.${ext}`;
+          if (fileNamesSet.has(fileName)) {
+            const { data } = supabase.storage
+              .from("event_images")
+              .getPublicUrl(fileName);
+            imageUrl = data?.publicUrl || null;
+            break;
+          }
+        }
+
+        return { ...event, imageUrl };
+      });
 
       setEvents(eventsWithImages);
     };
@@ -70,11 +93,11 @@ const EventPage: React.FC = () => {
   return (
     <main>
       <Header mode={HeaderMode.EVENTS} />
-      <h1 className={styles.pageHeader}>イベント一覧 </h1>
+      <h1 className={styles.pageHeader}>イベント一覧</h1>
       <Divider
         sx={{
           width: "95%",
-          margin: "0 auto", // 自動マージンで中央に寄せる
+          margin: "0 auto",
           borderColor: "#00AEEF",
         }}
       />
