@@ -101,19 +101,37 @@ const EventCard: React.FC<EventCardProp> = ({ event }) => {
           sx={{
             width: 380,
             height: 236,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#f0f0f0",
-            borderRadius: "8px",
+            position: "relative",
+            backgroundColor: "##f0f0f0",
+            borderRadius: "8px", // 画像のボーダーを曲げる
             overflow: "hidden",
             marginRight: "16px",
           }}
         >
-          {/* 画像がない場合、メッセージを表示 */}
-          <Typography variant="body2" color="text.secondary">
-            画像がありません
-          </Typography>
+          {/* 画像がある場合は画像を表示し、ない場合はメッセージを表示 */}
+          {event.imageUrl ? (
+            <Image
+              src={event.imageUrl}
+              alt={`${event.name}の画像`}
+              layout="fill" // 親のBox全体をカバー
+              objectFit="cover" // アスペクト比を維持しつつ、親を埋め尽くす
+              style={{ borderRadius: "8px" }} // ボーダーの半径を設定
+            />
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: 380,
+                width: 236,
+              }}
+            >
+              <Typography variant="body2" color="text.secondary">
+                画像がありません
+              </Typography>
+            </Box>
+          )}
         </Box>
 
         {/* テキスト部分 */}
@@ -131,8 +149,8 @@ const EventCard: React.FC<EventCardProp> = ({ event }) => {
               padding: "0",
               display: "flex",
               flexDirection: "column",
-              justifyContent: "flex-start", // 上詰めにするための設定
-              height: "100%", // CardContentの高さを指定して、flexboxが効くようにする
+              justifyContent: "flex-start",
+              height: "100%",
             }}
           >
             {/* イベントの題名部分 */}
