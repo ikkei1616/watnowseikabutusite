@@ -2,12 +2,21 @@ import React from "react";
 import { List, ListItem, Typography, Divider, Box } from "@mui/material";
 
 const EventYearList: React.FC = () => {
-  const events = [
-    { year: 2024, count: 3 },
-    { year: 2023, count: 1 },
-    { year: 2022, count: 1 },
-    { year: 2021, count: 1 },
-  ];
+  // モックデータをeventCountByYearの形式に変更
+  const eventCountByYear = {
+    2024: 3,
+    2023: 1,
+    2022: 1,
+    2021: 1,
+  };
+
+  // 各年とその年のイベント数を取得
+  const events = Object.entries(eventCountByYear)
+    .map(([year, count]) => ({
+      year: Number(year),
+      count,
+    }))
+    .sort((a, b) => b.year - a.year); // 年を降順でソート
 
   return (
     <List
@@ -48,7 +57,7 @@ const EventYearList: React.FC = () => {
               variant="subtitle1"
               sx={{ color: "gray", marginRight: "8px", fontSize: "14px" }}
             >
-              {event.count}event{event.count > 1 ? "s" : ""}
+              {event.count} event{event.count > 1 ? "s" : ""}
             </Typography>
             {/* 年 */}
             <Typography variant="h4" color="#00AEEF">
