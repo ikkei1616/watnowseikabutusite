@@ -1,22 +1,19 @@
 import React from "react";
 import { List, ListItem, Typography, Divider, Box } from "@mui/material";
 
-const EventYearList: React.FC = () => {
-  // モックデータをeventCountByYearの形式に変更
-  const eventCountByYear = {
-    2024: 3,
-    2023: 1,
-    2022: 1,
-    2021: 1,
-  };
+// propsの型を定義
+interface EventYearListProps {
+  eventCountByYear: Record<number, number>;
+}
 
-  // 各年とその年のイベント数を取得
+const EventYearList: React.FC<EventYearListProps> = (props) => {
+  const eventCountByYear = props.eventCountByYear;
   const events = Object.entries(eventCountByYear)
     .map(([year, count]) => ({
       year: Number(year),
       count,
     }))
-    .sort((a, b) => b.year - a.year); // 年を降順でソート
+    .sort((a, b) => b.year - a.year); //最新が上にくるようにソート
 
   return (
     <List

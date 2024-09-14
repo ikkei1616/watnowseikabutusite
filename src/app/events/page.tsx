@@ -17,37 +17,48 @@ const EventPage: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [page, setPage] = useState(1); //現在いるページを格納
   const [totalEventCount, setTotalEventCount] = useState(0); //イベント総数
+  const [eventCountByYear, setEventCountByYear] = useState<
+    Record<number, number>
+  >({}); //各年のイベント数
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      // ページング用の開始位置と終了位置を計算
-      const start = (page - 1) * ITEMS_PER_PAGE;
-      const end = start + ITEMS_PER_PAGE - 1;
-
-      // イベントデータを取得
+    const fetchAllEvents = async () => {
+      // 全てのイベントデータを取得
       const {
-        data: eventData,
-        error: eventError,
+        data: allEventData,
+        error: allEventError,
         count,
       } = await supabase
         .from("events")
-        .select("id, name, date, comment", { count: "exact" })
-        .order("date", { ascending: false })
-        .range(start, end);
+        .select("id, name, date, comment", { count: "exact" }) //{ count: "exact" }は行数を正確にカウントするためのクエリオプション
+        .order("date", { ascending: false });
 
-      if (eventError) {
-        console.error("Error fetching events:", eventError);
+      if (allEventError) {
+        console.error("Error fetching all events:", allEventError);
         return;
       }
 
-      // 合計イベント数を設定
       setTotalEventCount(count || 0);
+
+      // 各年のイベント数を計算
+      const countByYear: Record<number, number> = {};
+      (allEventData as Event[]).forEach((event) => {
+        const year = new Date(event.date).getFullYear(); //年部分だけを取得
+        countByYear[year] = (countByYear[year] || 0) + 1; //countByYearのインクリメント
+      });
+
+      setEventCountByYear(countByYear);
+
+      // 現在のページに表示するイベントを設定
+      const start = (page - 1) * ITEMS_PER_PAGE;
+      const end = start + ITEMS_PER_PAGE;
+      const eventsForPage = (allEventData as Event[]).slice(start, end);
 
       // 画像ファイルの一覧を取得
       const fetchAllFiles = async () => {
         let allFiles: FileObject[] = [];
-        let offset = 0; //先頭からリストを取得
-        const limit = 50; // 一度に取得するファイル数上限
+        let offset = 0;
+        const limit = 50;
         let hasMore = true;
 
         while (hasMore) {
@@ -65,7 +76,7 @@ const EventPage: React.FC = () => {
           }
 
           if (files && files.length > 0) {
-            allFiles = allFiles.concat(files); //結合
+            allFiles = allFiles.concat(files);
             offset += files.length;
           } else {
             hasMore = false;
@@ -76,12 +87,11 @@ const EventPage: React.FC = () => {
       };
 
       const files = await fetchAllFiles();
+      const fileNamesSet = new Set(files?.map((file) => file.name)); //一意なファイル名だけが格納されるsetオブジェクト
 
-      // ファイル名のセットを作成
-      const fileNamesSet = new Set(files?.map((file) => file.name));
+      console.log(fileNamesSet);
 
-      // イベントデータに画像URLを追加
-      const eventsWithImages = (eventData as Event[]).map((event) => {
+      const eventsWithImages = eventsForPage.map((event) => {
         const extensions = ["JPG", "jpg", "jpeg", "png", "gif"];
         let imageUrl: string | null = null;
 
@@ -102,11 +112,14 @@ const EventPage: React.FC = () => {
       setEvents(eventsWithImages);
     };
 
-    fetchEvents();
-  }, [page]); // ページが変更されるたびにデータを再取得
+    fetchAllEvents();
+  }, [page]);
 
-  const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value); // ページ番号を更新
+  const handlePageChange = (
+    _: React.ChangeEvent<unknown>,
+    nextpage: number
+  ) => {
+    setPage(nextpage);
   };
 
   return (
@@ -121,7 +134,8 @@ const EventPage: React.FC = () => {
         }}
       />
       <div className={styles.container}>
-        <EventYearList />
+        {/* 各年のイベント数をEventYearListコンポーネントに渡す */}
+        <EventYearList eventCountByYear={eventCountByYear} />
         <div className={styles.eventList}>
           {events.map((event) => (
             <div className={styles.eventItemWrapper} key={event.id}>
@@ -130,29 +144,26 @@ const EventPage: React.FC = () => {
           ))}
         </div>
       </div>
-      {/* ページネーションを最下部に配置 */}
       <Pagination
-        count={Math.ceil(totalEventCount / ITEMS_PER_PAGE)} // 総ページ数を計算
+        count={Math.ceil(totalEventCount / ITEMS_PER_PAGE)}
         page={page}
         onChange={handlePageChange}
-        boundaryCount={1} // 最初と最後のページを表示
+        boundaryCount={1}
         sx={{
           marginTop: "50px",
           marginBottom: "20px",
           display: "flex",
           justifyContent: "center",
-
           "& .MuiPaginationItem-root": {
-            color: "#85D5F3", // 通常のページ番号の色
+            color: "#85D5F3",
           },
           "& .Mui-selected": {
-            backgroundColor: "#85D5F3 !important", // 選択されたページ番号の背景色
-            color: "#fff !important", // 選択されたページ番号のテキスト色
+            backgroundColor: "#85D5F3 !important",
+            color: "#fff !important",
           },
-          //ホバー時の色
           "& .MuiPaginationItem-root:hover": {
-            backgroundColor: "#85D5F3 !important", // 選択されたページ番号の背景色
-            color: "#fff !important", // 選択されたページ番号のテキスト色
+            backgroundColor: "#85D5F3 !important",
+            color: "#fff !important",
           },
         }}
       />
