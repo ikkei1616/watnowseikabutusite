@@ -135,11 +135,25 @@ const EventPage: React.FC = () => {
         count={Math.ceil(totalEventCount / ITEMS_PER_PAGE)} // 総ページ数を計算
         page={page}
         onChange={handlePageChange}
+        boundaryCount={1} // 最初と最後のページを表示
         sx={{
-          marginTop: "20px",
+          marginTop: "50px",
           marginBottom: "20px",
           display: "flex",
           justifyContent: "center",
+
+          "& .MuiPaginationItem-root": {
+            color: "#85D5F3", // 通常のページ番号の色
+          },
+          "& .Mui-selected": {
+            backgroundColor: "#85D5F3 !important", // 選択されたページ番号の背景色
+            color: "#fff !important", // 選択されたページ番号のテキスト色
+          },
+          //ホバー時の色
+          "& .MuiPaginationItem-root:hover": {
+            backgroundColor: "#85D5F3 !important", // 選択されたページ番号の背景色
+            color: "#fff !important", // 選択されたページ番号のテキスト色
+          },
         }}
       />
     </main>
