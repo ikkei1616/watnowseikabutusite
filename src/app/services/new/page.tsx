@@ -5,6 +5,7 @@ import { ServiceInputSchema, ServiceOutputSchema, resolver } from "./serviceForm
 import { useFormFields } from "./hooks";
 import { FormFactory } from "@/components/FormFactory";
 import FormButton from '@/components/FormButton';
+import { supabase } from '../../../supabase/supabase';
 
 const NewServicesPage = () => {
   const { control, handleSubmit } = useForm<ServiceInputSchema>({
@@ -12,8 +13,21 @@ const NewServicesPage = () => {
     resolver: resolver,
   });
 
-  const onSubmit: SubmitHandler<ServiceOutputSchema> = (data) => {
+  const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
     console.log(data);
+    if(data.thumbnailImage){
+      const fileName = encodeURIComponent(`${Date.now()}-${data.thumbnailImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
+      const { data: uploadData, error } = await supabase.storage
+        .from('service_images')
+        .upload(fileName, data.thumbnailImage);
+
+      if (error) {
+        console.error('Error uploading file: ', error.message);
+        return;
+      }
+
+      
+    }
   };
 
 
