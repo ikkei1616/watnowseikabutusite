@@ -10,12 +10,13 @@ import { HeaderMode } from "@/types/HeaderMode";
 import { Divider, Pagination } from "@mui/material";
 import EventYearList from "@/components/EventYearList";
 import type { FileObject } from "@supabase/storage-js";
+import theme from "@/theme";
 
 const ITEMS_PER_PAGE = 5; // 1ページあたりのイベント数
 
 const EventPage: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
-  const [page, setPage] = useState(1); //現在いるページを格納
+  const [page, setPage] = useState(1); //現在いるページ
   const [totalEventCount, setTotalEventCount] = useState(0); //イベント総数
   const [eventCountByYear, setEventCountByYear] = useState<
     Record<number, number>
@@ -30,14 +31,13 @@ const EventPage: React.FC = () => {
         count,
       } = await supabase
         .from("events")
-        .select("id, name, date, comment", { count: "exact" }) //{ count: "exact" }は行数を正確にカウントするためのクエリオプション
+        .select("id, name, date, comment", { count: "exact" }) //イベント数を正確にcount
         .order("date", { ascending: false });
 
       if (allEventError) {
         console.error("Error fetching all events:", allEventError);
         return;
       }
-
       setTotalEventCount(count || 0);
 
       // 各年のイベント数を計算
@@ -46,25 +46,23 @@ const EventPage: React.FC = () => {
         const year = new Date(event.date).getFullYear(); //年部分だけを取得
         countByYear[year] = (countByYear[year] || 0) + 1; //countByYearのインクリメント
       });
-
       setEventCountByYear(countByYear);
 
       // 現在のページに表示するイベントを設定
       const start = (page - 1) * ITEMS_PER_PAGE;
       const end = start + ITEMS_PER_PAGE;
-      const eventsForPage = (allEventData as Event[]).slice(start, end);
+      const eventsForPage = (allEventData as Event[]).slice(start, end); //startからendまでのイベントを切り出し
 
       // 画像ファイルの一覧を取得
       const fetchAllFiles = async () => {
         let allFiles: FileObject[] = [];
-        let offset = 0;
-        const limit = 50;
+        let offset = 0; //ファイル取得開始位置
         let hasMore = true;
 
         while (hasMore) {
-          const { data: files, error } = await supabase.storage
+          const { data: files, error: error } = await supabase.storage
             .from("event_images")
-            .list("", { limit, offset });
+            .list("", { offset });
 
           if (error) {
             console.error("Error listing files:", error);
@@ -82,7 +80,6 @@ const EventPage: React.FC = () => {
             hasMore = false;
           }
         }
-
         return allFiles;
       };
 
@@ -97,6 +94,7 @@ const EventPage: React.FC = () => {
 
         for (const ext of extensions) {
           const fileName = `${event.id}.${ext}`;
+          //fileNameの名前の画像があるか否か
           if (fileNamesSet.has(fileName)) {
             const { data } = supabase.storage
               .from("event_images")
@@ -105,10 +103,8 @@ const EventPage: React.FC = () => {
             break;
           }
         }
-
         return { ...event, imageUrl };
       });
-
       setEvents(eventsWithImages);
     };
 
@@ -116,7 +112,7 @@ const EventPage: React.FC = () => {
   }, [page]);
 
   const handlePageChange = (
-    _: React.ChangeEvent<unknown>,
+    _: React.ChangeEvent<unknown>, //使われない引数
     nextpage: number
   ) => {
     setPage(nextpage);
@@ -150,8 +146,8 @@ const EventPage: React.FC = () => {
         onChange={handlePageChange}
         boundaryCount={1}
         sx={{
-          marginTop: "50px",
-          marginBottom: "20px",
+          marginTop: theme.spacing(6),
+          marginBottom: theme.spacing(3),
           display: "flex",
           justifyContent: "center",
           "& .MuiPaginationItem-root": {

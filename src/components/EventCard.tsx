@@ -10,9 +10,8 @@ import {
   Box,
   Divider,
 } from "@mui/material";
-import type { Event } from "@/types/Event"; // Event型のインポート
+import type { Event } from "@/types/Event";
 
-// Eventコンポーネントが受け取るpropsについて定義
 interface EventCardProp {
   event: Event;
 }
@@ -23,12 +22,14 @@ const EventCard: React.FC<EventCardProp> = ({ event }) => {
       sx={{
         display: "flex",
         flexDirection: "column", // カード全体を縦に配置
-        width: 908,
-        maxWidth: 1000,
+        width: "80%",
+        maxWidth: "1000px", // 最大幅を設定
         marginLeft: "auto",
-        boxShadow: 3,
         borderRadius: "12px",
         overflow: "hidden",
+        border: "1px solid",
+        borderColor: "#fff",
+        boxShadow: "none",
       }}
     >
       <Box
@@ -36,10 +37,10 @@ const EventCard: React.FC<EventCardProp> = ({ event }) => {
           display: "flex",
           alignItems: "flex-end", // 下方揃え
           justifyContent: "space-between", // 日付とボタンを左右に配置
-          paddingTop: "8px", // 上の余白
-          paddingBottom: "0px", // 下の余白
-          paddingLeft: "16px", // 左の余白
-          paddingRight: "16px", // 右の余白
+          paddingTop: "0.5rem",
+          paddingBottom: "0",
+          paddingLeft: "1rem",
+          paddingRight: "1rem",
           position: "relative",
         }}
       >
@@ -48,12 +49,9 @@ const EventCard: React.FC<EventCardProp> = ({ event }) => {
           variant="subtitle1"
           color="#00AEEF"
           sx={{
-            fontSize: "1.40rem", // カスタムフォントサイズを指定
+            fontSize: "1.4rem", // カスタムフォントサイズを指定
             backgroundColor: "#fff",
-            paddingTop: "6px", // 上の余白
-            paddingBottom: "0px", // 下の余白
-            paddingLeft: "8px", // 左の余白
-            paddingRight: "8px", // 右の余白
+            padding: "0.5rem 1rem", // 上下左右の余白
           }}
         >
           {event.date}
@@ -89,23 +87,23 @@ const EventCard: React.FC<EventCardProp> = ({ event }) => {
       <Divider
         sx={{
           width: "95%",
-          margin: "0 auto", // 自動マージンで中央に寄せる
+          margin: "0 auto",
           borderColor: "#00AEEF",
         }}
       />
 
       {/* カードの内容部分 */}
-      <Box sx={{ display: "flex", alignItems: "center", padding: "16px" }}>
+      <Box sx={{ display: "flex", alignItems: "center", padding: "1rem" }}>
         {/* 画像部分 */}
         <Box
           sx={{
-            width: 380,
-            height: 236,
+            width: "40%", // 幅を相対的に設定
+            aspectRatio: "16/9", // 画像のアスペクト比を固定
             position: "relative",
             backgroundColor: "##f0f0f0",
             borderRadius: "8px", // 画像のボーダーを曲げる
             overflow: "hidden",
-            marginRight: "16px",
+            marginRight: "1rem",
           }}
         >
           {/* 画像がある場合は画像を表示し、ない場合はメッセージを表示 */}
@@ -114,7 +112,7 @@ const EventCard: React.FC<EventCardProp> = ({ event }) => {
               src={event.imageUrl}
               alt={`${event.name}の画像`}
               layout="fill" // 親のBox全体をカバー
-              objectFit="cover" // アスペクト比を維持しつつ、親を埋め尽くす
+              objectFit="cover"
               style={{ borderRadius: "8px" }} // ボーダーの半径を設定
             />
           ) : (
@@ -123,8 +121,8 @@ const EventCard: React.FC<EventCardProp> = ({ event }) => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                height: 380,
-                width: 236,
+                height: "100%",
+                width: "100%",
               }}
             >
               <Typography variant="body2" color="text.secondary">
@@ -141,7 +139,7 @@ const EventCard: React.FC<EventCardProp> = ({ event }) => {
             display: "flex",
             alignItems: "flex-start",
             height: "100%",
-            width: 492,
+            width: "60%", // 幅を相対的に設定
           }}
         >
           <CardContent
@@ -154,7 +152,7 @@ const EventCard: React.FC<EventCardProp> = ({ event }) => {
             }}
           >
             {/* イベントの題名部分 */}
-            <Box sx={{ marginBottom: "8px" }}>
+            <Box sx={{ marginBottom: "0.5rem" }}>
               <Typography variant="h5" component="div" gutterBottom>
                 {event.name}
               </Typography>
