@@ -27,10 +27,10 @@ const serviceSchema = z.object({
   releaseYear: z.number({message: 'リリース日は必須です。'}),
   releaseMonth: z.number({message: 'リリース日は必須です。'}),
   teamMenbers: z.string().array().optional(),
-  technologies: z.string().array().optional(),
+  technologiesId: z.number().array().optional(),
   eventYear: z.number().optional(),
-  eventName: z.string().optional(),
-  awardName: z.string().optional(),
+  eventId: z.number().optional(),
+  awardId: z.number().optional(),
   urlWeb: z.string().optional().refine(value => value === '' || z.string().url().safeParse(value).success, {
     message: '無効な URL です。',
   }),
