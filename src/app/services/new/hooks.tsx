@@ -116,7 +116,7 @@ export const useFormFields = (
                     type: "TEXT_INPUT",
                     props: {
                         control,
-                        name: "serviceName",
+                        name: "name",
                         label: "サービスタイトル",
                         required: true,
                     },
@@ -135,7 +135,7 @@ export const useFormFields = (
                     type: "TEXTAREA_INPUT",
                     props: {
                         control,
-                        name: "serviceDetail",
+                        name: "description",
                         label: "サービス詳細"
                     }
                 },
@@ -144,7 +144,7 @@ export const useFormFields = (
                     type: "TEXT_INPUT",
                     props: {
                         control,
-                        name: "teamName",
+                        name: "team_name",
                         label: "チーム名",
                     },
                 },
@@ -153,7 +153,7 @@ export const useFormFields = (
                     type: "DATE_INPUT",
                     props: {
                         control,
-                        name: ["releaseYear", "releaseMonth"],
+                        name: ["release_year", "release_month"],
                         label: "リリース日",
                         options: [releaseYear, releaseMonth],
                         required: true
@@ -164,7 +164,7 @@ export const useFormFields = (
                     type: "PERIOD_INPUT",
                     props: {
                         control,
-                        name: ["periodNumber", "periodUnit"],
+                        name: ["development_period_num", "development_period_unit"],
                         label: "開発期間",
                         options: period
                     }
@@ -223,7 +223,7 @@ export const useFormFields = (
                     type: "SELECT_INPUT",
                     props: {
                         control,
-                        name: "eventId",
+                        name: "event_id",
                         options: events,
                     },
                 },
@@ -232,7 +232,7 @@ export const useFormFields = (
                     type: "SELECT_INPUT",
                     props: {
                         control,
-                        name: "awardId",
+                        name: "award_id",
                         label: "表彰",
                         options: awards,
                     },
@@ -248,7 +248,7 @@ export const useFormFields = (
                     type: "TEXT_INPUT",
                     props: {
                         control,
-                        name: "urlWeb",
+                        name: "url_web",
                         label: "Webサイト"
                     }
                 },
@@ -257,7 +257,7 @@ export const useFormFields = (
                     type: "TEXT_INPUT",
                     props: {
                         control,
-                        name: "urlAppStore",
+                        name: "url_appstore",
                         label: "App Store"
                     }
                 },
@@ -266,7 +266,7 @@ export const useFormFields = (
                     type: "TEXT_INPUT",
                     props: {
                         control,
-                        name: "urlGooglePlay",
+                        name: "url_googleplay",
                         label: "Google Play"
                     }
                 },
@@ -275,7 +275,7 @@ export const useFormFields = (
                     type: "TEXT_INPUT",
                     props: {
                         control,
-                        name: "urlOthers",
+                        name: "url_others",
                         label: "その他"
                     }
                 }
@@ -314,7 +314,7 @@ export const useFormFields = (
                     type: "CHECKBOX",
                     props: {
                         control,
-                        name: "publicCheck",
+                        name: "is_visible",
                         label: "サービスを非公開にする（データは削除されません）"
                     }
                 }

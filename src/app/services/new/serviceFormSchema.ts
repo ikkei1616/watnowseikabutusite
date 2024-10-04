@@ -18,29 +18,29 @@ const videoSchema = z.instanceof(File)
   });
 
 const serviceSchema = z.object({
-  serviceName: z.string().min(1, "サービス名は必須です"),
+  name: z.string().min(1, "サービス名は必須です"),
   comment: z.string().optional(),
-  serviceDetail: z.string().optional(),
-  teamName: z.string().optional(),
-  periodNumber: z.number().optional(),
-  periodUnit: z.string().optional(),
-  releaseYear: z.number({message: 'リリース日は必須です。'}),
-  releaseMonth: z.number({message: 'リリース日は必須です。'}),
+  description: z.string().optional(),
+  team_name: z.string().optional(),
+  development_period_num: z.number().optional(),
+  development_period_unit: z.string().optional(),
+  release_year: z.number({message: 'リリース日は必須です。'}),
+  release_month: z.number({message: 'リリース日は必須です。'}),
   teamMenbers: z.string().array().optional(),
   technologiesId: z.number().array().optional(),
   eventYear: z.number().optional(),
-  eventId: z.number().optional(),
-  awardId: z.number().optional(),
-  urlWeb: z.string().optional().refine(value => value === '' || z.string().url().safeParse(value).success, {
+  event_id: z.number().optional(),
+  award_id: z.number().optional(),
+  url_web: z.string().optional().refine(value => value === '' || z.string().url().safeParse(value).success, {
     message: '無効な URL です。',
   }),
-  urlAppStore: z.string().optional().refine(value => value === '' || z.string().url().safeParse(value).success, {
+  url_appstore: z.string().optional().refine(value => value === '' || z.string().url().safeParse(value).success, {
     message: '無効な URL です。',
   }),
-  urlGooglePlay: z.string().optional().refine(value => value === '' || z.string().url().safeParse(value).success, {
+  url_googleplay: z.string().optional().refine(value => value === '' || z.string().url().safeParse(value).success, {
     message: '無効な URL です。',
   }),
-  urlOthers: z.string().optional().refine(value => value === '' || z.string().url().safeParse(value).success, {
+  url_others: z.string().optional().refine(value => value === '' || z.string().url().safeParse(value).success, {
     message: '無効な URL です。',
   }),
   thumbnailImage: z
@@ -55,10 +55,10 @@ const serviceSchema = z.object({
       message: 'デモ動画の形式またはサイズが無効です。',
     })
     .optional(),
-    publicCheck: z.boolean().optional(),
-}).refine(data => data.releaseYear && data.releaseMonth, {
+    is_visible: z.boolean().optional().default(false),
+}).refine(data => data.release_year && data.release_month, {
   message: 'リリース年と月の両方を入力してください。',
-  path: ['releaseYear', 'releaseMonth'],
+  path: ['release_year', 'release_month'],
 }).transform((data) => {
   const thumbnailImageFile = data.thumbnailImage instanceof File ? data.thumbnailImage : undefined;
   const demoVideoFile = data.demoVideo instanceof File ? data.demoVideo : undefined;
