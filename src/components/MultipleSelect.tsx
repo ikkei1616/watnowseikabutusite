@@ -72,13 +72,19 @@ const MultipleSelect = <T extends FieldValues>({
         onChange(newValues);
     };
 
+    // ラベルを取得するためのヘルパー関数
+    const getLabelFromValue = (value: string) => {
+        const option = options.find(option => option.value === value);
+        return option ? option.label : value; // 見つからない場合はvalueを返す
+    };
+
     return (
         <div>
             <Box sx={{ mt: 2, display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                 {result.map((value) => (
                     <Chip
                         key={value}
-                        label={value}
+                        label={getLabelFromValue(value)}
                         onDelete={() => handleDelete(value)}
                         sx={{
                             bgcolor: "#EAEFF2",
@@ -108,23 +114,23 @@ const MultipleSelect = <T extends FieldValues>({
                         )}
                         MenuProps={MenuProps}
                         sx={{
-                            minWidth:"200px",
-                            height:"60%",
+                            minWidth: "200px",
+                            height: "60%",
                             '& .MuiSelect-select': {
-                              padding: '8px', 
-                              boxSizing: 'border-box',
+                                padding: '8px',
+                                boxSizing: 'border-box',
                             },
                             '& .MuiOutlinedInput-notchedOutline': {
-                              borderColor: '#9CABC7',
+                                borderColor: '#9CABC7',
                             },
                             '&:hover .MuiOutlinedInput-notchedOutline': {
-                              borderColor: '#85D5F3', 
+                                borderColor: '#85D5F3',
                             },
                             '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                              borderColor: '#85D5F3', 
-                              borderWidth: '2px', 
+                                borderColor: '#85D5F3',
+                                borderWidth: '2px',
                             },
-                          }}
+                        }}
                     >
                         {options.map(({ value, label }) => (
                             <MenuItem
@@ -141,5 +147,6 @@ const MultipleSelect = <T extends FieldValues>({
         </div>
     );
 }
+
 
 export default MultipleSelect;
