@@ -39,14 +39,30 @@ const NewServicesPage = () => {
   
     const { data: serviceData, error: insertError } = await supabase
       .from('services')
-      .insert([submitData]);
+      .insert([submitData])
+      .select();
   
     if (insertError) {
       console.error('Error inserting service:', insertError);
       return;
     }
   
-    console.log('Inserted service data:', serviceData);
+    console.log(serviceData[0].id);
+
+    if(data.teamMenbers && data.teamMenbers.length > 0) {
+      const { data: teamMembersData, error: teamMembersError } = await supabase
+        .from('users_servicies')
+        .insert(data.teamMenbers.map((teamMember) => ({
+          service_id: serviceData[0].id,
+          user_id: teamMember,
+        })))
+        .select();
+  
+      if (teamMembersError) {
+        console.error('Error inserting team members:', teamMembersError);
+        return;
+      }
+    }
   };
   
 
