@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, { useState } from 'react';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ServiceInputSchema, ServiceOutputSchema, resolver } from "./serviceFormSchema";
 import { useFormFields } from "./hooks";
@@ -14,21 +14,41 @@ const NewServicesPage = () => {
   });
 
   const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
-    console.log(data);
-    if(data.thumbnailImage){
+    let imageUrl = '';
+  
+    if (data.thumbnailImage) {
       const fileName = encodeURIComponent(`${Date.now()}-${data.thumbnailImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
-      const { data: uploadData, error } = await supabase.storage
+      const { data: uploadData, error: uploadError } = await supabase.storage
         .from('service_images')
         .upload(fileName, data.thumbnailImage);
-
-      if (error) {
-        console.error('Error uploading file: ', error.message);
+  
+      if (uploadError) {
+        console.error('Error uploading file: ', uploadError.message);
         return;
       }
-
-      
+  
+      const { data: publicUrlData } = await supabase.storage
+        .from('service_images')
+        .getPublicUrl(fileName);
+  
+      imageUrl = publicUrlData.publicUrl || '';
     }
+  
+    const { thumbnailImage, demoVideo, eventYear, teamMenbers, technologiesId, ...rest } = data;
+    const submitData = { ...rest, image: imageUrl };
+  
+    const { data: serviceData, error: insertError } = await supabase
+      .from('services')
+      .insert([submitData]);
+  
+    if (insertError) {
+      console.error('Error inserting service:', insertError);
+      return;
+    }
+  
+    console.log('Inserted service data:', serviceData);
   };
+  
 
 
   const formFields = useFormFields(control);
@@ -62,10 +82,10 @@ const NewServicesPage = () => {
             display: 'flex',
             justifyContent: 'center',
             gap: '60px',
-            margin:"20px 0"
+            margin: "20px 0"
           }}>
-          <FormButton name="キャンセル" type='cancel'/>
-          <FormButton name="新規作成" type='submit'/>
+            <FormButton name="キャンセル" type='cancel' />
+            <FormButton name="新規作成" type='submit' />
           </div>
         </form>
       </main>
