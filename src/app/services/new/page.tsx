@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React from 'react';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ServiceInputSchema, ServiceOutputSchema, resolver } from "./serviceFormSchema";
 import { useFormFields } from "./hooks";
@@ -18,7 +18,7 @@ const NewServicesPage = () => {
   
     if (data.thumbnailImage) {
       const fileName = encodeURIComponent(`${Date.now()}-${data.thumbnailImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
-      const { data: uploadData, error: uploadError } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from('service_images')
         .upload(fileName, data.thumbnailImage);
   
@@ -48,7 +48,7 @@ const NewServicesPage = () => {
     }
 
     if(data.teamMenbers && data.teamMenbers.length > 0) {
-      const { data: teamMembersData, error: teamMembersError } = await supabase
+      const { error: teamMembersError } = await supabase
         .from('users_servicies')
         .insert(data.teamMenbers.map((teamMember) => ({
           service_id: serviceData[0].id,
@@ -63,7 +63,7 @@ const NewServicesPage = () => {
     }
 
     if(data.technologiesId && data.technologiesId.length > 0) {
-      const { data: technologiesData, error: technologiesError } = await supabase
+      const { error: technologiesError } = await supabase
         .from('services_technologies')
         .insert(data.technologiesId.map((technologyId) => ({
           service_id: serviceData[0].id,

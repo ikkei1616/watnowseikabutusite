@@ -4,7 +4,6 @@ import FieldWrapper from './FieldWrapper';
 import {
   FieldValues,
   useController,
-  UseControllerProps,
 } from 'react-hook-form';
 import { Box } from '@mui/material';
 
