@@ -46,8 +46,6 @@ const NewServicesPage = () => {
       console.error('Error inserting service:', insertError);
       return;
     }
-  
-    console.log(serviceData[0].id);
 
     if(data.teamMenbers && data.teamMenbers.length > 0) {
       const { data: teamMembersData, error: teamMembersError } = await supabase
@@ -60,6 +58,21 @@ const NewServicesPage = () => {
   
       if (teamMembersError) {
         console.error('Error inserting team members:', teamMembersError);
+        return;
+      }
+    }
+
+    if(data.technologiesId && data.technologiesId.length > 0) {
+      const { data: technologiesData, error: technologiesError } = await supabase
+        .from('services_technologies')
+        .insert(data.technologiesId.map((technologyId) => ({
+          service_id: serviceData[0].id,
+          technology_id: technologyId,
+        })))
+        .select();
+  
+      if (technologiesError) {
+        console.error('Error inserting technologies:', technologiesError);
         return;
       }
     }
