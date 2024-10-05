@@ -293,7 +293,8 @@ export const useFormFields = (
                     props: {
                         control,
                         name: "thumbnailImage",
-                        label: "サムネイル画像"
+                        label: "サムネイル画像",
+                        type: "image"
                     }
                 },
                 {
@@ -302,7 +303,8 @@ export const useFormFields = (
                     props: {
                         control,
                         name: "demoVideo",
-                        label: "デモ動画"
+                        label: "デモ動画",
+                        type: "video"
                     }
                 }
             ]

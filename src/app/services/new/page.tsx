@@ -15,27 +15,46 @@ const NewServicesPage = () => {
 
   const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
     let imageUrl = '';
+    let videoUrl = '';
   
     if (data.thumbnailImage instanceof File) {
-      const fileName = encodeURIComponent(`${Date.now()}-${data.thumbnailImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
+      const imageFileName = encodeURIComponent(`${Date.now()}-${data.thumbnailImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
       const { error: uploadError } = await supabase.storage
         .from('service_images')
-        .upload(fileName, data.thumbnailImage);
+        .upload(imageFileName, data.thumbnailImage);
   
       if (uploadError) {
         console.error('Error uploading file: ', uploadError.message);
         return;
       }
   
-      const { data: publicUrlData } = await supabase.storage
+      const { data: publicImageUrlData } = await supabase.storage
         .from('service_images')
-        .getPublicUrl(fileName);
+        .getPublicUrl(imageFileName);
   
-      imageUrl = publicUrlData.publicUrl || '';
+      imageUrl = publicImageUrlData.publicUrl || '';
+    }
+
+    if(data.demoVideo instanceof File) {
+      const videoFileName = encodeURIComponent(`${Date.now()}-${data.demoVideo.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
+      const { error: uploadError } = await supabase.storage
+        .from('service_videos')
+        .upload(videoFileName, data.demoVideo);
+  
+      if (uploadError) {
+        console.error('Error uploading file: ', uploadError.message);
+        return;
+      }
+
+      const { data: publicVideoUrlData } = await supabase.storage
+        .from('service_videos')
+        .getPublicUrl(videoFileName);
+
+      videoUrl = publicVideoUrlData.publicUrl || '';
     }
   
     const { thumbnailImage, demoVideo, eventYear, teamMembers, technologiesId, ...rest } = data;
-    const submitData = { ...rest, image: imageUrl };
+    const submitData = { ...rest, image: imageUrl, video: videoUrl };
   
     const { data: serviceData, error: insertError } = await supabase
       .from('services')

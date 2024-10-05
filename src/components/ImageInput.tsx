@@ -10,6 +10,7 @@ export type ImageInputProps<T extends FieldValues> = {
   name: string;
   label: string;
   required?: boolean;
+  type?: "image" | "video";
 };
 
 const InputWrapper = styled('div')({
@@ -40,11 +41,21 @@ const ImagePreview = styled('img')({
   objectFit: 'cover',
 });
 
+const VideoPreview = styled('video')({
+  maxWidth: '300px',
+  maxHeight: '150px',
+  borderRadius: '8px',
+  border: '1px solid #ddd',
+  objectFit: 'cover',
+});
+
+
 const ImageInput = <T extends FieldValues>({
   label,
   control,
   name,
-  required
+  required,
+  type
 }: ImageInputProps<T>): JSX.Element => {
   const [preview, setPreview] = React.useState<string | ArrayBuffer | null>(null);
   const {
@@ -72,14 +83,20 @@ const ImageInput = <T extends FieldValues>({
     <FieldWrapper label={label} errorMessage={error?.message} required={required}>
       <InputWrapper>
         <ButtonStyled component="label" variant="outlined">
-          ファイルを選択
+          ファイルを追加
           <VisuallyHiddenInput
             type="file"
-            accept="image/*"
+            accept={type === 'video' ? 'video/*' : 'image/*'}
             onChange={handleFileChange}
           />
         </ButtonStyled>
-        {preview && <ImagePreview src={preview as string} alt="Preview" />}
+        {preview && type==="image" && <ImagePreview src={preview as string} alt="Preview" />}
+        {preview && type==="video" && (
+          <VideoPreview controls>
+            <source src={preview as string} type="video/mp4" />
+            Your browser does not support the video tag.
+          </VideoPreview>
+        )}
       </InputWrapper>
     </FieldWrapper>
   );
