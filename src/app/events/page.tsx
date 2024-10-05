@@ -87,18 +87,26 @@ const EventPage: React.FC = () => {
       // 画像URLを取得
       const eventsWithImages = await Promise.all(
         (eventsData as Event[]).map(async (event) => {
-          const extensions = ["jpg", "jpeg", "png", "gif"];
+          const extensions = ["jpg", "JPG", "jpeg", "png", "gif"];
           let imageUrl: string | null = null;
 
           for (const ext of extensions) {
             const fileName = `${event.id}.${ext}`;
-            const { data } = supabase.storage
+            // ファイルの存在を確認するために createSignedUrl を使用
+            const { data: signedUrlData, error } = await supabase.storage
               .from("event_images")
-              .getPublicUrl(fileName);
+              .createSignedUrl(fileName, 1); // 有効期限は短く設定
 
-            if (data?.publicUrl) {
-              imageUrl = data.publicUrl;
-              break;
+            if (!error && signedUrlData?.signedUrl) {
+              // ファイルが存在する場合、publicUrl を取得
+              const { data: publicUrlData } = supabase.storage
+                .from("event_images")
+                .getPublicUrl(fileName);
+
+              if (publicUrlData?.publicUrl) {
+                imageUrl = publicUrlData.publicUrl;
+                break;
+              }
             }
           }
           return { ...event, imageUrl };
