@@ -157,7 +157,12 @@ const EventCard: React.FC<EventCardProp> = ({ event }) => {
                 variant="h5"
                 component="div"
                 gutterBottom
-                sx={{ paddingTop: "20px" }}
+                sx={{
+                  paddingTop: "20px",
+                  whiteSpace: "nowrap", // テキストを1行に制限
+                  overflow: "hidden", // あふれた部分を非表示に
+                  textOverflow: "ellipsis", // あふれた部分を "..." に
+                }}
               >
                 {event.name}
               </Typography>
