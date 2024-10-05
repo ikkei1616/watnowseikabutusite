@@ -26,7 +26,7 @@ const serviceSchema = z.object({
   development_period_unit: z.string().optional(),
   release_year: z.number({message: 'リリース日は必須です。'}),
   release_month: z.number({message: 'リリース日は必須です。'}),
-  teamMenbers: z.string().array().optional(),
+  teamMembers: z.string().array().optional(),
   technologiesId: z.number().array().optional(),
   eventYear: z.number().optional(),
   event_id: z.number().optional(),
@@ -43,30 +43,18 @@ const serviceSchema = z.object({
   url_others: z.string().optional().refine(value => value === '' || z.string().url().safeParse(value).success, {
     message: '無効な URL です。',
   }),
-  thumbnailImage: z
-    .instanceof(File)
-    .refine(file => imageSchema.safeParse(file).success, {
-      message: 'サムネイル画像の形式またはサイズが無効です。',
-    })
-    .optional(),
-  demoVideo: z
-    .instanceof(File)
-    .refine(file => videoSchema.safeParse(file).success, {
-      message: 'デモ動画の形式またはサイズが無効です。',
-    })
-    .optional(),
-    is_visible: z.boolean().optional().default(false),
+  thumbnailImage: z.union([z.instanceof(File), z.undefined()]).optional()
+  .refine(file => file === undefined || imageSchema.safeParse(file).success, {
+    message: 'サムネイル画像の形式またはサイズが無効です。',
+  }),
+demoVideo: z.union([z.instanceof(File), z.undefined()]).optional()
+  .refine(file => file === undefined || videoSchema.safeParse(file).success, {
+    message: 'デモ動画の形式またはサイズが無効です。',
+  }),
+  is_visible: z.boolean(),
 }).refine(data => data.release_year && data.release_month, {
   message: 'リリース年と月の両方を入力してください。',
   path: ['release_year', 'release_month'],
-}).transform((data) => {
-  const thumbnailImageFile = data.thumbnailImage instanceof File ? data.thumbnailImage : undefined;
-  const demoVideoFile = data.demoVideo instanceof File ? data.demoVideo : undefined;
-  return {
-    ...data,
-    thumbnailImage: thumbnailImageFile,
-    demoVideo: demoVideoFile,
-  };
 });
 
 export type ServiceInputSchema = z.input<typeof serviceSchema>;

@@ -2,7 +2,7 @@ import * as React from 'react';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { FieldValues, useController, Control, Path } from 'react-hook-form';
+import { FieldValues, useController, Control, Path, PathValue } from 'react-hook-form';
 
 export type CheckboxLabelsProps<T extends FieldValues> = {
     control: Control<T>;
@@ -18,7 +18,7 @@ const CheckboxLabels = <T extends FieldValues>({
     const {
         field,
         fieldState: { error },
-      } = useController({ name, control });
+      } = useController({ name, control, defaultValue: false as PathValue<T, Path<T>> });
     
       return (
         <FormGroup sx={{

@@ -180,7 +180,7 @@ export const useFormFields = (
                     type: "MULTIPLE_SELECT",
                     props: {
                         control,
-                        name: "teamMenbers",
+                        name: "teamMembers",
                         label: "製作者を追加する",
                         options: menbers,
                         shapeType: "square",

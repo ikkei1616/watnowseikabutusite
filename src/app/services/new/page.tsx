@@ -16,7 +16,7 @@ const NewServicesPage = () => {
   const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
     let imageUrl = '';
   
-    if (data.thumbnailImage) {
+    if (data.thumbnailImage instanceof File) {
       const fileName = encodeURIComponent(`${Date.now()}-${data.thumbnailImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
       const { error: uploadError } = await supabase.storage
         .from('service_images')
@@ -34,7 +34,7 @@ const NewServicesPage = () => {
       imageUrl = publicUrlData.publicUrl || '';
     }
   
-    const { thumbnailImage, demoVideo, eventYear, teamMenbers, technologiesId, ...rest } = data;
+    const { thumbnailImage, demoVideo, eventYear, teamMembers, technologiesId, ...rest } = data;
     const submitData = { ...rest, image: imageUrl };
   
     const { data: serviceData, error: insertError } = await supabase
@@ -47,10 +47,10 @@ const NewServicesPage = () => {
       return;
     }
 
-    if(data.teamMenbers && data.teamMenbers.length > 0) {
+    if(data.teamMembers && data.teamMembers.length > 0) {
       const { error: teamMembersError } = await supabase
         .from('users_servicies')
-        .insert(data.teamMenbers.map((teamMember) => ({
+        .insert(data.teamMembers.map((teamMember) => ({
           service_id: serviceData[0].id,
           user_id: teamMember,
         })))
@@ -78,8 +78,6 @@ const NewServicesPage = () => {
     }
   };
   
-
-
   const formFields = useFormFields(control);
 
   return (
