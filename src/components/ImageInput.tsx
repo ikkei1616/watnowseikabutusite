@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import { FieldValues, useController } from 'react-hook-form';
 import FieldWrapper from './FieldWrapper';
+import { ButtonProps } from '@mui/material/Button';
 
 export type ImageInputProps<T extends FieldValues> = {
   control: any;
@@ -18,7 +19,7 @@ const InputWrapper = styled('div')({
 
 });
 
-const ButtonStyled = styled(Button)({
+const ButtonStyled = styled(Button)<ButtonProps>({
   border: '1px solid #9CABC7',
   backgroundColor: 'white',
   color: 'black',
