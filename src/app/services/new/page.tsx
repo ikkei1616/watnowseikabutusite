@@ -13,7 +13,11 @@ const NewServicesPage = () => {
     resolver: resolver,
   });
 
+  const [isRoading, setIsLoading] = React.useState(false);
+
   const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
+    setIsLoading(true);
+
     let imageUrl = '';
     let videoUrl = '';
   
@@ -95,9 +99,15 @@ const NewServicesPage = () => {
         return;
       }
     }
+
+    window.location.href = '/services';
   };
   
   const formFields = useFormFields(control);
+
+  if (isRoading) {
+    return <div>ローディング中...</div>;
+  }
 
   return (
     <>
