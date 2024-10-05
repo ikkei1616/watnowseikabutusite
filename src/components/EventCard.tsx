@@ -152,15 +152,32 @@ const EventCard: React.FC<EventCardProp> = ({ event }) => {
             }}
           >
             {/* イベントの題名部分 */}
-            <Box sx={{ marginBottom: "0.5rem" }}>
-              <Typography variant="h5" component="div" gutterBottom>
+            <Box>
+              <Typography
+                variant="h5"
+                component="div"
+                gutterBottom
+                sx={{ paddingTop: "20px" }}
+              >
                 {event.name}
               </Typography>
             </Box>
 
             {/* イベントの内容部分 */}
             <Box>
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{
+                  lineHeight: "2.0", // 行間を調整
+                  fontSize: "18px", // フォントサイズを指定
+                  display: "-webkit-box", // 表示をボックス形式に
+                  WebkitLineClamp: 4, // 行数を4行に制限
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis", // あふれた部分を "..." で表示
+                }}
+              >
                 {event.comment}
               </Typography>
             </Box>

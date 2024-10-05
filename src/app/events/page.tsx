@@ -143,7 +143,6 @@ const EventPage: React.FC = () => {
         }}
       />
       <div className={styles.container}>
-        {/* イベント年リストにハンドラーと選択された年を渡す */}
         <EventYearList
           eventCountByYear={eventCountByYear}
           onYearSelect={handleYearSelect}
