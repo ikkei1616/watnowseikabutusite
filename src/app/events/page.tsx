@@ -9,113 +9,118 @@ import Header from "@/components/Header";
 import { HeaderMode } from "@/types/HeaderMode";
 import { Divider, Pagination } from "@mui/material";
 import EventYearList from "@/components/EventYearList";
-import type { FileObject } from "@supabase/storage-js";
 import theme from "@/theme";
 
 const ITEMS_PER_PAGE = 5; // 1ページあたりのイベント数
 
 const EventPage: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
-  const [page, setPage] = useState(1); //現在いるページ
-  const [totalEventCount, setTotalEventCount] = useState(0); //イベント総数
+  const [page, setPage] = useState(1); // 現在のページ
+  const [totalEventCount, setTotalEventCount] = useState(0); // イベント総数
   const [eventCountByYear, setEventCountByYear] = useState<
     Record<number, number>
-  >({}); //各年のイベント数
+  >({}); // 各年のイベント数
+  const [selectedYear, setSelectedYear] = useState<number>(0); // 選択された年
 
+  // 初期ロード時各年のイベント数を取得、最新の年の選択
   useEffect(() => {
-    const fetchAllEvents = async () => {
-      // 全てのイベントデータを取得
-      const {
-        data: allEventData,
-        error: allEventError,
-        count,
-      } = await supabase
+    const fetchEventCountsByYear = async () => {
+      const { data: allEventData, error: allEventError } = await supabase
         .from("events")
-        .select("id, name, date, comment", { count: "exact" }) //イベント数を正確にcount
-        .order("date", { ascending: false });
+        .select("date");
 
       if (allEventError) {
         console.error("Error fetching all events:", allEventError);
         return;
       }
-      setTotalEventCount(count || 0);
 
       // 各年のイベント数を計算
       const countByYear: Record<number, number> = {};
       (allEventData as Event[]).forEach((event) => {
-        const year = new Date(event.date).getFullYear(); //年部分だけを取得
-        countByYear[year] = (countByYear[year] || 0) + 1; //countByYearのインクリメント
+        const year = new Date(event.date).getFullYear(); // 年を取得
+        countByYear[year] = (countByYear[year] || 0) + 1;
       });
       setEventCountByYear(countByYear);
 
-      // 現在のページに表示するイベントを設定
+      // 最新の年を選択
+      const years = Object.keys(countByYear).map(Number);
+      const latestYear = Math.max(...years);
+      setSelectedYear(latestYear);
+    };
+
+    fetchEventCountsByYear();
+  }, []);
+
+  // 選択された年とページが変更されたときにイベントを取得
+  useEffect(() => {
+    const fetchEventsForYear = async () => {
+      // 選択された年のイベント総数を取得
+      const { count, error: countError } = await supabase
+        .from("events")
+        .select("id", { count: "exact", head: true })
+        .gte("date", `${selectedYear}-01-01`)
+        .lte("date", `${selectedYear}-12-31`);
+
+      if (countError) {
+        console.error("Error fetching event count:", countError);
+        return;
+      }
+      setTotalEventCount(count || 0);
+
+      // ページネーションに基づいてイベントを取得
       const start = (page - 1) * ITEMS_PER_PAGE;
-      const end = start + ITEMS_PER_PAGE;
-      const eventsForPage = (allEventData as Event[]).slice(start, end); //startからendまでのイベントを切り出し
+      const end = start + ITEMS_PER_PAGE - 1;
 
-      // 画像ファイルの一覧を取得
-      const fetchAllFiles = async () => {
-        let allFiles: FileObject[] = [];
-        let offset = 0; //ファイル取得開始位置
-        let hasMore = true;
+      const { data: eventsData, error: eventsError } = await supabase
+        .from("events")
+        .select("id, name, date, comment")
+        .gte("date", `${selectedYear}-01-01`)
+        .lte("date", `${selectedYear}-12-31`)
+        .order("date", { ascending: false })
+        .range(start, end);
 
-        while (hasMore) {
-          const { data: files, error: error } = await supabase.storage
-            .from("event_images")
-            .list("", { offset });
+      if (eventsError) {
+        console.error("Error fetching events:", eventsError);
+        return;
+      }
 
-          if (error) {
-            console.error("Error listing files:", error);
-            return allFiles;
-          }
+      // 画像URLを取得
+      const eventsWithImages = await Promise.all(
+        (eventsData as Event[]).map(async (event) => {
+          const extensions = ["jpg", "jpeg", "png", "gif"];
+          let imageUrl: string | null = null;
 
-          if (files && files.length === 0) {
-            console.log("file is empty");
-          }
-
-          if (files && files.length > 0) {
-            allFiles = allFiles.concat(files);
-            offset += files.length;
-          } else {
-            hasMore = false;
-          }
-        }
-        return allFiles;
-      };
-
-      const files = await fetchAllFiles();
-      const fileNamesSet = new Set(files?.map((file) => file.name)); //一意なファイル名だけが格納されるsetオブジェクト
-
-      console.log(fileNamesSet);
-
-      const eventsWithImages = eventsForPage.map((event) => {
-        const extensions = ["JPG", "jpg", "jpeg", "png", "gif"];
-        let imageUrl: string | null = null;
-
-        for (const ext of extensions) {
-          const fileName = `${event.id}.${ext}`;
-          //fileNameの名前の画像があるか否か
-          if (fileNamesSet.has(fileName)) {
+          for (const ext of extensions) {
+            const fileName = `${event.id}.${ext}`;
             const { data } = supabase.storage
               .from("event_images")
               .getPublicUrl(fileName);
-            imageUrl = data?.publicUrl || null;
-            break;
+
+            if (data?.publicUrl) {
+              imageUrl = data.publicUrl;
+              break;
+            }
           }
-        }
-        return { ...event, imageUrl };
-      });
+          return { ...event, imageUrl };
+        })
+      );
+
       setEvents(eventsWithImages);
     };
 
-    fetchAllEvents();
-  }, [page]);
+    fetchEventsForYear();
+  }, [selectedYear, page]);
 
   const handlePageChange = (
-    _: React.ChangeEvent<unknown>, //使われない引数
-    nextpage: number
+    _: React.ChangeEvent<unknown>, // 使われない引数
+    nextPage: number
   ) => {
-    setPage(nextpage);
+    setPage(nextPage);
+  };
+
+  const handleYearSelect = (year: number) => {
+    setSelectedYear(year);
+    setPage(1); // ページをリセット
   };
 
   return (
@@ -130,8 +135,12 @@ const EventPage: React.FC = () => {
         }}
       />
       <div className={styles.container}>
-        {/* 各年のイベント数をEventYearListコンポーネントに渡す */}
-        <EventYearList eventCountByYear={eventCountByYear} />
+        {/* イベント年リストにハンドラーと選択された年を渡す */}
+        <EventYearList
+          eventCountByYear={eventCountByYear}
+          onYearSelect={handleYearSelect}
+          selectedYear={selectedYear}
+        />
         <div className={styles.eventList}>
           {events.map((event) => (
             <div className={styles.eventItemWrapper} key={event.id}>

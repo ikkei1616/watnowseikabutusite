@@ -1,35 +1,42 @@
 import React from "react";
-import { List, ListItem, Typography, Divider, Box } from "@mui/material";
+import { List, ListItem, Typography, Divider, Button } from "@mui/material";
 
 // propsの型を定義
 interface EventYearListProps {
   eventCountByYear: Record<number, number>;
+  onYearSelect: (year: number) => void;
+  selectedYear: number;
 }
 
-const EventYearList: React.FC<EventYearListProps> = (props) => {
-  const eventCountByYear = props.eventCountByYear;
+const EventYearList: React.FC<EventYearListProps> = ({
+  eventCountByYear,
+  onYearSelect,
+  selectedYear,
+}) => {
   const events = Object.entries(eventCountByYear)
     .map(([year, count]) => ({
       year: Number(year),
       count,
     }))
-    .sort((a, b) => b.year - a.year); //最新が上にくるようにソート
+    .sort((a, b) => b.year - a.year); // 最新が上にくるようにソート
 
   return (
     <List
       sx={{
         position: "relative",
-        maxWidth: "200px",
+        maxWidth: "300px",
+        width: "150px",
       }}
     >
-      {events.map((event, index) => (
+      {events.map((event) => (
         <ListItem
-          key={index}
+          key={event.year}
           sx={{
             display: "flex",
             alignItems: "center",
             padding: "8px 0",
           }}
+          disablePadding
         >
           {/* 左側の縦線 */}
           <Divider
@@ -41,26 +48,37 @@ const EventYearList: React.FC<EventYearListProps> = (props) => {
               borderColor: "#00AEEF",
             }}
           />
-          {/* イベント数と年を縦に並べるコンテナ */}
-          <Box
+          {/* ボタン部分 */}
+          <Button
+            onClick={() => onYearSelect(event.year)}
             sx={{
+              textTransform: "none",
+              flexGrow: 1,
               display: "flex",
-              flexDirection: "column", // 縦に並べる設定
-              alignItems: "center", // 中央揃え
+              flexDirection: "column", // 2行の情報を縦に並べる
+              alignItems: "flex-start", // 左寄せ
+              color: "#00AEEF",
+              backgroundColor:
+                selectedYear === event.year ? "#f0f0f0" : "inherit", // グレーの背景色を選択された年にのみ追加
+              "&:hover": {
+                backgroundColor:
+                  selectedYear === event.year ? "#D3D3D3" : "#f0f0f0", // ホバー時の背景色
+              },
+              width: "100%", // ボタン全体の幅を確保
             }}
           >
             {/* イベント数 */}
             <Typography
               variant="subtitle1"
-              sx={{ color: "gray", marginRight: "8px", fontSize: "14px" }}
+              sx={{ color: "gray", fontSize: "18px" }}
             >
               {event.count} event{event.count > 1 ? "s" : ""}
             </Typography>
             {/* 年 */}
-            <Typography variant="h4" color="#00AEEF">
+            <Typography variant="h4" color="inherit">
               {event.year}
             </Typography>
-          </Box>
+          </Button>
         </ListItem>
       ))}
     </List>

@@ -22,7 +22,7 @@ const EventCard: React.FC<EventCardProp> = ({ event }) => {
       sx={{
         display: "flex",
         flexDirection: "column", // カード全体を縦に配置
-        width: "80%",
+        width: "85%",
         maxWidth: "1000px", // 最大幅を設定
         marginLeft: "auto",
         borderRadius: "12px",
