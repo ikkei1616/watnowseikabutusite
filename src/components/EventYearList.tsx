@@ -34,7 +34,8 @@ const EventYearList: React.FC<EventYearListProps> = ({
           sx={{
             display: "flex",
             alignItems: "center",
-            padding: "8px 0",
+            padding: "10px 0",
+            marginLeft: "20px",
           }}
           disablePadding
         >
