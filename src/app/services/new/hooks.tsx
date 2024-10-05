@@ -78,7 +78,7 @@ export const useFormFields = (
                 }
                 const { data: menbersData, error: menbersError } = await supabase
                     .from('users')
-                    .select('id, name')
+                    .select('id, name, nickname')
 
                 if (menbersError) {
                     throw new Error(`Error fetching menbers: ${menbersError.message}`);
@@ -94,7 +94,7 @@ export const useFormFields = (
                 // イベントと賞の情報を状態に設定
                 setEvents(eventsData.map((event) => ({ value: event.id, label: event.name })) || []);
                 setAwards(awardsData.map((award) => ({ value: award.id, label: award.name })) || []);
-                setMenbers(menbersData.map((menber) => ({ value: menber.id, label: menber.name })) || []);
+                setMenbers(menbersData.map((menber) => ({ value: menber.id, label: `${menber.name}　(${menber.nickname})` })) || []);
                 setTechs(techsData.map((tech) => ({ value: tech.id, label: tech.name })) || []);
 
             } catch (error) {
@@ -183,6 +183,7 @@ export const useFormFields = (
                         name: "teamMenbers",
                         label: "製作者を追加する",
                         options: menbers,
+                        shapeType: "square",
                     },
                 },
             ],
@@ -199,6 +200,7 @@ export const useFormFields = (
                         name: "technologiesId",
                         label: "技術を追加する",
                         options: techs,
+                        shapeType: "rounded",
                     },
                 },
             ],

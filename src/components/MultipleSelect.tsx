@@ -19,6 +19,7 @@ export type MultipleSelectProps<T extends FieldValues> = {
     label: string;
     options: Option[];
     required?: boolean;
+    shapeType: "rounded" | "square";
 };
 
 const ITEM_HEIGHT = 48;
@@ -46,7 +47,8 @@ const MultipleSelect = <T extends FieldValues>({
     options,
     control,
     name,
-    required
+    required,
+    shapeType
 }: MultipleSelectProps<T>): JSX.Element => {
     const {
         field: { value, onChange, onBlur, ref },
@@ -85,11 +87,8 @@ const MultipleSelect = <T extends FieldValues>({
                         key={value}
                         label={getLabelFromValue(value)}
                         onDelete={() => handleDelete(value)}
-                        sx={{
-                            bgcolor: "#EAEFF2",
-                            border: `1px solid #9CABC7`,
-                        }}
-                        deleteIcon={<Box sx={{ color: "#9CABC7", padding:"0 5px 0 20px"}}>×</Box>}
+                        sx={shapeType === "rounded" ? roundedStyle : squareStyle}
+                        deleteIcon={<Box sx={{ color: "#9CABC7", padding: "0 5px 0 20px" }}>×</Box>}
                     />
                 ))}
             </Box>
@@ -148,5 +147,18 @@ const MultipleSelect = <T extends FieldValues>({
     );
 }
 
-
 export default MultipleSelect;
+
+const roundedStyle = {
+    bgcolor: "#EAEFF2",
+    border: `1px solid #9CABC7`,
+}
+
+const squareStyle = {
+    width: "50%", 
+    display: "flex",
+    justifyContent: "space-between",
+    bgcolor: "#EAEFF2",
+    border: `1px solid #9CABC7`,
+    borderRadius: 0,
+}
