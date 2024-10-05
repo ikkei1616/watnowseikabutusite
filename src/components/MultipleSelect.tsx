@@ -87,8 +87,9 @@ const MultipleSelect = <T extends FieldValues>({
                         onDelete={() => handleDelete(value)}
                         sx={{
                             bgcolor: "#EAEFF2",
-                            border: `1px solid ${theme.palette.divider}`,
+                            border: `1px solid #9CABC7`,
                         }}
+                        deleteIcon={<Box sx={{ color: "#9CABC7", padding:"0 5px 0 20px"}}>×</Box>}
                     />
                 ))}
             </Box>
