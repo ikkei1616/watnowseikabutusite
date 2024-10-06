@@ -6,6 +6,7 @@ import { useFormFields } from "./hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
+import AdminHeader from '@/components/AdminHeader';
 
 const NewServicesPage = () => {
   const { control, handleSubmit } = useForm<ServiceInputSchema>({
@@ -158,6 +159,7 @@ const NewServicesPage = () => {
         margin: "0 auto",
       }
       }>
+        <AdminHeader />
         <h1 style={{
           borderBottom: "1px solid #9CABC7",
           paddingBottom: "12px",

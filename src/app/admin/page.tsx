@@ -18,6 +18,16 @@ export default function AdminPage() {
             サービス
           </Link>
         </li>
+        <li className={styles.listItem}>
+          <Link href="/admin/technologies" className={styles.link}>
+            技術スタック
+          </Link>
+        </li>
+        <li className={styles.listItem}>
+          <Link href="/admin/users" className={styles.link}>
+            ユーザ
+          </Link>
+        </li>
       </ul>
     </div>
   );
