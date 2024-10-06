@@ -2,7 +2,7 @@ import { ServiceInputSchema } from "./serviceFormSchema";
 import { Control } from "react-hook-form";
 import { FieldValues } from "react-hook-form";
 import { FormFactoryProps } from "@/components/FormFactory";
-import { supabase } from '../../../supabase/supabase';
+import { supabase } from '../../../../supabase/supabase';
 import { useEffect, useState } from "react";
 
 

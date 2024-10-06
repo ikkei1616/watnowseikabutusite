@@ -5,7 +5,7 @@ import { ServiceInputSchema, ServiceOutputSchema, resolver } from "./serviceForm
 import { useFormFields } from "./hooks";
 import { FormFactory } from "@/components/FormFactory";
 import FormButton from '@/components/FormButton';
-import { supabase } from '../../../supabase/supabase';
+import { supabase } from '../../../../supabase/supabase';
 
 const NewServicesPage = () => {
   const { control, handleSubmit } = useForm<ServiceInputSchema>({
@@ -20,31 +20,31 @@ const NewServicesPage = () => {
 
     let imageUrl = '';
     let videoUrl = '';
-  
+
     if (data.thumbnailImage instanceof File) {
       const imageFileName = encodeURIComponent(`${Date.now()}-${data.thumbnailImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
       const { error: uploadError } = await supabase.storage
         .from('service_images')
         .upload(imageFileName, data.thumbnailImage);
-  
+
       if (uploadError) {
         console.error('Error uploading file: ', uploadError.message);
         return;
       }
-  
+
       const { data: publicImageUrlData } = await supabase.storage
         .from('service_images')
         .getPublicUrl(imageFileName);
-  
+
       imageUrl = publicImageUrlData.publicUrl || '';
     }
 
-    if(data.demoVideo instanceof File) {
+    if (data.demoVideo instanceof File) {
       const videoFileName = encodeURIComponent(`${Date.now()}-${data.demoVideo.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
       const { error: uploadError } = await supabase.storage
         .from('service_videos')
         .upload(videoFileName, data.demoVideo);
-  
+
       if (uploadError) {
         console.error('Error uploading file: ', uploadError.message);
         return;
@@ -56,21 +56,21 @@ const NewServicesPage = () => {
 
       videoUrl = publicVideoUrlData.publicUrl || '';
     }
-  
+
     const { thumbnailImage, demoVideo, eventYear, teamMembers, technologiesId, ...rest } = data;
     const submitData = { ...rest, image: imageUrl, video: videoUrl };
-  
+
     const { data: serviceData, error: insertError } = await supabase
       .from('services')
       .insert([submitData])
       .select();
-  
+
     if (insertError) {
       console.error('Error inserting service:', insertError);
       return;
     }
 
-    if(data.teamMembers && data.teamMembers.length > 0) {
+    if (data.teamMembers && data.teamMembers.length > 0) {
       const { error: teamMembersError } = await supabase
         .from('users_servicies')
         .insert(data.teamMembers.map((teamMember) => ({
@@ -78,14 +78,14 @@ const NewServicesPage = () => {
           user_id: teamMember,
         })))
         .select();
-  
+
       if (teamMembersError) {
         console.error('Error inserting team members:', teamMembersError);
         return;
       }
     }
 
-    if(data.technologiesId && data.technologiesId.length > 0) {
+    if (data.technologiesId && data.technologiesId.length > 0) {
       const { error: technologiesError } = await supabase
         .from('services_technologies')
         .insert(data.technologiesId.map((technologyId) => ({
@@ -93,7 +93,7 @@ const NewServicesPage = () => {
           technology_id: technologyId,
         })))
         .select();
-  
+
       if (technologiesError) {
         console.error('Error inserting technologies:', technologiesError);
         return;
@@ -102,7 +102,7 @@ const NewServicesPage = () => {
 
     window.location.href = '/services';
   };
-  
+
   const formFields = useFormFields(control);
 
   if (isRoading) {
