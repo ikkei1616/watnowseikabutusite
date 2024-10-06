@@ -1,0 +1,74 @@
+/* src/components/EventForm.module.css */
+
+.fullScreen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* ビューポート全体の高さに合わせる */
+  background-color: #f0f0f0; /* 背景色を追加 */
+}
+
+.container {
+  margin: auto;
+  padding: 20px;
+  max-width: 700px;
+  width: 100%; /* コンテナの幅を100%にして中央揃え */
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #007bff;
+  text-align: center;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+}
+
+.label {
+  font-size: 1.2rem;
+  color: #333;
+  margin-top: 20px;
+  display: block;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  min-height: 100px;
+}
+
+.saveButton {
+  display: inline-block; /* リンクをインラインブロックにすることでボタンのように見せる */
+  padding: 10px 20px; /* 内側の余白を設定 */
+  margin-top: 20px; /* 上部の余白を設定 */
+  font-size: 1rem; /* フォントサイズを設定 */
+  color: #fff; /* 文字色を白に設定 */
+  background-color: #007bff; /* 背景色を設定 */
+  border: none; /* 枠線をなくす */
+  border-radius: 8px; /* 角を丸くする */
+  text-align: center; /* テキストを中央揃え */
+  text-decoration: none; /* リンクの下線をなくす */
+  cursor: pointer; /* カーソルをポインタにする */
+}
+
+.saveButton:hover {
+  background-color: #0056b3; /* ホバー時の背景色を変更 */
+}
