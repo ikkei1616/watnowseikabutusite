@@ -7,9 +7,11 @@ import Header from "@/components/Header";
 import { HeaderMode } from "@/types/HeaderMode";
 import { supabase } from "@/supabase/supabase";
 import type {Service} from "@/types/Service";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 const Home: React.FC = () => {
   const [services,setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchService = async () => {
@@ -24,10 +26,16 @@ const Home: React.FC = () => {
         console.log("Fetched data:", data);
         setServices((data as Service[]) || []);
       }
+      setLoading(false);
+
     };
 
     fetchService(); 
   },[]);
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <main>
