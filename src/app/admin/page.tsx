@@ -1,11 +1,16 @@
 import Link from "next/link";
 import styles from "./page.module.css";
 import AdminHeader from "@/components/AdminHeader";
+import AdminPankuzuList from "@/components/AdminPankuzuList";
 
 export default function AdminPage() {
+  const pankuzu = [
+    { text: "ジャンル選択", link: "/admin" },
+  ];
   return (
     <main className={styles.container}>
       <AdminHeader />
+      <AdminPankuzuList pankuzu={pankuzu} />
       <h1 className={styles.heading}>ジャンル選択</h1>
       <ul className={styles.linkList}>
         <li className={styles.listItem}>
