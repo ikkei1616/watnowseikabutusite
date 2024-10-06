@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { ServiceInputSchema, ServiceOutputSchema, resolver } from "./serviceFormSchema";
 import { useFormFields } from "./hooks";
 import { FormFactory } from "@/components/form/FormFactory";
-import FormButton from '@/components/FormButton';
+import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
 
 const NewServicesPage = () => {
@@ -142,7 +142,7 @@ const NewServicesPage = () => {
       }
     }
 
-    window.location.href = 'admin/services';
+    window.location.href = '/admin/services/existing-page';
   };
 
   const formFields = useFormFields(control);
@@ -182,7 +182,7 @@ const NewServicesPage = () => {
             gap: '60px',
             margin: "20px 0"
           }}>
-            <FormButton name="キャンセル" type='cancel' />
+            <FormButton name="キャンセル" type='cancel' onClick={() => window.location.href = '/admin/services'}/>
             <FormButton name="新規作成" type='submit' />
           </div>
         </form>
