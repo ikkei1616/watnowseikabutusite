@@ -10,13 +10,15 @@ type FormField<T extends FieldValues> = {
     id: number;
 } & FormFactoryProps<T>;
 
-export const eventYear = [
-    { value: 2021, label: "2021" },
-    { value: 2022, label: "2022" },
-    { value: 2023, label: "2023" },
-    { value: 2024, label: "2024" },
-    { value: 2025, label: "2025" },
-];
+const generateYearOptions = (startYear: number) => {
+    const currentYear = new Date().getFullYear();
+    return Array.from({ length: currentYear - startYear + 1 }, (_, index) => {
+        const year = startYear + index;
+        return { value: year, label: year.toString() };
+    });
+};
+
+export const yearOptions = generateYearOptions(2020);
 
 export const period = [
     { value: "days", label: "日" },
@@ -24,14 +26,6 @@ export const period = [
     { value: "months", label: "月" },
     { value: "years", label: "年" },
 ]
-
-export const releaseYear = [
-    { value: 2021, label: "2021" },
-    { value: 2022, label: "2022" },
-    { value: 2023, label: "2023" },
-    { value: 2024, label: "2024" },
-    { value: 2025, label: "2025" },
-];
 
 export const releaseMonth = [
     { value: 1, label: "1" },
@@ -155,7 +149,7 @@ export const useFormFields = (
                         control,
                         name: ["release_year", "release_month"],
                         label: "リリース日",
-                        options: [releaseYear, releaseMonth],
+                        options: [yearOptions, releaseMonth],
                         required: true
                     }
                 },
@@ -216,7 +210,7 @@ export const useFormFields = (
                         control,
                         name: "eventYear",
                         label: "イベントの変更",
-                        options: eventYear,
+                        options: yearOptions,
                         ending: "年開催",
                     },
                 },
