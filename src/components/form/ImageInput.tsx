@@ -90,8 +90,8 @@ const ImageInput = <T extends FieldValues>({
             onChange={handleFileChange}
           />
         </ButtonStyled>
-        {preview && type==="image" && <ImagePreview src={preview as string} alt="Preview" />}
-        {preview && type==="video" && (
+        {preview && type === "image" && <ImagePreview src={preview as string} alt="Preview" />}
+        {preview && type === "video" && (
           <VideoPreview controls>
             <source src={preview as string} type="video/mp4" />
             Your browser does not support the video tag.

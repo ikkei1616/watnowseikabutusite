@@ -1,9 +1,9 @@
 import React from 'react';
-import SelectInput, { Option } from './Select'; 
-import { FieldValues, Control, Path } from 'react-hook-form'; 
+import SelectInput, { Option } from './Select';
+import { FieldValues, Control, Path } from 'react-hook-form';
 
 export type DateProps<T extends FieldValues> = {
-    control: Control<T>; 
+    control: Control<T>;
     name: [Path<T>, Path<T>]; // Ensure name is a tuple of Path<T>
     label: string;
     options: Option[][];
@@ -18,7 +18,7 @@ const DateInput = <T extends FieldValues>({
     required
 }: DateProps<T>): JSX.Element => {
     return (
-        <div style={{ display: 'flex', justifyContent: "flex-start", gap:"12px" }}>
+        <div style={{ display: 'flex', justifyContent: "flex-start", gap: "12px" }}>
             <SelectInput
                 control={control}
                 name={name[0]} // Ensure this matches Path<T>

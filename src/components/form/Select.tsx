@@ -32,7 +32,7 @@ const SelectInput = <T extends FieldValues>({
 
   return (
     <div style={{
-      display:"flex",
+      display: "flex",
     }}>
       <FieldWrapper label={label} errorMessage={error?.message} required={required}>
         <Select
@@ -65,15 +65,15 @@ const SelectInput = <T extends FieldValues>({
           ))}
         </Select>
         {ending && (
-        <span style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '1rem',
-          marginTop: '12px',
-          marginLeft: '4px',
-        }}>{ending}</span>
-      )
-      }
+          <span style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '1rem',
+            marginTop: '12px',
+            marginLeft: '4px',
+          }}>{ending}</span>
+        )
+        }
       </FieldWrapper>
     </div>
   );

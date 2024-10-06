@@ -31,18 +31,18 @@ const TextareaInput = <T extends FieldValues>({
           width: '100%',
           '& .custom-textarea': {
             fontSize: '1rem',
-            padding: '8px', 
-            border: '1px solid #9CABC7', 
+            padding: '8px',
+            border: '1px solid #9CABC7',
             borderRadius: '4px',
-            backgroundColor: 'rgba(240, 244, 248, 0)', 
-            boxSizing: 'border-box', 
+            backgroundColor: 'rgba(240, 244, 248, 0)',
+            boxSizing: 'border-box',
             outline: 'none',
             '&:focus': {
               borderColor: '#85D5F3',
-               borderWidth: '2px'
+              borderWidth: '2px'
             },
             '&:hover': {
-              borderColor: '#85D5F3', 
+              borderColor: '#85D5F3',
             },
           },
         }}

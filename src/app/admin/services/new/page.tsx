@@ -3,7 +3,7 @@ import React from 'react';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ServiceInputSchema, ServiceOutputSchema, resolver } from "./serviceFormSchema";
 import { useFormFields } from "./hooks";
-import { FormFactory } from "@/components/FormFactory";
+import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/FormButton';
 import { supabase } from '@/supabase/supabase';
 

@@ -155,7 +155,7 @@ const roundedStyle = {
 }
 
 const squareStyle = {
-    width: "50%", 
+    width: "50%",
     display: "flex",
     justifyContent: "space-between",
     bgcolor: "#EAEFF2",
