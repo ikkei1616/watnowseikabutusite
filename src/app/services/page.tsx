@@ -43,7 +43,7 @@ const Home: React.FC = () => {
       <ul className={styles.serviceList}>
         {services.map((service, num) => (
           <li key={service.id} className={styles.serviceItem}>
-            <Link href="/services/serviceid">{service.name}{num + 1}</Link>
+            <Link href={`/services/${service.id}`}>{service.name}{num + 1}</Link>
           </li>
         ))}
       </ul>
