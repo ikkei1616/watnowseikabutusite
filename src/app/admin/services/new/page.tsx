@@ -5,7 +5,7 @@ import { ServiceInputSchema, ServiceOutputSchema, resolver } from "./serviceForm
 import { useFormFields } from "./hooks";
 import { FormFactory } from "@/components/FormFactory";
 import FormButton from '@/components/FormButton';
-import { supabase } from '../../../../supabase/supabase';
+import { supabase } from '@/supabase/supabase';
 
 const NewServicesPage = () => {
   const { control, handleSubmit } = useForm<ServiceInputSchema>({
@@ -57,7 +57,7 @@ const NewServicesPage = () => {
       videoUrl = publicVideoUrlData.publicUrl || '';
     }
 
-    const { thumbnailImage, demoVideo, eventYear, teamMembers, technologiesId, ...rest } = data;
+    const { thumbnailImage, demoVideo, eventYear, teamMembers, url_web, url_appstore, url_googleplay, url_others, technologiesId, ...rest } = data;
     const submitData = { ...rest, image: imageUrl, video: videoUrl };
 
     const { data: serviceData, error: insertError } = await supabase
@@ -76,8 +76,7 @@ const NewServicesPage = () => {
         .insert(data.teamMembers.map((teamMember) => ({
           service_id: serviceData[0].id,
           user_id: teamMember,
-        })))
-        .select();
+        })));
 
       if (teamMembersError) {
         console.error('Error inserting team members:', teamMembersError);
@@ -91,8 +90,7 @@ const NewServicesPage = () => {
         .insert(data.technologiesId.map((technologyId) => ({
           service_id: serviceData[0].id,
           technology_id: technologyId,
-        })))
-        .select();
+        })));
 
       if (technologiesError) {
         console.error('Error inserting technologies:', technologiesError);
@@ -100,7 +98,51 @@ const NewServicesPage = () => {
       }
     }
 
-    window.location.href = '/services';
+    if(data.url_web){
+      const { error: urlWebError } = await supabase
+        .from('url_website')
+        .insert([{service_id: serviceData[0].id, url: data.url_web}]);
+
+      if (urlWebError) {
+        console.error('Error inserting url_web:', urlWebError);
+        return;
+      }
+    }
+
+    if(data.url_appstore){
+      const { error: urlAppleStoreError } = await supabase
+        .from('url_app_store')
+        .insert([{service_id: serviceData[0].id, url: data.url_appstore}]);
+
+      if (urlAppleStoreError) {
+        console.error('Error inserting url_web:', urlAppleStoreError);
+        return;
+      }
+    }
+
+    if(data.url_googleplay){
+      const { error: urlGooglePlayError } = await supabase
+        .from('url_google_play')
+        .insert([{service_id: serviceData[0].id, url: data.url_googleplay}]);
+
+      if (urlGooglePlayError) {
+        console.error('Error inserting url_web:', urlGooglePlayError);
+        return;
+      }
+    }
+
+    if(data.url_others){
+      const { error: urlOthersError } = await supabase
+        .from('url_others')
+        .insert([{service_id: serviceData[0].id, url: data.url_others}]);
+
+      if (urlOthersError) {
+        console.error('Error inserting url_web:', urlOthersError);
+        return;
+      }
+    }
+
+    window.location.href = 'admin/services';
   };
 
   const formFields = useFormFields(control);
