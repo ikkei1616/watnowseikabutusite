@@ -4,7 +4,7 @@ import AdminHeader from "@/components/AdminHeader";
 
 export default function AdminPage() {
   return (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <AdminHeader />
       <h1 className={styles.heading}>技術スタック</h1>
       <ul className={styles.linkList}>
@@ -19,6 +19,6 @@ export default function AdminPage() {
           </Link>
         </li>
       </ul>
-    </div>
+    </main>
   );
 }
