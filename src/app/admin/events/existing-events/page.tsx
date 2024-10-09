@@ -2,11 +2,14 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import styles from "./Page.module.css";
+import styles from "../../admin.module.css";
 import { supabase } from "@/supabase/supabase";
 import type { Event } from "@/types/Event";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
 import AdminHeader from "@/components/admin/AdminHeader";
 import PankuzuList from "@/components/admin/PankuzuList";
+import AdminTitle from "@/components/admin/AdminTitle";
 
 const EventPage: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
@@ -36,24 +39,43 @@ const EventPage: React.FC = () => {
     fetchEvents();
   }, []);
 
+  const linkStyle = {
+    color: "#0063BF",
+    width: "fit-content",
+    padding: "4px 12px 6px 12px",
+    marginBottom: "12px",
+    fontSize: "1.5rem",
+    linkStyle: "",
+    "&:hover": {
+      backgroundColor: "#0063BF11",
+    },
+    "@media screen and (max-width: 768px)": {
+      fontSize: "1rem",
+    },
+    // ドットを表示
+    "&::before": {
+      content: '"・"',
+      color: "#0063BF",
+      fontSize: "1.5rem",
+      marginRight: "6px",
+    },
+  };
+
   return (
     <>
       <AdminHeader />
-      <main className={styles.pageHeader}>
+      <main className={styles.container}>
         <PankuzuList pankuzu={pankuzu} />
-        <h1>これはイベント一覧ページ</h1>
-        <ul className={styles.eventList}>
+        <AdminTitle>2024年のイベント一覧</AdminTitle>
+        <List>
           {events.map((event) => (
-            <li key={event.id} className={styles.eventItem}>
-              <Link
-                href={`./existing-events/${event.id}/edit`}
-                className={styles.eventLink}
-              >
-                <p>{event.name}</p>
+            <ListItem sx={linkStyle}>
+              <Link href={`./existing-events/${event.id}/edit`}>
+                {event.name}
               </Link>
-            </li>
+            </ListItem>
           ))}
-        </ul>
+        </List>
       </main>
     </>
   );
