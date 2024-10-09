@@ -1,8 +1,7 @@
-import Link from "next/link";
 import styles from "../admin.module.css";
 import AdminHeader from "@/components/admin/AdminHeader";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import AdminLinkList from "@/components/admin/AdminLinkList";
+import AdminLinkItem from "@/components/admin/AdminLinkItem";
 import PankuzuList from "@/components/admin/PankuzuList";
 import AdminTitle from "@/components/admin/AdminTitle";
 
@@ -16,18 +15,13 @@ export default function AdminPage() {
       <AdminHeader />
       <PankuzuList pankuzu={pankuzu} />
       <AdminTitle>ユーザ</AdminTitle>
-      <ul className={styles.linkList}>
-        <li className={styles.listItem}>
-          <Link href="./services/new" className={styles.link}>
-            新規ユーザ作成
-          </Link>
-        </li>
-        <li className={styles.listItem}>
-          <Link href="./services/existing-events" className={styles.link}>
-            既存ユーザ編集
-          </Link>
-        </li>
-      </ul>
+
+      <AdminLinkList>
+        <AdminLinkItem href="./services/new">新規ユーザ作成</AdminLinkItem>
+        <AdminLinkItem href="./services/existing-events">
+          既存ユーザ編集
+        </AdminLinkItem>
+      </AdminLinkList>
     </main>
   );
 }

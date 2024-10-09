@@ -1,9 +1,9 @@
-import Link from "next/link";
 import styles from "../admin.module.css";
 import AdminHeader from "@/components/admin/AdminHeader";
 import PankuzuList from "@/components/admin/PankuzuList";
-import Typography from "@mui/material/Typography";
 import AdminTitle from "@/components/admin/AdminTitle";
+import AdminLinkList from "@/components/admin/AdminLinkList";
+import AdminLinkItem from "@/components/admin/AdminLinkItem";
 
 export default function AdminPage() {
   const pankuzu = [
@@ -15,18 +15,15 @@ export default function AdminPage() {
       <AdminHeader />
       <PankuzuList pankuzu={pankuzu} />
       <AdminTitle>技術スタック</AdminTitle>
-      <ul className={styles.linkList}>
-        <li className={styles.listItem}>
-          <Link href="./services/new" className={styles.link}>
-            新規技術スタック作成
-          </Link>
-        </li>
-        <li className={styles.listItem}>
-          <Link href="./services/existing-events" className={styles.link}>
-            既存技術スタック編集
-          </Link>
-        </li>
-      </ul>
+
+      <AdminLinkList>
+        <AdminLinkItem href="./services/new">
+          新規技術スタック作成
+        </AdminLinkItem>
+        <AdminLinkItem href="./services/existing-events">
+          既存技術スタック編集
+        </AdminLinkItem>
+      </AdminLinkList>
     </main>
   );
 }
