@@ -1,8 +1,9 @@
-import Link from "next/link";
 import styles from "./admin.module.css";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
 import AdminHeader from "@/components/admin/AdminHeader";
 import PankuzuList from "@/components/admin/PankuzuList";
-import Typography from "@mui/material/Typography";
 import AdminTitle from "@/components/admin/AdminTitle";
 
 export default function AdminPage() {
@@ -13,28 +14,139 @@ export default function AdminPage() {
       <main className={styles.container}>
         <PankuzuList pankuzu={pankuzu} />
         <AdminTitle>ジャンル選択</AdminTitle>
-        <ul className={styles.linkList}>
-          <li className={styles.listItem}>
-            <Link href="/admin/events" className={styles.link}>
+        <List
+          sx={{
+            padding: 0,
+            margin: 0,
+            width: "100%",
+          }}
+        >
+          <ListItem
+            sx={{
+              marginBottom: "24px",
+              padding: 0,
+              width: "100%",
+            }}
+          >
+            <ListItemButton
+              component="a"
+              href="/admin/events"
+              sx={{
+                display: "block",
+                width: "100%",
+                fontSize: "1.5rem",
+                backgroundColor: "#eaeff2",
+                color: "#000",
+                textDecoration: "none",
+                padding: "10px 20px",
+                textAlign: "center",
+                border: "2px solid #9cabc7",
+                borderRadius: "5px",
+                transition: "background-color 0.3s, color 0.3s",
+                "&:hover": {
+                  backgroundColor: "#9cabc7",
+                  color: "#fff",
+                },
+              }}
+            >
               イベント
-            </Link>
-          </li>
-          <li className={styles.listItem}>
-            <Link href="/admin/services" className={styles.link}>
+            </ListItemButton>
+          </ListItem>
+          <ListItem
+            sx={{
+              marginBottom: "24px",
+              padding: 0,
+              width: "100%",
+            }}
+          >
+            <ListItemButton
+              component="a"
+              href="/admin/services"
+              sx={{
+                display: "block",
+                width: "100%",
+                fontSize: "1.5rem",
+                backgroundColor: "#eaeff2",
+                color: "#000",
+                textDecoration: "none",
+                padding: "10px 20px",
+                textAlign: "center",
+                border: "2px solid #9cabc7",
+                borderRadius: "5px",
+                transition: "background-color 0.3s, color 0.3s",
+                "&:hover": {
+                  backgroundColor: "#9cabc7",
+                  color: "#fff",
+                },
+              }}
+            >
               サービス
-            </Link>
-          </li>
-          <li className={styles.listItem}>
-            <Link href="/admin/technologies" className={styles.link}>
+            </ListItemButton>
+          </ListItem>
+          <ListItem
+            sx={{
+              marginBottom: "24px",
+              padding: 0,
+              width: "100%",
+            }}
+          >
+            <ListItemButton
+              component="a"
+              href="/admin/users"
+              sx={{
+                display: "block",
+                width: "100%",
+                fontSize: "1.5rem",
+                backgroundColor: "#eaeff2",
+                color: "#000",
+                textDecoration: "none",
+                padding: "10px 20px",
+                textAlign: "center",
+                border: "2px solid #9cabc7",
+                borderRadius: "5px",
+                transition: "background-color 0.3s, color 0.3s",
+                "&:hover": {
+                  backgroundColor: "#9cabc7",
+                  color: "#fff",
+                },
+              }}
+            >
               技術スタック
-            </Link>
-          </li>
-          <li className={styles.listItem}>
-            <Link href="/admin/users" className={styles.link}>
-              ユーザ
-            </Link>
-          </li>
-        </ul>
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem
+            sx={{
+              marginBottom: "24px",
+              padding: 0,
+              width: "100%",
+            }}
+          >
+            <ListItemButton
+              component="a"
+              href="/admin/users"
+              sx={{
+                display: "block",
+                width: "100%",
+                fontSize: "1.5rem",
+                backgroundColor: "#eaeff2",
+                color: "#000",
+                textDecoration: "none",
+                padding: "10px 20px",
+                textAlign: "center",
+                border: "2px solid #9cabc7",
+                borderRadius: "5px",
+                transition: "background-color 0.3s, color 0.3s",
+                "&:hover": {
+                  backgroundColor: "#9cabc7",
+                  color: "#fff",
+                },
+              }}
+            >
+              ユーザー
+            </ListItemButton>
+          </ListItem>
+        </List>
       </main>
     </>
   );
