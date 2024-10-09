@@ -6,7 +6,7 @@ import { useFormFields } from "./hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
-import AdminHeader from '@/components/AdminHeader';
+import AdminHeader from '@/components/admin/AdminHeader';
 
 const NewServicesPage = () => {
   const { control, handleSubmit } = useForm<ServiceInputSchema>({
