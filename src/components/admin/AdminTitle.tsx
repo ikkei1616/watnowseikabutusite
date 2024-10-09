@@ -12,7 +12,8 @@ const AdminTitle = ({ children }: { children: React.ReactNode }) => {
         fontSize: "4rem",
         padding: "1rem 0 28px 0",
         "@media screen and (max-width: 768px)": {
-          fontSize: "3rem",
+          fontSize: "2rem",
+          padding: "1rem 0 20px 0",
         },
       }}
     >

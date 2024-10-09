@@ -14,6 +14,9 @@ const AdminLinkItem = ({
     marginBottom: "24px",
     padding: 0,
     width: "100%",
+    "@media screen and (max-width: 768px)": {
+      marginBottom: "12px",
+    },
   };
   const buttonStyle = {
     display: "block",
@@ -30,6 +33,9 @@ const AdminLinkItem = ({
     "&:hover": {
       backgroundColor: "#9cabc7",
       color: "#fff",
+    },
+    "@media screen and (max-width: 768px)": {
+      fontSize: "1rem",
     },
   };
   return (

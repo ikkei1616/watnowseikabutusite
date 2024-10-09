@@ -22,6 +22,9 @@ const PankuzuList = ({ pankuzu }: { pankuzu: Pankuzu[] }) => {
                 fontSize: "1.5rem",
                 color: "#0063BF",
                 borderBottom: "2px solid #0063BF",
+                "@media screen and (max-width: 768px)": {
+                  fontSize: "1rem",
+                },
               }}
             >
               {item.text}
