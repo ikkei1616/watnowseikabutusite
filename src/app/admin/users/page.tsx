@@ -3,7 +3,7 @@ import styles from "../admin.module.css";
 import AdminHeader from "@/components/AdminHeader";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import AdminPankuzuList from "@/components/AdminPankuzuList";
+import AdminPankuzuList from "@/components/admin/AdminPankuzuList";
 
 export default function AdminPage() {
   const pankuzu = [

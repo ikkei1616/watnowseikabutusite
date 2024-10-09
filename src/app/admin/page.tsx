@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "./admin.module.css";
 import AdminHeader from "@/components/AdminHeader";
-import AdminPankuzuList from "@/components/AdminPankuzuList";
+import AdminPankuzuList from "@/components/admin/AdminPankuzuList";
 import Typography from "@mui/material/Typography";
 
 export default function AdminPage() {

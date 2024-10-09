@@ -6,7 +6,7 @@ import styles from "./Page.module.css";
 import { supabase } from "@/supabase/supabase";
 import type { Event } from "@/types/Event";
 import AdminHeader from "@/components/AdminHeader";
-import AdminPankuzuList from "@/components/AdminPankuzuList";
+import AdminPankuzuList from "@/components/admin/AdminPankuzuList";
 
 const EventPage: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
