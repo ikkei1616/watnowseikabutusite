@@ -20,6 +20,9 @@ export default function AdminPage() {
           fontFamily: "HannariMincho",
           fontSize: "4rem",
           padding: "1rem 0 28px 0",
+          "@media screen and (max-width: 768px)": {
+            fontSize: "3rem",
+          },
         }}
       >
         サービス

@@ -16,6 +16,9 @@ const AdminHeader = ({ isEditing }: { isEditing?: boolean }) => {
         padding: "1rem 100px",
         boxShadow: "none",
         backgroundColor: "#85D5F3",
+        "@media screen and (max-width: 768px)": {
+          padding: "1rem 20px",
+        },
       }}
     >
       <Typography
@@ -27,6 +30,9 @@ const AdminHeader = ({ isEditing }: { isEditing?: boolean }) => {
           lineHeight: "0.85",
           fontWeight: "regular",
           color: "white",
+          "@media screen and (max-width: 600px)": {
+            fontSize: "2rem",
+          },
         }}
       >
         watbox editor
@@ -34,7 +40,9 @@ const AdminHeader = ({ isEditing }: { isEditing?: boolean }) => {
       <Link
         href={"/services"}
         onClick={(e) => {
-          let checkFlg = window.confirm("入力内容が破棄されますがよろしいですか？");
+          let checkFlg = window.confirm(
+            "入力内容が破棄されますがよろしいですか？"
+          );
           if (!checkFlg) {
             e.preventDefault();
           }
@@ -47,6 +55,9 @@ const AdminHeader = ({ isEditing }: { isEditing?: boolean }) => {
             "&:hover": {
               background: "#00AEEF33",
             },
+            "@media screen and (max-width: 600px)": {
+              padding: "0.5rem 1rem",
+            },
           }}
         >
           <Typography
@@ -56,6 +67,9 @@ const AdminHeader = ({ isEditing }: { isEditing?: boolean }) => {
               lineHeight: "0.85",
               fontWeight: "regular",
               color: "white",
+              "@media screen and (max-width: 600px)": {
+                fontSize: "1rem",
+              },
             }}
           >
             閉じる
