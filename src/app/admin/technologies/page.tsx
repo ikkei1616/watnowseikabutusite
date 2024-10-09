@@ -11,19 +11,21 @@ export default function AdminPage() {
     { text: "技術スタック", link: "/admin/technologies" },
   ];
   return (
-    <main className={styles.container}>
+    <>
       <AdminHeader />
-      <PankuzuList pankuzu={pankuzu} />
-      <AdminTitle>技術スタック</AdminTitle>
+      <main className={styles.container}>
+        <PankuzuList pankuzu={pankuzu} />
+        <AdminTitle>技術スタック</AdminTitle>
 
-      <AdminLinkList>
-        <AdminLinkItem href="./services/new">
-          新規技術スタック作成
-        </AdminLinkItem>
-        <AdminLinkItem href="./services/existing-events">
-          既存技術スタック編集
-        </AdminLinkItem>
-      </AdminLinkList>
-    </main>
+        <AdminLinkList>
+          <AdminLinkItem href="./services/new">
+            新規技術スタック作成
+          </AdminLinkItem>
+          <AdminLinkItem href="./services/existing-events">
+            既存技術スタック編集
+          </AdminLinkItem>
+        </AdminLinkList>
+      </main>
+    </>
   );
 }

@@ -11,17 +11,19 @@ export default function AdminPage() {
     { text: "イベント", link: "/admin/events" },
   ];
   return (
-    <main className={styles.container}>
+    <>
       <AdminHeader />
-      <PankuzuList pankuzu={pankuzu} />
-      <AdminTitle>イベント</AdminTitle>
+      <main className={styles.container}>
+        <PankuzuList pankuzu={pankuzu} />
+        <AdminTitle>イベント</AdminTitle>
 
-      <AdminLinkList>
-        <AdminLinkItem href="./services/new">新規イベント作成</AdminLinkItem>
-        <AdminLinkItem href="./services/existing-events">
-          既存イベント編集
-        </AdminLinkItem>
-      </AdminLinkList>
-    </main>
+        <AdminLinkList>
+          <AdminLinkItem href="./services/new">新規イベント作成</AdminLinkItem>
+          <AdminLinkItem href="./services/existing-events">
+            既存イベント編集
+          </AdminLinkItem>
+        </AdminLinkList>
+      </main>
+    </>
   );
 }
