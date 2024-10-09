@@ -20,6 +20,7 @@ export default function AdminPage() {
         sx={{
           fontFamily: "HannariMincho",
           fontSize: "4rem",
+          padding: "1rem 0 28px 0",
         }}
       >
         ユーザ

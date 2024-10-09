@@ -12,11 +12,12 @@ export default function AdminPage() {
       <main className={styles.container}>
         <AdminPankuzuList pankuzu={pankuzu} />
         <Typography
+          variant="h1"
           component="div"
           sx={{
             fontFamily: "HannariMincho",
             fontSize: "4rem",
-            padding: "1rem 0",
+            padding: "1rem 0 28px 0",
           }}
         >
           ジャンル選択

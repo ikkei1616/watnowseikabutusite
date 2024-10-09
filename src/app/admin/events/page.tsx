@@ -2,6 +2,7 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import AdminHeader from "@/components/AdminHeader";
 import AdminPankuzuList from "@/components/AdminPankuzuList";
+import Typography from "@mui/material/Typography";
 
 export default function AdminPage() {
   const pankuzu = [
@@ -12,7 +13,17 @@ export default function AdminPage() {
     <main className={styles.container}>
       <AdminHeader />
       <AdminPankuzuList pankuzu={pankuzu} />
-      <h1 className={styles.heading}>イベント</h1>
+      <Typography
+        variant="h1"
+        component="div"
+        sx={{
+          fontFamily: "HannariMincho",
+          fontSize: "4rem",
+          padding: "1rem 0 28px 0",
+        }}
+      >
+        イベント
+      </Typography>
       <ul className={styles.linkList}>
         <li className={styles.listItem}>
           <Link href="./events/new" className={styles.link}>
