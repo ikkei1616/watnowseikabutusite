@@ -9,7 +9,7 @@ interface Pankuzu {
   link: string;
 }
 
-const AdminPankuzuList = ({ pankuzu }: { pankuzu: Pankuzu[] }) => {
+const PankuzuList = ({ pankuzu }: { pankuzu: Pankuzu[] }) => {
   return (
     <Box display={"flex"} alignItems={"center"}>
       {pankuzu.map((item, index) => (
@@ -81,4 +81,4 @@ const AdminPankuzuList = ({ pankuzu }: { pankuzu: Pankuzu[] }) => {
   );
 };
 
-export default AdminPankuzuList;
+export default PankuzuList;

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "./admin.module.css";
-import AdminHeader from "@/components/AdminHeader";
-import AdminPankuzuList from "@/components/admin/AdminPankuzuList";
+import AdminHeader from "@/components/admin/AdminHeader";
+import PankuzuList from "@/components/admin/PankuzuList";
 import Typography from "@mui/material/Typography";
 
 export default function AdminPage() {
@@ -10,7 +10,7 @@ export default function AdminPage() {
     <>
       <AdminHeader />
       <main className={styles.container}>
-        <AdminPankuzuList pankuzu={pankuzu} />
+        <PankuzuList pankuzu={pankuzu} />
         <Typography
           variant="h1"
           component="div"

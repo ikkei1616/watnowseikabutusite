@@ -1,9 +1,9 @@
 import Link from "next/link";
 import styles from "../admin.module.css";
-import AdminHeader from "@/components/AdminHeader";
+import AdminHeader from "@/components/admin/AdminHeader";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import AdminPankuzuList from "@/components/admin/AdminPankuzuList";
+import PankuzuList from "@/components/admin/PankuzuList";
 
 export default function AdminPage() {
   const pankuzu = [
@@ -13,7 +13,7 @@ export default function AdminPage() {
   return (
     <main className={styles.container}>
       <AdminHeader />
-      <AdminPankuzuList pankuzu={pankuzu} />
+      <PankuzuList pankuzu={pankuzu} />
       <Typography
         variant="h1"
         component="div"

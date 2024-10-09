@@ -5,8 +5,8 @@ import Link from "next/link";
 import styles from "./Page.module.css";
 import { supabase } from "@/supabase/supabase";
 import type { Event } from "@/types/Event";
-import AdminHeader from "@/components/AdminHeader";
-import AdminPankuzuList from "@/components/admin/AdminPankuzuList";
+import AdminHeader from "@/components/admin/AdminHeader";
+import PankuzuList from "@/components/admin/PankuzuList";
 
 const EventPage: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
@@ -40,7 +40,7 @@ const EventPage: React.FC = () => {
     <>
       <AdminHeader />
       <main className={styles.pageHeader}>
-        <AdminPankuzuList pankuzu={pankuzu} />
+        <PankuzuList pankuzu={pankuzu} />
         <h1>これはイベント一覧ページ</h1>
         <ul className={styles.eventList}>
           {events.map((event) => (
