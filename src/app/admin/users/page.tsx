@@ -4,6 +4,7 @@ import AdminHeader from "@/components/admin/AdminHeader";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import PankuzuList from "@/components/admin/PankuzuList";
+import AdminTitle from "@/components/admin/AdminTitle";
 
 export default function AdminPage() {
   const pankuzu = [
@@ -14,20 +15,7 @@ export default function AdminPage() {
     <main className={styles.container}>
       <AdminHeader />
       <PankuzuList pankuzu={pankuzu} />
-      <Typography
-        variant="h1"
-        component="div"
-        sx={{
-          fontFamily: "HannariMincho",
-          fontSize: "4rem",
-          padding: "1rem 0 28px 0",
-          "@media screen and (max-width: 768px)": {
-            fontSize: "3rem",
-          },
-        }}
-      >
-        ユーザ
-      </Typography>
+      <AdminTitle>ユーザ</AdminTitle>
       <ul className={styles.linkList}>
         <li className={styles.listItem}>
           <Link href="./services/new" className={styles.link}>
