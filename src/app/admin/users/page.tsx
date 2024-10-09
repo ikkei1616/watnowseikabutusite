@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from "./page.module.css";
+import styles from "../admin.module.css";
 import AdminHeader from "@/components/AdminHeader";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
