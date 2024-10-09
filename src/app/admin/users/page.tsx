@@ -18,8 +18,8 @@ export default function AdminPage() {
         <AdminTitle>ユーザ</AdminTitle>
 
         <AdminLinkList>
-          <AdminLinkItem href="./services/new">新規ユーザ作成</AdminLinkItem>
-          <AdminLinkItem href="./services/existing-events">
+          <AdminLinkItem href="./users/new">新規ユーザ作成</AdminLinkItem>
+          <AdminLinkItem href="./users/existing-users">
             既存ユーザ編集
           </AdminLinkItem>
         </AdminLinkList>

@@ -19,7 +19,7 @@ export default function AdminPage() {
 
         <AdminLinkList>
           <AdminLinkItem href="./services/new">新規サービス作成</AdminLinkItem>
-          <AdminLinkItem href="./services/existing-events">
+          <AdminLinkItem href="./services/existing-services">
             既存サービス編集
           </AdminLinkItem>
         </AdminLinkList>

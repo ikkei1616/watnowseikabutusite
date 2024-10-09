@@ -143,7 +143,7 @@ const NewServicesPage = () => {
       }
     }
 
-    window.location.href = '/admin/services/existing-page';
+    window.location.href = '/admin/services/existing-services';
   };
 
   const formFields = useFormFields(control);

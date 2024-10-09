@@ -18,10 +18,10 @@ export default function AdminPage() {
         <AdminTitle>技術スタック</AdminTitle>
 
         <AdminLinkList>
-          <AdminLinkItem href="./services/new">
+          <AdminLinkItem href="/admin/technologies/new">
             新規技術スタック作成
           </AdminLinkItem>
-          <AdminLinkItem href="./services/existing-events">
+          <AdminLinkItem href="/admin/technologies/existing-technologies">
             既存技術スタック編集
           </AdminLinkItem>
         </AdminLinkList>

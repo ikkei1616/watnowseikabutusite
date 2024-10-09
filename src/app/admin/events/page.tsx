@@ -18,8 +18,8 @@ export default function AdminPage() {
         <AdminTitle>イベント</AdminTitle>
 
         <AdminLinkList>
-          <AdminLinkItem href="./services/new">新規イベント作成</AdminLinkItem>
-          <AdminLinkItem href="./services/existing-events">
+          <AdminLinkItem href="./events/new">新規イベント作成</AdminLinkItem>
+          <AdminLinkItem href="./events/existing-events">
             既存イベント編集
           </AdminLinkItem>
         </AdminLinkList>
