@@ -7,9 +7,16 @@ import { supabase } from "@/supabase/supabase";
 import type { Event } from "@/types/Event";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
+import Box from "@mui/material/Box";
+import FormControl from "@mui/material/FormControl";
+import RadioGroup from "@mui/material/RadioGroup";
+import Radio from "@mui/material/Radio";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import AdminHeader from "@/components/admin/AdminHeader";
 import PankuzuList from "@/components/admin/PankuzuList";
 import AdminTitle from "@/components/admin/AdminTitle";
+
+const years = [2024, 2025, 2026, 2027, 2028, 2029, 2030];
 
 const EventPage: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
@@ -39,6 +46,46 @@ const EventPage: React.FC = () => {
     fetchEvents();
   }, []);
 
+  const yearButtonStyle = {
+    color: "var(--text)",
+    width: "100%",
+    padding: "10px",
+    margin: "0",
+    fontSize: "1.5rem",
+    backgroundImage: "linear-gradient(to right, #9CABC7 6px, transparent 6px)",
+    backgroundSize: "10px 1px",
+    backgroundRepeat: "repeat-x",
+    backgroundPosition: "left bottom",
+    "& .MuiTypography-root": {
+      flexGrow: 1,
+      fontFamily: "HannariMincho",
+      fontSize: "1.5rem",
+      color: "var(--text)",
+    },
+    "& .Mui-checked + .MuiTypography-root": {
+      color: "#0063BF",
+    },
+    "& .Mui-checked + span::before": {
+      content: '"▶︎"', // 選択時にのみ表示
+      marginRight: "9px",
+    },
+    "span::before": {
+      content: '""', // 選択されていない場合は空
+      color: "#0063BF",
+      fontSize: "10px",
+      marginRight: "19px",
+    },
+    "& .MuiSvgIcon-root": {
+      display: "none",
+    },
+    "& .MuiButtonBase-root": {
+      display: "none",
+    },
+    "@media screen and (max-width: 768px)": {
+      fontSize: "1rem",
+    },
+  };
+
   const linkStyle = {
     color: "#0063BF",
     width: "fit-content",
@@ -66,16 +113,51 @@ const EventPage: React.FC = () => {
       <AdminHeader />
       <main className={styles.container}>
         <PankuzuList pankuzu={pankuzu} />
-        <AdminTitle>2024年のイベント一覧</AdminTitle>
-        <List>
-          {events.map((event) => (
-            <ListItem sx={linkStyle}>
-              <Link href={`./existing-events/${event.id}/edit`}>
-                {event.name}
-              </Link>
-            </ListItem>
-          ))}
-        </List>
+
+        <Box sx={{ display: "flex", padding: "30px", gap: "50px" }}>
+          <Box
+            sx={{
+              backgroundColor: "#EAEFF2",
+              borderRadius: "15px",
+              maxWidth: "250px",
+              minWidth: "250px",
+              padding: "20px",
+              height: "fit-content",
+            }}
+          >
+            <FormControl sx={{ width: "100%" }}>
+              <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue={`${years[0]}`}
+                name="radio-buttons-group"
+                sx={{ width: "100%" }}
+              >
+                {years.map((year) => (
+                  <FormControlLabel
+                    key={year}
+                    value={year}
+                    control={<Radio />}
+                    label={`${year}`}
+                    sx={yearButtonStyle}
+                  />
+                ))}
+              </RadioGroup>
+            </FormControl>
+          </Box>
+
+          <Box sx={{ flexGrow: 1 }}>
+            <AdminTitle>2024年のイベント一覧</AdminTitle>
+            <List>
+              {events.map((event) => (
+                <ListItem key={event.id} sx={linkStyle}>
+                  <Link href={`./existing-events/${event.id}/edit`}>
+                    {event.name}
+                  </Link>
+                </ListItem>
+              ))}
+            </List>
+          </Box>
+        </Box>
       </main>
     </>
   );
