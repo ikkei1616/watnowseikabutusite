@@ -173,7 +173,7 @@ const ServicePage: React.FC = () => {
           </Box>
 
           <Box sx={{ flexGrow: 1 }}>
-            <AdminTitle>2024年のサービス一覧</AdminTitle>
+            <AdminTitle>{selectedYear}年のサービス一覧</AdminTitle>
             <List>
               {services.map((service) => (
                 <ListItem key={service.id} sx={linkStyle}>
