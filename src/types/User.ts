@@ -6,3 +6,9 @@ export default interface User {
     nickname: string;
     introduction?: string;
 }
+
+export interface AdminUserList {
+    id: string;
+    name: string;
+    nickname: string;
+}
