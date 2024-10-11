@@ -101,6 +101,7 @@ const EventPage: React.FC = () => {
     linkStyle: "",
     "&:hover": {
       backgroundColor: "#0063BF11",
+      borderRadius: "5px",
     },
     "@media screen and (max-width: 768px)": {
       fontSize: "1rem",
