@@ -11,9 +11,11 @@ import AdminHeader from "@/components/admin/AdminHeader";
 import PankuzuList from "@/components/admin/PankuzuList";
 import AdminTitle from "@/components/admin/AdminTitle";
 import type { AdminUserList } from "@/types/User";
+import LoadingPage from "@/components/loading/LoadingPage";
 
 const UserPage: React.FC = () => {
   const [users, setUsers] = useState<AdminUserList[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const pankuzu = [
     { text: "ジャンル選択", link: "/admin" },
@@ -46,6 +48,7 @@ const UserPage: React.FC = () => {
         });
         setUsers(fetchedUsers || []); // データがnullのときの対策として空配列を設定
       }
+      setLoading(false);
     };
 
     fetchUsers();
@@ -74,24 +77,26 @@ const UserPage: React.FC = () => {
     },
   };
 
+  if (loading) return <LoadingPage />;
+
   return (
     <>
       <AdminHeader />
       <main className={styles.container}>
         <PankuzuList pankuzu={pankuzu} />
 
-          <Box>
-            <AdminTitle>ユーザ一覧</AdminTitle>
-            <List>
-              {users.map((user) => (
-                <ListItem key={user.id} sx={linkStyle}>
-                  <Link href={`./existing-users/${user.id}/edit`}>
-                    {user.name}({user.nickname})
-                  </Link>
-                </ListItem>
-              ))}
-            </List>
-          </Box>
+        <Box>
+          <AdminTitle>ユーザ一覧</AdminTitle>
+          <List>
+            {users.map((user) => (
+              <ListItem key={user.id} sx={linkStyle}>
+                <Link href={`./existing-users/${user.id}/edit`}>
+                  {user.name}({user.nickname})
+                </Link>
+              </ListItem>
+            ))}
+          </List>
+        </Box>
       </main>
     </>
   );
