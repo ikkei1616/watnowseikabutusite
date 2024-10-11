@@ -40,11 +40,13 @@ const AdminHeader = ({ isEditing }: { isEditing?: boolean }) => {
       <Link
         href={"/services"}
         onClick={(e) => {
-          let checkFlg = window.confirm(
-            "入力内容が破棄されますがよろしいですか？"
-          );
-          if (!checkFlg) {
-            e.preventDefault();
+          if (isEditing) {
+            let checkFlg = window.confirm(
+              "入力内容が破棄されますがよろしいですか？"
+            );
+            if (!checkFlg) {
+              e.preventDefault();
+            }
           }
         }}
       >
