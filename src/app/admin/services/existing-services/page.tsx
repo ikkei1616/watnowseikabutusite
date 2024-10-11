@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { SyntheticEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "../../admin.module.css";
 import { supabase } from "@/supabase/supabase";
@@ -20,6 +20,7 @@ const mockYears = [2024, 2025, 2026, 2027, 2028, 2029, 2030];
 
 const ServicePage: React.FC = () => {
   const [services, setServices] = useState<AdminServiceList[]>([]);
+  const [selectedYear, setSelectedYear] = useState<number>(mockYears[0]);
 
   const pankuzu = [
     { text: "ジャンル選択", link: "/admin" },
@@ -56,6 +57,13 @@ const ServicePage: React.FC = () => {
 
     fetchServices();
   }, []);
+
+  const handleYearChange = (
+    _event: React.ChangeEvent<HTMLInputElement>,
+    value: string
+  ) => {
+    setSelectedYear(parseInt(value));
+  };
 
   const yearButtonStyle = {
     color: "var(--text)",
@@ -149,6 +157,7 @@ const ServicePage: React.FC = () => {
                 defaultValue={`${mockYears[0]}`}
                 name="radio-buttons-group"
                 sx={{ width: "100%" }}
+                onChange={handleYearChange}
               >
                 {mockYears.map((year) => (
                   <FormControlLabel
