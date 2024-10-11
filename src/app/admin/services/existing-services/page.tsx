@@ -43,14 +43,14 @@ const ServicePage: React.FC = () => {
           return;
         }
         console.log("Fetched data:", data); // デバッグ用に取得データを出力
-        const fetchedEvents: AdminServiceList[] = data.map((event) => {
+        const fetchedServices: AdminServiceList[] = data.map((service) => {
           return {
-            id: event.id,
-            name: event.name,
-            year: event.release_year,
+            id: service.id,
+            name: service.name,
+            year: service.release_year,
           };
         });
-        setServices(fetchedEvents || []); // データがnullのときの対策として空配列を設定
+        setServices(fetchedServices || []); // データがnullのときの対策として空配列を設定
       }
     };
 
@@ -164,7 +164,7 @@ const ServicePage: React.FC = () => {
           </Box>
 
           <Box sx={{ flexGrow: 1 }}>
-            <AdminTitle>2024年のイベント一覧</AdminTitle>
+            <AdminTitle>2024年のサービス一覧</AdminTitle>
             <List>
               {services.map((service) => (
                 <ListItem key={service.id} sx={linkStyle}>
