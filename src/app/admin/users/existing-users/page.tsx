@@ -12,7 +12,7 @@ import PankuzuList from "@/components/admin/PankuzuList";
 import AdminTitle from "@/components/admin/AdminTitle";
 import type { AdminUserList } from "@/types/User";
 
-const ServicePage: React.FC = () => {
+const UserPage: React.FC = () => {
   const [users, setUsers] = useState<AdminUserList[]>([]);
 
   const pankuzu = [
@@ -80,8 +80,8 @@ const ServicePage: React.FC = () => {
       <main className={styles.container}>
         <PankuzuList pankuzu={pankuzu} />
 
-          <Box sx={{ flexGrow: 1 }}>
-            <AdminTitle>2024年のイベント一覧</AdminTitle>
+          <Box>
+            <AdminTitle>ユーザ一覧</AdminTitle>
             <List>
               {users.map((user) => (
                 <ListItem key={user.id} sx={linkStyle}>
@@ -97,4 +97,4 @@ const ServicePage: React.FC = () => {
   );
 };
 
-export default ServicePage;
+export default UserPage;
