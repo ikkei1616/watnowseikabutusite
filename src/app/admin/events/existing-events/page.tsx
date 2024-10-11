@@ -5,9 +5,17 @@ import Link from "next/link";
 import styles from "./Page.module.css";
 import { supabase } from "@/supabase/supabase";
 import type { Event } from "@/types/Event";
+import AdminHeader from "@/components/admin/AdminHeader";
+import PankuzuList from "@/components/admin/PankuzuList";
 
 const EventPage: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
+
+  const pankuzu = [
+    { text: "ジャンル選択", link: "/admin" },
+    { text: "イベント", link: "/admin/events" },
+    { text: "既存ページ編集", link: "/admin/events/existing-events" },
+  ];
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -29,21 +37,25 @@ const EventPage: React.FC = () => {
   }, []);
 
   return (
-    <main className={styles.pageHeader}>
-      <h1>これはイベント一覧ページ</h1>
-      <ul className={styles.eventList}>
-        {events.map((event) => (
-          <li key={event.id} className={styles.eventItem}>
-            <Link
-              href={`./existing-events/${event.id}/edit`}
-              className={styles.eventLink}
-            >
-              <p>{event.name}</p>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </main>
+    <>
+      <AdminHeader />
+      <main className={styles.pageHeader}>
+        <PankuzuList pankuzu={pankuzu} />
+        <h1>これはイベント一覧ページ</h1>
+        <ul className={styles.eventList}>
+          {events.map((event) => (
+            <li key={event.id} className={styles.eventItem}>
+              <Link
+                href={`./existing-events/${event.id}/edit`}
+                className={styles.eventLink}
+              >
+                <p>{event.name}</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </main>
+    </>
   );
 };
 
