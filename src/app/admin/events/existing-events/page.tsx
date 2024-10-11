@@ -66,14 +66,20 @@ const EventPage: React.FC = () => {
       color: "#0063BF",
     },
     "& .Mui-checked + span::before": {
-      content: '"▶︎"', // 選択時にのみ表示
-      marginRight: "9px",
+      content: '"▶︎"',
+      paddingTop: "0.3rem",
+      paddingRight: "0",
+    },
+    span: {
+      display: "flex",
+      alignItems: "center",
     },
     "span::before": {
-      content: '""', // 選択されていない場合は空
+      content: '""',
       color: "#0063BF",
-      fontSize: "10px",
-      marginRight: "19px",
+      fontSize: "0.6rem",
+      marginRight: "9px",
+      paddingRight: "0.6rem",
     },
     "& .MuiSvgIcon-root": {
       display: "none",
