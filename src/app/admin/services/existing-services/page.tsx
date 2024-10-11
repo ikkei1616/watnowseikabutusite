@@ -16,7 +16,7 @@ import PankuzuList from "@/components/admin/PankuzuList";
 import AdminTitle from "@/components/admin/AdminTitle";
 import type { AdminServiceList } from "@/types/Service";
 
-const years = [2024, 2025, 2026, 2027, 2028, 2029, 2030];
+const mockYears = [2024, 2025, 2026, 2027, 2028, 2029, 2030];
 
 const ServicePage: React.FC = () => {
   const [services, setServices] = useState<AdminServiceList[]>([]);
@@ -146,11 +146,11 @@ const ServicePage: React.FC = () => {
             <FormControl sx={{ width: "100%" }}>
               <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue={`${years[0]}`}
+                defaultValue={`${mockYears[0]}`}
                 name="radio-buttons-group"
                 sx={{ width: "100%" }}
               >
-                {years.map((year) => (
+                {mockYears.map((year) => (
                   <FormControlLabel
                     key={year}
                     value={year}
