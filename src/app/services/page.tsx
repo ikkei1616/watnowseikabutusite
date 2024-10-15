@@ -8,6 +8,7 @@ import { HeaderMode } from "@/types/HeaderMode";
 import { supabase } from "@/supabase/supabase";
 import type {Service} from "@/types/Service";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import ServiceCard from "@/components/ServiceCard"
 
 const Home: React.FC = () => {
   const [services,setServices] = useState<Service[]>([]);
@@ -17,7 +18,7 @@ const Home: React.FC = () => {
     const fetchService = async () => {
       const {data,error} = await supabase
         .from("services")
-        .select("id,name")
+        .select("id,name,image")
         .order("id", {ascending: true});
       
       if(error) {
@@ -47,6 +48,17 @@ const Home: React.FC = () => {
           </li>
         ))}
       </ul>
+      <div>
+        {services.map((service) => (
+          <div key={service.id}>
+            <ServiceCard service={service}  /> 
+          </div>
+        ))}
+        
+        
+      </div>
+      
+      
     </main>
   );
 };
