@@ -1,6 +1,7 @@
 import styles from "./ServiceCard.module.css";
-import style from "../../public/next.svg"
-import type {Service} from "@/types/Service";
+import style from "../../public/next.svg";
+import type { Service } from "@/types/Service";
+import Image from "next/image";
 import {
   Card,
   CardContent,
@@ -11,91 +12,119 @@ import {
   Divider,
   CardMedia,
 } from "@mui/material";
+import { object } from "zod";
 
 interface ServiceCardProps {
   service: Service;
 }
 
-const ServiceCard: React.FC<ServiceCardProps>=({ service }) =>{
+const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
   return (
     <Card
       sx={{
-        width:"368px",
+        width: "368px",
         height: "306px",
         borderRadius: "20px",
-
       }}
     >
-      <Box 
+      <Box
         sx={{
           display: "flex",
-          backgroundColor:"#85D5F3",
+          backgroundColor: "#85D5F3",
           justifyContent: "space-between",
           alignItems: "center",
           height: "46px",
-          
+          padding: "0 5%",
         }}
       >
-        <Typography
-          sx={{
-            flexGrow: "4",
-          }}
-        >{service.name}</Typography>
-        <CardActions
-          sx={{
+        <Typography sx={{}}>{service.name}</Typography>
+        <div
+          style={{
+            padding: "0",
+            display: "flex",
+            alignItems: "center",
             height: "100%",
-            flexGrow: "2",
           }}
         >
-          <Button>詳細を見る</Button>
-          <CardMedia component="img" image="/paper_airplane.svg" 
-            sx={{
-              borderRadius: "10%",
-              objectFit: "fit",
+          <a
+            href=".#"
+            style={{
+              fontSize: "12px",
+              whiteSpace: "nowrap",
+              padding: "0",
             }}
-          />
-        </CardActions>
+          >
+            詳細を見る
+          </a>
+          <a
+            href=".#"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <CardMedia
+              component="img"
+              image="/paper_airplane.svg"
+              alt="airplane"
+              style={{
+                height: "auto",
+                width: "28px",
+                padding: "0",
+                objectFit: "contain",
+              }}
+            />
+          </a>
+        </div>
       </Box>
 
       <Box
         sx={{
-          backgroundColor:"#F3DF85",
-          padding: "3% 3%",
-          height: "70%"
+          padding: "3% 5%",
+          height: "70%",
         }}
       >
         <Box
           sx={{
-            backgroundColor: "#85D5F3",
+            backgroundColor: "#EAEFF2",
             margin: "0 auto",
-            borderRadius: "60px",
-            
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: "15px",
           }}
         >
-          <CardMedia 
-            component="img" 
-            image="/moodhub.png" 
-            sx={{
-              objectFit: 'cover',
+          <img
+            src={service.image ?? "/default-image.jpg"}
+            alt="service image"
+            style={{
+              width: "100%",      // 親要素の幅いっぱいに広げる
+              height: "100%",     // 親要素の高さいっぱいに広げる
+              objectFit: "cover", // アスペクト比を保ちながら親要素を満たす
+              borderRadius: "15px", // Boxと同じように角を丸める（必要なら）
             }}
-            
           />
         </Box>
       </Box>
-      
 
       <Box
         sx={{
-          backgroundColor: "#000",
+          padding: "0 5%",
         }}
       >
-        <Typography>Watnowのメンバーが作ったプロダクトを一覧できるWebサイト</Typography>
+        <Typography
+          sx={{
+            fontSize: "12px",
+          }}
+        >
+          Watnowのメンバーが作ったプロダクトを一覧できるWebサイト
+        </Typography>
       </Box>
-      
     </Card>
-  )
-
-
-}
+  );
+};
 
 export default ServiceCard;
