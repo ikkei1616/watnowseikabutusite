@@ -1,29 +1,54 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import styles from "./Page.module.css";
+import styles from "./page.module.css";
 import Header from "@/components/Header";
 import { HeaderMode } from "@/types/HeaderMode";
+import { supabase } from "@/supabase/supabase";
+import type { Service } from "@/types/Service";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import ServiceCard from "@/components/ServiceCard";
 
 const Home: React.FC = () => {
-  const services = [
-    { id: "1", name: "service1" },
-    { id: "2", name: "service2" },
-    { id: "3", name: "service3" },
-    { id: "4", name: "service4" },
-    { id: "5", name: "service5" },
-  ];
-  return (
-    <div className={styles.pageHeader}>
-      <Header mode={HeaderMode.SERVICES} />
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
 
-      <ul className={styles.serviceList}>
-        {services.map((service, num) => (
-          <li key={service.id} className={styles.serviceItem}>
-            <Link href="/services/serviceid">サービス{num + 1}</Link>
-          </li>
+  useEffect(() => {
+    const fetchService = async () => {
+      const { data, error } = await supabase
+        .from("services")
+        .select("id,name,image")
+        .order("id", { ascending: true });
+
+      if (error) {
+        console.error("Error fetching events:", error);
+      } else {
+        console.log("Fetched data:", data);
+        setServices((data as Service[]) || []);
+      }
+      setLoading(false);
+    };
+
+    fetchService();
+  }, []);
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  return (
+    <main>
+      <Header mode={HeaderMode.SERVICES} />
+      <h1 className={styles.title}>サービス一覧</h1>
+      <div className={styles.serviceGridList}>
+        {services.map((service) => (
+          <div key={service.id}>
+            <ServiceCard service={service} />
+          </div>
         ))}
-      </ul>
-    </div>
+      </div>
+    </main>
   );
 };
 
