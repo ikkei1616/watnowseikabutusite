@@ -19,7 +19,7 @@ const awardSchema = z.object({
 // イベントの検証スキーマ
 const eventSchema = z.object({
   name: z.string().min(1, "イベントタイトルは必須です。"),
-  description: z.string().optional(),
+  comment: z.string().optional(),
   location: z.string().optional(),
   release_year: z.union([z.number({ message: '開催年は必須です。' }), z.string()]), // 文字列も受け入れる
   release_month: z.union([z.number({ message: '開催月は必須です。' }), z.string()]),

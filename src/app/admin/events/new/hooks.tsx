@@ -126,7 +126,7 @@ export const useFormFields = (control: Control<EventInputSchema>): { container: 
                     type: "TEXTAREA_INPUT",
                     props: {
                         control,
-                        name: "description",
+                        name: "comment",
                         label: "イベント概要(コメント)",
                     },
                 },
