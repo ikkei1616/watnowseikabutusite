@@ -16,34 +16,33 @@ const NewEventPage = () => {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const onSubmit: SubmitHandler<EventOutputSchema> = async (data) => {
-    setIsLoading(true);
+    // setIsLoading(true);
 
-    console.log(data);
+    let imageUrl = '';
 
-    // let imageUrl = '';
+    // サムネイル画像の処理
+    if (data.thumbnailImage instanceof File) {
+      const imageFileName = encodeURIComponent(`${Date.now()}-${data.thumbnailImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
+      const { error: uploadError } = await supabase.storage
+        .from('event_images')
+        .upload(imageFileName, data.thumbnailImage);
 
-    // // サムネイル画像の処理
-    // if (data.thumbnailImage instanceof File) {
-    //   const imageFileName = encodeURIComponent(`${Date.now()}-${data.thumbnailImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
-    //   const { error: uploadError } = await supabase.storage
-    //     .from('event_images')
-    //     .upload(imageFileName, data.thumbnailImage);
+      if (uploadError) {
+        console.error('Error uploading file: ', uploadError.message);
+        setIsLoading(false);
+        return;
+      }
 
-    //   if (uploadError) {
-    //     console.error('Error uploading file: ', uploadError.message);
-    //     setIsLoading(false);
-    //     return;
-    //   }
+      const { data: publicImageUrlData } = await supabase.storage
+        .from('event_images')
+        .getPublicUrl(imageFileName);
 
-    //   const { data: publicImageUrlData } = await supabase.storage
-    //     .from('event_images')
-    //     .getPublicUrl(imageFileName);
+      imageUrl = publicImageUrlData.publicUrl || '';
+    }
 
-    //   imageUrl = publicImageUrlData.publicUrl || '';
-    // }
-
-    // // フォームデータの処理
-    // const { thumbnailImage, award_name, award_count, ...rest } = data;
+    // フォームデータの処理
+    const { thumbnailImage, awards, ...rest } = data;
+    console.log(rest);
     // const submitData = { ...rest, image: imageUrl };
 
     // const { data: eventData, error: insertError } = await supabase
@@ -61,7 +60,6 @@ const NewEventPage = () => {
   };
 
   const formFields = useFormFields(control);
-  console.log(formFields);
 
   if (isLoading) {
     return <div>ローディング中...</div>;
