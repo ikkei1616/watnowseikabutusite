@@ -42,8 +42,8 @@ const NewEventPage = () => {
 
     // フォームデータの処理
     const { thumbnailImage, awards, ...rest } = data;
-    console.log(rest);
-    // const submitData = { ...rest, image: imageUrl };
+    const submitData = { ...rest, image: imageUrl };
+    console.log(submitData);
 
     // const { data: eventData, error: insertError } = await supabase
     //   .from('events')
@@ -55,6 +55,26 @@ const NewEventPage = () => {
     //   setIsLoading(false);
     //   return;
     // }
+
+    if(data.awards?.length !== 0 && data.awards !== undefined) {
+      const awardData = data.awards.map((award) => {
+        return {
+          ...award,
+          event_id: eventData.id, // ここはイベントIDを指定する必要がある
+        };
+      });
+
+      // const { data: awardData, error: insertError } = await supabase
+      //   .from('awards')
+      //   .insert(awardData)
+      //   .select();
+
+      // if (insertError) {
+      //   console.error('Error inserting award:', insertError);
+      //   setIsLoading(false);
+      //   return;
+      // }
+    }
 
     // window.location.href = '/admin/events/existing-page';
   };
