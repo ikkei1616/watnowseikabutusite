@@ -1,7 +1,14 @@
-import React from 'react';
-import TextField from '@mui/material/TextField';
-import FieldWrapper from './FieldWrapper';
-import { FieldValues, useController, Control, Path, PathValue } from 'react-hook-form';
+import React from "react";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import FieldWrapper from "./FieldWrapper";
+import {
+  FieldValues,
+  useController,
+  Control,
+  Path,
+  PathValue,
+} from "react-hook-form";
 
 export type TextInputProps<T extends FieldValues> = {
   control: Control<T>;
@@ -10,7 +17,8 @@ export type TextInputProps<T extends FieldValues> = {
   placeholder?: string;
   defaultValue?: PathValue<T, Path<T>>;
   required?: boolean;
-}
+  isID?: boolean;
+};
 
 const TextInput = <T extends FieldValues>({
   control,
@@ -18,7 +26,8 @@ const TextInput = <T extends FieldValues>({
   label,
   placeholder,
   defaultValue,
-  required
+  required,
+  isID,
 }: TextInputProps<T>): JSX.Element => {
   const {
     field,
@@ -45,6 +54,9 @@ const TextInput = <T extends FieldValues>({
               borderColor: '#85D5F3',
             },
           },
+          '& .MuiInputAdornment-root p': {
+            color: '#A4A4A4',
+          },
         }}
         InputProps={{
           sx: {
@@ -53,6 +65,7 @@ const TextInput = <T extends FieldValues>({
               padding: '4px 4px',
             },
           },
+          startAdornment: <InputAdornment position="start">@</InputAdornment>,
         }}
         variant="outlined"
       />
