@@ -67,7 +67,7 @@ export const useFormFields = (control: Control<EventInputSchema>): { container: 
                     type: "TEXT_INPUT",
                     props: {
                         control,
-                        name: `awards[0].award_name`, // Dynamic name for award name
+                        name: `awards[0].name`, // Dynamic name for award name
                         label: `表彰名 ${(newId + 1)}`,
                     },
                 },
@@ -76,7 +76,7 @@ export const useFormFields = (control: Control<EventInputSchema>): { container: 
                     type: "NUMBER_INPUT",
                     props: {
                         control,
-                        name: `awards[0].award_count`, // Dynamic name for award count
+                        name: `awards[0].order_num`, // Dynamic name for award count
                         label: `受賞数`,
                     },
                 },
@@ -89,7 +89,7 @@ export const useFormFields = (control: Control<EventInputSchema>): { container: 
                     type: "TEXT_INPUT",
                     props: {
                         control,
-                        name: `awards[${(newId / 2)}].award_name`, // Dynamic name for award name
+                        name: `awards[${(newId / 2)}].name`, // Dynamic name for award name
                         label: `表彰名 ${(newId / 2 + 1)}`,
                     },
                 },
@@ -98,7 +98,7 @@ export const useFormFields = (control: Control<EventInputSchema>): { container: 
                     type: "NUMBER_INPUT",
                     props: {
                         control,
-                        name: `awards[${(newId / 2)}].award_count`, // Dynamic name for award count
+                        name: `awards[${(newId / 2)}].order_num`, // Dynamic name for award count
                         label: `受賞数`,
                     },
                 },

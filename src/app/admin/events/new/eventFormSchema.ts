@@ -12,8 +12,8 @@ const imageSchema = z.instanceof(File)
 
 // 表彰のスキーマ
 const awardSchema = z.object({
-  award_name: z.string().optional(),
-  award_count: z.number().optional(),
+  name: z.string().optional(),
+  order_num: z.number().optional(),
 });
 
 // イベントの検証スキーマ
