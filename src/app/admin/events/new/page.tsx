@@ -78,7 +78,7 @@ const NewEventPage = () => {
       }
     }
 
-    window.location.href = '/admin/events/existing-page';
+    window.location.href = '/admin/events/existing-events';
   };
 
   const formFields = useFormFields(control);
