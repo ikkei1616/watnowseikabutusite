@@ -3,11 +3,14 @@ import { supabase } from "@/supabase/supabase";
 import type { AdminServiceList } from "@/types/Service";
 
 const useAdminServiceList = (selectedYear: number) => {
-  const [services, setServices] = useState<AdminServiceList[]>([]);
+  const [services, setServices] = useState<AdminServiceList[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchServices = async () => {
+      setError(null);
+      setServices(null);
+
       const { data, error } = await supabase
         .from("services")
         .select("id, name, release_year")
@@ -20,6 +23,7 @@ const useAdminServiceList = (selectedYear: number) => {
         setError(error.message);
       } else {
         if (data === null) {
+          setServices([]);
           return;
         }
         const fetchedServices: AdminServiceList[] = data.map((service) => {
@@ -29,6 +33,7 @@ const useAdminServiceList = (selectedYear: number) => {
             year: service.release_year,
           };
         });
+
         setServices(fetchedServices || []); // データがnullのときの対策として空配列を設定
       }
     };

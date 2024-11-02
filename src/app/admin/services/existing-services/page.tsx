@@ -52,26 +52,27 @@ const ServicePage: React.FC = () => {
           <Box sx={{ flexGrow: 1 }}>
             <AdminTitle>{selectedYear}年のサービス一覧</AdminTitle>
             <List>
-              {services && services.length !== 0 ? (
-                services.map((service) => (
-                  <AdminExistingLinkItem
-                    key={service.id}
-                    href={`./existing-services/${service.id}/edit`}
+              {services &&
+                (services.length !== 0 ? (
+                  services.map((service) => (
+                    <AdminExistingLinkItem
+                      key={service.id}
+                      href={`./existing-services/${service.id}/edit`}
+                    >
+                      {service.name}
+                    </AdminExistingLinkItem>
+                  ))
+                ) : (
+                  <p
+                    style={{
+                      textAlign: "center",
+                      fontSize: "1.5rem",
+                      marginTop: "40px",
+                    }}
                   >
-                    {service.name}
-                  </AdminExistingLinkItem>
-                ))
-              ) : (
-                <p
-                  style={{
-                    textAlign: "center",
-                    fontSize: "1.5rem",
-                    marginTop: "40px",
-                  }}
-                >
-                  データがありません
-                </p>
-              )}
+                    データがありません
+                  </p>
+                ))}
             </List>
           </Box>
         </Box>
