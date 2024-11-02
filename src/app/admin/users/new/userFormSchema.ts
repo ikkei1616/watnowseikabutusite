@@ -16,20 +16,20 @@ const serviceSchema = z.object({
         }),
     name: z.string().min(1, "ユーザ名は必須です"),
     nickname: z.string().min(1, "ニックネームは必須です"),
-    introduction: z.string().min(1, "ユーザIDは必須です"),
-    account_id: z.string().regex(/^[a-zA-Z0-9]+$/, {
+    introduction: z.string().optional(),
+    account_id: z.string().min(1, "ユーザIDは必須です").regex(/^[a-zA-Z0-9]+$/, {
         message: "半角英数字のみ使用できます",
     }),
     technologiesId: z.number().array().optional(),
-    x_id: z.string().regex(/^[a-zA-Z0-9]+$/, {
-        message: "半角英数字のみ使用できます",
+    x_id: z.string().optional().refine((val) => !val || /^[a-zA-Z0-9]+$/.test(val), {
+      message: "半角英数字のみ使用できます",
     }),
-    instagram_id: z.string().regex(/^[a-zA-Z0-9]+$/, {
+    instagram_id:z.string().optional().refine((val) => !val || /^[a-zA-Z0-9]+$/.test(val), {
         message: "半角英数字のみ使用できます",
-    }),
-    github_id: z.string().regex(/^[a-zA-Z0-9]+$/, {
+      }),
+    github_id: z.string().optional().refine((val) => !val || /^[a-zA-Z0-9]+$/.test(val), {
         message: "半角英数字のみ使用できます",
-    }),
+      }),
 });
 
 export type ServiceInputSchema = z.input<typeof serviceSchema>;

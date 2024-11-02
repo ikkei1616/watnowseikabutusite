@@ -81,7 +81,8 @@ export const useFormFields = (
                         name: "account_id",
                         label: "ユーザID(半角英数字)",
                         placeholder: "Tarotan11",
-                        required: true  
+                        required: true,
+                        isID: true, 
                     },
                 },
                 {
