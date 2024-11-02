@@ -1,6 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
-import LoadingSpinner from "./LoadingSpinner";
+import React from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -14,17 +13,6 @@ const LoadingModal = ({ isOpen }: { isOpen: boolean }) => {
     justifyContent: "center",
     overflow: "hidden",
   };
-  useEffect(() => {
-    // body と html のスタイルをリセット
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.overflow = "hidden";
-
-    // クリーンアップ関数で元に戻す
-    return () => {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-    };
-  }, []);
 
   return (
     <Modal
