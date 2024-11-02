@@ -12,18 +12,25 @@ const imageSchema = z.instanceof(File)
 
 const serviceSchema = z.object({
     iconImage: z.union([z.instanceof(File), z.undefined()]).optional()
-    .refine(file => file === undefined || imageSchema.safeParse(file).success, {
-        message: 'サムネイル画像の形式またはサイズが無効です。',
-    }),
+        .refine(file => file === undefined || imageSchema.safeParse(file).success, {
+            message: 'サムネイル画像の形式またはサイズが無効です。',
+        }),
     name: z.string().min(1, "サービス名は必須です"),
     nickname: z.string().optional(),
-    user_id: z.string().optional(),
     introduction: z.string().optional(),
-    account_id: z.string().optional(),
+    account_id: z.string().regex(/^[a-zA-Z0-9]+$/, {
+        message: "半角英数字のみ使用できます",
+    }),
     technologiesId: z.number().array().optional(),
-    x_id: z.string().optional(),
-    instagram_id: z.string().optional(),
-    github_id: z.string().optional(),
+    x_id: z.string().regex(/^[a-zA-Z0-9]+$/, {
+        message: "半角英数字のみ使用できます",
+    }),
+    instagram_id: z.string().regex(/^[a-zA-Z0-9]+$/, {
+        message: "半角英数字のみ使用できます",
+    }),
+    github_id: z.string().regex(/^[a-zA-Z0-9]+$/, {
+        message: "半角英数字のみ使用できます",
+    }),
 });
 
 export type ServiceInputSchema = z.input<typeof serviceSchema>;
