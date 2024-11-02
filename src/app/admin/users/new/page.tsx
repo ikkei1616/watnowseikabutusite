@@ -66,6 +66,40 @@ const NewServicesPage = () => {
       }
     }
 
+    
+    if(x_id){
+        const { error: xIdError } = await supabase
+          .from('x')
+          .insert([{user_id: userData[0].id, x_id: x_id}]);
+  
+        if (xIdError) {
+          console.error('Error inserting url_web:', xIdError);
+          return;
+        }
+      }
+
+    if(instagram_id){
+        const { error: instagramIdError } = await supabase
+          .from('instagram')
+          .insert([{user_id: userData[0].id, instagram_id: instagram_id}]);
+  
+        if (instagramIdError) {
+          console.error('Error inserting url_web:', instagramIdError);
+          return;
+        }
+      }
+
+    if(github_id){
+        const { error: githubIdError } = await supabase
+          .from('github')
+          .insert([{user_id: userData[0].id, github_id: github_id}]);
+  
+        if (githubIdError) {
+          console.error('Error inserting url_web:', githubIdError);
+          return;
+        }
+      }
+
     // window.location.href = '/admin/users/existing-users';
   };
 
