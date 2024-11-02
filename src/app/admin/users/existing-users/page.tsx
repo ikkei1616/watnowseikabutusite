@@ -1,21 +1,19 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
+import React from "react";
 import styles from "../../admin.module.css";
-import { supabase } from "@/supabase/supabase";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 import Box from "@mui/material/Box";
 import AdminHeader from "@/components/admin/AdminHeader";
 import PankuzuList from "@/components/admin/PankuzuList";
 import AdminTitle from "@/components/admin/AdminTitle";
-import type { AdminUserList } from "@/types/User";
 import LoadingPage from "@/components/loading/LoadingPage";
+import useAdminUserList from "@/hooks/useAdminUserList";
+import AdminExistingLinkItem from "@/components/admin/AdminExistingLinkItem";
+import DisplayError from "@/components/admin/DisplayError";
 
 const UserPage: React.FC = () => {
-  const [users, setUsers] = useState<AdminUserList[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const { users, loading, error } = useAdminUserList();
 
   const pankuzu = [
     { text: "ジャンル選択", link: "/admin" },
@@ -23,59 +21,17 @@ const UserPage: React.FC = () => {
     { text: "既存ページ編集", link: "/admin/users/existing-users" },
   ];
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const { data, error } = await supabase
-        .from("users")
-        .select("id, name, nickname")
-        .order("name", { ascending: true });
-
-      //取得に関するエラーハンドリング
-      if (error) {
-        console.error("Error fetching services:", error);
-      } else {
-        if (data === null) {
-          console.error("No data fetched");
-          return;
-        }
-        console.log("Fetched data:", data); // デバッグ用に取得データを出力
-        const fetchedUsers: AdminUserList[] = data.map((user) => {
-          return {
-            id: user.id,
-            name: user.name,
-            nickname: user.nickname,
-          };
-        });
-        setUsers(fetchedUsers || []); // データがnullのときの対策として空配列を設定
-      }
-      setLoading(false);
-    };
-
-    fetchUsers();
-  }, []);
-
-  const linkStyle = {
-    color: "#0063BF",
-    width: "fit-content",
-    padding: "4px 12px 6px 12px",
-    marginBottom: "12px",
-    fontSize: "1.5rem",
-    linkStyle: "",
-    "&:hover": {
-      backgroundColor: "#0063BF11",
-      borderRadius: "5px",
-    },
-    "@media screen and (max-width: 768px)": {
-      fontSize: "1rem",
-    },
-    // ドットを表示
-    "&::before": {
-      content: '"・"',
-      color: "#0063BF",
-      fontSize: "1.5rem",
-      marginRight: "6px",
-    },
-  };
+  if (error) {
+    return (
+      <>
+        <AdminHeader />
+        <main className={styles.container}>
+          <PankuzuList pankuzu={pankuzu} />
+          <DisplayError height={"calc(100vh - 200px)"} error={error} />
+        </main>
+      </>
+    );
+  }
 
   if (loading) return <LoadingPage />;
 
@@ -85,16 +41,33 @@ const UserPage: React.FC = () => {
       <main className={styles.container}>
         <PankuzuList pankuzu={pankuzu} />
 
-        <Box>
+        <Box
+          sx={{
+            paddingBottom: "100px",
+          }}
+        >
           <AdminTitle>ユーザ一覧</AdminTitle>
           <List>
-            {users.map((user) => (
-              <ListItem key={user.id} sx={linkStyle}>
-                <Link href={`./existing-users/${user.id}/edit`}>
+            {users && users.length !== 0 ? (
+              users.map((user) => (
+                <AdminExistingLinkItem
+                  key={user.id}
+                  href={`./existing-users/${user.id}/edit`}
+                >
                   {user.name}({user.nickname})
-                </Link>
-              </ListItem>
-            ))}
+                </AdminExistingLinkItem>
+              ))
+            ) : (
+              <p
+                style={{
+                  textAlign: "center",
+                  fontSize: "1.5rem",
+                  marginTop: "40px",
+                }}
+              >
+                データがありません
+              </p>
+            )}
           </List>
         </Box>
       </main>
