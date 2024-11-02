@@ -64,8 +64,6 @@ const NewEventPage = () => {
         };
       });
 
-      console.log(awardsToInsert);
-
       const {error: insertError } = await supabase
         .from('awards')
         .insert(awardsToInsert)
