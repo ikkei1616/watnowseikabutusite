@@ -7,6 +7,7 @@ import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
 import AdminHeader from '@/components/admin/AdminHeader';
+import LoadingModal from '@/components/loading/LoadingModal';
 
 const NewServicesPage = () => {
   const { control, handleSubmit } = useForm<ServiceInputSchema>({
@@ -105,12 +106,9 @@ const NewServicesPage = () => {
 
   const formFields = useFormFields(control);
 
-  if (isRoading) {
-    return <div>ローディング中...</div>;
-  }
-
   return (
     <>
+      <LoadingModal isOpen={isRoading} />
       <main style={{
         width: "90%",
         margin: "0 auto",
