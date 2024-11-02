@@ -8,19 +8,21 @@ import AdminLinkItem from "@/components/admin/AdminLinkItem";
 export default function AdminPage() {
   const pankuzu = [
     { text: "ジャンル選択", link: "/admin" },
-    { text: "イベント", link: "/admin/events" },
+    { text: "技術スタック", link: "/admin/technologies" },
   ];
   return (
     <>
       <AdminHeader />
       <main className={styles.container}>
         <PankuzuList pankuzu={pankuzu} />
-        <AdminTitle>イベント</AdminTitle>
+        <AdminTitle>技術スタック</AdminTitle>
 
         <AdminLinkList>
-          <AdminLinkItem href="./events/new">新規イベント作成</AdminLinkItem>
-          <AdminLinkItem href="./events/existing-events">
-            既存イベント編集
+          <AdminLinkItem href="/admin/technologies/new">
+            新規技術スタック作成
+          </AdminLinkItem>
+          <AdminLinkItem href="/admin/technologies/existing-technologies">
+            既存技術スタック編集
           </AdminLinkItem>
         </AdminLinkList>
       </main>
