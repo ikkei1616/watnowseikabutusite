@@ -15,12 +15,11 @@ import AdminHeader from "@/components/admin/AdminHeader";
 import PankuzuList from "@/components/admin/PankuzuList";
 import AdminTitle from "@/components/admin/AdminTitle";
 import type { AdminServiceList } from "@/types/Service";
-
-const mockYears = [2024, 2025, 2026, 2027, 2028, 2029, 2030];
+import { YEARS_OPTIONS } from "@/const";
 
 const ServicePage: React.FC = () => {
   const [services, setServices] = useState<AdminServiceList[]>([]);
-  const [selectedYear, setSelectedYear] = useState<number>(mockYears[0]);
+  const [selectedYear, setSelectedYear] = useState<number>(YEARS_OPTIONS[0]);
 
   const pankuzu = [
     { text: "ジャンル選択", link: "/admin" },
@@ -154,12 +153,12 @@ const ServicePage: React.FC = () => {
             <FormControl sx={{ width: "100%" }}>
               <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue={`${mockYears[0]}`}
+                defaultValue={`${YEARS_OPTIONS[0]}`}
                 name="radio-buttons-group"
                 sx={{ width: "100%" }}
                 onChange={handleYearChange}
               >
-                {mockYears.map((year) => (
+                {YEARS_OPTIONS.map((year) => (
                   <FormControlLabel
                     key={year}
                     value={year}
