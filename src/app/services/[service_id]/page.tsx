@@ -24,6 +24,7 @@ export default function ServiceDetailPage({
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [technologies, setTechnologies] = useState<string[]>([]);
+  const [webs, setWebs] = useState<string[]>([]);
 
   // service_idの変更をトリガーにしてsetServiceを実行
   useEffect(() => {
@@ -117,6 +118,29 @@ export default function ServiceDetailPage({
     fetchTechnologies();
   }, [serviceID]);
 
+  useEffect(() => {
+    const fetchWebsites = async () => {
+      if (serviceID) {
+        // Step 1: `service-websites` ��ー��ルから `website_id` を取得
+        const { data: serviceWebData, error: serviceWebError } =
+          await supabase
+            .from("url_website")
+            .select("url")
+            .eq("service_id", serviceID);
+        console.log(serviceWebData);
+
+        if (serviceWebError ||!serviceWebData) {
+          console.error("Error fetching URLs:", serviceWebError);
+          setWebs([]);
+          return;
+        }
+        setWebs(serviceWebData.map((item) => item.url));
+      }
+    };
+
+    fetchWebsites();
+  }, [serviceID]);
+
   if (loading) {
     return <LoadingSpinner />;
   }
@@ -199,6 +223,19 @@ export default function ServiceDetailPage({
 
           <div className={styles.url}>
             <p className={styles.muneobi}>サービスURL</p>
+            {URL.length > 0 ? (
+              <div className={styles.urlda}>
+                
+                {webs.map((url, index) => (
+                    <a href={url} target="_blank" rel="noopener noreferrer">
+                      website
+                    </a>
+                ))}
+
+              </div>
+            ) : (
+              <p>関連リンクがありません</p>
+            )}
           </div>
 
           {/* 賞のリストを表示 */}
@@ -217,3 +254,11 @@ export default function ServiceDetailPage({
     </main>
   );
 }
+function setUrl(arg0: null) {
+  throw new Error("Function not implemented.");
+}
+
+function item(value: { url: any; }, index: number, array: { url: any; }[]): string {
+  throw new Error("Function not implemented.");
+}
+

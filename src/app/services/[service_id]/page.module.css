@@ -112,6 +112,11 @@
   border-bottom: 2px dotted #00aeef;
 }
 
+.urlda{
+  font-size: 1.3rem;
+  margin-left: 20px;
+}
+
 .techStackContainer {
   display: flex;
   flex-wrap: wrap;
