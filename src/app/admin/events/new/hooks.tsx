@@ -63,7 +63,7 @@ export const useFormFields = (control: Control<EventInputSchema>): { container: 
         if (newId === 0) {
             setAwardFields(() => [
                 {
-                    id: 6 + newId, // Adjust ID to avoid duplication
+                    id: 7 + newId, // Adjust ID to avoid duplication
                     type: "TEXT_INPUT",
                     props: {
                         control,
@@ -72,7 +72,7 @@ export const useFormFields = (control: Control<EventInputSchema>): { container: 
                     },
                 },
                 {
-                    id: 6 + newId + 1,
+                    id: 7 + newId + 1,
                     type: "NUMBER_INPUT",
                     props: {
                         control,
@@ -152,6 +152,15 @@ export const useFormFields = (control: Control<EventInputSchema>): { container: 
                 },
                 {
                     id: 5,
+                    type: "TEXT_INPUT",
+                    props: {
+                        control,
+                        name: "url",
+                        label: "関連URL",
+                    },
+                },
+                {
+                    id: 6,
                     type: "IMAGE_INPUT",
                     props: {
                         control,
