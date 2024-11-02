@@ -7,6 +7,7 @@ import MultipleSelect, { MultipleSelectProps } from './MultipleSelect';
 import Period, { PeriodProps } from './PeriodInput';
 import DateInput, { DateProps } from './DateInput';
 import CheckboxLabels, { CheckboxLabelsProps } from './CheckBoxLabels';
+import AddButton, {AddButtonProps} from './AddButton';
 import { FieldValues } from 'react-hook-form';
 
 export type FormFactoryProps<T extends FieldValues> =
@@ -46,6 +47,10 @@ export type FormFactoryProps<T extends FieldValues> =
         type: "CHECKBOX";
         props: CheckboxLabelsProps<T>;
     }
+    | {
+        type: "ADD_BUTTON";
+        props: AddButtonProps<T>;
+    }
 
 export const FormFactory = <T extends FieldValues>({
     type,
@@ -70,6 +75,8 @@ export const FormFactory = <T extends FieldValues>({
             return <DateInput {...props} />
         case "CHECKBOX":
             return <CheckboxLabels {...props} />
+        case "ADD_BUTTON":
+            return <AddButton {...props} />
         default:
             return null;
     }
