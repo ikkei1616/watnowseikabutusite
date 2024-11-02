@@ -4,20 +4,22 @@
   display: flex;
   align-items: center;
   min-height: 100vh;
-  background-color: #f0f0f0;
+  background-color: #fafafb;
   flex-direction: column;
 }
 
 .head {
   padding-top: 86px;
-  margin-left: 60px;
-  margin-right: 52px;
+  /* margin-left: 60px;
+  margin-right: 60px; */
   display: flex;
+  width: 92%;
   border-bottom: 2px solid #00aeef;
 }
 
 .servicename {
   padding-bottom: 30px;
+  margin-left: 10px;
   display: flex;
   font-size: 64px;
   font-weight: lighter;
@@ -26,44 +28,49 @@
 }
 .span {
   font-weight: lighter;
-  font-size: 36px;
+  font-size: 50px;
   margin-left: 10px;
+  align-items: center
 }
 
 .card {
   display: flex;
   justify-content: center;
   margin-top: 30px;
+  width: 100%;
 }
 
 .container {
   justify-content: center;
   padding: 20px;
-  max-width: 700px;
-  width: 100%;
+  /* max-width: 900px; */
+  width: 85%;
   background-color: #fff;
-  border-radius: 12px;
+  border-radius: 40px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border: 1px solid #e0e0e0;
 }
 
 .atama {
   display: flex;
+  max-height: 63px;
   flex-direction: row;
   align-items: flex-end;
-  padding: 20px;
+  margin-left: 17px;
+  margin-bottom: 24px;
 }
 
 .title {
   font-weight: lighter;
-  font-size: 2.8rem;
+  font-size: 3.3rem;
   color: #00aeef;
 }
 
 .description {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   color: #333;
-  padding-left: 20px;
+  padding-left: 40px;
+  margin-bottom: 8px;
 }
 
 .karada {
@@ -71,26 +78,67 @@
 }
 
 .karada img {
-  width: 400px;
-  height: 250px;
+  min-width: 45%;
+  min-height: 320px;
   object-fit: cover;
   border-radius: 30px;
 }
 
-.datailsContainer{
+.datailsContainer {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 }
 
 .details {
   font-size: 1.1rem;
-  color: #555;
+  color: #878686;
   margin-top: 10px;
-  padding: 8px 20px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-left: 24px;
+  padding-bottom: 8px;
+  border-bottom: 2px dotted #555;
 }
+.detailsdata {
+  margin: 14px 24px;
+  font-size: 1.7rem;
+  height: 44px;
+}
+
+.muneobi {
+  font-size: 2.0rem;
+  margin: 10px;
+  margin-top: 20px;
+  color: #00aeef;
+  border-bottom: 2px dotted #00aeef;
+}
+
+.techStackContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px; /* アイテム間のスペース */
+}
+
+.techItem {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* アイコンとテキストの間のスペース */
+  background-color: #fff;
+  padding: 10px;
+  width: 250px;
+  font-size: 1.8rem;
+  border: 2px solid #00aeef;
+  border-radius: 15px;
+  margin-left: 10px;
+}
+
+.techIcon {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 100%;
+}
+
+
 .editButton {
   display: inline-block;
   margin-top: 20px;

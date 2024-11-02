@@ -10,9 +10,12 @@ export interface Service {
 
 //Service詳細ページで利用する型定義
 export interface ServiceDetail extends Service {
+  github_url: string | undefined;
+  url: string | undefined;
+  tech_stack: string | undefined;
   release_month: ReactNode;
   release_year: ReactNode;
-  image: any;
+  image: string;
   description?: string;
   team_name: string;
   create_date?: string;
