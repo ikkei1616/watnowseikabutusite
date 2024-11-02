@@ -15,9 +15,9 @@ const serviceSchema = z.object({
         .refine(file => file === undefined || imageSchema.safeParse(file).success, {
             message: 'サムネイル画像の形式またはサイズが無効です。',
         }),
-    name: z.string().min(1, "サービス名は必須です"),
-    nickname: z.string().optional(),
-    introduction: z.string().optional(),
+    name: z.string().min(1, "ユーザ名は必須です"),
+    nickname: z.string().min(1, "ニックネームは必須です"),
+    introduction: z.string().min(1, "ユーザIDは必須です"),
     account_id: z.string().regex(/^[a-zA-Z0-9]+$/, {
         message: "半角英数字のみ使用できます",
     }),
