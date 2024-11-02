@@ -1,21 +1,18 @@
 "use client";
 
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "../../admin.module.css";
 import { supabase } from "@/supabase/supabase";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Box from "@mui/material/Box";
-import FormControl from "@mui/material/FormControl";
-import RadioGroup from "@mui/material/RadioGroup";
-import Radio from "@mui/material/Radio";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import AdminHeader from "@/components/admin/AdminHeader";
 import PankuzuList from "@/components/admin/PankuzuList";
 import AdminTitle from "@/components/admin/AdminTitle";
 import type { AdminServiceList } from "@/types/Service";
 import { YEARS_OPTIONS } from "@/const";
+import SelectYearOptions from "@/components/admin/SelectYearOptions";
 
 const ServicePage: React.FC = () => {
   const [services, setServices] = useState<AdminServiceList[]>([]);
@@ -64,52 +61,6 @@ const ServicePage: React.FC = () => {
     setSelectedYear(parseInt(value));
   };
 
-  const yearButtonStyle = {
-    color: "var(--text)",
-    width: "100%",
-    padding: "10px",
-    margin: "0",
-    fontSize: "1.5rem",
-    backgroundImage: "linear-gradient(to right, #9CABC7 6px, transparent 6px)",
-    backgroundSize: "10px 1px",
-    backgroundRepeat: "repeat-x",
-    backgroundPosition: "left bottom",
-    "& .MuiTypography-root": {
-      flexGrow: 1,
-      fontFamily: "HannariMincho",
-      fontSize: "1.5rem",
-      color: "var(--text)",
-    },
-    "& .Mui-checked + .MuiTypography-root": {
-      color: "#0063BF",
-    },
-    "& .Mui-checked + span::before": {
-      content: '"▶︎"',
-      paddingTop: "0.3rem",
-      paddingRight: "0",
-    },
-    span: {
-      display: "flex",
-      alignItems: "center",
-    },
-    "span::before": {
-      content: '""',
-      color: "#0063BF",
-      fontSize: "0.6rem",
-      marginRight: "9px",
-      paddingRight: "0.6rem",
-    },
-    "& .MuiSvgIcon-root": {
-      display: "none",
-    },
-    "& .MuiButtonBase-root": {
-      display: "none",
-    },
-    "@media screen and (max-width: 768px)": {
-      fontSize: "1rem",
-    },
-  };
-
   const linkStyle = {
     color: "#0063BF",
     width: "fit-content",
@@ -140,36 +91,11 @@ const ServicePage: React.FC = () => {
         <PankuzuList pankuzu={pankuzu} />
 
         <Box sx={{ display: "flex", padding: "30px", gap: "50px" }}>
-          <Box
-            sx={{
-              backgroundColor: "#EAEFF2",
-              borderRadius: "15px",
-              maxWidth: "250px",
-              minWidth: "250px",
-              padding: "20px",
-              height: "fit-content",
-            }}
-          >
-            <FormControl sx={{ width: "100%" }}>
-              <RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue={`${YEARS_OPTIONS[0]}`}
-                name="radio-buttons-group"
-                sx={{ width: "100%" }}
-                onChange={handleYearChange}
-              >
-                {YEARS_OPTIONS.map((year) => (
-                  <FormControlLabel
-                    key={year}
-                    value={year}
-                    control={<Radio />}
-                    label={`${year}`}
-                    sx={yearButtonStyle}
-                  />
-                ))}
-              </RadioGroup>
-            </FormControl>
-          </Box>
+          <SelectYearOptions
+            handleYearChange={handleYearChange}
+            yearOptions={YEARS_OPTIONS}
+            defaultValue={selectedYear}
+          />
 
           <Box sx={{ flexGrow: 1 }}>
             <AdminTitle>{selectedYear}年のサービス一覧</AdminTitle>

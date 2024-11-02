@@ -6,15 +6,12 @@ import { supabase } from "@/supabase/supabase";
 import type { Event } from "@/types/Event";
 import List from "@mui/material/List";
 import Box from "@mui/material/Box";
-import FormControl from "@mui/material/FormControl";
-import RadioGroup from "@mui/material/RadioGroup";
-import Radio from "@mui/material/Radio";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import AdminHeader from "@/components/admin/AdminHeader";
 import PankuzuList from "@/components/admin/PankuzuList";
 import AdminTitle from "@/components/admin/AdminTitle";
 import AdminExistingLinkItem from "@/components/admin/AdminExistingLinkItem";
 import { YEARS_OPTIONS } from "@/const";
+import SelectYearOptions from "@/components/admin/SelectYearOptions";
 
 const EventPage: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
@@ -128,36 +125,11 @@ const EventPage: React.FC = () => {
         <PankuzuList pankuzu={pankuzu} />
 
         <Box sx={{ display: "flex", padding: "30px", gap: "50px" }}>
-          <Box
-            sx={{
-              backgroundColor: "#EAEFF2",
-              borderRadius: "15px",
-              maxWidth: "250px",
-              minWidth: "250px",
-              padding: "20px",
-              height: "fit-content",
-            }}
-          >
-            <FormControl sx={{ width: "100%" }}>
-              <RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue={`${YEARS_OPTIONS[0]}`}
-                name="radio-buttons-group"
-                sx={{ width: "100%" }}
-                onChange={handleYearChange}
-              >
-                {YEARS_OPTIONS.map((year) => (
-                  <FormControlLabel
-                    key={year}
-                    value={year}
-                    control={<Radio />}
-                    label={`${year}`}
-                    sx={yearButtonStyle}
-                  />
-                ))}
-              </RadioGroup>
-            </FormControl>
-          </Box>
+          <SelectYearOptions
+            handleYearChange={handleYearChange}
+            yearOptions={YEARS_OPTIONS}
+            defaultValue={selectedYear}
+          />
 
           <Box sx={{ flexGrow: 1 }}>
             <AdminTitle>{selectedYear}年のイベント一覧</AdminTitle>
