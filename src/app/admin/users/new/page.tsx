@@ -24,7 +24,7 @@ const NewServicesPage = () => {
     if (data.iconImage instanceof File) {
       const imageFileName = encodeURIComponent(`${Date.now()}-${data.iconImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
       const { error: uploadError } = await supabase.storage
-        .from('service_images')
+        .from('user_icons')
         .upload(imageFileName, data.iconImage);
 
       if (uploadError) {
@@ -33,13 +33,13 @@ const NewServicesPage = () => {
       }
 
       const { data: publicImageUrlData } = await supabase.storage
-        .from('service_images')
+        .from('user_icons')
         .getPublicUrl(imageFileName);
 
       imageUrl = publicImageUrlData.publicUrl || '';
     }
 
-    const {iconImage, technologiesId, ...rest } = data;
+    const {iconImage, technologiesId, x_id, instagram_id, github_id, ...rest } = data;
     const submitData = { ...rest, image: imageUrl };
 
     const { data: userData, error: insertError } = await supabase

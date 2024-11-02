@@ -76,7 +76,7 @@ export const useFormFields = (
                     type: "TEXT_INPUT",
                     props: {
                         control,
-                        name: "user_id",
+                        name: "account_id",
                         label: "ユーザID(半角英数字)",
                         required: true  
                     },
