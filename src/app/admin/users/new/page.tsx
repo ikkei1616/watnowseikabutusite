@@ -15,7 +15,8 @@ const NewServicesPage = () => {
     resolver: resolver,
   });
 
-  const [isRoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isError, setIsError] = React.useState(false);
 
   const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
     setIsLoading(true);
@@ -30,6 +31,9 @@ const NewServicesPage = () => {
 
       if (uploadError) {
         console.error('Error uploading file: ', uploadError.message);
+        window.alert(uploadError.message);
+        setIsLoading(false);
+        setIsError(true);
         return;
       }
 
@@ -50,6 +54,9 @@ const NewServicesPage = () => {
 
     if (insertError) {
       console.error('Error inserting service:', insertError);
+      window.alert(insertError.message);
+      setIsLoading(false);
+      setIsError(true);
       return;
     }
 
@@ -63,6 +70,9 @@ const NewServicesPage = () => {
 
       if (technologiesError) {
         console.error('Error inserting technologies:', technologiesError);
+        window.alert(technologiesError.message);
+        setIsLoading(false);
+        setIsError(true);
         return;
       }
     }
@@ -75,6 +85,9 @@ const NewServicesPage = () => {
   
         if (xIdError) {
           console.error('Error inserting url_web:', xIdError);
+          window.alert(xIdError.message);
+          setIsLoading(false);
+          setIsError(true);
           return;
         }
       }
@@ -86,6 +99,9 @@ const NewServicesPage = () => {
   
         if (instagramIdError) {
           console.error('Error inserting url_web:', instagramIdError);
+          window.alert(instagramIdError.message);
+          setIsLoading(false);
+          setIsError(true);
           return;
         }
       }
@@ -97,18 +113,24 @@ const NewServicesPage = () => {
   
         if (githubIdError) {
           console.error('Error inserting url_web:', githubIdError);
+          window.alert(githubIdError.message);
+          setIsLoading(false);
+          setIsError(true);
           return;
         }
       }
 
+    if(!isError){
+      setIsLoading(false);
     window.location.href = '/admin/users/existing-users';
+    }
   };
 
   const formFields = useFormFields(control);
 
   return (
     <>
-      <LoadingModal isOpen={isRoading} />
+      <LoadingModal isOpen={isLoading} />
       <main style={{
         width: "90%",
         margin: "0 auto",
