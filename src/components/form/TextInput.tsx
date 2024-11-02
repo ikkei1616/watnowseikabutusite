@@ -56,16 +56,24 @@ const TextInput = <T extends FieldValues>({
           },
           '& .MuiInputAdornment-root p': {
             color: '#A4A4A4',
+            margin: '0',
+            padding: '0',
           },
         }}
         InputProps={{
           sx: {
-            padding: '4px 4px',
+            padding: '4px 8px',
             '& input': {
               padding: '4px 4px',
             },
           },
-          startAdornment: <InputAdornment position="start">@</InputAdornment>,
+          startAdornment: isID ? (<InputAdornment position="start" sx={{
+            margin: 0, // 余白をなくす
+            padding: 0, // パディングをなくす
+            '& .MuiTypography-root': {
+              margin: 0, // 内部のテキストの余白をなくす
+            },
+          }}>@</InputAdornment>) : null,
         }}
         variant="outlined"
       />

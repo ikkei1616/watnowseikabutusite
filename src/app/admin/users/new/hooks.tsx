@@ -124,7 +124,8 @@ export const useFormFields = (
                         control,
                         name: "x_id",
                         label: "X(旧Twitter)",
-                        placeholder: "@"
+                        isID: true,
+
                     }
                 },
                 {
@@ -134,7 +135,7 @@ export const useFormFields = (
                         control,
                         name: "instagram_id",
                         label: "Instagram",
-                        placeholder: "@"
+                        isID: true,
                     }
                 },
                 {
@@ -144,7 +145,7 @@ export const useFormFields = (
                         control,
                         name: "github_id",
                         label: "GitHub",
-                        placeholder: "@"
+                        isID: true,
                     }
                 },
             ]
