@@ -100,7 +100,7 @@ const NewServicesPage = () => {
         }
       }
 
-    // window.location.href = '/admin/users/existing-users';
+    window.location.href = '/admin/users/existing-users';
   };
 
   const formFields = useFormFields(control);
