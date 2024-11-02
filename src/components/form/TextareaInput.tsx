@@ -11,12 +11,14 @@ export type TextareaInputProps<T extends FieldValues> = {
   control: any;
   name: string;
   label: string;
+  placeholder?: string;
   required?: boolean;
 }
 
 const TextareaInput = <T extends FieldValues>({
   label,
   required,
+  placeholder,
   ...props
 }: TextareaInputProps<T>): JSX.Element => {
   const {
@@ -51,6 +53,7 @@ const TextareaInput = <T extends FieldValues>({
           <TextareaAutosize
             {...field}
             minRows={4}
+            placeholder={placeholder}
             className="custom-textarea"
             style={{ width: '100%' }}
           />
