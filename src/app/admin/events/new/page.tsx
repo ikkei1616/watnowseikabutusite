@@ -41,28 +41,29 @@ const NewEventPage = () => {
     }
 
     // フォームデータの処理
-    const { thumbnailImage, awards, ...rest } = data;
-    const submitData = { ...rest, image: imageUrl };
-    console.log(submitData);
+    const { thumbnailImage, awards, release_year, release_month, ...rest } = data;
+    const date = new Date(`${release_year}-${release_month}-02`);
+    console.log(date);
+    const submitData = { ...rest, image: imageUrl, date: date };
 
-    // const { data: eventData, error: insertError } = await supabase
-    //   .from('events')
-    //   .insert([submitData])
-    //   .select();
+    const { data: eventData, error: insertError } = await supabase
+      .from('events')
+      .insert([submitData])
+      .select();
 
-    // if (insertError) {
-    //   console.error('Error inserting event:', insertError);
-    //   setIsLoading(false);
-    //   return;
-    // }
+    if (insertError) {
+      console.error('Error inserting event:', insertError);
+      setIsLoading(false);
+      return;
+    }
 
-    if(data.awards?.length !== 0 && data.awards !== undefined) {
-      const awardData = data.awards.map((award) => {
-        return {
-          ...award,
-          event_id: eventData.id, // ここはイベントIDを指定する必要がある
-        };
-      });
+    // if(data.awards?.length !== 0 && data.awards !== undefined) {
+    //   const awardData = data.awards.map((award) => {
+    //     return {
+    //       ...award,
+    //       event_id: eventData.id, // ここはイベントIDを指定する必要がある
+    //     };
+    //   });
 
       // const { data: awardData, error: insertError } = await supabase
       //   .from('awards')
@@ -74,7 +75,7 @@ const NewEventPage = () => {
       //   setIsLoading(false);
       //   return;
       // }
-    }
+    // }
 
     // window.location.href = '/admin/events/existing-page';
   };
