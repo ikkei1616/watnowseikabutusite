@@ -1,18 +1,17 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import styles from "../../admin.module.css";
 import { supabase } from "@/supabase/supabase";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 import Box from "@mui/material/Box";
 import AdminHeader from "@/components/admin/AdminHeader";
 import PankuzuList from "@/components/admin/PankuzuList";
 import AdminTitle from "@/components/admin/AdminTitle";
+import AdminExistingLinkItem from "@/components/admin/AdminExistingLinkItem";
+import SelectYearOptions from "@/components/admin/SelectYearOptions";
 import type { AdminServiceList } from "@/types/Service";
 import { YEARS_OPTIONS } from "@/const";
-import SelectYearOptions from "@/components/admin/SelectYearOptions";
 
 const ServicePage: React.FC = () => {
   const [services, setServices] = useState<AdminServiceList[]>([]);
@@ -101,11 +100,12 @@ const ServicePage: React.FC = () => {
             <AdminTitle>{selectedYear}年のサービス一覧</AdminTitle>
             <List>
               {services.map((service) => (
-                <ListItem key={service.id} sx={linkStyle}>
-                  <Link href={`./existing-services/${service.id}/edit`}>
-                    {service.name}
-                  </Link>
-                </ListItem>
+                <AdminExistingLinkItem
+                  key={service.id}
+                  href={`./existing-services/${service.id}/edit`}
+                >
+                  {service.name}
+                </AdminExistingLinkItem>
               ))}
             </List>
           </Box>
