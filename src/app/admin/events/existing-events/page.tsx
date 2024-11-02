@@ -10,12 +10,13 @@ import AdminHeader from "@/components/admin/AdminHeader";
 import PankuzuList from "@/components/admin/PankuzuList";
 import AdminTitle from "@/components/admin/AdminTitle";
 import AdminExistingLinkItem from "@/components/admin/AdminExistingLinkItem";
-import { YEARS_OPTIONS } from "@/const";
 import SelectYearOptions from "@/components/admin/SelectYearOptions";
+import useAdminSelectYear from "@/hooks/useAdminSelectYear";
+import { YEARS_OPTIONS } from "@/const";
 
 const EventPage: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
-  const [selectedYear, setSelectedYear] = useState<number>(YEARS_OPTIONS[0]);
+  const { selectedYear, handleYearChange } = useAdminSelectYear(YEARS_OPTIONS);
 
   const pankuzu = [
     { text: "ジャンル選択", link: "/admin" },
@@ -41,82 +42,6 @@ const EventPage: React.FC = () => {
 
     fetchEvents();
   }, []);
-
-  const handleYearChange = (
-    _event: React.ChangeEvent<HTMLInputElement>,
-    value: string
-  ) => {
-    setSelectedYear(parseInt(value));
-  };
-
-  const yearButtonStyle = {
-    color: "var(--text)",
-    width: "100%",
-    padding: "10px",
-    margin: "0",
-    fontSize: "1.5rem",
-    backgroundImage: "linear-gradient(to right, #9CABC7 6px, transparent 6px)",
-    backgroundSize: "10px 1px",
-    backgroundRepeat: "repeat-x",
-    backgroundPosition: "left bottom",
-    "& .MuiTypography-root": {
-      flexGrow: 1,
-      fontFamily: "HannariMincho",
-      fontSize: "1.5rem",
-      color: "var(--text)",
-    },
-    "& .Mui-checked + .MuiTypography-root": {
-      color: "#0063BF",
-    },
-    "& .Mui-checked + span::before": {
-      content: '"▶︎"',
-      paddingTop: "0.3rem",
-      paddingRight: "0",
-    },
-    span: {
-      display: "flex",
-      alignItems: "center",
-    },
-    "span::before": {
-      content: '""',
-      color: "#0063BF",
-      fontSize: "0.6rem",
-      marginRight: "9px",
-      paddingRight: "0.6rem",
-    },
-    "& .MuiSvgIcon-root": {
-      display: "none",
-    },
-    "& .MuiButtonBase-root": {
-      display: "none",
-    },
-    "@media screen and (max-width: 768px)": {
-      fontSize: "1rem",
-    },
-  };
-
-  const linkStyle = {
-    color: "#0063BF",
-    width: "fit-content",
-    padding: "4px 12px 6px 12px",
-    marginBottom: "12px",
-    fontSize: "1.5rem",
-    linkStyle: "",
-    "&:hover": {
-      backgroundColor: "#0063BF11",
-      borderRadius: "5px",
-    },
-    "@media screen and (max-width: 768px)": {
-      fontSize: "1rem",
-    },
-    // ドットを表示
-    "&::before": {
-      content: '"・"',
-      color: "#0063BF",
-      fontSize: "1.5rem",
-      marginRight: "6px",
-    },
-  };
 
   return (
     <>

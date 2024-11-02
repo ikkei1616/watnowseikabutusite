@@ -11,11 +11,12 @@ import AdminTitle from "@/components/admin/AdminTitle";
 import AdminExistingLinkItem from "@/components/admin/AdminExistingLinkItem";
 import SelectYearOptions from "@/components/admin/SelectYearOptions";
 import type { AdminServiceList } from "@/types/Service";
+import useAdminSelectYear from "@/hooks/useAdminSelectYear";
 import { YEARS_OPTIONS } from "@/const";
 
 const ServicePage: React.FC = () => {
   const [services, setServices] = useState<AdminServiceList[]>([]);
-  const [selectedYear, setSelectedYear] = useState<number>(YEARS_OPTIONS[0]);
+  const { selectedYear, handleYearChange } = useAdminSelectYear(YEARS_OPTIONS);
 
   const pankuzu = [
     { text: "ジャンル選択", link: "/admin" },
@@ -52,36 +53,6 @@ const ServicePage: React.FC = () => {
 
     fetchServices();
   }, []);
-
-  const handleYearChange = (
-    _event: React.ChangeEvent<HTMLInputElement>,
-    value: string
-  ) => {
-    setSelectedYear(parseInt(value));
-  };
-
-  const linkStyle = {
-    color: "#0063BF",
-    width: "fit-content",
-    padding: "4px 12px 6px 12px",
-    marginBottom: "12px",
-    fontSize: "1.5rem",
-    linkStyle: "",
-    "&:hover": {
-      backgroundColor: "#0063BF11",
-      borderRadius: "5px",
-    },
-    "@media screen and (max-width: 768px)": {
-      fontSize: "1rem",
-    },
-    // ドットを表示
-    "&::before": {
-      content: '"・"',
-      color: "#0063BF",
-      fontSize: "1.5rem",
-      marginRight: "6px",
-    },
-  };
 
   return (
     <>
