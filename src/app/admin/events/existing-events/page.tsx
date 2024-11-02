@@ -1,12 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import styles from "../../admin.module.css";
 import { supabase } from "@/supabase/supabase";
 import type { Event } from "@/types/Event";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -15,11 +13,12 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import AdminHeader from "@/components/admin/AdminHeader";
 import PankuzuList from "@/components/admin/PankuzuList";
 import AdminTitle from "@/components/admin/AdminTitle";
-
-const years = [2024, 2025, 2026, 2027, 2028, 2029, 2030];
+import AdminExistingLinkItem from "@/components/admin/AdminExistingLinkItem";
+import { YEARS_OPTIONS } from "@/const";
 
 const EventPage: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
+  const [selectedYear, setSelectedYear] = useState<number>(YEARS_OPTIONS[0]);
 
   const pankuzu = [
     { text: "ジャンル選択", link: "/admin" },
@@ -45,6 +44,13 @@ const EventPage: React.FC = () => {
 
     fetchEvents();
   }, []);
+
+  const handleYearChange = (
+    _event: React.ChangeEvent<HTMLInputElement>,
+    value: string
+  ) => {
+    setSelectedYear(parseInt(value));
+  };
 
   const yearButtonStyle = {
     color: "var(--text)",
@@ -135,11 +141,12 @@ const EventPage: React.FC = () => {
             <FormControl sx={{ width: "100%" }}>
               <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue={`${years[0]}`}
+                defaultValue={`${YEARS_OPTIONS[0]}`}
                 name="radio-buttons-group"
                 sx={{ width: "100%" }}
+                onChange={handleYearChange}
               >
-                {years.map((year) => (
+                {YEARS_OPTIONS.map((year) => (
                   <FormControlLabel
                     key={year}
                     value={year}
@@ -153,14 +160,15 @@ const EventPage: React.FC = () => {
           </Box>
 
           <Box sx={{ flexGrow: 1 }}>
-            <AdminTitle>2024年のイベント一覧</AdminTitle>
+            <AdminTitle>{selectedYear}年のイベント一覧</AdminTitle>
             <List>
               {events.map((event) => (
-                <ListItem key={event.id} sx={linkStyle}>
-                  <Link href={`./existing-events/${event.id}/edit`}>
-                    {event.name}
-                  </Link>
-                </ListItem>
+                <AdminExistingLinkItem
+                  key={event.id}
+                  href={`./existing-events/${event.id}/edit`}
+                >
+                  {event.name}
+                </AdminExistingLinkItem>
               ))}
             </List>
           </Box>
