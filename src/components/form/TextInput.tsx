@@ -7,6 +7,7 @@ export type TextInputProps<T extends FieldValues> = {
   control: Control<T>;
   name: Path<T>;
   label: string;
+  placeholder?: string;
   defaultValue?: PathValue<T, Path<T>>;
   required?: boolean;
 }
@@ -15,6 +16,7 @@ const TextInput = <T extends FieldValues>({
   control,
   name,
   label,
+  placeholder,
   defaultValue,
   required
 }: TextInputProps<T>): JSX.Element => {
@@ -27,6 +29,7 @@ const TextInput = <T extends FieldValues>({
     <FieldWrapper label={label} errorMessage={error?.message} required={required}>
       <TextField
         {...field}
+        placeholder={placeholder}
         sx={{
           width: '100%',
           fontSize: '1rem',
