@@ -22,8 +22,9 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
   return (
     <Card
       sx={{
-        width: "368px",
-        height: "306px",
+        width: "100%",
+        maxWidth: "368px",
+        maxHeight: "306px",
         borderRadius: "20px",
       }}
     >
@@ -82,7 +83,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
       <Box
         sx={{
           padding: "3% 5%",
-          height: "70%",
+          height: "212px",
         }}
       >
         <Box
@@ -101,8 +102,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
             src={service.image ?? "/default-image.jpg"}
             alt="service image"
             style={{
-              width: "100%",      // 親要素の幅いっぱいに広げる
-              height: "100%",     // 親要素の高さいっぱいに広げる
+              width: "100%", // 親要素の幅いっぱいに広げる
+              height: "100%", // 親要素の高さいっぱいに広げる
               objectFit: "cover", // アスペクト比を保ちながら親要素を満たす
               borderRadius: "15px", // Boxと同じように角を丸める（必要なら）
             }}
