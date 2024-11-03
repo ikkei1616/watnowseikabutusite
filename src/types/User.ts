@@ -14,3 +14,9 @@ export interface UserDetail extends User {
     technologies: Technology[];
     isVisible: boolean;
 }
+
+export interface AdminUserList {
+    id: string;
+    name: string;
+    nickname: string;
+}
