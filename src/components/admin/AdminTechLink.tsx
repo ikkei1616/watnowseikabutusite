@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import Image from "next/image";
-import type { Technology } from "@/types/Technology";
+import type Technology from "@/types/Technology";
 
 const AdminTechLink = ({
   technology,
