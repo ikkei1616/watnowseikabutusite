@@ -32,7 +32,7 @@ const useAdminTechnologyList = () => {
           return {
             id: technology.id,
             name: technology.name,
-            imagePath: technology.image,
+            image: technology.image,
           };
         });
         setTechnologies(fetchedTechnologies || []); // データがnullのときの対策として空配列を設定

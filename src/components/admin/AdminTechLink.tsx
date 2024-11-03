@@ -56,7 +56,7 @@ const AdminTechLink = ({
         <Box sx={containerStyle}>
           <Box sx={iconContainerStyle}>
             <Image
-              src={technology.imagePath || "/nodata.png"}
+              src={technology.image || "/nodata.png"}
               alt={technology.name}
               style={{ borderRadius: "50%" }}
               width={50}
