@@ -8,19 +8,19 @@ import AdminLinkItem from "@/components/admin/AdminLinkItem";
 export default function AdminPage() {
   const pankuzu = [
     { text: "ジャンル選択", link: "/admin" },
-    { text: "イベント", link: "/admin/events" },
+    { text: "サービス", link: "/admin/services" },
   ];
   return (
     <>
       <AdminHeader />
       <main className={styles.container}>
         <PankuzuList pankuzu={pankuzu} />
-        <AdminTitle>イベント</AdminTitle>
+        <AdminTitle>サービス</AdminTitle>
 
         <AdminLinkList>
-          <AdminLinkItem href="./events/new">新規イベント作成</AdminLinkItem>
-          <AdminLinkItem href="./events/existing-events">
-            既存イベント編集
+          <AdminLinkItem href="./services/new">新規サービス作成</AdminLinkItem>
+          <AdminLinkItem href="./services/existing-services">
+            既存サービス編集
           </AdminLinkItem>
         </AdminLinkList>
       </main>
