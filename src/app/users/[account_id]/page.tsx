@@ -78,22 +78,6 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
           sx={{ borderColor: "#00AEEF", paddingTop: "16px" }}
         />
 
-        {/* {userIconURL ? (
-        <Image
-          src={userIconURL}
-          alt={"ユーザのアイコン画像"}
-          width={300}
-          height={300}
-        />
-      ) : (
-        <Image
-          src={"/paper_airplane.svg"}
-          alt={"ユーザのアイコン画像"}
-          width={300}
-          height={300}
-        />
-      )} */}
-
         <Box
           sx={{
             width: "100%",
@@ -116,7 +100,7 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
               }}
             >
               <Image
-                src={"/unknown.svg"}
+                src={userIconURL || "/unknown.svg"}
                 alt={"ユーザのアイコン画像"}
                 width={300}
                 height={300}
