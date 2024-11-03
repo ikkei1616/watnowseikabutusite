@@ -8,4 +8,5 @@ export default interface User {
     nickname: string;
     introduction?: string;
     technologies: Technology[];
+    isVisible: boolean;
 }

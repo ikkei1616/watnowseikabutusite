@@ -41,6 +41,7 @@ const useShowUser = (accountID: string) => {
               (users_technology: { technology_id: Technology }) =>
                 users_technology.technology_id
             ) || [],
+          isVisible: data?.is_visible,
         } as User);
 
         const fetchedURL = await fetchImageURL(data?.id, ImageType.USER_ICONS);
