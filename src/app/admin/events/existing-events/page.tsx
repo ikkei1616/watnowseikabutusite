@@ -31,6 +31,7 @@ const EventPage: React.FC = () => {
         <AdminHeader />
         <main className={styles.container}>
           <PankuzuList pankuzu={pankuzu} />
+          <AdminTitle>イベント一覧</AdminTitle>
           <DisplayError height={"calc(100vh - 200px)"} error={error} />
         </main>
       </>
