@@ -24,7 +24,7 @@ const SelectYearOptions = ({
     padding: "10px",
     margin: "0",
     fontSize: "1.5rem",
-    backgroundImage: "linear-gradient(to right, #9CABC7 6px, transparent 6px)",
+    backgroundImage: "linear-gradient(to right, var(--border) 6px, transparent 6px)",
     backgroundSize: "10px 1px",
     backgroundRepeat: "repeat-x",
     backgroundPosition: "left bottom",

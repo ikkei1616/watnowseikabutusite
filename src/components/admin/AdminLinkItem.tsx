@@ -27,11 +27,11 @@ const AdminLinkItem = ({
     textDecoration: "none",
     padding: "10px 20px",
     textAlign: "center",
-    border: "2px solid #9cabc7",
+    border: "2px solid var(--border)",
     borderRadius: "5px",
     transition: "background-color 0.3s, color 0.3s",
     "&:hover": {
-      backgroundColor: "#9cabc7",
+      backgroundColor: "var(--border)",
       color: "#fff",
     },
     "@media screen and (max-width: 768px)": {
