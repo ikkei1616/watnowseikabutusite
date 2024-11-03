@@ -1,20 +1,16 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import styles from "../../admin.module.css";
 import List from "@mui/material/List";
 import Box from "@mui/material/Box";
-import ListItem from "@mui/material/ListItem";
-import Typography from "@mui/material/Typography";
 import AdminHeader from "@/components/admin/AdminHeader";
 import PankuzuList from "@/components/admin/PankuzuList";
 import AdminTitle from "@/components/admin/AdminTitle";
 import DisplayError from "@/components/admin/DisplayError";
-import useAdminTechnologyList from "@/hooks/useAdminTechnologyList";
-import Image from "next/image";
 import LoadingPage from "@/components/loading/LoadingPage";
 import AdminTechLink from "@/components/admin/AdminTechLink";
+import useAdminTechnologyList from "@/hooks/useAdminTechnologyList";
 
 const TechnologyPage: React.FC = () => {
   const { technologies, loading, error } = useAdminTechnologyList();
