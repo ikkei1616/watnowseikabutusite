@@ -7,23 +7,19 @@ import useShowUser from "./useShowUser";
 import Header from "@/components/Header";
 import DottedDivider from "@/components/DottedDivider";
 import { HeaderMode } from "@/types/HeaderMode";
-import LoadingSpinner from "@/components/LoadingSpinner";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
+import LoadingPage from "@/components/loading/LoadingPage";
 
 const UserPage = ({ params }: { params: { account_id: string } }) => {
   const accountID = params.account_id;
   const { userData, userIconURL, loading } = useShowUser(accountID);
 
   if (loading) {
-    return (
-      <main className={styles.main_center}>
-        <LoadingSpinner />
-      </main>
-    );
+    return <LoadingPage />;
   }
 
   if (!userData) {
