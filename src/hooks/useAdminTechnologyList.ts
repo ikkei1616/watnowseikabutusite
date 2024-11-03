@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/supabase/supabase";
-import type { Technology } from "@/types/Technology";
+import type Technology from "@/types/Technology";
 
 const useAdminTechnologyList = () => {
   const [technologies, setTechnologies] = useState<Technology[] | null>(null);

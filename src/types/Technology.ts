@@ -1,4 +1,4 @@
-export interface Technology {
+export default interface Technology {
   id: string;
   name: string;
   imagePath: string;
