@@ -33,6 +33,7 @@ export const useFormFields = (
                         name: "name",
                         label: "技術スタック名",
                         required: true,
+                        placeholder: "例) JavaScript",
                     },
                 },
             ],
