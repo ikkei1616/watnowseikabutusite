@@ -7,6 +7,7 @@ import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
 import AdminHeader from '@/components/admin/AdminHeader';
+import LoadingModal from '@/components/loading/LoadingModal';
 
 const NewServicesPage = () => {
   const { control, handleSubmit } = useForm<ServiceInputSchema>({
@@ -14,7 +15,7 @@ const NewServicesPage = () => {
     resolver: resolver,
   });
 
-  const [isRoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
     setIsLoading(true);
@@ -29,6 +30,8 @@ const NewServicesPage = () => {
 
       if (uploadError) {
         console.error('Error uploading file: ', uploadError.message);
+        window.alert(uploadError.message);
+        setIsLoading(false);
         return;
       }
 
@@ -49,26 +52,25 @@ const NewServicesPage = () => {
 
     if (insertError) {
       console.error('Error inserting service:', insertError);
+      window.alert(insertError.message);
+      setIsLoading(false);
       return;
     }
 
-    window.location.href = '/admin/services/existing-services';
+    window.location.href = '/admin/technologies/existing-technologies';
   };
 
   const formFields = useFormFields(control);
 
-  if (isRoading) {
-    return <div>ローディング中...</div>;
-  }
-
   return (
     <>
+    <LoadingModal isOpen={isLoading} />
       <main style={{
         width: "90%",
         margin: "0 auto",
       }
       }>
-        <AdminHeader />
+        <AdminHeader isEditing/>
         <h1 style={{
           borderBottom: "1px solid #9CABC7",
           paddingBottom: "12px",
@@ -93,7 +95,7 @@ const NewServicesPage = () => {
             gap: '60px',
             margin: "20px 0"
           }}>
-            <FormButton name="キャンセル" type='cancel' onClick={() => window.location.href = '/admin/services'}/>
+            <FormButton name="キャンセル" type='cancel' onClick={() => window.location.href = '/admin/technologies'}/>
             <FormButton name="新規作成" type='submit' />
           </div>
         </form>
