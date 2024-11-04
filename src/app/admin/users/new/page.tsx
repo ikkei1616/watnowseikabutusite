@@ -125,7 +125,7 @@ const NewServicesPage = () => {
         margin: "0 auto",
       }
       }>
-        <AdminHeader />
+        <AdminHeader isEditing/>
         <h1 style={{
           borderBottom: "1px solid #9CABC7",
           paddingBottom: "12px",
@@ -150,7 +150,7 @@ const NewServicesPage = () => {
             gap: '60px',
             margin: "20px 0"
           }}>
-            <FormButton name="キャンセル" type='cancel' onClick={() => window.location.href = '/admin/services'}/>
+            <FormButton name="キャンセル" type='cancel' onClick={() => window.location.href = '/admin/users'}/>
             <FormButton name="新規作成" type='submit' />
           </div>
         </form>
