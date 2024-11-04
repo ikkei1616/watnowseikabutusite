@@ -6,6 +6,8 @@ import { useFormFields } from "./hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
+import LoadingModal from '@/components/loading/LoadingModal';
+import AdminHeader from '@/components/admin/AdminHeader';
 
 const NewEventPage = () => {
   const { control, handleSubmit } = useForm<EventInputSchema>({
@@ -16,7 +18,8 @@ const NewEventPage = () => {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const onSubmit: SubmitHandler<EventOutputSchema> = async (data) => {
-    // setIsLoading(true);
+    console.log(data);
+    setIsLoading(true);
 
     let imageUrl = '';
 
@@ -29,6 +32,7 @@ const NewEventPage = () => {
 
       if (uploadError) {
         console.error('Error uploading file: ', uploadError.message);
+        window.alert(uploadError.message);
         setIsLoading(false);
         return;
       }
@@ -52,27 +56,33 @@ const NewEventPage = () => {
 
     if (insertError) {
       console.error('Error inserting event:', insertError);
+      window.alert(insertError.message);
       setIsLoading(false);
       return;
     }
 
-    if(data.awards?.length !== 0 && data.awards !== undefined) {
+    if (data.awards?.length !== 0 && data.awards !== undefined) {
       const awardsToInsert = data.awards.map((award) => {
-        return {
-          ...award,
-          event_id: eventData[0].id,
-        };
+        if (award.name !== '' && award.order_num !== 0) {
+          return {
+            ...award,
+            event_id: eventData[0].id,
+          };
+        }
       });
 
-      const {error: insertError } = await supabase
-        .from('awards')
-        .insert(awardsToInsert)
-        .select();
+      if (awardsToInsert.length !== 0) {
+        const { error: insertError } = await supabase
+          .from('awards')
+          .insert(awardsToInsert)
+          .select();
 
-      if (insertError) {
-        console.error('Error inserting award:', insertError);
-        setIsLoading(false);
-        return;
+        if (insertError) {
+          console.error('Error inserting award:', insertError);
+          window.alert(insertError.message);
+          setIsLoading(false);
+          return;
+        }
       }
     }
 
@@ -81,16 +91,14 @@ const NewEventPage = () => {
 
   const formFields = useFormFields(control);
 
-  if (isLoading) {
-    return <div>ローディング中...</div>;
-  }
-
   return (
     <>
+      <LoadingModal isOpen={isLoading} />
       <main style={{
         width: "90%",
         margin: "0 auto",
       }}>
+        <AdminHeader isEditing />
         <h1 style={{
           borderBottom: "1px solid #9CABC7",
           paddingBottom: "12px",
