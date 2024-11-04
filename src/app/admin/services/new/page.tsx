@@ -7,6 +7,7 @@ import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
 import AdminHeader from '@/components/admin/AdminHeader';
+import LoadingModal from '@/components/loading/LoadingModal';
 
 const NewServicesPage = () => {
   const { control, handleSubmit } = useForm<ServiceInputSchema>({
@@ -14,7 +15,7 @@ const NewServicesPage = () => {
     resolver: resolver,
   });
 
-  const [isRoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
     setIsLoading(true);
@@ -30,6 +31,8 @@ const NewServicesPage = () => {
 
       if (uploadError) {
         console.error('Error uploading file: ', uploadError.message);
+        window.alert(uploadError.message);
+        setIsLoading(false);
         return;
       }
 
@@ -48,6 +51,8 @@ const NewServicesPage = () => {
 
       if (uploadError) {
         console.error('Error uploading file: ', uploadError.message);
+        window.alert(uploadError.message);
+        setIsLoading(false);
         return;
       }
 
@@ -68,6 +73,8 @@ const NewServicesPage = () => {
 
     if (insertError) {
       console.error('Error inserting service:', insertError);
+      window.alert(insertError.message);
+      setIsLoading(false);
       return;
     }
 
@@ -81,6 +88,8 @@ const NewServicesPage = () => {
 
       if (teamMembersError) {
         console.error('Error inserting team members:', teamMembersError);
+        window.alert(teamMembersError.message);
+        setIsLoading(false);
         return;
       }
     }
@@ -95,6 +104,8 @@ const NewServicesPage = () => {
 
       if (technologiesError) {
         console.error('Error inserting technologies:', technologiesError);
+        window.alert(technologiesError.message);
+        setIsLoading(false);
         return;
       }
     }
@@ -106,6 +117,8 @@ const NewServicesPage = () => {
 
       if (urlWebError) {
         console.error('Error inserting url_web:', urlWebError);
+        window.alert(urlWebError.message);
+        setIsLoading(false);
         return;
       }
     }
@@ -117,6 +130,8 @@ const NewServicesPage = () => {
 
       if (urlAppleStoreError) {
         console.error('Error inserting url_web:', urlAppleStoreError);
+        window.alert(urlAppleStoreError.message);
+        setIsLoading(false);
         return;
       }
     }
@@ -128,6 +143,8 @@ const NewServicesPage = () => {
 
       if (urlGooglePlayError) {
         console.error('Error inserting url_web:', urlGooglePlayError);
+        window.alert(urlGooglePlayError.message);
+        setIsLoading(false);
         return;
       }
     }
@@ -139,6 +156,8 @@ const NewServicesPage = () => {
 
       if (urlOthersError) {
         console.error('Error inserting url_web:', urlOthersError);
+        window.alert(urlOthersError.message);
+        setIsLoading(false);
         return;
       }
     }
@@ -148,18 +167,15 @@ const NewServicesPage = () => {
 
   const formFields = useFormFields(control);
 
-  if (isRoading) {
-    return <div>ローディング中...</div>;
-  }
-
   return (
     <>
+    <LoadingModal isOpen={isLoading} />
       <main style={{
         width: "90%",
         margin: "0 auto",
       }
       }>
-        <AdminHeader />
+        <AdminHeader isEditing/>
         <h1 style={{
           borderBottom: "1px solid #9CABC7",
           paddingBottom: "12px",
