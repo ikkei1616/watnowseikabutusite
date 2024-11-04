@@ -13,7 +13,7 @@ const imageSchema = z.instanceof(File)
 // 表彰のスキーマ
 const awardSchema = z.object({
   name: z.string().optional(),
-  order_num: z.number().int().positive({ message: '1以上の数値を入力してください' }).optional(),
+  order_num :  z.number().min(0, "正の整数を入力してください").optional()
 });
 
 // イベントの検証スキーマ
@@ -21,7 +21,7 @@ const eventSchema = z.object({
   name: z.string().min(1, "イベントタイトルは必須です。"),
   comment: z.string().optional(),
   location: z.string().optional(),
-  release_year: z.union([z.number({ message: '開催年は必須です。' }), z.string()]), // 文字列も受け入れる
+  release_year: z.union([z.number({ message: '開催年は必須です。' }), z.string()]),
   release_month: z.union([z.number({ message: '開催月は必須です。' }), z.string()]),
   url: z.string().optional().refine(value => value === '' || z.string().url().safeParse(value).success, {
     message: '無効な URL です。',
