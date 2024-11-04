@@ -69,6 +69,7 @@ export const useFormFields = (control: Control<EventInputSchema>): { container: 
                         control,
                         name: `awards[0].name`, // Dynamic name for award name
                         label: `表彰名 ${(newId + 1)}`,
+                        placeholder: "例) 最優秀賞",
                     },
                 },
                 {
@@ -78,6 +79,7 @@ export const useFormFields = (control: Control<EventInputSchema>): { container: 
                         control,
                         name: `awards[0].order_num`, // Dynamic name for award count
                         label: `受賞数`,
+                        placeholder: "例) 1",
                     },
                 },
             ]);
@@ -91,6 +93,7 @@ export const useFormFields = (control: Control<EventInputSchema>): { container: 
                         control,
                         name: `awards[${(newId / 2)}].name`, // Dynamic name for award name
                         label: `表彰名 ${(newId / 2 + 1)}`,
+                        placeholder: "例) 最優秀賞",
                     },
                 },
                 {
@@ -100,6 +103,7 @@ export const useFormFields = (control: Control<EventInputSchema>): { container: 
                         control,
                         name: `awards[${(newId / 2)}].order_num`, // Dynamic name for award count
                         label: `受賞数`,
+                        placeholder: "例) 1",
                     },
                 },
             ]);
@@ -119,6 +123,7 @@ export const useFormFields = (control: Control<EventInputSchema>): { container: 
                         name: "name",
                         label: "イベントタイトル",
                         required: true,
+                        placeholder: "例) ハッカソン2024",
                     },
                 },
                 {
@@ -128,6 +133,7 @@ export const useFormFields = (control: Control<EventInputSchema>): { container: 
                         control,
                         name: "comment",
                         label: "イベント概要(コメント)",
+                        placeholder: "例) watnowで1番の大イベント　学びあい、競い合い、助け合い、開発に本気でぶつかる3泊4日。　学年に関係なくチームを組むのでたくさん学べること間違いなし！今回も素敵なプロダクトがたくさん！？",
                     },
                 },
                 {
@@ -148,6 +154,7 @@ export const useFormFields = (control: Control<EventInputSchema>): { container: 
                         control,
                         name: "location",
                         label: "開催場所",
+                        placeholder: "例) 大阪府",
                     },
                 },
                 {
@@ -157,6 +164,7 @@ export const useFormFields = (control: Control<EventInputSchema>): { container: 
                         control,
                         name: "url",
                         label: "関連URL",
+                        placeholder: "https://",
                     },
                 },
                 {
