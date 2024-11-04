@@ -9,6 +9,7 @@ export type NumberInputProps<T extends FieldValues> = {
   name: Path<T>;
   label: string;
   defaultValue?: PathValue<T, Path<T>>;
+  placeholder?: string;
   required?: boolean;
 };
 
@@ -17,6 +18,7 @@ const NumberInput = <T extends FieldValues>({
   control,
   name,
   defaultValue,
+  placeholder,
   required
 }: NumberInputProps<T>): JSX.Element => {
   const {
@@ -29,8 +31,9 @@ const NumberInput = <T extends FieldValues>({
       <TextField
         {...field}
         type="number"
-        onChange={(e) => field.onChange(parseFloat(e.target.value))}
+        onChange={(e) => field.onChange(isNaN(parseFloat(e.target.value)) ? 0 : parseFloat(e.target.value))}
         value={field.value || ''}
+        placeholder={placeholder}
         sx={{
           fontSize: '1rem',
           '& .MuiOutlinedInput-root': {
