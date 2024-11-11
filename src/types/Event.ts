@@ -6,7 +6,7 @@ export interface Event {
   name: string;
   date: string;
   comment?: string;
-  imageUrl?: string | null;
+  image?: string | null;
 }
 
 //Event詳細ページで利用する型定義

@@ -52,9 +52,9 @@ const EventPage: React.FC = () => {
   }, []);
 
   // 選択された年とページが変更されたときにイベントを取得
+
   useEffect(() => {
     const fetchEventsForYear = async () => {
-      // 選択された年のイベント総数を取得
       const { count, error: countError } = await supabase
         .from("events")
         .select("id", { count: "exact", head: true })
@@ -62,18 +62,17 @@ const EventPage: React.FC = () => {
         .lte("date", `${selectedYear}-12-31`);
 
       if (countError) {
-        console.error("Error fetching event count:", countError);
+        console.error("Error fetching event count:", countError.message);
         return;
       }
       setTotalEventCount(count || 0);
 
-      // ページネーションに基づいてイベントを取得
       const start = (page - 1) * ITEMS_PER_PAGE;
       const end = start + ITEMS_PER_PAGE - 1;
 
       const { data: eventsData, error: eventsError } = await supabase
         .from("events")
-        .select("id, name, date, comment")
+        .select("id, name, date, comment, image")
         .gte("date", `${selectedYear}-01-01`)
         .lte("date", `${selectedYear}-12-31`)
         .order("date", { ascending: false })
@@ -84,36 +83,8 @@ const EventPage: React.FC = () => {
         return;
       }
 
-      // 画像URLを取得
-      const eventsWithImages = await Promise.all(
-        (eventsData as Event[]).map(async (event) => {
-          const extensions = ["jpg", "JPG", "jpeg", "png", "gif"];
-          let imageUrl: string | null = null;
-
-          for (const ext of extensions) {
-            const fileName = `${event.id}.${ext}`;
-            // ファイルの存在を確認するために createSignedUrl を使用
-            const { data: signedUrlData, error } = await supabase.storage
-              .from("event_images")
-              .createSignedUrl(fileName, 1); // 有効期限は短く設定
-
-            if (!error && signedUrlData?.signedUrl) {
-              // ファイルが存在する場合、publicUrl を取得
-              const { data: publicUrlData } = supabase.storage
-                .from("event_images")
-                .getPublicUrl(fileName);
-
-              if (publicUrlData?.publicUrl) {
-                imageUrl = publicUrlData.publicUrl;
-                break;
-              }
-            }
-          }
-          return { ...event, imageUrl };
-        })
-      );
-
-      setEvents(eventsWithImages);
+      setEvents(eventsData as Event[]);
+      console.log(eventsData);
     };
 
     fetchEventsForYear();

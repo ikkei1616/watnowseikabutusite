@@ -107,9 +107,9 @@ const EventCard: React.FC<EventCardProp> = ({ event }) => {
           }}
         >
           {/* 画像がある場合は画像を表示し、ない場合はメッセージを表示 */}
-          {event.imageUrl ? (
+          {event.image ? (
             <Image
-              src={event.imageUrl}
+              src={event.image}
               alt={`${event.name}の画像`}
               layout="fill" // 親のBox全体をカバー
               objectFit="cover"
