@@ -161,14 +161,14 @@ const NewServicesPage = () => {
       }>
         <AdminHeader />
         <h1 style={{
-          borderBottom: "1px solid #9CABC7",
+          borderBottom: "1px solid var(--border)",
           paddingBottom: "12px",
           marginBottom: "12px",
         }}>新規サービスページ作成</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           {formFields.map(({ title, fields }, index) => (
             <section key={index} style={{
-              borderBottom: "1px solid #9CABC7",
+              borderBottom: "1px solid var(--border)",
               paddingBottom: "12px",
               marginBottom: "12px",
             }}>

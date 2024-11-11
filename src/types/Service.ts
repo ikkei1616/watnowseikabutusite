@@ -1,3 +1,4 @@
+
 import { Award } from "@/types/Award";
 import { ReactNode } from "react";
 
@@ -20,4 +21,10 @@ export interface ServiceDetail extends Service {
   team_name: string;
   create_date?: string;
   awards: Award[];
+}
+
+export interface AdminServiceList {
+  id: string;
+  name: string;
+  year: number;
 }
