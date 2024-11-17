@@ -8,6 +8,7 @@ import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
 import LoadingModal from '@/components/loading/LoadingModal';
 import AdminHeader from '@/components/admin/AdminHeader';
+import { date } from 'zod';
 
 const NewEventPage = () => {
   const { control, handleSubmit } = useForm<EventInputSchema>({
@@ -46,8 +47,8 @@ const NewEventPage = () => {
 
     // フォームデータの処理
     const { thumbnailImage, awards, release_year, release_month, ...rest } = data;
-    const date = new Date(`${release_year}-${release_month}-02`);
-    const submitData = { ...rest, image: imageUrl, date: date };
+
+    const submitData = { ...rest, image: imageUrl, year: release_year, month: release_month };
 
     const { data: eventData, error: insertError } = await supabase
       .from('events')
