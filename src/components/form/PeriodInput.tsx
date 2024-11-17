@@ -8,6 +8,7 @@ export type PeriodProps<T extends FieldValues> = {
     name: [Path<T>, Path<T>]; // Ensure name is a tuple of Path<T>
     label: string;
     options: Option[];
+    placeholder?: string;
     required?: boolean;
 };
 
@@ -16,6 +17,7 @@ const Period = <T extends FieldValues>({
     name,
     label,
     options,
+    placeholder,
     required
 }: PeriodProps<T>): JSX.Element => {
     return (
@@ -24,6 +26,7 @@ const Period = <T extends FieldValues>({
                 control={control}
                 name={name[0]} // Ensure this matches Path<T>
                 label={label}
+                placeholder={placeholder}
                 required={required}
             />
             <SelectInput

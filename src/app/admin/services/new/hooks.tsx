@@ -113,6 +113,7 @@ export const useFormFields = (
                         name: "name",
                         label: "サービスタイトル",
                         required: true,
+                        placeholder: "例) watbox",
                     },
                 },
                 {
@@ -122,6 +123,7 @@ export const useFormFields = (
                         control,
                         name: "comment",
                         label: "コメント",
+                        placeholder: "例) watnowのメンバーが作ったプロダクトを一覧できるサイト",
                     },
                 },
                 {
@@ -130,7 +132,8 @@ export const useFormFields = (
                     props: {
                         control,
                         name: "description",
-                        label: "サービス詳細"
+                        label: "サービス詳細",
+                        placeholder: "例) watnowの過去プロダクトって何があったっけ? そんな悩みを解決するべく誕生したサービスです。 watnowの今までの軌跡を、年度ごと・イベントごとに振り返ることが可能です。",
                     }
                 },
                 {
@@ -140,6 +143,7 @@ export const useFormFields = (
                         control,
                         name: "team_name",
                         label: "チーム名",
+                        placeholder: "例) watbox政策委員会",
                     },
                 },
                 {
@@ -150,7 +154,7 @@ export const useFormFields = (
                         name: ["release_year", "release_month"],
                         label: "リリース日",
                         options: [yearOptions, releaseMonth],
-                        required: true
+                        required: true,
                     }
                 },
                 {
@@ -160,7 +164,8 @@ export const useFormFields = (
                         control,
                         name: ["development_period_num", "development_period_unit"],
                         label: "開発期間",
-                        options: period
+                        options: period,
+                        placeholder: "例) 1",
                     }
                 }
             ],
@@ -245,7 +250,8 @@ export const useFormFields = (
                     props: {
                         control,
                         name: "url_web",
-                        label: "Webサイト"
+                        label: "Webサイト",
+                        placeholder: "https://"
                     }
                 },
                 {
@@ -254,7 +260,8 @@ export const useFormFields = (
                     props: {
                         control,
                         name: "url_appstore",
-                        label: "App Store"
+                        label: "App Store",
+                        placeholder: "https://"
                     }
                 },
                 {
@@ -263,7 +270,8 @@ export const useFormFields = (
                     props: {
                         control,
                         name: "url_googleplay",
-                        label: "Google Play"
+                        label: "Google Play",
+                        placeholder: "https://"
                     }
                 },
                 {
@@ -272,7 +280,8 @@ export const useFormFields = (
                     props: {
                         control,
                         name: "url_others",
-                        label: "その他"
+                        label: "その他",
+                        placeholder: "https://"
                     }
                 }
             ]
