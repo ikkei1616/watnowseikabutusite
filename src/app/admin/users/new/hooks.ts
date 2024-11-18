@@ -2,39 +2,15 @@ import { ServiceInputSchema } from "./userFormSchema";
 import { Control } from "react-hook-form";
 import { FieldValues } from "react-hook-form";
 import { FormFactoryProps } from "@/components/form/FormFactory";
-import { supabase } from '../../../../supabase/supabase';
-import { useEffect, useState } from "react";
 
-
-type FormField<T extends FieldValues> = {
+export type FormField<T extends FieldValues> = {
     id: number;
 } & FormFactoryProps<T>;
 
 export const useFormFields = (
     control: Control<ServiceInputSchema>,
+    techs: { value: string; label: string }[]
 ): { container: string, title: string, fields: FormField<ServiceInputSchema>[] }[] => {
-    const [techs, setTechs] = useState<{ value: string; label: string }[]>([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const { data: techsData, error: techsError } = await supabase
-                    .from('technologies')
-                    .select('id, name')
-
-                if (techsError) {
-                    throw new Error(`Error fetching techs: ${techsError.message}`);
-                }
-                setTechs(techsData.map((tech) => ({ value: tech.id, label: tech.name })) || []);
-
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
 
     return [
         {
@@ -108,7 +84,7 @@ export const useFormFields = (
                         control,
                         name: "technologiesId",
                         label: "技術を追加する",
-                        options: techs,
+                        options: techs || [],
                         shapeType: "rounded",
                     },
                 },
