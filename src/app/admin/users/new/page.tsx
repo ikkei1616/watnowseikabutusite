@@ -1,21 +1,44 @@
 "use client";
 import React from 'react';
-import { SubmitHandler, useForm } from "react-hook-form";
+import { set, SubmitHandler, useForm } from "react-hook-form";
 import { ServiceInputSchema, ServiceOutputSchema, resolver } from "./userFormSchema";
-import { useFormFields } from "./hooks";
+import { useFormFields, FormField } from "./hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
 import AdminHeader from '@/components/admin/AdminHeader';
 import LoadingModal from '@/components/loading/LoadingModal';
+import { useEffect, useState } from "react";
 
 const NewServicesPage = () => {
   const { control, handleSubmit } = useForm<ServiceInputSchema>({
     mode: "onChange",
     resolver: resolver,
   });
-
+  const [formFields, setFormFields] = React.useState<{ container: string, title: string, fields: FormField<ServiceInputSchema>[] }[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
+
+
+  useEffect(() => {
+      const fetchData = async () => {
+          try {
+              const { data: techsData, error: techsError } = await supabase
+                  .from('technologies')
+                  .select('id, name')
+
+              if (techsError) {
+                  throw new Error(`Error fetching techs: ${techsError.message}`);
+              }
+              setFormFields(useFormFields(control,techsData.map((tech) => ({ value: tech.id, label: tech.name })) || []));
+
+          } catch (error) {
+              console.error(error);
+          }
+      };
+      setIsLoading(true);
+      fetchData();
+      setIsLoading(false);
+  }, []);
 
   const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
     setIsLoading(true);
@@ -114,8 +137,6 @@ const NewServicesPage = () => {
       }
     window.location.href = '/admin/users/existing-users';
   };
-
-  const formFields = useFormFields(control);
 
   return (
     <>
