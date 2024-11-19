@@ -9,11 +9,10 @@ import DottedDivider from "@/components/DottedDivider";
 import { HeaderMode } from "@/types/HeaderMode";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 import LoadingPage from "@/components/loading/LoadingPage";
 import TechItem from "@/components/TechItem";
+import PageHeader from "@/components/PageHeader";
 
 const UserPage = ({ params }: { params: { account_id: string } }) => {
   const accountID = params.account_id;
@@ -46,55 +45,7 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
           },
         }}
       >
-        <Box
-          sx={{ display: "flex", alignItems: "flex-end", textAlign: "center" }}
-        >
-          <Typography
-            sx={{
-              color: "#00AEEF",
-              fontSize: "4rem",
-              fontFamily: "HannariMincho",
-              "@media screen and (max-width: 600px)": {
-                fontSize: "2rem",
-              },
-            }}
-            variant="h1"
-          >
-            ユーザ詳細
-          </Typography>
-          <Typography
-            sx={{
-              paddingLeft: "16px",
-              color: "#00AEEF",
-              fontSize: "2rem",
-              fontFamily: "HannariMincho",
-              "@media screen and (max-width: 600px)": {
-                fontSize: "1rem",
-              },
-            }}
-            aria-label="display arrow"
-          >
-            ＞
-          </Typography>
-          <Typography
-            sx={{
-              paddingLeft: "16px",
-              color: "#00AEEF",
-              fontSize: "3rem",
-              fontFamily: "HannariMincho",
-              "@media screen and (max-width: 600px)": {
-                fontSize: "1.5rem",
-              },
-            }}
-            variant="h1"
-          >
-            {userData.nickname}
-          </Typography>
-        </Box>
-        <Divider
-          variant="fullWidth"
-          sx={{ borderColor: "#00AEEF", paddingTop: "16px" }}
-        />
+        <PageHeader title="ユーザ詳細" pageTitle={userData.nickname} />
 
         <Box
           sx={{
