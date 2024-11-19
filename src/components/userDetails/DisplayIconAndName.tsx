@@ -5,7 +5,10 @@ import type { UserDetail } from "@/types/User";
 import DottedDivider from "@/components/DottedDivider";
 
 interface DisplayIconAndNameProps
-  extends Pick<UserDetail, "nickname" | "introduction" | "image"> {}
+  extends Pick<
+    UserDetail,
+    "nickname" | "accountID" | "introduction" | "image"
+  > {}
 
 const DisplayIconAndName = ({ user }: { user: DisplayIconAndNameProps }) => {
   return (
@@ -65,16 +68,45 @@ const DisplayIconAndName = ({ user }: { user: DisplayIconAndNameProps }) => {
           />
         </Box>
         <Box sx={{ flexGrow: 1 }}>
-          <Typography
-            variant="body1"
+          <Box
             sx={{
-              paddingLeft: "8px",
-              fontSize: "2rem",
-              fontFamily: "HannariMincho",
+              display: "flex",
+              flexDirection: "row",
+              gap: "1rem",
+              alignItems: "flex-end",
+              "@media screen and (max-width: 600px)": {
+                gap: "0",
+              },
             }}
           >
-            {user.nickname}
-          </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                paddingLeft: "8px",
+                fontSize: "2rem",
+                fontFamily: "HannariMincho",
+                "@media screen and (max-width: 600px)": {
+                  fontSize: "1rem",
+                },
+              }}
+            >
+              {user.nickname}
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                paddingLeft: "8px",
+                fontSize: "1.5rem",
+                fontFamily: "HannariMincho",
+                opacity: 0.8,
+                "@media screen and (max-width: 600px)": {
+                  fontSize: "0.75rem",
+                },
+              }}
+            >
+              @{user.accountID}
+            </Typography>
+          </Box>
           <DottedDivider color="#878686" />
           <Typography
             variant="body1"
@@ -82,6 +114,11 @@ const DisplayIconAndName = ({ user }: { user: DisplayIconAndNameProps }) => {
               fontSize: "1.4rem",
               fontFamily: "HannariMincho",
               padding: "8px",
+              //   はみ出たら折り返す
+              overflowWrap: "break-word",
+              "@media screen and (max-width: 600px)": {
+                fontSize: "0.75rem",
+              },
             }}
           >
             {user.introduction}
