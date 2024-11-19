@@ -2,16 +2,10 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/supabase/supabase";
 import type { UserDetail } from "@/types/User";
 import type Technology from "@/types/Technology";
-import useStorage from "@/hooks/useStorage";
-import { ImageType } from "@/types/ImageType";
 
 const useShowUser = (accountID: string) => {
   const [userData, setUserData] = useState<UserDetail | null>(null);
-  const [userIconURL, setUserIconURL] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-
-  const fetchImageURL = useStorage();
-  console.log(userData);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -20,7 +14,7 @@ const useShowUser = (accountID: string) => {
         .select(
           `
         *,
-        users_technologies(technology_id(id, name))
+        users_technologies(technology_id(id, name, image))
         `
         )
         .eq("account_id", accountID)
@@ -44,9 +38,6 @@ const useShowUser = (accountID: string) => {
             ) || [],
           isVisible: data?.is_visible,
         } as UserDetail);
-
-        const fetchedURL = await fetchImageURL(data?.id, ImageType.USER_ICONS);
-        setUserIconURL(fetchedURL);
       }
 
       setLoading(false);
@@ -55,7 +46,7 @@ const useShowUser = (accountID: string) => {
     fetchUserData();
   }, []);
 
-  return { userData, userIconURL, loading };
+  return { userData, loading };
 };
 
 export default useShowUser;

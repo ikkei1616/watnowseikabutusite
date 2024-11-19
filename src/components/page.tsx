@@ -13,7 +13,6 @@ import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import LoadingPage from "@/components/loading/LoadingPage";
-import TechItem from "@/components/TechItem";
 
 const UserPage = ({ params }: { params: { account_id: string } }) => {
   const accountID = params.account_id;
@@ -150,14 +149,49 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
             <DottedDivider color="#00AEEF" />
             <List
               sx={{
+                marginTop: "10px",
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+                gridTemplateColumns: "1fr 1fr 1fr 1fr",
                 gap: "10px",
-                width: "100%",
               }}
             >
               {userData.technologies.map((tech) => (
-                <TechItem key={tech.id} technology={tech} />
+                <ListItem
+                  key={tech.id}
+                  sx={{
+                    padding: "0 0 0 0",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: "100%",
+                      border: "1px solid #85D5F3",
+                      padding: "5px 11px",
+                      borderRadius: "15px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Image
+                      src={tech.image || "/nodata.png"}
+                      alt={"ユーザのアイコン画像"}
+                      width={48}
+                      height={48}
+                      style={{
+                        borderRadius: "50%",
+                      }}
+                    />
+                    <Typography
+                      sx={{
+                        fontSize: "1.4rem",
+                        fontFamily: "HannariMincho",
+                        paddingLeft: "12px",
+                      }}
+                    >
+                      {tech.name}
+                    </Typography>
+                  </Box>
+                </ListItem>
               ))}
             </List>
           </Box>
