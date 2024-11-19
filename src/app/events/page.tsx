@@ -2,13 +2,16 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "./Page.module.css";
-import EventCard from "@/components/EventCard";
+import { EventCard, SkeletonEventCard } from "@/components/EventCard";
 import { supabase } from "@/supabase/supabase";
 import type { Event } from "@/types/Event";
 import Header from "@/components/Header";
 import { HeaderMode } from "@/types/HeaderMode";
-import { Divider, Pagination } from "@mui/material";
-import EventYearList from "@/components/EventYearList";
+import { Divider, Pagination, Skeleton, Box } from "@mui/material";
+import {
+  EventYearList,
+  SkeletonEventYearList,
+} from "@/components/EventYearList";
 import theme from "@/theme";
 
 const ITEMS_PER_PAGE = 5; // 1ページあたりのイベント数
@@ -21,6 +24,7 @@ const EventPage: React.FC = () => {
     Record<number, number>
   >({}); // 各年のイベント数
   const [selectedYear, setSelectedYear] = useState<number>(0); // 選択された年
+  const [isLoading, setIsLoading] = useState(true);
 
   // 初期ロード時各年のイベント数を取得、最新の年の選択
   useEffect(() => {
@@ -55,6 +59,7 @@ const EventPage: React.FC = () => {
 
   useEffect(() => {
     const fetchEventsForYear = async () => {
+      setIsLoading(true);
       const { count, error: countError } = await supabase
         .from("events")
         .select("id", { count: "exact", head: true })
@@ -84,6 +89,7 @@ const EventPage: React.FC = () => {
       }
 
       setEvents(eventsData as Event[]);
+      setIsLoading(false);
       console.log(eventsData);
     };
 
@@ -113,20 +119,31 @@ const EventPage: React.FC = () => {
           borderColor: "#00AEEF",
         }}
       />
-      <div className={styles.container}>
-        <EventYearList
-          eventCountByYear={eventCountByYear}
-          onYearSelect={handleYearSelect}
-          selectedYear={selectedYear}
-        />
-        <div className={styles.eventList}>
-          {events.map((event) => (
-            <div className={styles.eventItemWrapper} key={event.id}>
-              <EventCard event={event} />
-            </div>
-          ))}
+      {isLoading ? (
+        <div className={styles.container}>
+          <SkeletonEventYearList />
+          <div className={styles.eventList}>
+            <SkeletonEventCard />
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className={styles.container}>
+          <EventYearList
+            eventCountByYear={eventCountByYear}
+            onYearSelect={handleYearSelect}
+            selectedYear={selectedYear}
+          />
+
+          <div className={styles.eventList}>
+            {events.map((event) => (
+              <div className={styles.eventItemWrapper} key={event.id}>
+                <EventCard event={event} />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <Pagination
         count={Math.ceil(totalEventCount / ITEMS_PER_PAGE)}
         page={page}

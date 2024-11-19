@@ -9,6 +9,7 @@ import {
   Button,
   Box,
   Divider,
+  Skeleton,
 } from "@mui/material";
 import type { Event } from "@/types/Event";
 
@@ -16,7 +17,24 @@ interface EventCardProp {
   event: Event;
 }
 
-const EventCard: React.FC<EventCardProp> = ({ event }) => {
+export const SkeletonEventCard: React.FC = () => {
+  return (
+    <Box>
+      <Skeleton
+        variant="rectangular"
+        sx={{
+          width: "100%", // EventCard の幅と一致
+
+          maxWidth: "1000px", // EventCard の最大幅と一致
+          height: "280px", // 高さを指定（EventCard の大きさに合わせて調整）
+          borderRadius: "12px", // EventCard と同じ borderRadius
+        }}
+      />
+    </Box>
+  );
+};
+
+export const EventCard: React.FC<EventCardProp> = ({ event }) => {
   return (
     <Card
       sx={{
@@ -199,5 +217,3 @@ const EventCard: React.FC<EventCardProp> = ({ event }) => {
     </Card>
   );
 };
-
-export default EventCard;
