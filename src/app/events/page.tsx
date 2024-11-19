@@ -101,11 +101,17 @@ const EventPage: React.FC = () => {
     nextPage: number
   ) => {
     setPage(nextPage);
+    window.scrollTo({
+      top: 0,
+    });
   };
 
   const handleYearSelect = (year: number) => {
     setSelectedYear(year);
     setPage(1); // ページをリセット
+    window.scrollTo({
+      top: 0,
+    });
   };
 
   return (
