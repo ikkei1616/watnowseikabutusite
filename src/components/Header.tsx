@@ -4,10 +4,26 @@ import Image from "next/image";
 import AppBar from "@mui/material/AppBar";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { HeaderMode } from "@/types/HeaderMode";
 import Link from "next/link";
 
 const Header = ({ mode }: { mode: HeaderMode }) => {
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
+  return isMobile ? (
+    <MobileHeader mode={mode} />
+  ) : (
+    <DesktopHeader mode={mode} />
+  );
+};
+
+const MobileHeader = ({ mode }: { mode: HeaderMode }) => (
+  <CoreHeader isMobile>
+    <Box>menu</Box>
+  </CoreHeader>
+);
+const DesktopHeader = ({ mode }: { mode: HeaderMode }) => {
   const TabLink = ({
     linkMode,
     href,
@@ -31,6 +47,14 @@ const Header = ({ mode }: { mode: HeaderMode }) => {
           "&:hover": {
             paddingBottom: "1.6rem",
           },
+          "@media screen and (max-width: 900px)": {
+            padding: "16px 12px",
+            width: "8rem",
+          },
+          "@media screen and (max-width: 700px)": {
+            padding: "12px 8px",
+            width: "8rem",
+          },
         }}
       >
         <Typography
@@ -46,55 +70,7 @@ const Header = ({ mode }: { mode: HeaderMode }) => {
   );
 
   return (
-    <AppBar
-      sx={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        padding: "0 2rem",
-        alignContent: "flex-end",
-        alignItems: "flex-end",
-        boxShadow: "none",
-        backgroundColor: "#85D5F3",
-        borderRadius: "0 0 20px 20px",
-      }}
-    >
-      <Box sx={{ textAlign: "left", padding: "1rem" }}>
-        <Typography
-          variant="h6"
-          component="div"
-          sx={{
-            fontSize: "1.25rem",
-            fontFamily: "HannariMincho",
-            lineHeight: "0.85",
-            fontWeight: "regular",
-            color: "#3F4154",
-          }}
-        >
-          watnowプロダクト一覧サイト
-        </Typography>
-        <Box sx={{ display: "flex" }}>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{
-              fontSize: "4rem",
-              fontFamily: "HannariMincho",
-              lineHeight: "0.85",
-              fontWeight: "regular",
-            }}
-          >
-            watbox
-          </Typography>
-          <Image
-            src={"/paper_airplane.svg"}
-            alt={"紙飛行機のアイコン"}
-            height={56}
-            width={56}
-          />
-        </Box>
-      </Box>
-
+    <CoreHeader>
       <Box
         sx={{
           display: "flex",
@@ -117,6 +93,9 @@ const Header = ({ mode }: { mode: HeaderMode }) => {
           <Box
             sx={{
               padding: "0.4rem 1rem",
+              "@media screen and (max-width: 700px)": {
+                padding: "0.2rem 0.5rem",
+              },
             }}
           >
             <Box
@@ -125,6 +104,9 @@ const Header = ({ mode }: { mode: HeaderMode }) => {
                 borderRadius: "1rem",
                 "&:hover": {
                   background: "#00AEEF33",
+                },
+                "@media screen and (max-width: 700px)": {
+                  padding: "0.2rem 0.5rem",
                 },
               }}
             >
@@ -143,6 +125,96 @@ const Header = ({ mode }: { mode: HeaderMode }) => {
           </Box>
         </Link>
       </Box>
+    </CoreHeader>
+  );
+};
+
+const CoreHeader = ({
+  isMobile,
+  children,
+}: {
+  isMobile?: boolean;
+  children: React.ReactNode;
+}) => {
+  return (
+    <AppBar
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        padding: isMobile ? "0 12px" : "0 2rem",
+        alignContent: "flex-end",
+        alignItems: "flex-end",
+        boxShadow: "none",
+        backgroundColor: "#85D5F3",
+        borderRadius: isMobile ? "0 0 10px 10px" : "0 0 20px 20px",
+        "@media screen and (max-width: 900px)": {
+          padding: "0 16px",
+        },
+        "@media screen and (max-width: 700px)": {
+          padding: "0 12px",
+        },
+      }}
+    >
+      <Box
+        sx={{
+          minWidth: "18rem",
+          textAlign: "left",
+          padding: "1rem",
+          "@media screen and (max-width: 900px)": {
+            minWidth: "15rem",
+            padding: "16px 8px 12px 8px",
+          },
+        }}
+      >
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{
+            fontSize: "1.25rem",
+            fontFamily: "HannariMincho",
+            lineHeight: "0.85",
+            fontWeight: "regular",
+            color: "#3F4154",
+            "@media screen and (max-width: 700px)": {
+              fontSize: "1rem",
+            },
+            "@media screen and (max-width: 600px)": {
+              fontSize: "0.8rem",
+            },
+          }}
+        >
+          watnowプロダクト一覧サイト
+        </Typography>
+        <Box sx={{ display: "flex", alignItems: "end" }}>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{
+              fontSize: "4rem",
+              fontFamily: "HannariMincho",
+              lineHeight: "0.85",
+              fontWeight: "regular",
+              "@media screen and (max-width: 700px)": {
+                fontSize: "3rem",
+              },
+              "@media screen and (max-width: 600px)": {
+                fontSize: "2rem",
+              },
+            }}
+          >
+            watbox
+          </Typography>
+          <Image
+            src={"/paper_airplane.svg"}
+            alt={"紙飛行機のアイコン"}
+            style={{ marginBottom: isMobile ? "-6px" : "-8px" }}
+            height={isMobile ? 38 : 48}
+            width={isMobile ? 38 : 48}
+          />
+        </Box>
+      </Box>
+      {children}
     </AppBar>
   );
 };

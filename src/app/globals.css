@@ -1,10 +1,10 @@
 :root {
-  --primary: #00AEEF;
-  --light-primary: #85D5F3;
-  --secondary: #4D4D4D;
-  --light: #EAEFF2;
-  --text: #3F4154;
-  --border: #9CABC7;
+  --primary: #00aeef;
+  --light-primary: #85d5f3;
+  --secondary: #4d4d4d;
+  --light: #eaeff2;
+  --text: #3f4154;
+  --border: #9cabc7;
 }
 
 * {
@@ -34,6 +34,12 @@ body {
 main {
   padding-top: calc(32px + 5rem);
   min-height: 100vh;
+  @media (max-width: 700px) {
+    padding-top: calc(32px + 3rem);
+  }
+  @media (max-width: 600px) {
+    padding-top: calc(32px + 2rem);
+  }
 }
 
 a {
