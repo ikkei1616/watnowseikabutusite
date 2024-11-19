@@ -20,6 +20,9 @@ const TechItem = ({ technology }: { technology: Technology }) => {
     fontSize: "1.4rem",
     fontFamily: "HannariMincho",
     paddingLeft: "12px",
+    "@media screen and (max-width: 750px)": {
+      fontSize: "1.2rem",
+    },
   };
   return (
     <ListItem

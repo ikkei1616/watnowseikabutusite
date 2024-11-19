@@ -37,7 +37,15 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
       <Header mode={HeaderMode.NONE} />
 
       {/* TODO: 森岡のHeader当てる */}
-      <Box sx={{ width: "100%", padding: "40px" }}>
+      <Box
+        sx={{
+          width: "100%",
+          padding: "40px",
+          "@media screen and (max-width: 600px)": {
+            padding: "20px",
+          },
+        }}
+      >
         <Box
           sx={{ display: "flex", alignItems: "flex-end", textAlign: "center" }}
         >
@@ -46,6 +54,9 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
               color: "#00AEEF",
               fontSize: "4rem",
               fontFamily: "HannariMincho",
+              "@media screen and (max-width: 600px)": {
+                fontSize: "2rem",
+              },
             }}
             variant="h1"
           >
@@ -57,6 +68,9 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
               color: "#00AEEF",
               fontSize: "2rem",
               fontFamily: "HannariMincho",
+              "@media screen and (max-width: 600px)": {
+                fontSize: "1rem",
+              },
             }}
             aria-label="display arrow"
           >
@@ -68,6 +82,9 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
               color: "#00AEEF",
               fontSize: "3rem",
               fontFamily: "HannariMincho",
+              "@media screen and (max-width: 600px)": {
+                fontSize: "1.5rem",
+              },
             }}
             variant="h1"
           >
@@ -82,7 +99,11 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
         <Box
           sx={{
             width: "100%",
-            padding: "40px",
+            padding: "40px 40px 0px 40px",
+
+            "@media screen and (max-width: 600px)": {
+              padding: "20px 10px 0px 10px",
+            },
           }}
         >
           <Box
@@ -90,18 +111,37 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
               display: "flex",
               gap: "4rem",
               alignContent: "flex-start",
+              "@media screen and (max-width: 900px)": {
+                gap: "2rem",
+              },
+              "@media screen and (max-width: 750px)": {
+                gap: "1rem",
+              },
             }}
           >
             <Box
-              width={300}
-              height={300}
               sx={{
                 borderRadius: "50%",
                 backgroundColor: "#85D5F3CC",
+                width: "300px",
+                height: "300px",
+                "@media screen and (max-width: 900px)": {
+                  width: "250px",
+                  height: "250px",
+                },
+                "@media screen and (max-width: 750px)": {
+                  width: "200px",
+                  height: "200px",
+                },
+                "@media screen and (max-width: 600px)": {
+                  width: "150px",
+                  height: "150px",
+                },
               }}
             >
               <Image
                 src={userData.image || "/unknown.svg"}
+                className={styles.userIcon}
                 alt={"ユーザのアイコン画像"}
                 width={300}
                 height={300}
@@ -135,7 +175,17 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
               </Typography>
             </Box>
           </Box>
-          <Box sx={{ paddingTop: "40px" }}>
+        </Box>
+
+        <Box>
+          <Box
+            sx={{
+              paddingTop: "40px",
+              "@media screen and (max-width: 600px)": {
+                paddingTop: "20px",
+              },
+            }}
+          >
             <Typography
               variant="h3"
               sx={{
@@ -150,10 +200,18 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
             <DottedDivider color="#00AEEF" />
             <List
               sx={{
+                paddingTop: "11px",
+                paddingBottom: "none",
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
                 gap: "10px",
                 width: "100%",
+                "@media screen and (max-width: 900px)": {
+                  gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+                },
+                "@media screen and (max-width: 600px)": {
+                  gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
+                },
               }}
             >
               {userData.technologies.map((tech) => (
