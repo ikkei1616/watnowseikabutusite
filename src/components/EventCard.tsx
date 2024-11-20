@@ -140,6 +140,7 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
           ) : (
             <Box
               sx={{
+                backgroundColor: "#D9D9D9",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
