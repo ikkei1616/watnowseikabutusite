@@ -9,17 +9,30 @@ import { supabase } from "@/supabase/supabase";
 import type { Service } from "@/types/Service";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ServiceCard from "@/components/ServiceCard";
+import Pagination from '@mui/material/Pagination';
+import PaginationItem from '@mui/material/PaginationItem';
+import Stack from '@mui/material/Stack';
+
+// import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+// import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const Home: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
+  const [page,setPage] = useState(1);
+  const [totalServicesCount,setTotalServices] = useState(0);
+  const servicesPerPage = 12;
 
   useEffect(() => {
+    const start = (page-1) * servicesPerPage;
+    const end = start + servicesPerPage - 1;
+
     const fetchService = async () => {
       const { data, error } = await supabase
         .from("services")
         .select("id,name,image")
-        .order("id", { ascending: true });
+        .order("id", { ascending: true })
+        .range(start,end);
 
       if (error) {
         console.error("Error fetching events:", error);
@@ -30,12 +43,59 @@ const Home: React.FC = () => {
       setLoading(false);
     };
 
+
+    const fetchEventCount = async () => {
+      const { count, error:countError} = await supabase
+        .from("services")
+        .select('*',{count:'exact',head: true});
+      console.log("カウントしている",count);
+      
+      if (countError) {
+        console.error("Error fetching event count",countError)
+        return;
+      }
+      setTotalServices(count || 0);
+    }
+
     fetchService();
+    fetchEventCount();
   }, []);
+
+  useEffect(()=>{
+    const start = (page-1) * servicesPerPage;
+    const end = start + servicesPerPage - 1;
+
+    const fetchService = async () => {
+      const { data, error } = await supabase
+        .from("services")
+        .select("id,name,image")
+        .order("id", { ascending: true })
+        .range(start,end)
+      if (error) {
+        console.error("Error fetching events:", error);
+      } else {
+        console.log("Fetched data:", data);
+        setServices((data as Service[]) || []);
+      }
+      setLoading(false);
+    };
+
+    fetchService()
+  },[page])
 
   if (loading) {
     return <LoadingSpinner />;
   }
+  
+  const handlePageChange =(_: React.ChangeEvent<unknown>, nextPage:number)=>{
+    setPage(nextPage);
+    scrollTop();
+    console.log(nextPage);
+  }
+
+  const scrollTop =()=>{
+    window.scrollTo({ top:0 });
+  };
 
   return (
     <main>
@@ -48,6 +108,18 @@ const Home: React.FC = () => {
           </div>
         ))}
       </div>
+      <Stack spacing={5}>
+        <Pagination
+          count={Math.ceil(totalServicesCount / servicesPerPage)}
+          onChange={handlePageChange}
+          renderItem={(item) => (
+            <PaginationItem
+              // slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+              {...item}
+            />
+          )}
+        />
+      </Stack>
     </main>
   );
 };
