@@ -3,13 +3,28 @@ import { Control } from "react-hook-form";
 import { FieldValues } from "react-hook-form";
 import { FormFactoryProps } from "@/components/form/FormFactory";
 
+
+export type teckData = {
+    value: string;
+    label: string;
+}
+
+export type userTableData = {
+    name: string;
+    nickname: string;
+    account_id: string;
+    introduction: string;
+    image: string;
+}
+
 export type FormField<T extends FieldValues> = {
     id: number;
 } & FormFactoryProps<T>;
 
 export const useFormFields = (
     control: Control<ServiceInputSchema>,
-    techs: { value: string; label: string }[]
+    techs?: teckData[],
+    userData?: userTableData,
 ): { container: string, title: string, fields: FormField<ServiceInputSchema>[] }[] => {
 
     return [
@@ -35,7 +50,8 @@ export const useFormFields = (
                         name: "name",
                         label: "氏名(本名)",
                         placeholder: "例) 山田太郎",
-                        required: true
+                        required: true,
+                        defaultValue: userData?.name,
                     },
                 },
                 {
@@ -46,7 +62,8 @@ export const useFormFields = (
                         name: "nickname",
                         label: "ニックネーム(表示名)",
                         placeholder: "例) たろぴ",
-                        required: true  
+                        required: true,
+                        defaultValue: userData?.nickname,
                     },
                 },
                 {
@@ -58,7 +75,8 @@ export const useFormFields = (
                         label: "ユーザID(半角英数字)",
                         placeholder: "Tarotan11",
                         required: true,
-                        isID: true, 
+                        isID: true,
+                        defaultValue: userData?.account_id,
                     },
                 },
                 {
