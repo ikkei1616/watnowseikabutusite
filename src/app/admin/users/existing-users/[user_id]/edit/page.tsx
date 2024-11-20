@@ -24,7 +24,7 @@ const EditServicesPage = ({
     const [isLoading, setIsLoading] = React.useState(false);
 
     useEffect(() => {
-        const fetchHooksData = async () => {
+        const fetchTecksData = async () => {
             try {
                 const { data: techsData, error: techsError } = await supabase
                     .from('technologies')
@@ -55,15 +55,13 @@ const EditServicesPage = ({
                     return;
                 }
 
-                setEvent({
-                    ...eventData,
-                    awards: awardsData || [],
-                });
-                setLoading(false);
+                console.log(eventData);
+                setIsLoading(false);
             }
         };
         setIsLoading(true);
-        fetchHooksData();
+        fetchUserData();
+        fetchTecksData();
         setIsLoading(false);
     }, [userID]);
 
