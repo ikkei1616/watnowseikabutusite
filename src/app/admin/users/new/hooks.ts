@@ -9,14 +9,6 @@ export type teckData = {
     label: string;
 }
 
-export type userTableData = {
-    name: string;
-    nickname: string;
-    account_id: string;
-    introduction: string;
-    image: string;
-}
-
 export type FormField<T extends FieldValues> = {
     id: number;
 } & FormFactoryProps<T>;
@@ -24,7 +16,6 @@ export type FormField<T extends FieldValues> = {
 export const useFormFields = (
     control: Control<ServiceInputSchema>,
     techs?: teckData[],
-    userData?: userTableData,
 ): { container: string, title: string, fields: FormField<ServiceInputSchema>[] }[] => {
 
     return [
@@ -51,7 +42,6 @@ export const useFormFields = (
                         label: "氏名(本名)",
                         placeholder: "例) 山田太郎",
                         required: true,
-                        defaultValue: userData?.name,
                     },
                 },
                 {
@@ -63,7 +53,6 @@ export const useFormFields = (
                         label: "ニックネーム(表示名)",
                         placeholder: "例) たろぴ",
                         required: true,
-                        defaultValue: userData?.nickname,
                     },
                 },
                 {
@@ -76,7 +65,6 @@ export const useFormFields = (
                         placeholder: "Tarotan11",
                         required: true,
                         isID: true,
-                        defaultValue: userData?.account_id,
                     },
                 },
                 {
