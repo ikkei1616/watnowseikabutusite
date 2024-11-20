@@ -16,6 +16,7 @@ export type FormField<T extends FieldValues> = {
 export const useFormFields = (
     control: Control<ServiceInputSchema>,
     techs?: teckData[],
+    defaultIcon?: string
 ): { container: string, title: string, fields: FormField<ServiceInputSchema>[] }[] => {
 
     return [
@@ -30,7 +31,8 @@ export const useFormFields = (
                         control,
                         name: "iconImage",
                         label: "アイコン画像",
-                        type: "image"
+                        type: "image",
+                        defaultValue: defaultIcon,
                     },
                 },
                 {
