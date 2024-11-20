@@ -3,20 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ServiceInputSchema, ServiceOutputSchema, resolver } from "../../../new/userFormSchema";
-import { FormField, useFormFields } from "../../../new/hooks";
+import { teckData, userTableData, FormField, useFormFields } from "../../../new/hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
 import AdminHeader from '@/components/admin/AdminHeader';
 import LoadingModal from '@/components/loading/LoadingModal';
-
-type userTableData = {
-    name: string;
-    nickname: string;
-    account_id: string;
-    introduction: string;
-    image: string;
-}
 
 type snsTableData = {
     x_id: string;
@@ -42,26 +34,26 @@ const EditServicesPage = ({
     const userID = params.user_id;
     const [formFields, setFormFields] = useState<{ container: string, title: string, fields: FormField<ServiceInputSchema>[] }[]>([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [userTableData, setUserTableData] = useState<userTableData | null>(null);
 
     const router = useRouter();
 
     useEffect(() => {
         const fetchTecksData = async () => {
             try {
-                const { data: techsData, error: techsError } = await supabase
+                const { data: getTechsData, error: techsError } = await supabase
                     .from('technologies')
-                    .select('id, name')
-
+                    .select('id, name');
+    
                 if (techsError) {
                     throw new Error(`Error fetching techs: ${techsError.message}`);
                 }
-                setFormFields(useFormFields(control, techsData.map((tech) => ({ value: tech.id, label: tech.name })) || []));
-
+                return getTechsData.map((tech) => ({ value: tech.id, label: tech.name })) || [];
             } catch (error) {
                 console.error(error);
+                return undefined;
             }
         };
+    
         const fetchUserData = async () => {
             if (userID) {
                 const { data: userData, error: userError } = await supabase
@@ -71,28 +63,39 @@ const EditServicesPage = ({
                     .single();
                 if (userError) {
                     console.error("Error fetching awards data:", userError);
-                    return;
+                    return undefined;
                 }
                 if (!userData) {
                     console.error("Error! data could not be found");
-                    return;
+                    return undefined;
                 }
-
-                setUserTableData({
+                return {
                     name: userData.name,
                     nickname: userData.nickname,
                     account_id: userData.account_id,
                     introduction: userData.introduction,
                     image: userData.image,
-                });
-                console.log(userTableData);
+                };
+            }
+            return undefined;
+        };
+    
+        const fetchData = async () => {
+            setIsLoading(true);
+            try {
+                const [tecksDataResult, userDataResult]: [teckData[] | undefined, userTableData | undefined] = await Promise.all([fetchTecksData(), fetchUserData()]);
+                console.log(userDataResult);
+                setFormFields(useFormFields(control, tecksDataResult, userDataResult));
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            } finally {
+                setIsLoading(false);
             }
         };
-        setIsLoading(true);
-        fetchUserData();
-        fetchTecksData();
-        setIsLoading(false);
+    
+        fetchData();
     }, [userID]);
+    
 
     const handleCancel = () => {
         router.push('/admin/users/existing-users');
