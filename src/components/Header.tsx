@@ -1,9 +1,11 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import AppBar from "@mui/material/AppBar";
 import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { HeaderMode } from "@/types/HeaderMode";
 import Link from "next/link";
@@ -11,18 +13,96 @@ import Link from "next/link";
 const Header = ({ mode }: { mode: HeaderMode }) => {
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  return isMobile ? (
-    <MobileHeader mode={mode} />
-  ) : (
-    <DesktopHeader mode={mode} />
-  );
+  return isMobile ? <MobileHeader /> : <DesktopHeader mode={mode} />;
 };
 
-const MobileHeader = ({ mode }: { mode: HeaderMode }) => (
-  <CoreHeader isMobile>
-    <Box>menu</Box>
-  </CoreHeader>
-);
+const MobileHeader = () => {
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
+
+  const LinkButton = ({ href, text }: { href: string; text: string }) => (
+    <Link
+      href={href}
+      style={{
+        textDecoration: "none",
+        backgroundColor: "rgba(255, 255, 255)",
+        padding: "0.5rem",
+        borderRadius: "1rem",
+      }}
+    >
+      <Typography
+        sx={{
+          fontFamily: "HannariMincho",
+          textAlign: "center",
+        }}
+      >
+        {text}
+      </Typography>
+    </Link>
+  );
+
+  return (
+    <CoreHeader isMobile>
+      <IconButton
+        size="large"
+        edge="start"
+        color="inherit"
+        aria-label="menu"
+        onClick={() => setMenuIsOpen(!menuIsOpen)}
+        sx={{ mb: "2px" }}
+      >
+        <Image
+          src="/menu.svg"
+          alt={"メニュー表示ボタン"}
+          width={40}
+          height={40}
+          color="#fff"
+        />
+      </IconButton>
+
+      <Drawer
+        anchor="top"
+        open={menuIsOpen}
+        onClose={() => setMenuIsOpen(false)}
+        sx={{
+          "& .MuiDrawer-paper": {
+            backgroundColor: "#85D5F3DD",
+            borderRadius: "0 0 20px 20px",
+            padding: "1rem",
+          },
+        }}
+      >
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          onClick={() => setMenuIsOpen(!menuIsOpen)}
+          sx={{ position: "absolute", right: "0", top: "0" }}
+        >
+          <Image
+            src="/close.svg"
+            alt={"メニュー閉じるボタン"}
+            width={40}
+            height={40}
+            color="#fff"
+          />
+        </IconButton>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+            padding: "3rem 0 1rem 0",
+          }}
+        >
+          <LinkButton href={"/services"} text={"サービス一覧"} />
+          <LinkButton href={"/events"} text={"イベント一覧"} />
+          <LinkButton href={"/admin"} text={"管理者ページ"} />
+        </Box>
+      </Drawer>
+    </CoreHeader>
+  );
+};
 const DesktopHeader = ({ mode }: { mode: HeaderMode }) => {
   const TabLink = ({
     linkMode,
