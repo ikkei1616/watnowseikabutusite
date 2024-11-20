@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ServiceInputSchema, ServiceOutputSchema, resolver } from "../../../new/userFormSchema";
 import { FormField, useFormFields } from "../../../new/hooks";
@@ -8,6 +9,25 @@ import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
 import AdminHeader from '@/components/admin/AdminHeader';
 import LoadingModal from '@/components/loading/LoadingModal';
+
+type userTableData = {
+    name: string;
+    nickname: string;
+    account_id: string;
+    introduction: string;
+    image: string;
+}
+
+type snsTableData = {
+    x_id: string;
+    instagram_id: string;
+    github_id: string;
+}
+
+type tecksTableData = {
+    id: number;
+    name: string;
+}
 
 const EditServicesPage = ({
     params,
@@ -20,8 +40,11 @@ const EditServicesPage = ({
         resolver: resolver,
     });
     const userID = params.user_id;
-    const [formFields, setFormFields] = React.useState<{ container: string, title: string, fields: FormField<ServiceInputSchema>[] }[]>([]);
-    const [isLoading, setIsLoading] = React.useState(false);
+    const [formFields, setFormFields] = useState<{ container: string, title: string, fields: FormField<ServiceInputSchema>[] }[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [userTableData, setUserTableData] = useState<userTableData | null>(null);
+
+    const router = useRouter();
 
     useEffect(() => {
         const fetchTecksData = async () => {
@@ -41,22 +64,28 @@ const EditServicesPage = ({
         };
         const fetchUserData = async () => {
             if (userID) {
-                const { data: eventData, error: eventError } = await supabase
+                const { data: userData, error: userError } = await supabase
                     .from("users")
                     .select("*")
                     .eq("id", userID)
                     .single();
-                if (eventError) {
-                    console.error("Error fetching awards data:", eventError);
+                if (userError) {
+                    console.error("Error fetching awards data:", userError);
                     return;
                 }
-                if (!eventData) {
+                if (!userData) {
                     console.error("Error! data could not be found");
                     return;
                 }
 
-                console.log(eventData);
-                setIsLoading(false);
+                setUserTableData({
+                    name: userData.name,
+                    nickname: userData.nickname,
+                    account_id: userData.account_id,
+                    introduction: userData.introduction,
+                    image: userData.image,
+                });
+                console.log(userTableData);
             }
         };
         setIsLoading(true);
@@ -64,6 +93,10 @@ const EditServicesPage = ({
         fetchTecksData();
         setIsLoading(false);
     }, [userID]);
+
+    const handleCancel = () => {
+        router.push('/admin/users/existing-users');
+    }
 
     const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
         setIsLoading(true);
@@ -160,7 +193,7 @@ const EditServicesPage = ({
                 return;
             }
         }
-        window.location.href = '/admin/users/existing-users';
+        router.push('/admin/users/existing-users');
     };
 
     return (
@@ -196,7 +229,7 @@ const EditServicesPage = ({
                         gap: '60px',
                         margin: "20px 0"
                     }}>
-                        <FormButton name="キャンセル" type='cancel' onClick={() => window.location.href = '/admin/users'} />
+                        <FormButton name="キャンセル" type='cancel' onClick={handleCancel} />
                         <FormButton name="新規作成" type='submit' />
                     </div>
                 </form>
