@@ -3,12 +3,24 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ServiceInputSchema, ServiceOutputSchema, resolver } from "../../../new/userFormSchema";
-import { teckData, userTableData, FormField, useFormFields } from "../../../new/hooks";
+import { teckData, FormField, useFormFields } from "../../../new/hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
 import AdminHeader from '@/components/admin/AdminHeader';
 import LoadingModal from '@/components/loading/LoadingModal';
+import { get } from 'http';
+
+type userTableData = {
+    name: string;
+    nickname: string;
+    account_id: string;
+    introduction: string;
+    image: File | undefined;
+    imageURL: string;
+}
+
+type userTechsData = number;
 
 type snsTableData = {
     x_id: string;
@@ -27,9 +39,20 @@ const EditServicesPage = ({
     params: { user_id: string };
 }
 ) => {
-    const { control, handleSubmit } = useForm<ServiceInputSchema>({
+    const { control, handleSubmit,reset } = useForm<ServiceInputSchema>({
         mode: "onChange",
         resolver: resolver,
+        defaultValues: {
+            iconImage: undefined,
+            name: '',
+            nickname: '',
+            account_id: '',
+            introduction: '',
+            technologiesId: [],
+            x_id: '',
+            instagram_id: '',
+            github_id: '',
+        },
     });
     const userID = params.user_id;
     const [formFields, setFormFields] = useState<{ container: string, title: string, fields: FormField<ServiceInputSchema>[] }[]>([]);
@@ -69,23 +92,62 @@ const EditServicesPage = ({
                     console.error("Error! data could not be found");
                     return undefined;
                 }
+
+                let file = undefined;
+
+                if(userData.image){
+                    const url = await fetch(userData.image);
+                    const blob = await url.blob();
+                    file = new File([blob], userData.image);
+                }
                 return {
                     name: userData.name,
                     nickname: userData.nickname,
                     account_id: userData.account_id,
                     introduction: userData.introduction,
-                    image: userData.image,
+                    image: file,
+                    imageURL: userData.image,
                 };
             }
             return undefined;
+        };
+
+        const fetchUserTecksData = async () => {
+            try {
+                const { data: getUserTechsData, error: usertechsError } = await supabase
+                    .from('users_technologies')
+                    .select("technology_id")
+                    .eq("user_id", userID)
+    
+                if (usertechsError) {
+                    throw new Error(`Error fetching techs: ${usertechsError.message}`);
+                }
+                const userTechsData = getUserTechsData.map((tech) => tech.technology_id) || [];
+                return userTechsData || [];
+            } catch (error) {
+                console.error(error);
+                return [];
+            }
         };
     
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                const [tecksDataResult, userDataResult]: [teckData[] | undefined, userTableData | undefined] = await Promise.all([fetchTecksData(), fetchUserData()]);
-                console.log(userDataResult);
-                setFormFields(useFormFields(control, tecksDataResult, userDataResult));
+                const [tecksData, userTableData, userTechsData]: [teckData[] | undefined, userTableData | undefined, userTechsData[] | []] = await Promise.all([fetchTecksData(), fetchUserData(), fetchUserTecksData()]);
+                
+                reset({
+                    iconImage: userTableData?.image,
+                    name: userTableData?.name,
+                    nickname: userTableData?.nickname,
+                    account_id: userTableData?.account_id,
+                    introduction: userTableData?.introduction,
+                    technologiesId: userTechsData,
+                    x_id: "",
+                    instagram_id: "",
+                    github_id: "",
+                  });
+
+                setFormFields(useFormFields(control, tecksData, userTableData?.imageURL));
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
