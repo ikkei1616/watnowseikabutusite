@@ -1,5 +1,6 @@
 "use client";
 import React from 'react';
+import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ServiceInputSchema, ServiceOutputSchema, resolver } from "./userFormSchema";
 import { useFormFields, FormField } from "./hooks";
@@ -17,6 +18,8 @@ const NewServicesPage = () => {
   });
   const [formFields, setFormFields] = useState<{ container: string, title: string, fields: FormField<ServiceInputSchema>[] }[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
 
   useEffect(() => {
@@ -135,7 +138,7 @@ const NewServicesPage = () => {
           return;
         }
       }
-    window.location.href = '/admin/users/existing-users';
+    router.push('/admin/users/existing-users');
   };
 
   return (
@@ -171,7 +174,7 @@ const NewServicesPage = () => {
             gap: '60px',
             margin: "20px 0"
           }}>
-            <FormButton name="キャンセル" type='cancel' onClick={() => window.location.href = '/admin/users'}/>
+            <FormButton name="キャンセル" type='cancel' onClick={() => router.push('/admin/users')}/>
             <FormButton name="新規作成" type='submit' />
           </div>
         </form>
