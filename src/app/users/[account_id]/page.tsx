@@ -68,9 +68,14 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
           <DetailHeader title={"作成したサービス"} />
           <ItemList>
             {userData.services.map((service, index) => (
-              <div>
+              <div key={index}>
                 <div>{service.name}</div>
-                <img src={service.image} width={40} height={40} alt={service.name} />
+                <img
+                  src={service.image}
+                  width={40}
+                  height={40}
+                  alt={service.name}
+                />
               </div>
             ))}
           </ItemList>
