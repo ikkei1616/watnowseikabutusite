@@ -2,11 +2,8 @@ import { ServiceInputSchema } from "./serviceFormSchema";
 import { Control } from "react-hook-form";
 import { FieldValues } from "react-hook-form";
 import { FormFactoryProps } from "@/components/form/FormFactory";
-import { supabase } from '../../../../supabase/supabase';
-import { useEffect, useState } from "react";
 
-
-type FormField<T extends FieldValues> = {
+export type FormField<T extends FieldValues> = {
     id: number;
 } & FormFactoryProps<T>;
 
@@ -44,61 +41,11 @@ export const releaseMonth = [
 
 export const useFormFields = (
     control: Control<ServiceInputSchema>,
+    events: { value: string, label: string }[],
+    awards: { value: string, label:string }[],
+    menbers: { value: string, label: string }[],
+    techs: { value: string, label: string }[],
 ): { container: string, title: string, fields: FormField<ServiceInputSchema>[] }[] => {
-    const [events, setEvents] = useState<{ value: string; label: string }[]>([]);
-    const [awards, setAwards] = useState<{ value: string; label: string }[]>([]);
-    const [menbers, setMenbers] = useState<{ value: string; label: string }[]>([]);
-    const [techs, setTechs] = useState<{ value: string; label: string }[]>([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const { data: eventsData, error: eventsError } = await supabase
-                    .from('events')
-                    .select('id, name')
-                    .order('id', { ascending: true });
-
-                if (eventsError) {
-                    throw new Error(`Error fetching events: ${eventsError.message}`);
-                }
-
-                const { data: awardsData, error: awardsError } = await supabase
-                    .from('awards')
-                    .select('id, name') // 必要なカラムを指定
-                    .order('id', { ascending: true });
-
-                if (awardsError) {
-                    throw new Error(`Error fetching awards: ${awardsError.message}`);
-                }
-                const { data: menbersData, error: menbersError } = await supabase
-                    .from('users')
-                    .select('id, name, nickname')
-
-                if (menbersError) {
-                    throw new Error(`Error fetching menbers: ${menbersError.message}`);
-                }
-                const { data: techsData, error: techsError } = await supabase
-                    .from('technologies')
-                    .select('id, name')
-
-                if (techsError) {
-                    throw new Error(`Error fetching techs: ${techsError.message}`);
-                }
-
-                // イベントと賞の情報を状態に設定
-                setEvents(eventsData.map((event) => ({ value: event.id, label: event.name })) || []);
-                setAwards(awardsData.map((award) => ({ value: award.id, label: award.name })) || []);
-                setMenbers(menbersData.map((menber) => ({ value: menber.id, label: `${menber.name}　(${menber.nickname})` })) || []);
-                setTechs(techsData.map((tech) => ({ value: tech.id, label: tech.name })) || []);
-
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
 
     return [
         {

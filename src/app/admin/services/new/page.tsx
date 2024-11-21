@@ -1,8 +1,8 @@
 "use client";
-import React from 'react';
-import { SubmitHandler, useForm } from "react-hook-form";
+import React, {useState, useEffect} from 'react';
+import { set, SubmitHandler, useForm } from "react-hook-form";
 import { ServiceInputSchema, ServiceOutputSchema, resolver } from "./serviceFormSchema";
-import { useFormFields } from "./hooks";
+import { useFormFields, FormField } from "./hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
@@ -15,7 +15,57 @@ const NewServicesPage = () => {
     resolver: resolver,
   });
 
+  const [formFields, setFormFields] = useState<{ container: string, title: string, fields: FormField<ServiceInputSchema>[] }[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
+
+  useEffect(() => {
+      const fetchData = async () => {
+          try {
+              const { data: eventsData, error: eventsError } = await supabase
+                  .from('events')
+                  .select('id, name')
+                  .order('id', { ascending: true });
+
+              if (eventsError) {
+                  throw new Error(`Error fetching events: ${eventsError.message}`);
+              }
+
+              const { data: awardsData, error: awardsError } = await supabase
+                  .from('awards')
+                  .select('id, name')
+                  .order('id', { ascending: true });
+
+              if (awardsError) {
+                  throw new Error(`Error fetching awards: ${awardsError.message}`);
+              }
+              const { data: menbersData, error: menbersError } = await supabase
+                  .from('users')
+                  .select('id, name, nickname')
+
+              if (menbersError) {
+                  throw new Error(`Error fetching menbers: ${menbersError.message}`);
+              }
+              const { data: techsData, error: techsError } = await supabase
+                  .from('technologies')
+                  .select('id, name')
+
+              if (techsError) {
+                  throw new Error(`Error fetching techs: ${techsError.message}`);
+              }
+
+              const Events = eventsData.map((event) => ({ value: event.id, label: event.name }));
+              const Awards = awardsData.map((award) => ({ value: award.id, label: award.name }));
+              const Menbers = menbersData.map((menber) => ({ value: menber.id, label: `${menber.name}　(${menber.nickname})` }));
+              const Techs = techsData.map((tech) => ({ value: tech.id, label: tech.name }));
+              setFormFields(useFormFields(control, Events, Awards, Menbers, Techs));
+
+          } catch (error) {
+              console.error(error);
+          }
+      };
+
+      fetchData();
+  }, []);
 
   const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
     setIsLoading(true);
@@ -165,7 +215,7 @@ const NewServicesPage = () => {
     window.location.href = '/admin/services/existing-services';
   };
 
-  const formFields = useFormFields(control);
+
 
   return (
     <>
