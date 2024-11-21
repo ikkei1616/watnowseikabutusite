@@ -49,6 +49,7 @@ const EditServicesPage = ({
     const userID = params.user_id;
     const [formFields, setFormFields] = useState<{ container: string, title: string, fields: FormField<ServiceInputSchema>[] }[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [isFirstLoading, setIsFirstLoading] = useState(true);
 
     const [imageDataURL, setImageDataURL] = useState<string | undefined>(undefined);
     const [checkImageDataURL, setCheckImageDataURL] = useState<string | undefined>(undefined);
@@ -181,7 +182,6 @@ const EditServicesPage = ({
         };
 
         const fetchData = async () => {
-            setIsLoading(true);
             try {
                 const [tecksData, userTableData, userTechsData, userXData, userInstagramData, userGithubData]: [teckData[] | undefined, userTableData | undefined, userTechsData[] | [], snsTableData | undefined, snsTableData | undefined, snsTableData | undefined] = await Promise.all([fetchTecksData(), fetchUserData(), fetchUserTecksData(), fetchUserXData(), fetchUserInstagramData(), fetchUserGithubData()]);
                 console.log(userTableData);
@@ -205,7 +205,7 @@ const EditServicesPage = ({
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
-                setIsLoading(false);
+                setIsFirstLoading(false);
             }
         };
 
@@ -540,39 +540,41 @@ const EditServicesPage = ({
             }
             }>
                 <AdminHeader isEditing />
-                <div style={{
-                    borderBottom: "1px solid #9CABC7",
-                    paddingBottom: "12px",
-                    marginBottom: "12px",
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                }}>
-                    <h1>既存ユーザ編集</h1>
-                    <FormButton name="データ削除" type='delete' onClick={handleDelete} />
-                </div>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    {formFields.map(({ title, fields }, index) => (
-                        <section key={index} style={{
-                            borderBottom: "1px solid #9CABC7",
-                            paddingBottom: "12px",
-                            marginBottom: "12px",
-                        }}>
-                            <h3>{title}</h3>
-                            {fields.map((field) => (
-                                <FormFactory<ServiceInputSchema> key={field.id} {...field} />
-                            ))}
-                        </section>
-                    ))}
+                {!isFirstLoading && <div>
                     <div style={{
+                        borderBottom: "1px solid #9CABC7",
+                        paddingBottom: "12px",
+                        marginBottom: "12px",
                         display: 'flex',
-                        justifyContent: 'center',
-                        gap: '60px',
-                        margin: "20px 0"
+                        justifyContent: 'space-between',
                     }}>
-                        <FormButton name="編集破棄" type='cancel' onClick={handleCancel} />
-                        <FormButton name="編集完了" type='submit' />
+                        <h1>既存ユーザ編集</h1>
+                        <FormButton name="データ削除" type='delete' onClick={handleDelete} />
                     </div>
-                </form>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        {formFields.map(({ title, fields }, index) => (
+                            <section key={index} style={{
+                                borderBottom: "1px solid #9CABC7",
+                                paddingBottom: "12px",
+                                marginBottom: "12px",
+                            }}>
+                                <h3>{title}</h3>
+                                {fields.map((field) => (
+                                    <FormFactory<ServiceInputSchema> key={field.id} {...field} />
+                                ))}
+                            </section>
+                        ))}
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            gap: '60px',
+                            margin: "20px 0"
+                        }}>
+                            <FormButton name="編集破棄" type='cancel' onClick={handleCancel} />
+                            <FormButton name="編集完了" type='submit' />
+                        </div>
+                    </form>
+                </div>}
             </main>
         </>
     );
