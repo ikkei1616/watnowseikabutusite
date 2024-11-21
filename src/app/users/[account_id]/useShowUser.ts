@@ -6,6 +6,7 @@ import type Technology from "@/types/Technology";
 const useShowUser = (accountID: string) => {
   const [userData, setUserData] = useState<UserDetail | null>(null);
   const [loading, setLoading] = useState(true);
+  console.log(userData);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -14,6 +15,9 @@ const useShowUser = (accountID: string) => {
         .select(
           `
         *,
+        github(github_id),
+        x(x_id),
+        instagram(instagram_id),
         users_technologies(technology_id(id, name, image))
         `
         )
@@ -36,6 +40,9 @@ const useShowUser = (accountID: string) => {
               (users_technology: { technology_id: Technology }) =>
                 users_technology.technology_id
             ) || [],
+          githubID: data?.github?.github_id,
+          xID: data?.x?.x_id,
+          instagramID: data?.instagram?.instagram_id,
           isVisible: data?.is_visible,
         } as UserDetail);
       }

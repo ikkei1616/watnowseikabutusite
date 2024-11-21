@@ -12,6 +12,9 @@ export interface UserDetail extends User {
     name: string;
     introduction?: string;
     technologies: Technology[];
+    githubID?: string;
+    xID?: string;
+    instagramID?: string;
     isVisible: boolean;
 }
 

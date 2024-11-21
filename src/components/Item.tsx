@@ -30,6 +30,10 @@ const Item = ({
     fontSize: "1.4rem",
     fontFamily: "HannariMincho",
     paddingLeft: "12px",
+    // はみ出たら省略
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
     "@media screen and (max-width: 750px)": {
       fontSize: "1.2rem",
     },
