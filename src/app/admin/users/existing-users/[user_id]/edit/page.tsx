@@ -54,9 +54,9 @@ const EditServicesPage = ({
     const [checkImageDataURL, setCheckImageDataURL] = useState<string | undefined>(undefined);
 
     const [checkTecksData, setCheckTecksData] = useState<number[]>([]);
-    const [checkXData, setCheckXData] = useState<snsTableData | undefined>(undefined);
-    const [checkInstagramData, setCheckInstagramData] = useState<snsTableData | undefined>(undefined);
-    const [checkGithubData, setCheckGithubData] = useState<snsTableData | undefined>(undefined);
+    const [checkXData, setCheckXData] = useState<string | undefined>(undefined);
+    const [checkInstagramData, setCheckInstagramData] = useState<string | undefined>(undefined);
+    const [checkGithubData, setCheckGithubData] = useState<string | undefined>(undefined);
 
     const router = useRouter();
 
@@ -198,9 +198,9 @@ const EditServicesPage = ({
                 });
                 setImageDataURL(userTableData?.imageURL);
                 setCheckTecksData(userTechsData || []);
-                setCheckXData(userXData);
-                setCheckInstagramData(userInstagramData);
-                setCheckGithubData(userGithubData);
+                setCheckXData(userXData?.id);
+                setCheckInstagramData(userInstagramData?.id);
+                setCheckGithubData(userGithubData?.id);
                 setFormFields(useFormFields(control, tecksData, `${userTableData?.imageURL}?${new Date().getTime()}`));
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -219,8 +219,6 @@ const EditServicesPage = ({
 
     const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
         setIsLoading(true);
-        console.log(data);
-        console.log(checkImageDataURL);
         let imageUrl = '';
 
         if (data.iconImage instanceof File) {
@@ -275,7 +273,6 @@ const EditServicesPage = ({
         }
 
         if (data.technologiesId && data.technologiesId.length > 0) {
-            console.log(checkTecksData);
             if (checkTecksData.length > 0) {
                 const { error: deleteError } = await supabase
                     .from('users_technologies')
@@ -300,7 +297,6 @@ const EditServicesPage = ({
                     return;
                 }
             } else {
-                console.log(2);
                 const { error: technologiesError } = await supabase
                     .from('users_technologies')
                     .insert(data.technologiesId.map((technologyId) => ({
@@ -317,9 +313,20 @@ const EditServicesPage = ({
             }
         }
 
+        if (checkXData) {
+            if (x_id === "") {
+                const { error: xIdError } = await supabase
+                    .from('x')
+                    .delete()
+                    .eq('user_id', userID);
 
-        if (x_id) {
-            if (checkXData) {
+                if (xIdError) {
+                    console.error('Error inserting url_web:', xIdError);
+                    window.alert(xIdError.message);
+                    setIsLoading(false);
+                    return;
+                }
+            } else {
                 const { error: xIdError } = await supabase
                     .from('x')
                     .update([{ x_id: x_id }])
@@ -331,25 +338,26 @@ const EditServicesPage = ({
                     setIsLoading(false);
                     return;
                 }
-            } else {
-                const { error: xIdError } = await supabase
-                    .from('x')
-                    .insert([{ user_id: userID, x_id: x_id }]);
+            }
+        } else if (x_id) {
+            const { error: xIdError } = await supabase
+                .from('x')
+                .insert([{ user_id: userID, x_id: x_id }]);
 
-                if (xIdError) {
-                    console.error('Error inserting url_web:', xIdError);
-                    window.alert(xIdError.message);
-                    setIsLoading(false);
-                    return;
-                }
+            if (xIdError) {
+                console.error('Error inserting url_web:', xIdError);
+                window.alert(xIdError.message);
+                setIsLoading(false);
+                return;
             }
         }
 
-        if (instagram_id) {
-            if (checkInstagramData) {
+
+        if (checkInstagramData) {
+            if (instagram_id === "") {
                 const { error: instagramIdError } = await supabase
                     .from('instagram')
-                    .update([{ instagram_id: instagram_id }])
+                    .delete()
                     .eq('user_id', userID);
 
                 if (instagramIdError) {
@@ -361,7 +369,8 @@ const EditServicesPage = ({
             } else {
                 const { error: instagramIdError } = await supabase
                     .from('instagram')
-                    .insert([{ user_id: userID, instagram_id: instagram_id }]);
+                    .update({ instagram_id: instagram_id })
+                    .eq('user_id', userID);
 
                 if (instagramIdError) {
                     console.error('Error inserting url_web:', instagramIdError);
@@ -370,10 +379,33 @@ const EditServicesPage = ({
                     return;
                 }
             }
+        } else if (instagram_id) {
+            const { error: instagramIdError } = await supabase
+                .from('instagram')
+                .insert([{ user_id: userID, instagram_id: instagram_id }]);
+
+            if (instagramIdError) {
+                console.error('Error inserting url_web:', instagramIdError);
+                window.alert(instagramIdError.message);
+                setIsLoading(false);
+                return;
+            }
         }
 
-        if (github_id) {
-            if (checkGithubData) {
+        if (checkGithubData) {
+            if (github_id === "") {
+                const { error: githubIdError } = await supabase
+                    .from('github')
+                    .delete()
+                    .eq('user_id', userID);
+
+                if (githubIdError) {
+                    console.error('Error inserting url_web:', githubIdError);
+                    window.alert(githubIdError.message);
+                    setIsLoading(false);
+                    return;
+                }
+            } else {
                 const { error: githubIdError } = await supabase
                     .from('github')
                     .update([{ user_id: userID, github_id: github_id }])
@@ -385,19 +417,20 @@ const EditServicesPage = ({
                     setIsLoading(false);
                     return;
                 }
-            } else {
-                const { error: githubIdError } = await supabase
-                    .from('github')
-                    .insert([{ user_id: userID, github_id: github_id }]);
+            }
+        } else if (github_id) {
+            const { error: githubIdError } = await supabase
+                .from('github')
+                .insert([{ user_id: userID, github_id: github_id }]);
 
-                if (githubIdError) {
-                    console.error('Error inserting url_web:', githubIdError);
-                    window.alert(githubIdError.message);
-                    setIsLoading(false);
-                    return;
-                }
+            if (githubIdError) {
+                console.error('Error inserting url_web:', githubIdError);
+                window.alert(githubIdError.message);
+                setIsLoading(false);
+                return;
             }
         }
+
         router.push('/admin/users/existing-users');
     };
 
