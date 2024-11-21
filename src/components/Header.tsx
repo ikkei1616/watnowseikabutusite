@@ -236,64 +236,66 @@ const CoreHeader = ({
         },
       }}
     >
-      <Box
-        sx={{
-          minWidth: "18rem",
-          textAlign: "left",
-          padding: "1rem",
-          "@media screen and (max-width: 900px)": {
-            minWidth: "15rem",
-            padding: "16px 8px 12px 8px",
-          },
-        }}
-      >
-        <Typography
-          variant="h6"
-          component="div"
+      <Link href={"/services"}>
+        <Box
           sx={{
-            fontSize: "1.25rem",
-            fontFamily: "HannariMincho",
-            lineHeight: "0.85",
-            fontWeight: "regular",
-            color: "#3F4154",
-            "@media screen and (max-width: 700px)": {
-              fontSize: "1rem",
-            },
-            "@media screen and (max-width: 600px)": {
-              fontSize: "0.8rem",
+            minWidth: "18rem",
+            textAlign: "left",
+            padding: "1rem",
+            "@media screen and (max-width: 900px)": {
+              minWidth: "15rem",
+              padding: "16px 8px 12px 8px",
             },
           }}
         >
-          watnowプロダクト一覧サイト
-        </Typography>
-        <Box sx={{ display: "flex", alignItems: "end" }}>
           <Typography
             variant="h6"
             component="div"
             sx={{
-              fontSize: "4rem",
+              fontSize: "1.25rem",
               fontFamily: "HannariMincho",
               lineHeight: "0.85",
               fontWeight: "regular",
+              color: "#3F4154",
               "@media screen and (max-width: 700px)": {
-                fontSize: "3rem",
+                fontSize: "1rem",
               },
               "@media screen and (max-width: 600px)": {
-                fontSize: "2rem",
+                fontSize: "0.8rem",
               },
             }}
           >
-            watbox
+            watnowプロダクト一覧サイト
           </Typography>
-          <Image
-            src={"/paper_airplane.svg"}
-            alt={"紙飛行機のアイコン"}
-            style={{ marginBottom: isMobile ? "-6px" : "-8px" }}
-            height={isMobile ? 38 : 48}
-            width={isMobile ? 38 : 48}
-          />
+          <Box sx={{ display: "flex", alignItems: "end" }}>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{
+                fontSize: "4rem",
+                fontFamily: "HannariMincho",
+                lineHeight: "0.85",
+                fontWeight: "regular",
+                "@media screen and (max-width: 700px)": {
+                  fontSize: "3rem",
+                },
+                "@media screen and (max-width: 600px)": {
+                  fontSize: "2rem",
+                },
+              }}
+            >
+              watbox
+            </Typography>
+            <Image
+              src={"/paper_airplane.svg"}
+              alt={"紙飛行機のアイコン"}
+              style={{ marginBottom: isMobile ? "-6px" : "-8px" }}
+              height={isMobile ? 38 : 48}
+              width={isMobile ? 38 : 48}
+            />
+          </Box>
         </Box>
-      </Box>
+      </Link>
       {children}
     </AppBar>
   );
