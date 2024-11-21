@@ -218,7 +218,12 @@ const EditServicesPage = ({
     }
 
     const handleDelete = async () => {
-        window.alert("本当に削除しますか？");
+        const confirmDelete = window.confirm("本当に削除しますか？");
+
+        if (!confirmDelete) {
+            return;
+        }
+
         setIsLoading(true);
         const { error: deleteError } = await supabase
             .from('users')
@@ -232,7 +237,7 @@ const EditServicesPage = ({
             return;
         }
 
-        if(checkImageDataURL) {
+        if (checkImageDataURL) {
             const { error: deleteImageError } = await supabase.storage
                 .from('user_icons')
                 .remove([checkImageDataURL]);
@@ -245,7 +250,7 @@ const EditServicesPage = ({
             }
         }
 
-        if(checkTecksData.length > 0) {
+        if (checkTecksData.length > 0) {
             const { error: deleteTechsError } = await supabase
                 .from('users_technologies')
                 .delete()
@@ -259,7 +264,7 @@ const EditServicesPage = ({
             }
         }
 
-        if(checkXData) {
+        if (checkXData) {
             const { error: deleteXError } = await supabase
                 .from('x')
                 .delete()
@@ -273,7 +278,7 @@ const EditServicesPage = ({
             }
         }
 
-        if(checkInstagramData) {
+        if (checkInstagramData) {
             const { error: deleteInstagramError } = await supabase
                 .from('instagram')
                 .delete()
@@ -287,7 +292,7 @@ const EditServicesPage = ({
             }
         }
 
-        if(checkGithubData) {
+        if (checkGithubData) {
             const { error: deleteGithubError } = await supabase
                 .from('github')
                 .delete()
@@ -531,12 +536,12 @@ const EditServicesPage = ({
             }>
                 <AdminHeader isEditing />
                 <div style={{
-                        borderBottom: "1px solid #9CABC7",
-                        paddingBottom: "12px",
-                        marginBottom: "12px",
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                    }}>
+                    borderBottom: "1px solid #9CABC7",
+                    paddingBottom: "12px",
+                    marginBottom: "12px",
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                }}>
                     <h1>既存ユーザ編集</h1>
                     <FormButton name="データ削除" type='delete' onClick={handleDelete} />
                 </div>
