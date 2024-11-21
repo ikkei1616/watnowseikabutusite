@@ -1,10 +1,7 @@
 "use client";
 import React from "react";
-import ListItem from "@mui/material/ListItem";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Image from "next/image";
 import type Technology from "@/types/Technology";
+import Item from "./Item";
 
 const TechItem = ({ technology }: { technology: Technology }) => {
   const containerStyle = {
@@ -25,25 +22,12 @@ const TechItem = ({ technology }: { technology: Technology }) => {
     },
   };
   return (
-    <ListItem
-      key={technology.id}
-      sx={{
-        padding: "0 0 0 0",
-      }}
-    >
-      <Box sx={containerStyle}>
-        <Image
-          src={technology.image || "/nodata.png"}
-          alt={"ユーザのアイコン画像"}
-          width={48}
-          height={48}
-          style={{
-            borderRadius: "50%",
-          }}
-        />
-        <Typography sx={typographyStyle}>{technology.name}</Typography>
-      </Box>
-    </ListItem>
+    <Item
+      id={technology.id}
+      src={technology.image || "/nodata.png"}
+      alt={"ユーザのアイコン画像"}
+      text={technology.name}
+    />
   );
 };
 

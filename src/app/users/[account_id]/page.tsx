@@ -7,12 +7,12 @@ import Header from "@/components/Header";
 import { HeaderMode } from "@/types/HeaderMode";
 import Box from "@mui/material/Box";
 import LoadingPage from "@/components/loading/LoadingPage";
+import ItemList from "@/components/ItemList";
 import TechItem from "@/components/TechItem";
 import PageHeader from "@/components/PageHeader";
 import DisplayIconAndName from "@/components/userDetails/DisplayIconAndName";
 import DetailContainer from "@/components/DetailContainer";
 import DetailHeader from "@/components/DetailHeader";
-import TechList from "@/components/TechList";
 
 const UserPage = ({ params }: { params: { account_id: string } }) => {
   const accountID = params.account_id;
@@ -51,11 +51,20 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
 
         <DetailContainer>
           <DetailHeader title="技術スタック" />
-          <TechList>
+          <ItemList>
             {userData.technologies.map((tech) => (
               <TechItem key={tech.id} technology={tech} />
             ))}
-          </TechList>
+          </ItemList>
+        </DetailContainer>
+
+        <DetailContainer>
+          <DetailHeader title="各種SNSアカウント" />
+          <ItemList>
+            {userData.technologies.map((tech) => (
+              <TechItem key={tech.id} technology={tech} />
+            ))}
+          </ItemList>
         </DetailContainer>
       </Box>
     </main>
