@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { ServiceInputSchema, ServiceOutputSchema, resolver } from "../../../new/userFormSchema";
+import { UserInputSchema, UserOutputSchema, resolver } from "../../../new/userFormSchema";
 import { teckData, FormField, useFormFields } from "../../../new/hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
@@ -31,7 +31,7 @@ const EditServicesPage = ({
     params: { user_id: string };
 }
 ) => {
-    const { control, handleSubmit, reset } = useForm<ServiceInputSchema>({
+    const { control, handleSubmit, reset } = useForm<UserInputSchema>({
         mode: "onChange",
         resolver: resolver,
         defaultValues: {
@@ -47,7 +47,7 @@ const EditServicesPage = ({
         },
     });
     const userID = params.user_id;
-    const [formFields, setFormFields] = useState<{ container: string, title: string, fields: FormField<ServiceInputSchema>[] }[]>([]);
+    const [formFields, setFormFields] = useState<{ container: string, title: string, fields: FormField<UserInputSchema>[] }[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isFirstLoading, setIsFirstLoading] = useState(true);
 
@@ -314,7 +314,7 @@ const EditServicesPage = ({
         router.push('/admin/users/existing-users');
     }
 
-    const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
+    const onSubmit: SubmitHandler<UserOutputSchema> = async (data) => {
         setIsLoading(true);
         let imageUrl = '';
 
@@ -560,7 +560,7 @@ const EditServicesPage = ({
                             }}>
                                 <h3>{title}</h3>
                                 {fields.map((field) => (
-                                    <FormFactory<ServiceInputSchema> key={field.id} {...field} />
+                                    <FormFactory<UserInputSchema> key={field.id} {...field} />
                                 ))}
                             </section>
                         ))}
