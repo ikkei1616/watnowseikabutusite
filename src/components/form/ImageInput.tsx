@@ -10,6 +10,7 @@ export type ImageInputProps<T extends FieldValues> = {
   name: string;
   label: string;
   required?: boolean;
+  defaultValue?: string;
   type?: "image" | "video";
 };
 
@@ -55,9 +56,10 @@ const ImageInput = <T extends FieldValues>({
   control,
   name,
   required,
-  type
+  type,
+  defaultValue
 }: ImageInputProps<T>): JSX.Element => {
-  const [preview, setPreview] = React.useState<string | ArrayBuffer | null>(null);
+  const [preview, setPreview] = React.useState<string | ArrayBuffer | null>(defaultValue || null);
   const {
     field,
     fieldState: { error },
