@@ -6,6 +6,7 @@ import { ReactNode } from "react";
 export interface Service {
   id: string | null;
   name: string;
+  image?: string;
   comment?: string;
 }
 
@@ -16,7 +17,6 @@ export interface ServiceDetail extends Service {
   tech_stack: string | undefined;
   release_month: ReactNode;
   release_year: ReactNode;
-  image: string;
   description?: string;
   team_name: string;
   create_date?: string;

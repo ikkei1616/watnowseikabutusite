@@ -1,6 +1,4 @@
-import { Box, Typography } from "@mui/material";
-import Image from "next/image";
-import styles from "./displayIconAndName.module.css";
+import { Box, Typography, Avatar } from "@mui/material";
 import type { UserDetail } from "@/types/User";
 import DottedDivider from "@/components/DottedDivider";
 
@@ -46,24 +44,35 @@ const DisplayIconAndName = ({ user }: { user: DisplayIconAndNameProps }) => {
               height: "250px",
             },
             "@media screen and (max-width: 750px)": {
-              width: "200px",
-              height: "200px",
+              width: "180px",
+              height: "180px",
             },
-            "@media screen and (max-width: 600px)": {
-              width: "150px",
-              height: "150px",
+            "@media screen and (max-width: 500px)": {
+              width: "130px",
+              height: "130px",
             },
           }}
         >
-          <Image
+          <Avatar
             src={user.image || "/unknown.svg"}
-            className={styles.userIcon}
-            alt={"ユーザのアイコン画像"}
-            width={300}
-            height={300}
-            style={{
+            alt="ユーザのアイコン画像"
+            sx={{
+              width: "300px",
+              height: "300px",
               borderRadius: "50%",
               border: "1px solid #85D5F3CC",
+              "@media screen and (max-width: 900px)": {
+                width: "250px",
+                height: "250px",
+              },
+              "@media screen and (max-width: 750px)": {
+                width: "180px",
+                height: "180px",
+              },
+              "@media screen and (max-width: 500px)": {
+                width: "130px",
+                height: "130px",
+              },
             }}
           />
         </Box>
@@ -74,7 +83,7 @@ const DisplayIconAndName = ({ user }: { user: DisplayIconAndNameProps }) => {
               flexDirection: "row",
               gap: "1rem",
               alignItems: "flex-end",
-              "@media screen and (max-width: 600px)": {
+              "@media screen and (max-width: 500px)": {
                 gap: "0",
               },
             }}
@@ -85,7 +94,10 @@ const DisplayIconAndName = ({ user }: { user: DisplayIconAndNameProps }) => {
                 paddingLeft: "8px",
                 fontSize: "2rem",
                 fontFamily: "HannariMincho",
-                "@media screen and (max-width: 600px)": {
+                "@media screen and (max-width: 900px)": {
+                  fontSize: "1.5rem",
+                },
+                "@media screen and (max-width: 500px)": {
                   fontSize: "1rem",
                 },
               }}
@@ -99,7 +111,10 @@ const DisplayIconAndName = ({ user }: { user: DisplayIconAndNameProps }) => {
                 fontSize: "1.5rem",
                 fontFamily: "HannariMincho",
                 opacity: 0.8,
-                "@media screen and (max-width: 600px)": {
+                "@media screen and (max-width: 900px)": {
+                  fontSize: "1.25rem",
+                },
+                "@media screen and (max-width: 500px)": {
                   fontSize: "0.75rem",
                 },
               }}
@@ -116,7 +131,10 @@ const DisplayIconAndName = ({ user }: { user: DisplayIconAndNameProps }) => {
               padding: "8px",
               //   はみ出たら折り返す
               overflowWrap: "break-word",
-              "@media screen and (max-width: 600px)": {
+              "@media screen and (max-width: 900px)": {
+                fontSize: "1.25rem",
+              },
+              "@media screen and (max-width: 500px)": {
                 fontSize: "0.75rem",
               },
             }}
