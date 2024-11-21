@@ -2,7 +2,6 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import Box from "@mui/material/Box";
-import { relative } from "path";
 
 const LoadingPage = () => {
   const mainStyle = {
