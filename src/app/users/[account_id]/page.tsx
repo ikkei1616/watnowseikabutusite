@@ -14,6 +14,7 @@ import DisplayIconAndName from "@/components/userDetails/DisplayIconAndName";
 import DetailContainer from "@/components/DetailContainer";
 import DetailHeader from "@/components/DetailHeader";
 import DisplaySNS from "@/components/userDetails/DisplaySNS";
+import ServiceCard from "@/components/ServiceCard";
 
 const UserPage = ({ params }: { params: { account_id: string } }) => {
   const accountID = params.account_id;
@@ -68,15 +69,7 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
           <DetailHeader title={"作成したサービス"} />
           <ItemList>
             {userData.services.map((service, index) => (
-              <div key={index}>
-                <div>{service.name}</div>
-                <img
-                  src={service.image}
-                  width={40}
-                  height={40}
-                  alt={service.name}
-                />
-              </div>
+              <ServiceCard key={index} service={service} />
             ))}
           </ItemList>
         </DetailContainer>
