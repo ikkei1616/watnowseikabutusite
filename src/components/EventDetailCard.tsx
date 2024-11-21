@@ -145,7 +145,53 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({ event }) => {
           {event.url && <Link href={event.url}>イベントURLはこちら</Link>}
         </Box>
       </Box>
-      <Box></Box>
+      <Box
+        sx={{
+          marginLeft: "2rem",
+          marginRight: "1rem",
+          marginTop: "1rem",
+          marginBottom: "1rem",
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: "1.4rem",
+            color: "#00AEEF",
+            fontFamily: "HannariMincho",
+          }}
+        >
+          イベント詳細
+        </Typography>
+        <DottedDivider color="#00AEEF" />
+        <Box sx={{ marginTop: "1rem" }}>
+          <Typography sx={{ lineHeight: 1.5 }}>
+            {event.comment ? event.comment : "コメントはありません"}
+          </Typography>
+        </Box>
+      </Box>
+
+      <Box
+        sx={{
+          marginLeft: "2rem",
+          marginRight: "1rem",
+          marginTop: "1rem",
+          marginBottom: "1rem",
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: "1.4rem",
+            color: "#00AEEF",
+            fontFamily: "HannariMincho",
+          }}
+        >
+          代表サービス
+        </Typography>
+        <DottedDivider color="#00AEEF" />
+        <Box sx={{ marginTop: "1rem" }}>
+          <Typography sx={{ lineHeight: 1.5 }}></Typography>
+        </Box>
+      </Box>
     </Card>
   );
 };
