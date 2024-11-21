@@ -184,7 +184,7 @@ const EditServicesPage = ({
         const fetchData = async () => {
             try {
                 const [tecksData, userTableData, userTechsData, userXData, userInstagramData, userGithubData]: [teckData[] | undefined, userTableData | undefined, userTechsData[] | [], snsTableData | undefined, snsTableData | undefined, snsTableData | undefined] = await Promise.all([fetchTecksData(), fetchUserData(), fetchUserTecksData(), fetchUserXData(), fetchUserInstagramData(), fetchUserGithubData()]);
-                console.log(userTableData);
+
                 reset({
                     iconImage: userTableData?.image,
                     name: userTableData?.name,
