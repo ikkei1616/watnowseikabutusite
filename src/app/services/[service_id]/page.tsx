@@ -15,8 +15,11 @@ import Technology from "@/types/Technology";
 import { HeaderMode } from "@/types/HeaderMode";
 import DetailContainer from "@/components/DetailContainer";
 import DetailHeader from "@/components/DetailHeader";
-import TechList from "@/components/TechList";
+import ItemList from "@/components/ItemList";
 import TechItem from "@/components/TechItem";
+import Item from "@/components/Item";
+import { url } from "inspector";
+import CreatorItem from "@/components/CreatorItem";
 
 export default function ServiceDetailPage({
   params,
@@ -31,7 +34,8 @@ export default function ServiceDetailPage({
   const router = useRouter();
   const [technologies, setTechnologies] = useState<Technology[]>([]);
   const [webs, setWebs] = useState<string[]>([]);
-  const [description, setDescription] = useState<string[]>([]);
+  const [apples, setapples] = useState<string[]>([]);
+  const [creators, setCreators] = useState<string[]>([]);
 
   // service_idの変更をトリガーにしてsetServiceを実行
   useEffect(() => {
@@ -39,7 +43,48 @@ export default function ServiceDetailPage({
       if (serviceID) {
         const { data: serviceData, error: serviceError } = await supabase
           .from("services")
-          .select("*")
+          .select(
+            `
+            *,
+            events(
+              id,
+              name
+            ),
+            awards(
+              name
+            ),
+            services_technologies(
+              technologies(
+                name,
+                image
+              )
+            ),
+            url_website(
+              url
+            ),
+            url_app_store(
+              url
+            ),
+            url_google_play(
+              url
+            ),
+            url_others(
+              url
+            ),
+            users_servicies(
+              users(
+                nickname,
+                account_id,
+                image,
+                users_technologies(
+                  technologies(
+                    name
+                  )
+                )
+              )
+            )
+            `
+          )
           .eq("id", serviceID)
           .single();
         console.log(`serviceID: ${serviceID}`);
@@ -52,7 +97,28 @@ export default function ServiceDetailPage({
           );
           setService(null); // サービスデータがない場合はnullに設定
         } else {
-          setService(serviceData as ServiceDetail);
+          const fetchedServiceData:ServiceDetail =({
+            id: service?.id || null,
+            name: serviceData.name,
+            description: serviceData.description,
+            image: serviceData.image,
+            event: serviceData.events,
+            awardName: serviceData.awards.name,
+            techStack: serviceData.services_technologies.map((technology:any)=>technology.technologies),
+            urlWebsite: serviceData.url_website?.url,
+            urlAppStore: serviceData.url_app_store?.url,
+            urlGooglePlay: serviceData.url_google_play?.url,
+            urlOthers: serviceData.url_others?.url,
+            creators: serviceData.users_servicies.map((user:any)=>({
+              nickname: user.users.nickname,
+              accountID: user.users.account_id,
+              image: user.users.image,
+              technologies: user.users.users_technologies.map((technology:any)=>technology.technologies),
+            })),
+          });
+          console.log(fetchedServiceData);
+
+          setService(fetchedServiceData);
 
           // 関連イベントの名前を取得
           const { data: eventData, error: eventError } = await supabase
@@ -129,19 +195,31 @@ export default function ServiceDetailPage({
     const fetchWebsites = async () => {
       if (serviceID) {
         // Step 1: `service-websites` ��ー��ルから `website_id` を取得
-        const { data: serviceWebData, error: serviceWebError } =
-          await supabase
-            .from("url_website")
-            .select("url")
-            .eq("service_id", serviceID);
+        const { data: serviceWebData, error: serviceWebError } = await supabase
+          .from("url_website")
+          .select("url")
+          .eq("service_id", serviceID);
         console.log(serviceWebData);
 
-        if (serviceWebError ||!serviceWebData) {
+        if (serviceWebError || !serviceWebData) {
           console.error("Error fetching URLs:", serviceWebError);
           setWebs([]);
           return;
         }
         setWebs(serviceWebData.map((item) => item.url));
+
+        //   const { data: creators, error: creatorsError } = await supabase
+        //     .from("users")
+        //     .select("*")
+        //     .eq("service_id", serviceID);
+        //   console.log(serviceWebData);
+
+        //   if (serviceWebError || !serviceWebData) {
+        //     console.error("Error fetching URLs:", serviceWebError);
+        //     setWebs([]);
+        //     return;
+        //   }
+        //   setWebs(serviceWebData.map((item) => item.url));
       }
     };
 
@@ -158,7 +236,7 @@ export default function ServiceDetailPage({
 
   return (
     <main className={styles.fullScreen}>
-      <Header mode={HeaderMode.NONE}/>
+      <Header mode={HeaderMode.NONE} />
       {/* <div className={styles.Header}></div> */}
 
       <div className={styles.head}>
@@ -190,11 +268,11 @@ export default function ServiceDetailPage({
             <div className={styles.detailsContainer}>
               <p className={styles.details}>作成月</p>
               <p className={styles.detailsdata}>
-                {service.release_year}/{service.release_month}
+                {service.releaseYear}/{service.releaseMonth}
               </p>
               {/* <p className={styles.details}>説明: {service.description}</p> */}
               <p className={styles.details}>チーム名</p>
-              <p className={styles.detailsdata}> {service.team_name}</p>
+              <p className={styles.detailsdata}> {service.teamName}</p>
               {/* 関連イベントを表示 */}
               {relatedEventName ? (
                 <>
@@ -206,63 +284,44 @@ export default function ServiceDetailPage({
               )}{" "}
             </div>
           </div>
+          <DetailContainer>
+            <DetailHeader title="サービスURL" />
+            <ItemList>
+              {webs.map((url, index) => (
+                <a href={url} target="_blank" rel="noopener noreferrer">
+                  <Item
+                    src={"/paper_airplane_blue.svg"}
+                    alt={"url"}
+                    text={"webサイト"}
+                    href={url}
+                  />
+                </a>
+              ))}
+            </ItemList>
+          </DetailContainer>
 
-          <div className={styles.mune}>
-            
-        <DetailContainer>
-          <DetailHeader title="使用技術" />
-          <TechList>
-            {technologies.map((tech) => (
-              <TechItem key={tech.id} technology={tech} />
-            ))}
-          </TechList>
-        </DetailContainer>
-            <p className={styles.muneobi}>使用技術</p>
-            {technologies.length > 0 ? (
-              <div className={styles.techStackContainer}>
-                {technologies.map((tech, index) => (
-                  <div key={index} className={styles.techItem}>
-                    {tech.image && (
-                      <img
-                        src={tech.image}
-                        alt={`${tech.name} icon`}
-                        className={styles.techIcon}
-                      />
-                    )}
-                    <span>{tech.name}</span>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p>関連技術がありません</p>
-            )}
-          </div>
+          <DetailContainer>
+            <DetailHeader title="使用技術" />
+            <ItemList>
+              {technologies.map((tech) => (
+                <TechItem key={tech.id} technology={tech} />
+              ))}
+            </ItemList>
+          </DetailContainer>
 
-          <div className={styles.url}>
-            <p className={styles.muneobi}>サービスURL</p>
-            {URL.length > 0 ? (
-              <div className={styles.urlda}>
-                
-                {webs.map((url, index) => (
-                    <a href={url} target="_blank" rel="noopener noreferrer">
-                      website
-                    </a>
-                ))}
+          <DetailContainer>
+            <DetailHeader title="制作者" />
+          </DetailContainer>
 
-              </div>
-            ) : (
-              <p>関連リンクがありません</p>
-            )}
-          </div>
-
-          <p className={styles.muneobi}>制作者</p>
-
-          <div className={styles.description}>
-            <p className={styles.muneobi}>説明</p>
-            <div className={styles.desda}>
-              {service.description}
-            </div>
-          </div>
+          <DetailContainer>
+            <DetailHeader title="説明" />
+            {/* <ItemList>
+              {technologies.map((tech) => (
+                <TechItem key={tech.id} technology={tech} />
+              ))}
+            </ItemList> */}
+            <div className={styles.desda}>{service.description}</div>
+          </DetailContainer>
 
           {/* 賞のリストを表示 */}
           {/* {service.awards && service.awards.length > 0 && (
@@ -284,7 +343,10 @@ function setUrl(arg0: null) {
   throw new Error("Function not implemented.");
 }
 
-function item(value: { url: any; }, index: number, array: { url: any; }[]): string {
+function item(
+  value: { url: any },
+  index: number,
+  array: { url: any }[]
+): string {
   throw new Error("Function not implemented.");
 }
-
