@@ -5,8 +5,12 @@ import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { supabase } from "@/supabase/supabase";
+import Box from "@mui/material/Box";
 import type { EventDetail } from "@/types/Event";
 import type { Award } from "@/types/Award";
+import PageHeader from "@/components/PageHeader";
+import Header from "@/components/Header";
+import { HeaderMode } from "@/types/HeaderMode";
 
 export default function EventDetailPage({
   params,
@@ -29,23 +33,12 @@ export default function EventDetailPage({
           .eq("id", eventID)
           .single();
 
-        const { data: awardsData, error: awardsError } = await supabase
-          .from("awards")
-          .select("*")
-          .eq("event_id", eventID)
-          .order("order_num", { ascending: true });
-
-        if (eventError || awardsError) {
-          console.error(
-            "Error fetching event or awards data:",
-            eventError || awardsError
-          );
-          setEvent(null);
+        if (eventError) {
+          console.error("Error fetching event:", eventError);
+          return;
         } else {
-          setEvent({
-            ...eventData,
-            awards: awardsData || [],
-          } as EventDetail);
+          setEvent(eventData as EventDetail);
+          setLoading(false);
         }
         setLoading(false);
       }
@@ -63,26 +56,19 @@ export default function EventDetailPage({
   }
 
   return (
-    <main className={styles.fullScreen}>
-      <div className={styles.container}>
-        <h1 className={styles.title}>{event.name}</h1>
-        <p className={styles.description}>{event.comment}</p>
-        <p className={styles.details}>開催日: {event.date}</p>
-        <p className={styles.details}>URL: {event.url}</p>
-        <p className={styles.details}>開催場所: {event.location}</p>
-
-        {/* 賞のリストを表示 */}
-        {event.awards && event.awards.length > 0 && (
-          <div className={styles.awardsContainer}>
-            <h2 className={styles.title}>賞一覧</h2>
-            {event.awards.map((award: Award, index: number) => (
-              <div key={index} className={styles.awardItem}>
-                {award.order_num}. {award.name}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+    <main className={styles.main}>
+      <Header mode={HeaderMode.EVENTS} />
+      <Box
+        sx={{
+          width: "100%",
+          padding: "40px",
+          "@media screen and (max-width: 600px)": {
+            padding: "20px",
+          },
+        }}
+      >
+        <PageHeader title="イベント詳細" pageTitle={event.name} />
+      </Box>
     </main>
   );
 }

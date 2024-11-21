@@ -13,5 +13,4 @@ export interface Event {
 export interface EventDetail extends Event {
   url?: string;
   location?: string;
-  awards: Award[];
 }
