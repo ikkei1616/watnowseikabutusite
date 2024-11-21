@@ -43,6 +43,15 @@ const NewServicesPage = () => {
       setIsLoading(false);
   }, []);
 
+  const handleCancel = () => {
+    const confirmDelete = window.confirm("入力内容が破棄されますがよろしいですか？");
+
+        if (!confirmDelete) {
+            return;
+        }
+    router.push('/admin/users');
+  }
+
   const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
     setIsLoading(true);
 
@@ -174,7 +183,7 @@ const NewServicesPage = () => {
             gap: '60px',
             margin: "20px 0"
           }}>
-            <FormButton name="キャンセル" type='cancel' onClick={() => router.push('/admin/users')}/>
+            <FormButton name="キャンセル" type='cancel' onClick={handleCancel}/>
             <FormButton name="新規作成" type='submit' />
           </div>
         </form>

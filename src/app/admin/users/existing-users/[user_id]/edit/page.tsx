@@ -184,13 +184,13 @@ const EditServicesPage = ({
             setIsLoading(true);
             try {
                 const [tecksData, userTableData, userTechsData, userXData, userInstagramData, userGithubData]: [teckData[] | undefined, userTableData | undefined, userTechsData[] | [], snsTableData | undefined, snsTableData | undefined, snsTableData | undefined] = await Promise.all([fetchTecksData(), fetchUserData(), fetchUserTecksData(), fetchUserXData(), fetchUserInstagramData(), fetchUserGithubData()]);
-
+                console.log(userTableData);
                 reset({
                     iconImage: userTableData?.image,
                     name: userTableData?.name,
                     nickname: userTableData?.nickname,
                     account_id: userTableData?.account_id,
-                    introduction: userTableData?.introduction,
+                    introduction: userTableData?.introduction === null ? "" : userTableData?.introduction,
                     technologiesId: userTechsData,
                     x_id: userXData?.id,
                     instagram_id: userInstagramData?.id,
@@ -214,6 +214,11 @@ const EditServicesPage = ({
 
 
     const handleCancel = () => {
+        const confirmDelete = window.confirm("編集内容が破棄されますがよろしいですか？");
+
+        if (!confirmDelete) {
+            return;
+        }
         router.push('/admin/users/existing-users');
     }
 
