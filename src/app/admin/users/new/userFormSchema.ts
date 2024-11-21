@@ -21,14 +21,14 @@ const serviceSchema = z.object({
         message: "半角英数字のみ使用できます",
     }),
     technologiesId: z.number().array().optional(),
-    x_id: z.string().optional().refine((val) => !val || /^[a-zA-Z0-9]+$/.test(val), {
-      message: "半角英数字のみ使用できます",
+    x_id: z.string().optional().refine((val) => !val || /^[a-zA-Z0-9_]+$/.test(val), {
+      message: "半角英数字、一部記号のみ使用できます",
     }),
-    instagram_id:z.string().optional().refine((val) => !val || /^[a-zA-Z0-9]+$/.test(val), {
-        message: "半角英数字のみ使用できます",
+    instagram_id:z.string().optional().refine((val) => !val || /^[a-zA-Z0-9_.]+$/.test(val), {
+        message: "半角英数字、一部記号のみ使用できます",
       }),
-    github_id: z.string().optional().refine((val) => !val || /^[a-zA-Z0-9]+$/.test(val), {
-        message: "半角英数字のみ使用できます",
+    github_id: z.string().optional().refine((val) => !val || /^[a-zA-Z0-9-]+$/.test(val), {
+        message: "半角英数字、一部記号のみ使用できます",
       }),
 });
 
