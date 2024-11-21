@@ -217,6 +217,93 @@ const EditServicesPage = ({
         router.push('/admin/users/existing-users');
     }
 
+    const handleDelete = async () => {
+        window.alert("本当に削除しますか？");
+        setIsLoading(true);
+        const { error: deleteError } = await supabase
+            .from('users')
+            .delete()
+            .eq('id', userID);
+
+        if (deleteError) {
+            console.error('Error deleting user:', deleteError);
+            window.alert(deleteError.message);
+            setIsLoading(false);
+            return;
+        }
+
+        if(checkImageDataURL) {
+            const { error: deleteImageError } = await supabase.storage
+                .from('user_icons')
+                .remove([checkImageDataURL]);
+
+            if (deleteImageError) {
+                console.error('Error deleting image:', deleteImageError);
+                window.alert(deleteImageError.message);
+                setIsLoading(false);
+                return;
+            }
+        }
+
+        if(checkTecksData.length > 0) {
+            const { error: deleteTechsError } = await supabase
+                .from('users_technologies')
+                .delete()
+                .eq('user_id', userID);
+
+            if (deleteTechsError) {
+                console.error('Error deleting technologies:', deleteTechsError);
+                window.alert(deleteTechsError.message);
+                setIsLoading(false);
+                return;
+            }
+        }
+
+        if(checkXData) {
+            const { error: deleteXError } = await supabase
+                .from('x')
+                .delete()
+                .eq('user_id', userID);
+
+            if (deleteXError) {
+                console.error('Error deleting x:', deleteXError);
+                window.alert(deleteXError.message);
+                setIsLoading(false);
+                return;
+            }
+        }
+
+        if(checkInstagramData) {
+            const { error: deleteInstagramError } = await supabase
+                .from('instagram')
+                .delete()
+                .eq('user_id', userID);
+
+            if (deleteInstagramError) {
+                console.error('Error deleting instagram:', deleteInstagramError);
+                window.alert(deleteInstagramError.message);
+                setIsLoading(false);
+                return;
+            }
+        }
+
+        if(checkGithubData) {
+            const { error: deleteGithubError } = await supabase
+                .from('github')
+                .delete()
+                .eq('user_id', userID);
+
+            if (deleteGithubError) {
+                console.error('Error deleting github:', deleteGithubError);
+                window.alert(deleteGithubError.message);
+                setIsLoading(false);
+                return;
+            }
+        }
+
+        router.push('/admin/users/existing-users');
+    }
+
     const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
         setIsLoading(true);
         let imageUrl = '';
@@ -443,11 +530,16 @@ const EditServicesPage = ({
             }
             }>
                 <AdminHeader isEditing />
-                <h1 style={{
-                    borderBottom: "1px solid #9CABC7",
-                    paddingBottom: "12px",
-                    marginBottom: "12px",
-                }}>既存ユーザ編集</h1>
+                <div style={{
+                        borderBottom: "1px solid #9CABC7",
+                        paddingBottom: "12px",
+                        marginBottom: "12px",
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                    }}>
+                    <h1>既存ユーザ編集</h1>
+                    <FormButton name="データ削除" type='delete' onClick={handleDelete} />
+                </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {formFields.map(({ title, fields }, index) => (
                         <section key={index} style={{
@@ -467,8 +559,8 @@ const EditServicesPage = ({
                         gap: '60px',
                         margin: "20px 0"
                     }}>
-                        <FormButton name="キャンセル" type='cancel' onClick={handleCancel} />
-                        <FormButton name="新規作成" type='submit' />
+                        <FormButton name="編集破棄" type='cancel' onClick={handleCancel} />
+                        <FormButton name="編集完了" type='submit' />
                     </div>
                 </form>
             </main>
