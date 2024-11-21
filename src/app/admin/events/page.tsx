@@ -1,22 +1,29 @@
-import Link from "next/link";
-import styles from "./page.module.css";
+import styles from "../admin.module.css";
+import AdminHeader from "@/components/admin/AdminHeader";
+import PankuzuList from "@/components/admin/PankuzuList";
+import AdminTitle from "@/components/admin/AdminTitle";
+import AdminLinkList from "@/components/admin/AdminLinkList";
+import AdminLinkItem from "@/components/admin/AdminLinkItem";
 
 export default function AdminPage() {
+  const pankuzu = [
+    { text: "ジャンル選択", link: "/admin" },
+    { text: "イベント", link: "/admin/events" },
+  ];
   return (
-    <div className={styles.container}>
-      <h1 className={styles.heading}>イベント</h1>
-      <ul className={styles.linkList}>
-        <li className={styles.listItem}>
-          <Link href="./events/new" className={styles.link}>
-            新規イベント作成
-          </Link>
-        </li>
-        <li className={styles.listItem}>
-          <Link href="./events/existing-events" className={styles.link}>
+    <>
+      <AdminHeader />
+      <main className={styles.container}>
+        <PankuzuList pankuzu={pankuzu} />
+        <AdminTitle>イベント</AdminTitle>
+
+        <AdminLinkList>
+          <AdminLinkItem href="./events/new">新規イベント作成</AdminLinkItem>
+          <AdminLinkItem href="./events/existing-events">
             既存イベント編集
-          </Link>
-        </li>
-      </ul>
-    </div>
+          </AdminLinkItem>
+        </AdminLinkList>
+      </main>
+    </>
   );
 }

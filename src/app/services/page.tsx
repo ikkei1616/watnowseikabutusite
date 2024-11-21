@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import styles from "./Page.module.css";
 import Header from "@/components/Header";
+import { HeaderMode } from "@/types/HeaderMode";
 
 const Home: React.FC = () => {
   const services = [
@@ -13,7 +14,7 @@ const Home: React.FC = () => {
   ];
   return (
     <div className={styles.pageHeader}>
-      <Header />
+      <Header mode={HeaderMode.SERVICES} />
 
       <ul className={styles.serviceList}>
         {services.map((service, num) => (
