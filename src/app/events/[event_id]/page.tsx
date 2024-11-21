@@ -5,12 +5,12 @@ import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { supabase } from "@/supabase/supabase";
-import Box from "@mui/material/Box";
+import { Box } from "@mui/material";
 import type { EventDetail } from "@/types/Event";
-import type { Award } from "@/types/Award";
 import PageHeader from "@/components/PageHeader";
 import Header from "@/components/Header";
 import { HeaderMode } from "@/types/HeaderMode";
+import EventDetailCard from "@/components/EventDetailCard";
 
 export default function EventDetailPage({
   params,
@@ -69,6 +69,7 @@ export default function EventDetailPage({
       >
         <PageHeader title="イベント詳細" pageTitle={event.name} />
       </Box>
+      <EventDetailCard event={event} />
     </main>
   );
 }
