@@ -55,7 +55,7 @@ const MobileHeader = () => {
           alt={"メニュー表示ボタン"}
           width={40}
           height={40}
-          color="#fff"
+          color="#FFFFFF"
         />
       </IconButton>
 
@@ -65,7 +65,8 @@ const MobileHeader = () => {
         onClose={() => setMenuIsOpen(false)}
         sx={{
           "& .MuiDrawer-paper": {
-            backgroundColor: "#85D5F3DD",
+            // 背景色の不透明度60%
+            backgroundColor: "#BBE9FF66",
             borderRadius: "0 0 20px 20px",
             padding: "1rem",
           },
@@ -84,7 +85,7 @@ const MobileHeader = () => {
             alt={"メニュー閉じるボタン"}
             width={40}
             height={40}
-            color="#fff"
+            color="#FFFFFFE6"
           />
         </IconButton>
         <Box
