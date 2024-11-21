@@ -13,8 +13,7 @@ import PageHeader from "@/components/PageHeader";
 import DisplayIconAndName from "@/components/userDetails/DisplayIconAndName";
 import DetailContainer from "@/components/DetailContainer";
 import DetailHeader from "@/components/DetailHeader";
-import Item from "@/components/Item";
-import { GITHUB_URL, INSTAGRAM_URL, X_URL } from "@/const";
+import DisplaySNS from "@/components/userDetails/DisplaySNS";
 
 const UserPage = ({ params }: { params: { account_id: string } }) => {
   const accountID = params.account_id;
@@ -62,32 +61,7 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
 
         <DetailContainer>
           <DetailHeader title="各種SNSアカウント" />
-          <ItemList>
-            {userData.githubID && (
-              <Item
-                text={`@${userData.githubID}`}
-                href={`${GITHUB_URL}${userData.githubID}`}
-                src={"/github.svg"}
-                alt={"GitHubのアイコン"}
-              />
-            )}
-            {userData.xID && (
-              <Item
-                text={`@${userData.xID}hgeohogheogheoghoehg`}
-                href={`${X_URL}${userData.xID}`}
-                src={"/x.svg"}
-                alt={"xのアイコン"}
-              />
-            )}
-            {userData.instagramID && (
-              <Item
-                text={`@${userData.instagramID}`}
-                href={`${INSTAGRAM_URL}${userData.instagramID}`}
-                src={"/instagram.png"}
-                alt={"Instagramのアイコン"}
-              />
-            )}
-          </ItemList>
+          <DisplaySNS user={userData} />
         </DetailContainer>
       </Box>
     </main>
