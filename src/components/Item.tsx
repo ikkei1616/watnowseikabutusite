@@ -7,13 +7,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 const Item = ({
-  id,
   src,
   alt,
   text,
   href,
 }: {
-  id: string;
   src: string;
   alt: string;
   text: string;
@@ -40,7 +38,6 @@ const Item = ({
   const StyledItem = () => {
     return (
       <ListItem
-        key={id}
         sx={{
           padding: "0 0 0 0",
         }}

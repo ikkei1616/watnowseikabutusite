@@ -13,6 +13,7 @@ import PageHeader from "@/components/PageHeader";
 import DisplayIconAndName from "@/components/userDetails/DisplayIconAndName";
 import DetailContainer from "@/components/DetailContainer";
 import DetailHeader from "@/components/DetailHeader";
+import Item from "@/components/Item";
 
 const UserPage = ({ params }: { params: { account_id: string } }) => {
   const accountID = params.account_id;
@@ -62,7 +63,12 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
           <DetailHeader title="各種SNSアカウント" />
           <ItemList>
             {userData.technologies.map((tech) => (
-              <TechItem key={tech.id} technology={tech} />
+              <Item
+                key={tech.id}
+                src={"/nodata.png"}
+                alt={"ユーザのアイコン画像"}
+                text={tech.name}
+              />
             ))}
           </ItemList>
         </DetailContainer>
