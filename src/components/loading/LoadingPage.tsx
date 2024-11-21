@@ -1,13 +1,19 @@
 "use client";
 import React, { useEffect } from "react";
-import LoadingSpinner from "./LoadingSpinner";
+import Image from "next/image";
+import Box from "@mui/material/Box";
+import { relative } from "path";
 
 const LoadingPage = () => {
   const mainStyle = {
+    backgroundColor: "#F8F8F8",
     width: "100vw",
     height: "100vh",
     paddingTop: 0,
     overflow: "hidden", // スクロールを防ぐために追加
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   };
 
   useEffect(() => {
@@ -24,7 +30,37 @@ const LoadingPage = () => {
 
   return (
     <main style={mainStyle}>
-      <LoadingSpinner />
+      <Box
+        sx={{
+          position: "relative",
+        }}
+      >
+        <Image
+          src={"/cat.gif"}
+          alt={"猫ちゃんの画像"}
+          width={500}
+          height={500}
+        />
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            textAlign: "center",
+          }}
+        >
+          <Image
+            src={"/now_loading.svg"}
+            alt={"猫ちゃんの画像"}
+            style={{
+              animation: "rotate 15s linear infinite",
+            }}
+            width={400}
+            height={400}
+          />
+        </Box>
+      </Box>
     </main>
   );
 };
