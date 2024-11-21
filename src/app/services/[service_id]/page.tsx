@@ -6,12 +6,17 @@ import { useEffect, useState } from "react";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { supabase } from "@/supabase/supabase";
 import type { ServiceDetail } from "@/types/Service";
-import { FaReact } from "react-icons/fa"; // Reactのアイコン
 
 import type { Award } from "@/types/Award";
 import { serialize } from "v8";
 import { serverHooks } from "next/dist/server/app-render/entry-base";
 import Header from "@/components/Header";
+import Technology from "@/types/Technology";
+import { HeaderMode } from "@/types/HeaderMode";
+import DetailContainer from "@/components/DetailContainer";
+import DetailHeader from "@/components/DetailHeader";
+import TechList from "@/components/TechList";
+import TechItem from "@/components/TechItem";
 
 export default function ServiceDetailPage({
   params,
@@ -24,7 +29,7 @@ export default function ServiceDetailPage({
   const [relatedEventName, setRelatedEventName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const [technologies, setTechnologies] = useState<string[]>([]);
+  const [technologies, setTechnologies] = useState<Technology[]>([]);
   const [webs, setWebs] = useState<string[]>([]);
   const [description, setDescription] = useState<string[]>([]);
 
@@ -153,7 +158,7 @@ export default function ServiceDetailPage({
 
   return (
     <main className={styles.fullScreen}>
-      <Header/>
+      <Header mode={HeaderMode.NONE}/>
       {/* <div className={styles.Header}></div> */}
 
       <div className={styles.head}>
@@ -203,6 +208,15 @@ export default function ServiceDetailPage({
           </div>
 
           <div className={styles.mune}>
+            
+        <DetailContainer>
+          <DetailHeader title="使用技術" />
+          <TechList>
+            {technologies.map((tech) => (
+              <TechItem key={tech.id} technology={tech} />
+            ))}
+          </TechList>
+        </DetailContainer>
             <p className={styles.muneobi}>使用技術</p>
             {technologies.length > 0 ? (
               <div className={styles.techStackContainer}>
