@@ -37,10 +37,14 @@
   padding: 0 1rem;
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 368px));
-  grid-template-rows: repeat(6, minmax(0, 306px));
+  grid-template-rows: repeat(auto-fit, minmax(0, 306px));
   justify-content: center;
   column-gap: 60px;
   row-gap: 56px;
+}
+
+.pageNation {
+  justify-content: center;
 }
 
 @media (min-width: 840px) {
@@ -52,7 +56,7 @@
   }
   .serviceGridList {
     grid-template-columns: repeat(2, minmax(0, 368px));
-    grid-template-rows: repeat(6, minmax(0, 306px));
+    grid-template-rows: repeat(auto-fit, minmax(0, 306px));
     justify-content: center;
     column-gap: 60px;
     row-gap: 40px;

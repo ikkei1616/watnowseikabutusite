@@ -108,18 +108,32 @@ const Home: React.FC = () => {
           </div>
         ))}
       </div>
-      <Stack spacing={5}>
-        <Pagination
-          count={Math.ceil(totalServicesCount / servicesPerPage)}
-          onChange={handlePageChange}
-          renderItem={(item) => (
-            <PaginationItem
-              // slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
-              {...item}
-            />
-          )}
-        />
-      </Stack>
+      <Pagination
+        className={styles.pageNation}
+        count={Math.ceil(totalServicesCount / servicesPerPage)}
+        onChange={handlePageChange}
+        renderItem={(item) => (
+          <PaginationItem
+            // slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+            {...item}
+          />
+        )}
+        sx={{
+          '&.MuiPagination-root': {
+            marginTop:"0px",
+            marginBottom:"54px",
+          },
+          '& .MuiPagination-ul': {
+            justifyContent:"center",
+            marginLeft:"auto",
+            marginRight:"auto",
+          },
+          '& .MuiButtonBase-root': {
+          color: "#85D5F3",
+          },
+
+        }}
+      />
     </main>
   );
 };
