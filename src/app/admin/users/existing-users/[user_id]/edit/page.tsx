@@ -50,8 +50,13 @@ const EditServicesPage = ({
     const [formFields, setFormFields] = useState<{ container: string, title: string, fields: FormField<ServiceInputSchema>[] }[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    const [imageURL, setImageURL] = useState<string | undefined>(undefined);
+    const [imageDataURL, setImageDataURL] = useState<string | undefined>(undefined);
     const [checkImageDataURL, setCheckImageDataURL] = useState<string | undefined>(undefined);
+
+    const [checkTecksData, setCheckTecksData] = useState<number[]>([]);
+    const [checkXData, setCheckXData] = useState<snsTableData | undefined>(undefined);
+    const [checkInstagramData, setCheckInstagramData] = useState<snsTableData | undefined>(undefined);
+    const [checkGithubData, setCheckGithubData] = useState<snsTableData | undefined>(undefined);
 
     const router = useRouter();
 
@@ -96,7 +101,6 @@ const EditServicesPage = ({
                     //     file = new File([blob], userData.image);
                     const splitURl = userData.image.split('/');
                     const fileName = splitURl[splitURl.length - 1];
-                    setImageURL(userData.image);
                     setCheckImageDataURL(fileName);
                 }
                 return {
@@ -124,7 +128,6 @@ const EditServicesPage = ({
                 const userTechsData = getUserTechsData.map((tech) => tech.technology_id) || [];
                 return userTechsData || [];
             } catch (error) {
-                console.error(error);
                 return [];
             }
         };
@@ -141,7 +144,6 @@ const EditServicesPage = ({
                 }
                 return { id: getUserXData.x_id };
             } catch (error) {
-                console.error(error);
                 return undefined;
             }
         };
@@ -158,7 +160,6 @@ const EditServicesPage = ({
                 }
                 return { id: getUserInstagramData.instagram_id };
             } catch (error) {
-                console.error(error);
                 return undefined;
             }
         };
@@ -175,7 +176,6 @@ const EditServicesPage = ({
                 }
                 return { id: getUserGithubData.github_id };
             } catch (error) {
-                console.error(error);
                 return undefined;
             }
         };
@@ -184,7 +184,7 @@ const EditServicesPage = ({
             setIsLoading(true);
             try {
                 const [tecksData, userTableData, userTechsData, userXData, userInstagramData, userGithubData]: [teckData[] | undefined, userTableData | undefined, userTechsData[] | [], snsTableData | undefined, snsTableData | undefined, snsTableData | undefined] = await Promise.all([fetchTecksData(), fetchUserData(), fetchUserTecksData(), fetchUserXData(), fetchUserInstagramData(), fetchUserGithubData()]);
-                console.log(userTableData?.imageURL);
+
                 reset({
                     iconImage: userTableData?.image,
                     name: userTableData?.name,
@@ -196,7 +196,11 @@ const EditServicesPage = ({
                     instagram_id: userInstagramData?.id,
                     github_id: userGithubData?.id,
                 });
-
+                setImageDataURL(userTableData?.imageURL);
+                setCheckTecksData(userTechsData || []);
+                setCheckXData(userXData);
+                setCheckInstagramData(userInstagramData);
+                setCheckGithubData(userGithubData);
                 setFormFields(useFormFields(control, tecksData, `${userTableData?.imageURL}?${new Date().getTime()}`));
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -232,7 +236,7 @@ const EditServicesPage = ({
                     setIsLoading(false);
                     return;
                 }
-            }else {
+            } else {
                 const { error: uploadError } = await supabase.storage
                     .from('user_icons')
                     .upload(imageFileName, data.iconImage);
@@ -247,13 +251,16 @@ const EditServicesPage = ({
 
             const { data: publicImageUrlData } = await supabase.storage
                 .from('user_icons')
-                .getPublicUrl(checkImageDataURL ? checkImageDataURL :imageFileName);
+                .getPublicUrl(checkImageDataURL ? checkImageDataURL : imageFileName);
 
             imageUrl = publicImageUrlData.publicUrl || '';
         }
 
         const { iconImage, technologiesId, x_id, instagram_id, github_id, ...rest } = data;
-        const submitData = { ...rest, image: imageUrl  };
+        if (imageDataURL && imageUrl === '') {
+            imageUrl = imageDataURL;
+        }
+        const submitData = { ...rest, image: imageUrl };
 
         const { error: insertError } = await supabase
             .from('users')
@@ -268,61 +275,127 @@ const EditServicesPage = ({
         }
 
         if (data.technologiesId && data.technologiesId.length > 0) {
-            const { error: technologiesError } = await supabase
-                .from('users_technologies')
-                .update(data.technologiesId.map((technologyId) => ({
-                    technology_id: technologyId,
-                })))
-                .eq('user_id', userID);
+            console.log(checkTecksData);
+            if (checkTecksData.length > 0) {
+                const { error: deleteError } = await supabase
+                    .from('users_technologies')
+                    .delete()
+                    .eq('user_id', userID);
 
-            if (technologiesError) {
-                console.error('Error inserting technologies:', technologiesError);
-                window.alert(technologiesError.message);
-                setIsLoading(false);
-                return;
+                if (deleteError) {
+                    console.error('Error deleting technologies:', deleteError);
+                    return;
+                }
+                const { error: technologiesError } = await supabase
+                    .from('users_technologies')
+                    .insert(data.technologiesId.map((technologyId) => ({
+                        user_id: userID,
+                        technology_id: technologyId,
+                    })));
+
+                if (technologiesError) {
+                    console.error('Error inserting technologies:', technologiesError);
+                    window.alert(technologiesError.message);
+                    setIsLoading(false);
+                    return;
+                }
+            } else {
+                console.log(2);
+                const { error: technologiesError } = await supabase
+                    .from('users_technologies')
+                    .insert(data.technologiesId.map((technologyId) => ({
+                        user_id: userID,
+                        technology_id: technologyId,
+                    })));
+
+                if (technologiesError) {
+                    console.error('Error inserting technologies:', technologiesError);
+                    window.alert(technologiesError.message);
+                    setIsLoading(false);
+                    return;
+                }
             }
         }
 
 
         if (x_id) {
-            const { error: xIdError } = await supabase
-                .from('x')
-                .update([{ x_id: x_id }])
-                .eq('user_id', userID);
+            if (checkXData) {
+                const { error: xIdError } = await supabase
+                    .from('x')
+                    .update([{ x_id: x_id }])
+                    .eq('user_id', userID);
 
-            if (xIdError) {
-                console.error('Error inserting url_web:', xIdError);
-                window.alert(xIdError.message);
-                setIsLoading(false);
-                return;
+                if (xIdError) {
+                    console.error('Error inserting url_web:', xIdError);
+                    window.alert(xIdError.message);
+                    setIsLoading(false);
+                    return;
+                }
+            } else {
+                const { error: xIdError } = await supabase
+                    .from('x')
+                    .insert([{ user_id: userID, x_id: x_id }]);
+
+                if (xIdError) {
+                    console.error('Error inserting url_web:', xIdError);
+                    window.alert(xIdError.message);
+                    setIsLoading(false);
+                    return;
+                }
             }
         }
 
         if (instagram_id) {
-            const { error: instagramIdError } = await supabase
-                .from('instagram')
-                .update([{ instagram_id: instagram_id }])
-                .eq('user_id', userID);
+            if (checkInstagramData) {
+                const { error: instagramIdError } = await supabase
+                    .from('instagram')
+                    .update([{ instagram_id: instagram_id }])
+                    .eq('user_id', userID);
 
-            if (instagramIdError) {
-                console.error('Error inserting url_web:', instagramIdError);
-                window.alert(instagramIdError.message);
-                setIsLoading(false);
-                return;
+                if (instagramIdError) {
+                    console.error('Error inserting url_web:', instagramIdError);
+                    window.alert(instagramIdError.message);
+                    setIsLoading(false);
+                    return;
+                }
+            } else {
+                const { error: instagramIdError } = await supabase
+                    .from('instagram')
+                    .insert([{ user_id: userID, instagram_id: instagram_id }]);
+
+                if (instagramIdError) {
+                    console.error('Error inserting url_web:', instagramIdError);
+                    window.alert(instagramIdError.message);
+                    setIsLoading(false);
+                    return;
+                }
             }
         }
 
         if (github_id) {
-            const { error: githubIdError } = await supabase
-                .from('github')
-                .update([{ user_id: userID, github_id: github_id }])
-                .eq('user_id', userID);
+            if (checkGithubData) {
+                const { error: githubIdError } = await supabase
+                    .from('github')
+                    .update([{ user_id: userID, github_id: github_id }])
+                    .eq('user_id', userID);
 
-            if (githubIdError) {
-                console.error('Error inserting url_web:', githubIdError);
-                window.alert(githubIdError.message);
-                setIsLoading(false);
-                return;
+                if (githubIdError) {
+                    console.error('Error inserting url_web:', githubIdError);
+                    window.alert(githubIdError.message);
+                    setIsLoading(false);
+                    return;
+                }
+            } else {
+                const { error: githubIdError } = await supabase
+                    .from('github')
+                    .insert([{ user_id: userID, github_id: github_id }]);
+
+                if (githubIdError) {
+                    console.error('Error inserting url_web:', githubIdError);
+                    window.alert(githubIdError.message);
+                    setIsLoading(false);
+                    return;
+                }
             }
         }
         router.push('/admin/users/existing-users');
