@@ -12,7 +12,7 @@ const cancelStyle = {
     color: 'red',
     backgroundColor: 'white',
     fontSize: '1rem',
-    padding: '2px 36px',
+    padding: '2px 27px',
     '&:hover': {
         backgroundColor: '#f0f0f0',
     },
@@ -23,7 +23,7 @@ const submitStyle = {
     color: 'white',
     borderColor: '#9CABC7',
     fontSize: '1rem',
-    padding: '2px 36px',
+    padding: '2px 27px',
     '&:hover': {
         backgroundColor: '#125699',
     },
