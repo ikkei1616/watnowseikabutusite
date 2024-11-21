@@ -201,7 +201,7 @@ const EditServicesPage = ({
                 setCheckXData(userXData?.id);
                 setCheckInstagramData(userInstagramData?.id);
                 setCheckGithubData(userGithubData?.id);
-                setFormFields(useFormFields(control, tecksData, `${userTableData?.imageURL}?${new Date().getTime()}`));
+                setFormFields(useFormFields(control, tecksData, userTableData?.imageURL ? `${userTableData?.imageURL}?${new Date().getTime()}` : undefined));
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
