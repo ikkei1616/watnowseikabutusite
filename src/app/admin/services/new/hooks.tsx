@@ -7,6 +7,26 @@ export type FormField<T extends FieldValues> = {
     id: number;
 } & FormFactoryProps<T>;
 
+export type EventData = {
+    value: string;
+    label: string;
+}
+
+export type AwardData = {
+    value: string;
+    label: string;
+}
+
+export type MenberData = {
+    value: string;
+    label: string;
+}
+
+export type TechData = {
+    value: string;
+    label: string;
+}
+
 const generateYearOptions = (startYear: number) => {
     const currentYear = new Date().getFullYear();
     return Array.from({ length: currentYear - startYear + 1 }, (_, index) => {
@@ -41,10 +61,10 @@ export const releaseMonth = [
 
 export const useFormFields = (
     control: Control<ServiceInputSchema>,
-    events: { value: string, label: string }[],
-    awards: { value: string, label:string }[],
-    menbers: { value: string, label: string }[],
-    techs: { value: string, label: string }[],
+    events: EventData[],
+    awards: AwardData[],
+    menbers: MenberData[],
+    techs: TechData[],
 ): { container: string, title: string, fields: FormField<ServiceInputSchema>[] }[] => {
 
     return [
