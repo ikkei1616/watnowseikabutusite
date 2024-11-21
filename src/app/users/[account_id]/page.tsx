@@ -63,6 +63,18 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
           <DetailHeader title="各種SNSアカウント" />
           <DisplaySNS user={userData} />
         </DetailContainer>
+
+        <DetailContainer>
+          <DetailHeader title={"作成したサービス"} />
+          <ItemList>
+            {userData.services.map((service, index) => (
+              <div>
+                <div>{service.name}</div>
+                <img src={service.image} width={40} height={40} alt={service.name} />
+              </div>
+            ))}
+          </ItemList>
+        </DetailContainer>
       </Box>
     </main>
   );
