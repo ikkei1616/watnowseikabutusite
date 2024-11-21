@@ -52,22 +52,23 @@
 }
 
 .atama {
+  margin-left: 37px;
   display: flex;
   max-height: 63px;
   flex-direction: row;
   align-items: flex-end;
-  margin-left: 17px;
+  /* margin-left: 17px; */
   margin-bottom: 24px;
 }
 
 .title {
   font-weight: lighter;
-  font-size: 3.3rem;
+  font-size: 64px;
   color: #00aeef;
 }
 
-.description {
-  font-size: 1.4rem;
+.comments {
+  font-size: 24px;
   color: #333;
   padding-left: 40px;
   margin-bottom: 8px;
@@ -75,10 +76,11 @@
 
 .karada {
   display: flex;
+  margin-left: 37px;
 }
 
 .karada img {
-  min-width: 45%;
+  min-width: 52%;
   min-height: 320px;
   object-fit: cover;
   border-radius: 30px;
@@ -88,6 +90,7 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  margin-left: 37px;
 }
 
 .details {
@@ -106,7 +109,8 @@
 
 .muneobi {
   font-size: 2.0rem;
-  margin: 10px;
+  margin-left: 37px;
+  margin-bottom: 12px;
   margin-top: 20px;
   color: #00aeef;
   border-bottom: 2px dotted #00aeef;
@@ -115,11 +119,13 @@
 .urlda{
   font-size: 1.3rem;
   margin-left: 20px;
+  
 }
 
 .techStackContainer {
   display: flex;
   flex-wrap: wrap;
+  margin-left: 37px;
   gap: 16px; /* アイテム間のスペース */
 }
 
@@ -129,7 +135,7 @@
   gap: 8px; /* アイコンとテキストの間のスペース */
   background-color: #fff;
   padding: 10px;
-  width: 250px;
+  width: 22%;
   font-size: 1.8rem;
   border: 2px solid #00aeef;
   border-radius: 15px;
@@ -157,6 +163,11 @@
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s;
+}
+
+.desda{
+  font-size: 19px;
+  margin-left: 37px;
 }
 
 .editButton:hover {

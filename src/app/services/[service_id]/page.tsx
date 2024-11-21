@@ -11,6 +11,7 @@ import { FaReact } from "react-icons/fa"; // Reactのアイコン
 import type { Award } from "@/types/Award";
 import { serialize } from "v8";
 import { serverHooks } from "next/dist/server/app-render/entry-base";
+import Header from "@/components/Header";
 
 export default function ServiceDetailPage({
   params,
@@ -25,6 +26,7 @@ export default function ServiceDetailPage({
   const router = useRouter();
   const [technologies, setTechnologies] = useState<string[]>([]);
   const [webs, setWebs] = useState<string[]>([]);
+  const [description, setDescription] = useState<string[]>([]);
 
   // service_idの変更をトリガーにしてsetServiceを実行
   useEffect(() => {
@@ -151,6 +153,7 @@ export default function ServiceDetailPage({
 
   return (
     <main className={styles.fullScreen}>
+      <Header/>
       {/* <div className={styles.Header}></div> */}
 
       <div className={styles.head}>
@@ -166,7 +169,7 @@ export default function ServiceDetailPage({
         <div className={styles.container}>
           <div className={styles.atama}>
             <h3 className={styles.title}>{service.name}</h3>
-            <p className={styles.description}>{service.comment}</p>
+            <p className={styles.comments}>{service.comment}</p>
           </div>
 
           <div className={styles.karada}>
@@ -236,6 +239,15 @@ export default function ServiceDetailPage({
             ) : (
               <p>関連リンクがありません</p>
             )}
+          </div>
+
+          <p className={styles.muneobi}>制作者</p>
+
+          <div className={styles.description}>
+            <p className={styles.muneobi}>説明</p>
+            <div className={styles.desda}>
+              {service.description}
+            </div>
           </div>
 
           {/* 賞のリストを表示 */}
