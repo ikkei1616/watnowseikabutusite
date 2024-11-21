@@ -31,7 +31,7 @@ const EditServicesPage = ({
     params: { user_id: string };
 }
 ) => {
-    const { control, handleSubmit,reset } = useForm<ServiceInputSchema>({
+    const { control, handleSubmit, reset } = useForm<ServiceInputSchema>({
         mode: "onChange",
         resolver: resolver,
         defaultValues: {
@@ -50,6 +50,9 @@ const EditServicesPage = ({
     const [formFields, setFormFields] = useState<{ container: string, title: string, fields: FormField<ServiceInputSchema>[] }[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
+    const [imageURL, setImageURL] = useState<string | undefined>(undefined);
+    const [checkImageDataURL, setCheckImageDataURL] = useState<string | undefined>(undefined);
+
     const router = useRouter();
 
     useEffect(() => {
@@ -58,7 +61,7 @@ const EditServicesPage = ({
                 const { data: getTechsData, error: techsError } = await supabase
                     .from('technologies')
                     .select('id, name');
-    
+
                 if (techsError) {
                     throw new Error(`Error fetching techs: ${techsError.message}`);
                 }
@@ -68,7 +71,7 @@ const EditServicesPage = ({
                 return undefined;
             }
         };
-    
+
         const fetchUserData = async () => {
             if (userID) {
                 const { data: userData, error: userError } = await supabase
@@ -87,11 +90,15 @@ const EditServicesPage = ({
 
                 // let file = undefined;
 
-                // if(userData.image){
-                //     const url = await fetch(userData.image);
-                //     const blob = await url.blob();
-                //     file = new File([blob], userData.image);
-                // }
+                if (userData.image) {
+                    //     const url = await fetch(userData.image);
+                    //     const blob = await url.blob();
+                    //     file = new File([blob], userData.image);
+                    const splitURl = userData.image.split('/');
+                    const fileName = splitURl[splitURl.length - 1];
+                    setImageURL(userData.image);
+                    setCheckImageDataURL(fileName);
+                }
                 return {
                     name: userData.name,
                     nickname: userData.nickname,
@@ -110,7 +117,7 @@ const EditServicesPage = ({
                     .from('users_technologies')
                     .select("technology_id")
                     .eq("user_id", userID)
-    
+
                 if (usertechsError) {
                     throw new Error(`Error fetching techs: ${usertechsError.message}`);
                 }
@@ -128,11 +135,11 @@ const EditServicesPage = ({
                     .select("x_id")
                     .eq("user_id", userID)
                     .single();
-    
+
                 if (xError) {
                     throw new Error(`Error fetching techs: ${xError.message}`);
                 }
-                return {id: getUserXData.x_id};
+                return { id: getUserXData.x_id };
             } catch (error) {
                 console.error(error);
                 return undefined;
@@ -145,11 +152,11 @@ const EditServicesPage = ({
                     .select("instagram_id")
                     .eq("user_id", userID)
                     .single();
-    
+
                 if (instagramError) {
                     throw new Error(`Error fetching techs: ${instagramError.message}`);
                 }
-                return {id: getUserInstagramData.instagram_id};
+                return { id: getUserInstagramData.instagram_id };
             } catch (error) {
                 console.error(error);
                 return undefined;
@@ -162,22 +169,22 @@ const EditServicesPage = ({
                     .select("github_id")
                     .eq("user_id", userID)
                     .single();
-    
+
                 if (githubError) {
                     throw new Error(`Error fetching techs: ${githubError.message}`);
                 }
-                return {id: getUserGithubData.github_id};
+                return { id: getUserGithubData.github_id };
             } catch (error) {
                 console.error(error);
                 return undefined;
             }
         };
-    
+
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                const [tecksData, userTableData, userTechsData, userXData, userInstagramData, userGithubData]: [teckData[] | undefined, userTableData | undefined, userTechsData[] | [], snsTableData| undefined, snsTableData| undefined, snsTableData| undefined ] = await Promise.all([fetchTecksData(), fetchUserData(), fetchUserTecksData(), fetchUserXData(), fetchUserInstagramData(), fetchUserGithubData()]);
-                
+                const [tecksData, userTableData, userTechsData, userXData, userInstagramData, userGithubData]: [teckData[] | undefined, userTableData | undefined, userTechsData[] | [], snsTableData | undefined, snsTableData | undefined, snsTableData | undefined] = await Promise.all([fetchTecksData(), fetchUserData(), fetchUserTecksData(), fetchUserXData(), fetchUserInstagramData(), fetchUserGithubData()]);
+                console.log(userTableData?.imageURL);
                 reset({
                     iconImage: userTableData?.image,
                     name: userTableData?.name,
@@ -188,19 +195,19 @@ const EditServicesPage = ({
                     x_id: userXData?.id,
                     instagram_id: userInstagramData?.id,
                     github_id: userGithubData?.id,
-                  });
+                });
 
-                setFormFields(useFormFields(control, tecksData, userTableData?.imageURL));
+                setFormFields(useFormFields(control, tecksData, `${userTableData?.imageURL}?${new Date().getTime()}`));
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
                 setIsLoading(false);
             }
         };
-    
+
         fetchData();
     }, [userID]);
-    
+
 
     const handleCancel = () => {
         router.push('/admin/users/existing-users');
@@ -208,102 +215,117 @@ const EditServicesPage = ({
 
     const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
         setIsLoading(true);
-        console.log("hogehofe");
         console.log(data);
+        console.log(checkImageDataURL);
+        let imageUrl = '';
 
-        // let imageUrl = '';
+        if (data.iconImage instanceof File) {
+            const imageFileName = encodeURIComponent(`${Date.now()}-${data.iconImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
+            if (checkImageDataURL) {
+                const { error: uploadError } = await supabase.storage
+                    .from('user_icons')
+                    .update(checkImageDataURL, data.iconImage);
 
-        // if (data.iconImage instanceof File) {
-        //     const imageFileName = encodeURIComponent(`${Date.now()}-${data.iconImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
-        //     const { error: uploadError } = await supabase.storage
-        //         .from('user_icons')
-        //         .upload(imageFileName, data.iconImage);
+                if (uploadError) {
+                    console.error('Error uploading file: ', uploadError.message);
+                    window.alert(uploadError.message);
+                    setIsLoading(false);
+                    return;
+                }
+            }else {
+                const { error: uploadError } = await supabase.storage
+                    .from('user_icons')
+                    .upload(imageFileName, data.iconImage);
 
-        //     if (uploadError) {
-        //         console.error('Error uploading file: ', uploadError.message);
-        //         window.alert(uploadError.message);
-        //         setIsLoading(false);
-        //         return;
-        //     }
+                if (uploadError) {
+                    console.error('Error uploading file: ', uploadError.message);
+                    window.alert(uploadError.message);
+                    setIsLoading(false);
+                    return;
+                }
+            }
 
-        //     const { data: publicImageUrlData } = await supabase.storage
-        //         .from('user_icons')
-        //         .getPublicUrl(imageFileName);
+            const { data: publicImageUrlData } = await supabase.storage
+                .from('user_icons')
+                .getPublicUrl(checkImageDataURL ? checkImageDataURL :imageFileName);
 
-        //     imageUrl = publicImageUrlData.publicUrl || '';
-        // }
+            imageUrl = publicImageUrlData.publicUrl || '';
+        }
 
-        // const { iconImage, technologiesId, x_id, instagram_id, github_id, ...rest } = data;
-        // const submitData = { ...rest, image: imageUrl };
+        const { iconImage, technologiesId, x_id, instagram_id, github_id, ...rest } = data;
+        const submitData = { ...rest, image: imageUrl  };
 
-        // const { data: userData, error: insertError } = await supabase
-        //     .from('users')
-        //     .insert([submitData])
-        //     .select();
+        const { error: insertError } = await supabase
+            .from('users')
+            .update([submitData])
+            .eq('id', userID);
 
-        // if (insertError) {
-        //     console.error('Error inserting service:', insertError);
-        //     window.alert(insertError.message);
-        //     setIsLoading(false);
-        //     return;
-        // }
+        if (insertError) {
+            console.error('Error inserting service:', insertError);
+            window.alert(insertError.message);
+            setIsLoading(false);
+            return;
+        }
 
-        // if (data.technologiesId && data.technologiesId.length > 0) {
-        //     const { error: technologiesError } = await supabase
-        //         .from('users_technologies')
-        //         .insert(data.technologiesId.map((technologyId) => ({
-        //             user_id: userData[0].id,
-        //             technology_id: technologyId,
-        //         })));
+        if (data.technologiesId && data.technologiesId.length > 0) {
+            const { error: technologiesError } = await supabase
+                .from('users_technologies')
+                .update(data.technologiesId.map((technologyId) => ({
+                    technology_id: technologyId,
+                })))
+                .eq('user_id', userID);
 
-        //     if (technologiesError) {
-        //         console.error('Error inserting technologies:', technologiesError);
-        //         window.alert(technologiesError.message);
-        //         setIsLoading(false);
-        //         return;
-        //     }
-        // }
+            if (technologiesError) {
+                console.error('Error inserting technologies:', technologiesError);
+                window.alert(technologiesError.message);
+                setIsLoading(false);
+                return;
+            }
+        }
 
 
-        // if (x_id) {
-        //     const { error: xIdError } = await supabase
-        //         .from('x')
-        //         .insert([{ user_id: userData[0].id, x_id: x_id }]);
+        if (x_id) {
+            const { error: xIdError } = await supabase
+                .from('x')
+                .update([{ x_id: x_id }])
+                .eq('user_id', userID);
 
-        //     if (xIdError) {
-        //         console.error('Error inserting url_web:', xIdError);
-        //         window.alert(xIdError.message);
-        //         setIsLoading(false);
-        //         return;
-        //     }
-        // }
+            if (xIdError) {
+                console.error('Error inserting url_web:', xIdError);
+                window.alert(xIdError.message);
+                setIsLoading(false);
+                return;
+            }
+        }
 
-        // if (instagram_id) {
-        //     const { error: instagramIdError } = await supabase
-        //         .from('instagram')
-        //         .insert([{ user_id: userData[0].id, instagram_id: instagram_id }]);
+        if (instagram_id) {
+            const { error: instagramIdError } = await supabase
+                .from('instagram')
+                .update([{ instagram_id: instagram_id }])
+                .eq('user_id', userID);
 
-        //     if (instagramIdError) {
-        //         console.error('Error inserting url_web:', instagramIdError);
-        //         window.alert(instagramIdError.message);
-        //         setIsLoading(false);
-        //         return;
-        //     }
-        // }
+            if (instagramIdError) {
+                console.error('Error inserting url_web:', instagramIdError);
+                window.alert(instagramIdError.message);
+                setIsLoading(false);
+                return;
+            }
+        }
 
-        // if (github_id) {
-        //     const { error: githubIdError } = await supabase
-        //         .from('github')
-        //         .insert([{ user_id: userData[0].id, github_id: github_id }]);
+        if (github_id) {
+            const { error: githubIdError } = await supabase
+                .from('github')
+                .update([{ user_id: userID, github_id: github_id }])
+                .eq('user_id', userID);
 
-        //     if (githubIdError) {
-        //         console.error('Error inserting url_web:', githubIdError);
-        //         window.alert(githubIdError.message);
-        //         setIsLoading(false);
-        //         return;
-        //     }
-        // }
-        // router.push('/admin/users/existing-users');
+            if (githubIdError) {
+                console.error('Error inserting url_web:', githubIdError);
+                window.alert(githubIdError.message);
+                setIsLoading(false);
+                return;
+            }
+        }
+        router.push('/admin/users/existing-users');
     };
 
     return (
@@ -319,7 +341,7 @@ const EditServicesPage = ({
                     borderBottom: "1px solid #9CABC7",
                     paddingBottom: "12px",
                     marginBottom: "12px",
-                }}>新規ユーザ作成</h1>
+                }}>既存ユーザ編集</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {formFields.map(({ title, fields }, index) => (
                         <section key={index} style={{
