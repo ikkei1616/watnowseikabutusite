@@ -39,6 +39,7 @@ const LoadingPage = () => {
           alt={"猫ちゃんの画像"}
           width={500}
           height={500}
+          priority
         />
         <Box
           sx={{
@@ -51,10 +52,11 @@ const LoadingPage = () => {
         >
           <Image
             src={"/now_loading.svg"}
-            alt={"猫ちゃんの画像"}
+            alt={"NOW LOADING"}
             style={{
               animation: "rotate 15s linear infinite",
             }}
+            priority
             width={400}
             height={400}
           />
