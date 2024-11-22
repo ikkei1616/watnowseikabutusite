@@ -1,16 +1,29 @@
 import React from "react";
-import { Box, Card, Button, Typography, CardActions } from "@mui/material";
+import {
+  Box,
+  Card,
+  Button,
+  Typography,
+  CardActions,
+  Divider,
+} from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import DottedDivider from "@/components/DottedDivider";
+import ServiceCard from "@/components/ServiceCard";
+import type { Service } from "@/types/Service";
 
 import type { Event, EventDetail } from "@/types/Event";
 
 interface EventDetailCardProps {
   event?: EventDetail;
+  services?: Service[];
 }
 
-const EventDetailCard: React.FC<EventDetailCardProps> = ({ event }) => {
+const EventDetailCard: React.FC<EventDetailCardProps> = ({
+  event,
+  services,
+}) => {
   if (!event) {
     return <div>イベント情報がありません。</div>; // event が undefined の場合のフォールバック
   }
@@ -188,12 +201,94 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({ event }) => {
           代表サービス
         </Typography>
         <DottedDivider color="#00AEEF" />
-        <Box sx={{ marginTop: "1rem" }}>
-          <Typography sx={{ lineHeight: 1.5 }}></Typography>
-        </Box>
+      </Box>
+      <Box
+        sx={{
+          display: "flex", // Flexbox レイアウトを有効化
+          flexWrap: "wrap", // 必要に応じて折り返し
+          gap: "16px", // カード間の間隔
+          padding: "16px", // コンテナの内側の余白
+          justifyContent: "flex-start", // 左詰めで表示
+          marginLeft: "1rem",
+        }}
+      >
+        {services?.map((service) => (
+          <Box
+            key={service.id}
+            sx={{
+              flex: "1 1 calc(33.333% - 16px)", // 幅を3等分（ギャップを考慮）
+              maxWidth: "calc(33.333% - 16px)", // 最大幅を設定
+              boxSizing: "border-box", // パディングとボーダーを含む幅を計算
+            }}
+          >
+            <ServiceCard service={service} />
+          </Box>
+        ))}
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          width: "100%", // 全体の幅
+          paddingLeft: "1rem", // 左側の余白
+          paddingRight: "1rem", // 右側の余白
+          paddingBottom: "2rem", // 下側の余白
+        }}
+      >
+        {/* 左側の線 */}
+        <Divider
+          sx={{
+            flexGrow: 1, // 残りのスペースを埋める
+            borderColor: "#00AEEF", // 線の色
+            borderWidth: "1px", // 線の太さ
+          }}
+        />
+
+        {/* 中央のテキストと画像 */}
+        <Typography
+          sx={{
+            whiteSpace: "nowrap", // テキストを折り返さない
+            fontSize: "16px", // フォントサイズ
+            color: "#4D4D4D", // テキストの色
+            display: "flex", // テキストと画像を横並び
+            alignItems: "center",
+            gap: "8px", // テキストと画像の間隔
+          }}
+        >
+          すべてのプロダクトを見る
+          {/* 画像 */}
+          <Box
+            sx={{
+              width: "16px",
+              height: "16px",
+              position: "relative",
+            }}
+          >
+            <Image
+              src={"/paper_airplane_blue.svg"} // 画像のパスを指定
+              alt="アイコン"
+              layout="fill"
+              objectFit="contain" // 画像サイズを親に合わせて調整
+            />
+          </Box>
+        </Typography>
+
+        {/* 右側の線 */}
+        <Divider
+          sx={{
+            flexGrow: 1, // 残りのスペースを埋める
+            borderColor: "#00AEEF", // 線の色
+            borderWidth: "1px", // 線の太さ
+          }}
+        />
       </Box>
     </Card>
   );
 };
 
 export default EventDetailCard;
+
+{
+  /* <ServiceCard service={service} /> */
+}

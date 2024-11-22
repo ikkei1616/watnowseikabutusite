@@ -11,6 +11,7 @@ import PageHeader from "@/components/PageHeader";
 import Header from "@/components/Header";
 import { HeaderMode } from "@/types/HeaderMode";
 import EventDetailCard from "@/components/EventDetailCard";
+import type { Service } from "@/types/Service";
 
 export default function EventDetailPage({
   params,
@@ -20,6 +21,7 @@ export default function EventDetailPage({
   const eventID = params.event_id;
 
   const [event, setEvent] = useState<EventDetail | null>(null);
+  const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -43,9 +45,33 @@ export default function EventDetailPage({
         setLoading(false);
       }
     };
+    const fetchRetatedServices = async () => {
+      if (eventID) {
+        try {
+          const { data: serviceData, error: serviceError } = await supabase
+            .from("services") // テーブル名
+            .select("*") // すべての列を取得
+            .eq("event_id", eventID) // event_id が一致するものを絞り込み
+            .order("event_id", { ascending: true }) // event_id の昇順でソート
+            .limit(3); // 最大 3 件まで取得
+
+          if (serviceError) {
+            console.error("Error fetching services:", serviceError);
+            return;
+          }
+
+          // データが正常に取得できた場合
+          setServices(serviceData as Service[]);
+        } catch (error) {
+          console.error("Unexpected error:", error);
+        }
+      }
+    };
 
     fetchEventData();
-  }, [eventID]);
+    fetchRetatedServices();
+    console.log("services", services);
+  }, [eventID, services]);
 
   if (loading) {
     return <LoadingSpinner />;
@@ -69,7 +95,7 @@ export default function EventDetailPage({
       >
         <PageHeader title="イベント詳細" pageTitle={event.name} />
       </Box>
-      <EventDetailCard event={event} />
+      <EventDetailCard event={event} services={services} />
     </main>
   );
 }
