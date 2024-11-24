@@ -38,10 +38,10 @@ const generateYearOptions = (startYear: number) => {
 export const yearOptions = generateYearOptions(2020);
 
 export const period = [
-    { value: "days", label: "日" },
-    { value: "weeks", label: "週" },
-    { value: "months", label: "月" },
-    { value: "years", label: "年" },
+    { value: "日間", label: "日" },
+    { value: "週間", label: "週" },
+    { value: "カ月間", label: "カ月" },
+    { value: "年間", label: "年" },
 ]
 
 export const releaseMonth = [
@@ -65,6 +65,8 @@ export const useFormFields = (
     awards: AwardData[],
     menbers: MenberData[],
     techs: TechData[],
+    defaultThumbnail?: string,
+    defaultDemo?: string
 ): { container: string, title: string, fields: FormField<ServiceInputSchema>[] }[] => {
 
     return [
@@ -264,7 +266,8 @@ export const useFormFields = (
                         control,
                         name: "thumbnailImage",
                         label: "サムネイル画像",
-                        type: "image"
+                        type: "image",
+                        defaultValue: defaultThumbnail,
                     }
                 },
                 {
@@ -274,7 +277,8 @@ export const useFormFields = (
                         control,
                         name: "demoVideo",
                         label: "デモ動画",
-                        type: "video"
+                        type: "video",
+                        defaultValue: defaultDemo,
                     }
                 }
             ]
