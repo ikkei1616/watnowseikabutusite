@@ -1,0 +1,36 @@
+@charset "UTF-8";
+.header {
+  padding: 4% 4% 0 4%;
+  height: 170px;
+  width:100%;
+}
+
+.headerInner {
+  padding-bottom: 2%;
+  width: 100%;
+  height: 100%;
+  border-bottom: 1px solid #00AEEF;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+
+
+.title {
+  font-family: "HannariMincho";
+  font-size: 64px;
+  color: #00AEEF;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+}
+
+.text {
+  font-family: "HannariMincho";
+  font-size: 20px;
+  margin-right: 20px;
+}
+
