@@ -6,7 +6,10 @@ import { ReactNode } from "react";
 export interface Service {
   id: string | null;
   name: string;
+  image: string;
+  description?: string;
   comment?: string;
+  award_id: string;
 }
 
 //Service詳細ページで利用する型定義
