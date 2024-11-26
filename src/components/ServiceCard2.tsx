@@ -32,7 +32,6 @@ interface ServiceCard2Components {
 const ServiceCard2: React.FC<ServiceCard2Components> = ({ service, color }) => {
   console.log(color);
   return (
-    <RecoilRoot>
         <Card
           sx={{
             width: "100%",
@@ -141,8 +140,6 @@ const ServiceCard2: React.FC<ServiceCard2Components> = ({ service, color }) => {
             </Typography>
           </Box>
         </Card>
-
-    </RecoilRoot>
   );
 };
 
