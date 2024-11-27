@@ -9,7 +9,6 @@ import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
 import AdminHeader from '@/components/admin/AdminHeader';
 import LoadingModal from '@/components/loading/LoadingModal';
-import { teckData } from '../../users/new/hooks';
 
 const NewServicesPage = () => {
   const { control, handleSubmit, reset, getValues } = useForm<ServiceInputSchema>({
@@ -25,7 +24,7 @@ const NewServicesPage = () => {
   const eventsRef = useRef<EventData[]>([]);
   const awardsRef = useRef<AwardData[]>([]);
   const menbersRef = useRef<MenberData[]>([]);
-  const techsRef = useRef<teckData[]>([]);
+  const techsRef = useRef<TechData[]>([]);
 
 
   useEffect(() => {
