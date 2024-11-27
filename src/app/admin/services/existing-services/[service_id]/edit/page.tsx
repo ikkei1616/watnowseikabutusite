@@ -75,7 +75,8 @@ const NewServicesPage = ({
     const [videoDataURL, setVideoDataURL] = useState<string | undefined>(undefined);
     const [checkVideoDataURL, setCheckVideoDataURL] = useState<string | undefined>(undefined);
 
-    
+    const [isChangeEventYear, setIsChangeEventYear] = useState(false);
+    const [isChangeEvent, setIsChangeEvent] = useState(false);
 
     useEffect(() => {
         const fetchEventsData = async () => {

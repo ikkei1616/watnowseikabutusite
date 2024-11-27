@@ -66,7 +66,8 @@ export const useFormFields = (
     menbers: MenberData[],
     techs: TechData[],
     defaultThumbnail?: string,
-    defaultDemo?: string
+    defaultDemo?: string,
+    onChangeEventYear?: (item:string) => void
 ): { container: string, title: string, fields: FormField<ServiceInputSchema>[] }[] => {
 
     return [
@@ -186,6 +187,7 @@ export const useFormFields = (
                         label: "イベントの変更",
                         options: yearOptions,
                         ending: "年開催",
+                        onChangeItem: onChangeEventYear,
                     },
                 },
                 {

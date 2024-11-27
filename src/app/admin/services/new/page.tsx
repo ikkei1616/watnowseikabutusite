@@ -1,14 +1,15 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from "next/navigation";
 import { set, SubmitHandler, useForm } from "react-hook-form";
 import { ServiceInputSchema, ServiceOutputSchema, resolver } from "./serviceFormSchema";
-import { useFormFields, FormField } from "./hooks";
+import { useFormFields, FormField,EventData, AwardData, MenberData, TechData } from "./hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
 import AdminHeader from '@/components/admin/AdminHeader';
 import LoadingModal from '@/components/loading/LoadingModal';
+import { teckData } from '../../users/new/hooks';
 
 const NewServicesPage = () => {
   const { control, handleSubmit } = useForm<ServiceInputSchema>({
@@ -19,7 +20,13 @@ const NewServicesPage = () => {
   const router = useRouter();
 
   const [formFields, setFormFields] = useState<{ container: string, title: string, fields: FormField<ServiceInputSchema>[] }[]>([]);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const eventsRef = useRef<EventData[]>([]);
+  const awardsRef = useRef<AwardData[]>([]);
+  const menbersRef = useRef<MenberData[]>([]);
+  const techsRef = useRef<teckData[]>([]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,8 +67,11 @@ const NewServicesPage = () => {
         const Awards = awardsData.map((award) => ({ value: award.id, label: award.name }));
         const Menbers = menbersData.map((menber) => ({ value: menber.id, label: `${menber.name}　(${menber.nickname})` }));
         const Techs = techsData.map((tech) => ({ value: tech.id, label: tech.name }));
-        setFormFields(useFormFields(control, Events, Awards, Menbers, Techs));
-
+        eventsRef.current = Events;
+        awardsRef.current = Awards;
+        menbersRef.current = Menbers;
+        techsRef.current = Techs;
+        setFormFields(useFormFields(control, Events, Awards, Menbers, Techs, "", "", onChangeEventYear));
       } catch (error) {
         console.error(error);
       }
@@ -69,6 +79,29 @@ const NewServicesPage = () => {
 
     fetchData();
   }, []);
+
+  const onChangeEventYear = async (item:string) => {
+    try{
+      console.log(item);
+      const { data: eventsData, error: eventsError } = await supabase
+        .from('events')
+        .select('id, name')
+        .order('id', { ascending: true })
+        .eq('year', item);
+
+      if (eventsError) {
+        throw new Error(`Error fetching events: ${eventsError.message}`);
+      }
+
+      const newEvents = eventsData.map((event) => ({ value: event.id, label: event.name }));
+      setFormFields(useFormFields(control, newEvents, awardsRef.current, menbersRef.current, techsRef.current, "", "", onChangeEventYear));
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }
+
+
 
   const handleCancel = () => {
     const confirmDelete = window.confirm("編集内容が破棄されますがよろしいですか？");
