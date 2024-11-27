@@ -50,7 +50,7 @@ const ServiceCard2: React.FC<ServiceCard2Components> = ({ service, color,awardId
   },[]);
 
   return (
-    <Box style={{display:"relative"}}>
+    <Box sx={{width:"100%"}}>
         <Box 
           sx={{
             margin:"0px 0 10px 10px",
