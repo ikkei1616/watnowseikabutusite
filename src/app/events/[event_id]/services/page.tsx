@@ -20,6 +20,7 @@ const EventServices = ({ params }: { params: { event_id: string } }) => {
   const [eventName, setEventName] = useState<string>("");
   const [isAward, setIsAward] = useState(false);
   const theme = useTheme(); // 現在のテーマを取得
+  const [awardData,setAwardData] = useState({});
 
   // const [eventName, setEventName] = useState<EventName[]>([])
 
@@ -47,7 +48,6 @@ const EventServices = ({ params }: { params: { event_id: string } }) => {
         console.log("event name fetch error", error)
         return;
       }
-      console.log(eventName[0].name);
       // setEventName(eventName as EventName[] || [])
       setEventName(eventName[0].name || "");
     }
@@ -60,8 +60,15 @@ const EventServices = ({ params }: { params: { event_id: string } }) => {
     serviceData.forEach((service)=>{
       if (service.award_id !== null)
         setIsAward(true);
-        console.log(service.award_id)
     });
+  },[serviceData]);
+
+  useEffect(()=>{
+    const fetchAwardData = async ()=>{
+      const {data,error} = await  supabase
+        .from("awards")
+        .select("id")
+    };
   },[serviceData]);
 
 
@@ -69,18 +76,12 @@ const EventServices = ({ params }: { params: { event_id: string } }) => {
     <>
       <EventHeader title={eventName} eventId={eventId}></EventHeader>
       {/* <EventHeader title={eventName[0].name} eventId={eventId}></EventHeader> */}
-      { isAward && (
-        <Box className={styles.awardTitle}>
-          受賞プロダクト
-        </Box>
-        )
-      }
       <Box className={styles.cardList} >
         {serviceData.map((service)=>(
-          service.award_id !== null ? (      
-              <ServiceCard2 key={service.id }service={service} color={"#F3DF85"} ></ServiceCard2>
+          service.award_id !== null ? (  
+              <ServiceCard2 key={service.id }service={service} color={"#F3DF85"} awardId={service.award_id}></ServiceCard2>
           ) : (        
-              <ServiceCard2 key={service.id} service={service} color={"#85D5F3"}></ServiceCard2>
+              <ServiceCard2 key={service.id} service={service} color={"#85D5F3"} awardId={""}></ServiceCard2>
           )
         ))}
       </Box>

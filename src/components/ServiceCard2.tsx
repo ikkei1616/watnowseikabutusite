@@ -1,20 +1,18 @@
+import { supabase } from "@/supabase/supabase";
 import type { Service } from "@/types/Service";
 import {
   Card,
-  CardContent,
   Typography,
-  CardActions,
-  Button,
   Box,
-  Divider,
   CardMedia,
 } from "@mui/material";
-
+import { useEffect,useState } from "react";
 
 
 interface ServiceCard2Components {
   service: Service;
   color: string;
+  awardId: string;
 }
 
 
@@ -29,9 +27,41 @@ interface ServiceCard2Components {
 //   },
 // });
 
-const ServiceCard2: React.FC<ServiceCard2Components> = ({ service, color }) => {
-  console.log(color);
+const ServiceCard2: React.FC<ServiceCard2Components> = ({ service, color,awardId}) => {
+  const [awardName,setAwardName] = useState<string>("");
+
+  useEffect(()=>{
+    const fetchAwardData = async ()=>{
+      if (awardId) {
+        const { data,error } = await supabase
+          .from("awards")
+          .select("name")
+          .eq("id",awardId);
+        
+        if (error) {
+          console.log("awardName fetch error",error,data)
+          return;
+        }
+        console.log(data);
+        setAwardName(data[0].name as string || "")
+      }
+    };
+    fetchAwardData();
+  },[]);
+
   return (
+    <Box style={{display:"relative"}}>
+        <Box 
+          sx={{
+            margin:"0px 0 10px 10px",
+            color: "#B09001",
+            fontFamily: "HannariMincho",
+            fontSize: "24px",
+            lineHeight: "40px",
+          }}
+        >  
+          {awardName}
+        </Box>
         <Card
           sx={{
             width: "100%",
@@ -140,6 +170,7 @@ const ServiceCard2: React.FC<ServiceCard2Components> = ({ service, color }) => {
             </Typography>
           </Box>
         </Card>
+    </Box>
   );
 };
 
