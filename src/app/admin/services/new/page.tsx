@@ -12,7 +12,7 @@ import LoadingModal from '@/components/loading/LoadingModal';
 import { teckData } from '../../users/new/hooks';
 
 const NewServicesPage = () => {
-  const { control, handleSubmit } = useForm<ServiceInputSchema>({
+  const { control, handleSubmit, reset, getValues } = useForm<ServiceInputSchema>({
     mode: "onChange",
     resolver: resolver,
   });
@@ -71,7 +71,7 @@ const NewServicesPage = () => {
         awardsRef.current = Awards;
         menbersRef.current = Menbers;
         techsRef.current = Techs;
-        setFormFields(useFormFields(control, Events, Awards, Menbers, Techs, "", "", onChangeEventYear));
+        setFormFields(useFormFields(control, Events, [], Menbers, Techs, "", "", onChangeEventYear,onChangeEvent));
       } catch (error) {
         console.error(error);
       }
@@ -82,7 +82,6 @@ const NewServicesPage = () => {
 
   const onChangeEventYear = async (item:string) => {
     try{
-      console.log(item);
       const { data: eventsData, error: eventsError } = await supabase
         .from('events')
         .select('id, name')
@@ -93,15 +92,37 @@ const NewServicesPage = () => {
         throw new Error(`Error fetching events: ${eventsError.message}`);
       }
 
-      const newEvents = eventsData.map((event) => ({ value: event.id, label: event.name }));
-      setFormFields(useFormFields(control, newEvents, awardsRef.current, menbersRef.current, techsRef.current, "", "", onChangeEventYear));
+      eventsRef.current = [
+        { value: "", label: "選択してください" },
+        ...eventsData.map((event) => ({ value: event.id, label: event.name }))
+      ];
+      reset({ ...getValues(), event_id: undefined, award_id: undefined});
+      setFormFields(useFormFields(control, eventsRef.current, [], menbersRef.current, techsRef.current, "", "", onChangeEventYear,onChangeEvent));
     }
     catch (error) {
       console.error(error);
     }
   }
 
+  const onChangeEvent = async (item:string) => {
+    try{
+      const { data: awardsData, error: awardsError } = await supabase
+        .from('awards')
+        .select('id, name')
+        .order('id', { ascending: true })
+        .eq('event_id', item);
 
+      if (awardsError) {
+        throw new Error(`Error fetching awards: ${awardsError.message}`);
+      }
+
+      awardsRef.current = awardsData.map((award) => ({ value: award.id, label: award.name }));
+      setFormFields(useFormFields(control, eventsRef.current, awardsRef.current, menbersRef.current, techsRef.current, "", "", onChangeEventYear,onChangeEvent));
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }
 
   const handleCancel = () => {
     const confirmDelete = window.confirm("編集内容が破棄されますがよろしいですか？");

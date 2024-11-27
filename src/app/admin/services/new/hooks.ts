@@ -2,6 +2,7 @@ import { ServiceInputSchema } from "./serviceFormSchema";
 import { Control } from "react-hook-form";
 import { FieldValues } from "react-hook-form";
 import { FormFactoryProps } from "@/components/form/FormFactory";
+import { YEARS_OPTIONS } from "@/const";
 
 export type FormField<T extends FieldValues> = {
     id: number;
@@ -27,15 +28,9 @@ export type TechData = {
     label: string;
 }
 
-const generateYearOptions = (startYear: number) => {
-    const currentYear = new Date().getFullYear();
-    return Array.from({ length: currentYear - startYear + 1 }, (_, index) => {
-        const year = startYear + index;
-        return { value: year, label: year.toString() };
-    });
-};
-
-export const yearOptions = generateYearOptions(2020);
+export const yearOptions = YEARS_OPTIONS.map((year) => {
+    return { value: year, label: `${year}` };
+});
 
 export const period = [
     { value: "日間", label: "日" },
@@ -67,7 +62,8 @@ export const useFormFields = (
     techs: TechData[],
     defaultThumbnail?: string,
     defaultDemo?: string,
-    onChangeEventYear?: (item:string) => void
+    onChangeEventYear?: (item:string) => void,
+    onChangeEvent?: (item:string) => void,
 ): { container: string, title: string, fields: FormField<ServiceInputSchema>[] }[] => {
 
     return [
@@ -197,6 +193,7 @@ export const useFormFields = (
                         control,
                         name: "event_id",
                         options: events,
+                        onChangeItem: onChangeEvent,
                     },
                 },
                 {
