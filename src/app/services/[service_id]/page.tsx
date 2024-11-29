@@ -97,25 +97,33 @@ export default function ServiceDetailPage({
           );
           setService(null); // サービスデータがない場合はnullに設定
         } else {
-          const fetchedServiceData:ServiceDetail =({
+          const fetchedServiceData: ServiceDetail = {
             id: service?.id || null,
+            releaseYear: serviceData.release_year,
+            releaseMonth: serviceData.release_month,
             name: serviceData.name,
+            teamName: serviceData.team_name,
+            developmentPeriod: `${serviceData.development_period_num}${serviceData.development_period_unit}`,
             description: serviceData.description,
             image: serviceData.image,
             event: serviceData.events,
             awardName: serviceData.awards.name,
-            techStack: serviceData.services_technologies.map((technology:any)=>technology.technologies),
+            techStack: serviceData.services_technologies.map(
+              (technology: any) => technology.technologies
+            ),
             urlWebsite: serviceData.url_website?.url,
             urlAppStore: serviceData.url_app_store?.url,
             urlGooglePlay: serviceData.url_google_play?.url,
             urlOthers: serviceData.url_others?.url,
-            creators: serviceData.users_servicies.map((user:any)=>({
+            creators: serviceData.users_servicies.map((user: any) => ({
               nickname: user.users.nickname,
               accountID: user.users.account_id,
               image: user.users.image,
-              technologies: user.users.users_technologies.map((technology:any)=>technology.technologies),
+              technologies: user.users.users_technologies.map(
+                (technology: any) => technology.technologies
+              ),
             })),
-          });
+          };
           console.log(fetchedServiceData);
 
           setService(fetchedServiceData);
@@ -268,7 +276,7 @@ export default function ServiceDetailPage({
             <div className={styles.detailsContainer}>
               <p className={styles.details}>作成月</p>
               <p className={styles.detailsdata}>
-                {service.releaseYear}/{service.releaseMonth}
+                {service.releaseYear}/{service.releaseMonth}<div className={styles.period}>{service.developmentPeriod &&`(${service.developmentPeriod})`}</div>
               </p>
               {/* <p className={styles.details}>説明: {service.description}</p> */}
               <p className={styles.details}>チーム名</p>
@@ -311,6 +319,11 @@ export default function ServiceDetailPage({
 
           <DetailContainer>
             <DetailHeader title="制作者" />
+            <ItemList>
+              {service.creators.map((creator, index) => (
+                <CreatorItem key={index} user={creator} />
+              ))}
+            </ItemList>
           </DetailContainer>
 
           <DetailContainer>
