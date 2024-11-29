@@ -12,6 +12,16 @@ export interface Service {
   award_id: string;
 }
 
+export interface EventAllService {
+  id: string | null;
+  name: string;
+  image: string;
+  description?: string;
+  comment?: string;
+  award_id: string;
+  awards: {id:string,name:string}[];
+}
+
 //Service詳細ページで利用する型定義
 export interface ServiceDetail extends Service {
   github_url: string | undefined;
