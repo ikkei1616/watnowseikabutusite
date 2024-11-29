@@ -133,7 +133,7 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             variant="body1"
             sx={{ color: "#878686", marginTop: "0.3rem", fontSize: "1.3rem" }}
           >
-            {event.date}
+            {event.date || "登録なし"}
           </Typography>
           <Typography
             variant="body1"
@@ -146,7 +146,7 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             variant="body1"
             sx={{ color: "#878686", marginTop: "0.3rem", fontSize: "1.3rem" }}
           >
-            {event.location}
+            {event.location || "登録なし"}
           </Typography>
           <Typography
             variant="body1"
@@ -155,7 +155,16 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             関連情報
           </Typography>
           <DottedDivider color="#878686" />
-          {event.url && <Link href={event.url}>イベントURLはこちら</Link>}
+          {event.url ? (
+            <Link href={event.url}>イベントURLはこちら</Link>
+          ) : (
+            <Typography
+              variant="body1"
+              sx={{ color: "#878686", fontSize: "1rem", marginTop: "0.3rem" }}
+            >
+              登録なし
+            </Typography>
+          )}
         </Box>
       </Box>
       <Box
