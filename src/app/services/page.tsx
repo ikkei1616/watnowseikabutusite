@@ -13,9 +13,6 @@ import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import Stack from '@mui/material/Stack';
 
-// import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-// import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-
 const Home: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
@@ -59,7 +56,7 @@ const Home: React.FC = () => {
 
     fetchService();
     fetchEventCount();
-  }, []);
+  }, [page]);
 
   useEffect(()=>{
     const start = (page-1) * servicesPerPage;
