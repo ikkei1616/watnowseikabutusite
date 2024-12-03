@@ -221,18 +221,22 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
           marginLeft: "1rem",
         }}
       >
-        {services?.map((service) => (
-          <Box
-            key={service.id}
-            sx={{
-              flex: "1 1 calc(33.333% - 16px)", // 幅を3等分（ギャップを考慮）
-              maxWidth: "calc(33.333% - 16px)", // 最大幅を設定
-              boxSizing: "border-box", // パディングとボーダーを含む幅を計算
-            }}
-          >
-            <ServiceCard service={service} />
-          </Box>
-        ))}
+        {services?.length ? (
+          services.map((service) => (
+            <Box
+              key={service.id}
+              sx={{
+                flex: "1 1 calc(33.333% - 16px)", // 幅を3等分（ギャップを考慮）
+                maxWidth: "calc(33.333% - 16px)", // 最大幅を設定
+                boxSizing: "border-box", // パディングとボーダーを含む幅を計算
+              }}
+            >
+              <ServiceCard service={service} />
+            </Box>
+          ))
+        ) : (
+          <Typography>登録なし</Typography>
+        )}
       </Box>
       <Box
         sx={{
