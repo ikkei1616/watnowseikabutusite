@@ -39,14 +39,23 @@ const CreatorItem = ({ user }: { user: CreatorUser }) => {
         }}
       >
         <Box sx={containerStyle}>
-          <Avatar
-            src={user.image || "/unknown.svg"}
-            alt="ユーザのアイコン画像"
+          <Box
             sx={{
+              borderRadius: "50%",
+              backgroundColor: "#85D5F3CC",
               width: "100px",
               height: "100px",
             }}
-          />
+          >
+            <Avatar
+              src={user.image || "/unknown.svg"}
+              alt="ユーザのアイコン画像"
+              sx={{
+                width: "100px",
+                height: "100px",
+              }}
+            />
+          </Box>
           <Box
             sx={{
               display: "flex",
