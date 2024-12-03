@@ -15,6 +15,7 @@ import DetailContainer from "@/components/DetailContainer";
 import DetailHeader from "@/components/DetailHeader";
 import DisplaySNS from "@/components/userDetails/DisplaySNS";
 import ServiceCard from "@/components/ServiceCard";
+import ServicesContainer from "@/components/ServicesContainer";
 
 const UserPage = ({ params }: { params: { account_id: string } }) => {
   const accountID = params.account_id;
@@ -68,11 +69,11 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
 
             <DetailContainer>
               <DetailHeader title={"作成したサービス"} />
-              <ItemList>
+              <ServicesContainer>
                 {userData.services.map((service, index) => (
                   <ServiceCard key={index} service={service} />
                 ))}
-              </ItemList>
+              </ServicesContainer>
             </DetailContainer>
           </>
         )}
