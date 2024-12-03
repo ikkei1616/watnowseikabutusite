@@ -3,7 +3,7 @@
 import React from "react";
 import List from "@mui/material/List";
 
-const TechList = ({ children }: { children: React.ReactNode }) => {
+const ItemList = ({ children }: { children: React.ReactNode }) => {
   const listStyle = {
     paddingTop: "11px",
     paddingBottom: "none",
@@ -21,4 +21,4 @@ const TechList = ({ children }: { children: React.ReactNode }) => {
   return <List sx={listStyle}>{children}</List>;
 };
 
-export default TechList;
+export default ItemList;

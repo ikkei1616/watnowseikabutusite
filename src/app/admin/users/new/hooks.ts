@@ -2,39 +2,22 @@ import { ServiceInputSchema } from "./userFormSchema";
 import { Control } from "react-hook-form";
 import { FieldValues } from "react-hook-form";
 import { FormFactoryProps } from "@/components/form/FormFactory";
-import { supabase } from '../../../../supabase/supabase';
-import { useEffect, useState } from "react";
 
 
-type FormField<T extends FieldValues> = {
+export type teckData = {
+    value: string;
+    label: string;
+}
+
+export type FormField<T extends FieldValues> = {
     id: number;
 } & FormFactoryProps<T>;
 
 export const useFormFields = (
     control: Control<ServiceInputSchema>,
+    techs?: teckData[],
+    defaultIcon?: string
 ): { container: string, title: string, fields: FormField<ServiceInputSchema>[] }[] => {
-    const [techs, setTechs] = useState<{ value: string; label: string }[]>([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const { data: techsData, error: techsError } = await supabase
-                    .from('technologies')
-                    .select('id, name')
-
-                if (techsError) {
-                    throw new Error(`Error fetching techs: ${techsError.message}`);
-                }
-                setTechs(techsData.map((tech) => ({ value: tech.id, label: tech.name })) || []);
-
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
 
     return [
         {
@@ -48,7 +31,8 @@ export const useFormFields = (
                         control,
                         name: "iconImage",
                         label: "アイコン画像",
-                        type: "image"
+                        type: "image",
+                        defaultValue: defaultIcon,
                     },
                 },
                 {
@@ -59,7 +43,7 @@ export const useFormFields = (
                         name: "name",
                         label: "氏名(本名)",
                         placeholder: "例) 山田太郎",
-                        required: true
+                        required: true,
                     },
                 },
                 {
@@ -70,7 +54,7 @@ export const useFormFields = (
                         name: "nickname",
                         label: "ニックネーム(表示名)",
                         placeholder: "例) たろぴ",
-                        required: true  
+                        required: true,
                     },
                 },
                 {
@@ -82,7 +66,7 @@ export const useFormFields = (
                         label: "ユーザID(半角英数字)",
                         placeholder: "Tarotan11",
                         required: true,
-                        isID: true, 
+                        isID: true,
                     },
                 },
                 {
@@ -108,7 +92,7 @@ export const useFormFields = (
                         control,
                         name: "technologiesId",
                         label: "技術を追加する",
-                        options: techs,
+                        options: techs || [],
                         shapeType: "rounded",
                     },
                 },

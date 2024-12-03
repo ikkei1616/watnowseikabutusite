@@ -24,7 +24,10 @@ const PageHeader = ({
             color: "#00AEEF",
             fontSize: "4rem",
             fontFamily: "HannariMincho",
-            "@media screen and (max-width: 600px)": {
+            "@media screen and (max-width: 900px)": {
+              fontSize: "3rem",
+            },
+            "@media screen and (max-width: 750px)": {
               fontSize: "2rem",
             },
           }}
@@ -38,7 +41,10 @@ const PageHeader = ({
             color: "#00AEEF",
             fontSize: "2rem",
             fontFamily: "HannariMincho",
-            "@media screen and (max-width: 600px)": {
+            "@media screen and (max-width: 900px)": {
+              fontSize: "1.5rem",
+            },
+            "@media screen and (max-width: 750px)": {
               fontSize: "1rem",
             },
           }}
@@ -52,7 +58,10 @@ const PageHeader = ({
             color: "#00AEEF",
             fontSize: "3rem",
             fontFamily: "HannariMincho",
-            "@media screen and (max-width: 600px)": {
+            "@media screen and (max-width: 900px)": {
+              fontSize: "2.75rem",
+            },
+            "@media screen and (max-width: 750px)": {
               fontSize: "1.5rem",
             },
           }}

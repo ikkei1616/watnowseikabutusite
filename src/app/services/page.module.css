@@ -10,31 +10,66 @@
   text-align: center; /* テキストを中央揃え */
 }
 
-.header{
+.header {
   background-color: yellow;
   justify-content: space-between;
 }
 
-
-
-.serviceList {
-  list-style-type: none; /* デフォルトのリストスタイルを削除 */
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 15px; /* 各リストアイテム間にスペースを追加 */
-  align-items: center; /* アイテムを中央に揃える */
+.title {
+  max-width: 90%;
+  width: 368px;
+  margin: 56.92px auto 0 auto;
+  font-size: 32px;
+  color: #00aeef;
 }
 
-.serviceItem {
-  background-color: #007bff; /* 背景色を白に設定 */
-  border: 1px solid #ddd; /* 軽いグレーのボーダー */
-  border-radius: 8px; /* 角を丸める */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽いシャドウを追加 */
-  padding: 15px;
+.title:after {
+  content: "";
+  display: block;
   width: 100%;
-  max-width: 500px; /* アイテムの最大幅を設定 */
+  height: 1px;
+  background-color: #00aeef;
+  margin-top: 16.08px;
 }
 
+.serviceGridList {
+  margin: 33px 0 0 0;
+  padding: 0 1rem;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 368px));
+  grid-template-rows: repeat(auto-fit, minmax(0, 306px));
+  justify-content: center;
+  column-gap: 60px;
+  row-gap: 56px;
+}
 
+.pageNation {
+  justify-content: center;
+}
+
+@media (min-width: 840px) {
+  .title {
+    width: calc(368px * 2 + 60px);
+    padding: 0;
+    font-size: 44px;
+    max-width: 87%;
+  }
+  .serviceGridList {
+    grid-template-columns: repeat(2, minmax(0, 368px));
+    grid-template-rows: repeat(auto-fit, minmax(0, 306px));
+    justify-content: center;
+    column-gap: 60px;
+    row-gap: 40px;
+    padding: 3rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .title {
+    width: calc(368px * 3 + 120px);
+    max-width: 92%;
+  }
+  .serviceGridList {
+    grid-template-columns: repeat(3, minmax(0, 368px));
+  }
+}
