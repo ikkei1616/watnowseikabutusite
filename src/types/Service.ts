@@ -19,7 +19,7 @@ export interface EventAllService {
   description?: string;
   comment?: string;
   award_id: string;
-  awards: {id:string,name:string}[];
+  awards: {id:string,name:string};
 }
 
 //Service詳細ページで利用する型定義

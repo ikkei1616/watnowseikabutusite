@@ -25,7 +25,8 @@ const EventServices = ({ params }: { params: { event_id: string } }) => {
       const { data, error } = await supabase
         .from("services")
         .select("id, name , image, description, award_id, awards (id,name)")
-        .eq("event_id", eventId);
+        .eq("event_id", eventId)
+        .returns<EventAllService[]>();
 
       if (error) {
         console.log("error", error);
