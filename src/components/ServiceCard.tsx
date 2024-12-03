@@ -48,7 +48,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
           }}
         >
           <a
-            href=".#"
+            href={`./services/${service.id}`}
             style={{
               fontSize: "12px",
               whiteSpace: "nowrap",
@@ -58,7 +58,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
             詳細を見る
           </a>
           <a
-            href=".#"
+            href={`./services/${service.id}`}
             style={{
               display: "flex",
               alignItems: "center",
