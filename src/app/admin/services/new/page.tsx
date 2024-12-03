@@ -91,10 +91,7 @@ const NewServicesPage = () => {
         throw new Error(`Error fetching events: ${eventsError.message}`);
       }
 
-      eventsRef.current = [
-        { value: "", label: "選択してください" },
-        ...eventsData.map((event) => ({ value: event.id, label: event.name }))
-      ];
+      eventsRef.current = eventsData.map((event) => ({ value: event.id, label: event.name }));
       reset({ ...getValues(), event_id: undefined, award_id: undefined});
       setFormFields(useFormFields(control, eventsRef.current, [], menbersRef.current, techsRef.current, "", "", onChangeEventYear,onChangeEvent));
     }
