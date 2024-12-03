@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from "next/navigation";
 import { set, SubmitHandler, useForm } from "react-hook-form";
 import { ServiceInputSchema, ServiceOutputSchema, resolver } from "../../../new/serviceFormSchema";
@@ -37,7 +37,7 @@ const NewServicesPage = ({
 }: {
     params: { service_id: string };
 }) => {
-    const { control, handleSubmit, reset } = useForm<ServiceInputSchema>({
+    const { control, handleSubmit, reset, getValues } = useForm<ServiceInputSchema>({
         mode: "onChange",
         resolver: resolver,
         // defaultValues: {
@@ -77,6 +77,11 @@ const NewServicesPage = ({
 
     const [isChangeEventYear, setIsChangeEventYear] = useState(false);
     const [isChangeEvent, setIsChangeEvent] = useState(false);
+
+    const eventsRef = useRef<EventData[]>([]);
+    const awardsRef = useRef<AwardData[]>([]);
+    const menbersRef = useRef<MenberData[]>([]);
+    const techsRef = useRef<TechData[]>([]);
 
     useEffect(() => {
         const fetchEventsData = async () => {
@@ -164,15 +169,35 @@ const NewServicesPage = ({
                     const fileName = splitURl[splitURl.length - 1];
                     setCheckImageDataURL(fileName);
                 }
-                if(serviceData.video){
+                if (serviceData.video) {
                     const splitURl = serviceData.video.split('/');
                     const fileName = splitURl[splitURl.length - 1];
                     setCheckVideoDataURL(fileName);
                 }
 
-                return serviceData || [];
+                if (serviceData.event_id) {
+                    try {
+                        const { data: eventYearData, error: eventYearError } = await supabase
+                            .from('events')
+                            .select('year')
+                            .order('id', { ascending: true })
+                            .eq('id', serviceData.event_id);
+
+                        if (eventYearError) {
+                            throw new Error(`Error fetching events: ${eventYearError.message}`);
+                        }
+                        serviceData.eventYear = eventYearData[0].year;
+                        console.log(eventYearData[0]);
+                        console.log(serviceData);
+                    }
+                    catch (error) {
+                        console.error(error);
+                    }
+                }
+
+                return serviceData || {};
             } catch (error) {
-                return [];
+                return {};
             }
         }
 
@@ -282,20 +307,20 @@ const NewServicesPage = ({
 
         const fetchData = async () => {
             try {
-                const [events, awards, members, techs, serviceData, serviceMembers,serviceTechs, webURL, appURL, googleURL, otherURL]: [EventData[], AwardData[], MenberData[], TechData[], serviceTableData | undefined, serviceMemberData[], serviceTechsData[], string, string, string, string] = await Promise.all([fetchEventsData(), fetchAwardsData(), fetchMenbersData(), fetchTechsData(), fetchServiceData(), fetchServiceMembersData(), fetchServiceTechnologiesData(), fetchurlWebData(), fetchurlAppStoreData(), fetchurlGooglePlayData(), fetchurlOthersData()]);
-                setFormFields(useFormFields(control, events, awards, members, techs, serviceData?.image ? `${ serviceData?.image}?${new Date().getTime()}` : undefined,  serviceData?.video ? `${ serviceData?.video}?${new Date().getTime()}` : undefined));
+                const [events, awards, members, techs, serviceData, serviceMembers, serviceTechs, webURL, appURL, googleURL, otherURL]: [EventData[], AwardData[], MenberData[], TechData[], serviceTableData | undefined, serviceMemberData[], serviceTechsData[], string, string, string, string] = await Promise.all([fetchEventsData(), fetchAwardsData(), fetchMenbersData(), fetchTechsData(), fetchServiceData(), fetchServiceMembersData(), fetchServiceTechnologiesData(), fetchurlWebData(), fetchurlAppStoreData(), fetchurlGooglePlayData(), fetchurlOthersData()]);
+                setFormFields(useFormFields(control, events, awards, members, techs, serviceData?.image ? `${serviceData?.image}?${new Date().getTime()}` : undefined, serviceData?.video ? `${serviceData?.video}?${new Date().getTime()}` : undefined, onChangeEventYear,onChangeEvent));
                 reset({
                     name: serviceData?.name || "",
                     comment: serviceData?.comment || "",
                     description: serviceData?.description || "",
                     team_name: serviceData?.team_name || "",
                     release_year: serviceData?.release_year || 0,
-                    release_month: serviceData?.release_month || 0, 
+                    release_month: serviceData?.release_month || 0,
                     development_period_num: serviceData?.development_period_num || 0,
                     development_period_unit: serviceData?.development_period_unit || "",
                     teamMembers: serviceMembers || [],
                     technologiesId: serviceTechs || [],
-                    eventYear: 0,
+                    eventYear: serviceData?.eventYear || 0,
                     event_id: serviceData?.event_id || 0,
                     award_id: serviceData?.award_id || 0,
                     url_web: webURL || "",
@@ -305,9 +330,15 @@ const NewServicesPage = ({
                     thumbnailImage: undefined,
                     demoVideo: undefined,
                     is_visible: serviceData?.is_visible || true,
-                    });
-                    setImageDataURL(serviceData?.image);
-                    setVideoDataURL(serviceData?.video);
+                });
+                eventsRef.current = events;
+                awardsRef.current = awards;
+                menbersRef.current = members;
+                techsRef.current = techs;
+                setImageDataURL(serviceData?.image);
+                setVideoDataURL(serviceData?.video);
+                onChangeEventYear(serviceData?.eventYear?.toString() || "");
+                onChangeEvent(serviceData?.event_id?.toString() || "");
 
             } catch (error) {
                 console.error(error);
@@ -317,6 +348,47 @@ const NewServicesPage = ({
         fetchData();
         fetchServiceData();
     }, []);
+
+    const onChangeEventYear = async (item: string) => {
+        try {
+            const { data: eventsData, error: eventsError } = await supabase
+                .from('events')
+                .select('id, name')
+                .order('id', { ascending: true })
+                .eq('year', item);
+
+            if (eventsError) {
+                throw new Error(`Error fetching events: ${eventsError.message}`);
+            }
+
+            eventsRef.current = eventsData.map((event) => ({ value: event.id, label: event.name }));
+            reset({ ...getValues(), event_id: undefined, award_id: undefined });
+            setFormFields(useFormFields(control, eventsRef.current, [], menbersRef.current, techsRef.current, "", "", onChangeEventYear, onChangeEvent));
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+
+    const onChangeEvent = async (item: string) => {
+        try {
+            const { data: awardsData, error: awardsError } = await supabase
+                .from('awards')
+                .select('id, name')
+                .order('id', { ascending: true })
+                .eq('event_id', item);
+
+            if (awardsError) {
+                throw new Error(`Error fetching awards: ${awardsError.message}`);
+            }
+
+            awardsRef.current = awardsData.map((award) => ({ value: award.id, label: award.name }));
+            setFormFields(useFormFields(control, eventsRef.current, awardsRef.current, menbersRef.current, techsRef.current, "", "", onChangeEventYear, onChangeEvent));
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
 
     const handleCancel = () => {
         const confirmDelete = window.confirm("編集内容が破棄されますがよろしいですか？");
