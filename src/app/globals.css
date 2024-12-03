@@ -1,3 +1,12 @@
+:root {
+  --primary: #00aeef;
+  --light-primary: #85d5f3;
+  --secondary: #4d4d4d;
+  --light: #eaeff2;
+  --text: #3f4154;
+  --border: #9cabc7;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -6,7 +15,7 @@
 
 html,
 body {
-  background-color: #FAFBFB;
+  background-color: #fafbfb;
   max-width: 100vw;
   overflow-x: hidden;
 }
@@ -19,12 +28,18 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-    font-family: 'HannariMincho', sans-serif !important;
+  font-family: "HannariMincho", sans-serif !important;
 }
 
 main {
   padding-top: calc(32px + 5rem);
   min-height: 100vh;
+  @media (max-width: 700px) {
+    padding-top: calc(32px + 3rem);
+  }
+  @media (max-width: 600px) {
+    padding-top: calc(32px + 2rem);
+  }
 }
 
 a {
@@ -39,8 +54,8 @@ a {
 }
 
 @font-face {
-  font-family: 'HannariMincho';
-  src: url('/HannariMincho-Regular.otf') format('opentype');
+  font-family: "HannariMincho";
+  src: url("/HannariMincho-Regular.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }

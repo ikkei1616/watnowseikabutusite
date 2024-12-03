@@ -2,18 +2,13 @@
 .container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
   background-color: #f5f5f5;
-  padding: 20px; /* 余白を追加 */
-}
+  padding: calc(32px + 5rem) 100px 0 100px;
 
-/* 見出しスタイル */
-.heading {
-  font-size: 2rem;
-  color: #333;
-  margin-bottom: 40px; /* 見出しとリンクリストの間に余白を追加 */
+  @media screen and (max-width: 768px) {
+    padding: calc(32px + 5rem) 20px 0 20px;
+  }
 }
 
 /* リストのスタイル */
@@ -22,12 +17,12 @@
   padding: 0;
   margin: 0; /* リストの余白をリセット */
   width: 100%; /* リストを100%幅に設定 */
-  max-width: 400px; /* 最大幅を設定 */
 }
 
 /* リスト項目のスタイル */
 .listItem {
-  margin: 10px 0; /* リスト項目の間隔を確保 */
+  margin-bottom: 24px; /* リスト項目の間隔を確保 */
+  width: 100%;
 }
 
 /* リンクのスタイル */
@@ -35,16 +30,17 @@
   display: block; /* ボタンをブロック要素にして幅を100%に */
   width: 100%; /* リンクを100%幅に設定 */
   font-size: 1.5rem;
-  color: #0070f3;
+  background-color: #eaeff2;
+  color: var(--text);
   text-decoration: none;
   padding: 10px 20px;
   text-align: center; /* テキストを中央に配置 */
-  border: 2px solid #0070f3;
+  border: 2px solid var(--border);
   border-radius: 5px;
   transition: background-color 0.3s, color 0.3s;
 }
 
 .link:hover {
-  background-color: #0070f3;
+  background-color: var(--border);
   color: #fff;
 }
