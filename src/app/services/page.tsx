@@ -110,8 +110,7 @@ const Home: React.FC = () => {
       </div>
       <Pagination
         className={styles.pageNation}
-        // count={Math.ceil(totalServicesCount / servicesPerPage)}
-        count={8}
+        count={Math.ceil(totalServicesCount / servicesPerPage)}
         onChange={handlePageChange}
         renderItem={(item) => (       
           <PaginationItem
