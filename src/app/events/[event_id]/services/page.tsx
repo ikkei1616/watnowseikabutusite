@@ -2,9 +2,11 @@
 import { supabase } from "@/supabase/supabase";
 import { useEffect, useState } from "react";
 import ServiceCard2 from "@/components/ServiceCard2";
+import Header from "@/components/Header";
 import EventHeader from "@/components/EventHeader";
 import ServicesContainer from "@/components/ServicesContainer";
 import { EventAllService } from "@/types/Service";
+import { HeaderMode } from "@/types/HeaderMode";
 
 
 
@@ -55,6 +57,7 @@ const EventServices = ({ params }: { params: { event_id: string } }) => {
 
   return (
     <>
+      <Header mode={HeaderMode.SERVICES}></Header>
       <EventHeader title={eventName} eventId={eventId}></EventHeader>
       {/* <EventHeader title={eventName[0].name} eventId={eventId}></EventHeader> */}
       <ServicesContainer>
