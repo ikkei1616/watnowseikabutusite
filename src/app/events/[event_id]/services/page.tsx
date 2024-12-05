@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import { EventName } from "@/types/Event";
 import styles from "./page.module.css";
 import { useTheme } from "@mui/material/styles";
+import ServicesContainer from "@/components/ServicesContainer";
 
 const EventServices = ({ params }: { params: { event_id: string } }) => {
   const [eventId] = useState<string>(params.event_id);
@@ -58,11 +59,11 @@ const EventServices = ({ params }: { params: { event_id: string } }) => {
     <>
       <EventHeader title={eventName} eventId={eventId}></EventHeader>
       {/* <EventHeader title={eventName[0].name} eventId={eventId}></EventHeader> */}
-      <Box className={styles.cardList}>
+      <ServicesContainer>
         {test.map((service) => (
           <ServiceCard2 key={service.id} service={service}></ServiceCard2>
         ))}
-      </Box>
+      </ServicesContainer>
     </>
   );
 };
