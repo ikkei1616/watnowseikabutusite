@@ -1,26 +1,30 @@
 import { supabase } from "@/supabase/supabase";
-import type { EventAllService } from "@/types/Service";
+import type { EventAllService, Service } from "@/types/Service";
 import { Card, Typography, Box, CardMedia } from "@mui/material";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 interface ServiceCard2Components {
   service: EventAllService;
 }
 
-const ServiceCard2: React.FC<ServiceCard2Components> = ({ service }) => {
-  const [awardName, setAwardName] = useState();
+interface ServiceCardWithoutAwardComponents {
+  service: Service;
+}
+
+const ServiceCardWithAward: React.FC<ServiceCard2Components> = ({ service }) => {
   return (
     <Box sx={{ width: "100%" }}>
       <Box
         sx={{
-          margin: "0px 0 10px 10px",
+          margin: "0 0 10px 10px",
           color: "#B09001",
           fontFamily: "HannariMincho",
           fontSize: "24px",
-          lineHeight: "40px",
+          height:"24px"
         }}
       >
-        {service?.awards?.name || "erroe"}
+        {service?.awards?.name || ""}
       </Box>
       <Card
         sx={{
@@ -53,7 +57,7 @@ const ServiceCard2: React.FC<ServiceCard2Components> = ({ service }) => {
               }}
             >
               <a
-                href=".#"
+                href={`/services/${service.id}`}
                 style={{
                   fontSize: "12px",
                   whiteSpace: "nowrap",
@@ -64,7 +68,7 @@ const ServiceCard2: React.FC<ServiceCard2Components> = ({ service }) => {
                 詳細を見る
               </a>
               <a
-                href=".#"
+                href={`/services/${service.id}`}
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -106,7 +110,7 @@ const ServiceCard2: React.FC<ServiceCard2Components> = ({ service }) => {
               }}
             >
               <a
-                href=".#"
+                href={`/services/${service.id}`}
                 style={{
                   fontSize: "12px",
                   whiteSpace: "nowrap",
@@ -117,7 +121,7 @@ const ServiceCard2: React.FC<ServiceCard2Components> = ({ service }) => {
                 詳細を見る
               </a>
               <a
-                href=".#"
+                href={`/services/${service.id}`}
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -148,6 +152,7 @@ const ServiceCard2: React.FC<ServiceCard2Components> = ({ service }) => {
         >
           <Box
             sx={{
+              position:"relative",
               backgroundColor: "#EAEFF2",
               margin: "0 auto",
               width: "100%",
@@ -158,16 +163,21 @@ const ServiceCard2: React.FC<ServiceCard2Components> = ({ service }) => {
               borderRadius: "15px",
             }}
           >
-            <img
-              src={service.image ?? "/default-image.jpg"}
-              alt="service image"
-              style={{
-                width: "100%", // 親要素の幅いっぱいに広げる
-                height: "100%", // 親要素の高さいっぱいに広げる
-                objectFit: "cover", // アスペクト比を保ちながら親要素を満たす
-                borderRadius: "15px", // Boxと同じように角を丸める（必要なら）
-              }}
-            />
+            {service.image ? (
+              <Image
+                src={service.image || "/default-image.jpg"}
+                alt="service image"
+                fill={true}
+                style={{
+                  objectFit: "cover", // アスペクト比を保ちながら親要素を満たす
+                  borderRadius: "15px", // Boxと同じように角を丸める（必要なら）
+                }}
+              />
+            ):(
+              <Box >
+                <p>画像がありません</p>
+              </Box>
+            )}
           </Box>
         </Box>
 
@@ -189,4 +199,5 @@ const ServiceCard2: React.FC<ServiceCard2Components> = ({ service }) => {
   );
 };
 
-export default ServiceCard2;
+
+export default ServiceCardWithAward;
