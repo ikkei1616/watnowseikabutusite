@@ -1,5 +1,5 @@
 
-import { Award } from "@/types/Award";
+import Award  from "@/types/Award";
 import { ReactNode } from "react";
 
 //Service一覧ページで利用する型定義
@@ -10,6 +10,7 @@ export interface Service {
   description?: string;
   comment?: string;
   award_id: string;
+  awards?: Award;
 }
 
 export interface EventAllService {
@@ -19,7 +20,7 @@ export interface EventAllService {
   description?: string;
   comment?: string;
   award_id: string;
-  awards: {id:string,name:string};
+  awards?: {id:string,name:string};
 }
 
 //Service詳細ページで利用する型定義
@@ -32,7 +33,6 @@ export interface ServiceDetail extends Service {
   description?: string;
   team_name: string;
   create_date?: string;
-  awards: Award[];
 }
 
 export interface AdminServiceList {
