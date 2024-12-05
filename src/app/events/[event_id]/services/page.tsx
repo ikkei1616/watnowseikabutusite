@@ -1,15 +1,13 @@
 "use client";
 import { supabase } from "@/supabase/supabase";
 import { useEffect, useState } from "react";
-import { EventAllService } from "@/types/Service";
 import ServiceCard2 from "@/components/ServiceCard2";
-import PageHeader from "@/components/PageHeader";
 import EventHeader from "@/components/EventHeader";
-import Box from "@mui/material/Box";
-import { EventName } from "@/types/Event";
-import styles from "./page.module.css";
-import { useTheme } from "@mui/material/styles";
 import ServicesContainer from "@/components/ServicesContainer";
+import { EventAllService } from "@/types/Service";
+
+
+
 
 const EventServices = ({ params }: { params: { event_id: string } }) => {
   const [eventId] = useState<string>(params.event_id);
