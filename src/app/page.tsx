@@ -1,5 +1,10 @@
-import LoadingPage from "@/components/loading/LoadingPage";
+"use client";
+import SplashScreen from "@/components/SplashScreen";
+import useSplashScreen from "@/hooks/useSplashScreen";
 
 export default function Home() {
-  return <LoadingPage />;
+  const { isMounted } = useSplashScreen();
+
+  return <>{isMounted && <SplashScreen />}</>;
+  
 }
