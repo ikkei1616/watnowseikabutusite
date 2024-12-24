@@ -13,9 +13,6 @@ import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import Stack from "@mui/material/Stack";
 
-// import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-// import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-
 const Home: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
@@ -58,7 +55,7 @@ const Home: React.FC = () => {
 
     fetchService();
     fetchEventCount();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     const start = (page - 1) * servicesPerPage;
@@ -116,13 +113,16 @@ const Home: React.FC = () => {
         onChange={handlePageChange}
         renderItem={(item) => (
           <PaginationItem
-            // slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
             {...item}
+            slots={{
+              previous: () => <div>←</div>,
+              next: () => <div>→</div>, // カスタム文字列
+            }}
           />
         )}
         sx={{
           "&.MuiPagination-root": {
-            marginTop: "0px",
+            marginTop: "30px",
             marginBottom: "54px",
           },
           "& .MuiPagination-ul": {
@@ -130,7 +130,24 @@ const Home: React.FC = () => {
             marginLeft: "auto",
             marginRight: "auto",
           },
+
           "& .MuiButtonBase-root": {
+            color: "#85D5F3",
+            fontFamily: "HannariMincho",
+            fontSize: "22px",
+            alignItems: "center",
+            "&:hover": {
+              backgroundColor: "#85D5F34D", // ホバー時に変更したい色を指定
+            },
+          },
+          "& .Mui-selected": {
+            color: "#fff",
+          },
+          "& .mui-nb7bwn-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected":
+            {
+              backgroundColor: "#85D5F3",
+            },
+          "& .mui-1iajisb-MuiPaginationItem-root": {
             color: "#85D5F3",
           },
         }}

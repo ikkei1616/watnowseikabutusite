@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Box, Typography, Avatar } from "@mui/material";
 import type { UserDetail } from "@/types/User";
 import DottedDivider from "@/components/DottedDivider";
@@ -5,7 +6,7 @@ import DottedDivider from "@/components/DottedDivider";
 interface DisplayIconAndNameProps
   extends Pick<
     UserDetail,
-    "nickname" | "accountID" | "introduction" | "image"
+    "nickname" | "accountID" | "introduction" | "image" | "isVisible"
   > {}
 
 const DisplayIconAndName = ({ user }: { user: DisplayIconAndNameProps }) => {
@@ -123,24 +124,67 @@ const DisplayIconAndName = ({ user }: { user: DisplayIconAndNameProps }) => {
             </Typography>
           </Box>
           <DottedDivider color="#878686" />
-          <Typography
-            variant="body1"
-            sx={{
-              fontSize: "1.4rem",
-              fontFamily: "HannariMincho",
-              padding: "8px",
-              //   はみ出たら折り返す
-              overflowWrap: "break-word",
-              "@media screen and (max-width: 900px)": {
-                fontSize: "1.25rem",
-              },
-              "@media screen and (max-width: 500px)": {
-                fontSize: "0.75rem",
-              },
-            }}
-          >
-            {user.introduction}
-          </Typography>
+          {user.isVisible ? (
+            <Typography
+              variant="body1"
+              sx={{
+                fontSize: "1.4rem",
+                fontFamily: "HannariMincho",
+                padding: "8px",
+                //   はみ出たら折り返す
+                overflowWrap: "break-word",
+                "@media screen and (max-width: 900px)": {
+                  fontSize: "1.25rem",
+                },
+                "@media screen and (max-width: 500px)": {
+                  fontSize: "0.75rem",
+                },
+              }}
+            >
+              {user.introduction}
+            </Typography>
+          ) : (
+            <Box
+              sx={{
+                paddingTop: "80px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                "@media screen and (max-width: 750px)": {
+                  paddingTop: "30px",
+                },
+                "@media screen and (max-width: 500px)": {
+                  paddingTop: "20px",
+                },
+              }}
+            >
+              <Image
+                src="/lock.svg"
+                alt={"南京錠の画像"}
+                width={40}
+                height={40}
+              />
+              <Typography
+                variant="body1"
+                sx={{
+                  fontSize: "1.4rem",
+                  fontFamily: "HannariMincho",
+                  textAlign: "center",
+                  //   はみ出たら折り返す
+                  overflowWrap: "break-word",
+                  "@media screen and (max-width: 900px)": {
+                    fontSize: "1.25rem",
+                  },
+                  "@media screen and (max-width: 500px)": {
+                    fontSize: "0.75rem",
+                  },
+                }}
+              >
+                非公開ユーザです
+              </Typography>
+            </Box>
+          )}
         </Box>
       </Box>
     </Box>
