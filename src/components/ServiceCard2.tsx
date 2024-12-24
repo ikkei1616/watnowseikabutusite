@@ -21,7 +21,10 @@ const ServiceCardWithAward: React.FC<ServiceCard2Components> = ({ service }) => 
           color: "#B09001",
           fontFamily: "HannariMincho",
           fontSize: "24px",
-          height:"24px"
+          height:"24px",
+          "@media screen and (max-width:500px)":{
+            fontSize:"18px",
+          }
         }}
       >
         {service?.awards?.name || ""}
