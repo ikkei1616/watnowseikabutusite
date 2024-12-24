@@ -13,6 +13,9 @@ interface ServiceCardWithoutAwardComponents {
 }
 
 const ServiceCardWithAward: React.FC<ServiceCard2Components> = ({ service }) => {
+  const [hasImgError,setHasImgError] = useState(false);
+
+  
   return (
     <Box sx={{ width: "100%" }}>
       <Box
@@ -166,11 +169,12 @@ const ServiceCardWithAward: React.FC<ServiceCard2Components> = ({ service }) => 
               borderRadius: "15px",
             }}
           >
-            {service.image ? (
+            {!hasImgError ? (
               <Image
                 src={service.image || "/default-image.jpg"}
                 alt="service image"
                 fill={true}
+                onError={()=>{setHasImgError(true)}}
                 style={{
                   objectFit: "cover", // アスペクト比を保ちながら親要素を満たす
                   borderRadius: "15px", // Boxと同じように角を丸める（必要なら）
