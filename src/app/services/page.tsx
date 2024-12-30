@@ -8,7 +8,7 @@ import { HeaderMode } from "@/types/HeaderMode";
 import { supabase } from "@/supabase/supabase";
 import type { Service } from "@/types/Service";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import ServiceCard2 from "@/components/ServiceCard";
+import ServiceAwardCard from "@/components/ServiceAwardCard";
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import Stack from '@mui/material/Stack';
@@ -101,7 +101,7 @@ const Home: React.FC = () => {
       <div className={styles.serviceGridList}>
         {services.map((service) => (
           <div key={service.id}>
-            <ServiceCard2 service={service} />
+            <ServiceAwardCard service={service} />
           </div>
         ))}
       </div>

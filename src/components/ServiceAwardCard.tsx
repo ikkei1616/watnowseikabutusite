@@ -4,7 +4,7 @@ import { Card, Typography, Box, CardMedia } from "@mui/material";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-interface ServiceCard2Components {
+interface ServiceAwardComponents {
   service: EventAllService;
 }
 
@@ -12,7 +12,7 @@ interface ServiceCardWithoutAwardComponents {
   service: Service;
 }
 
-const ServiceCardWithAward: React.FC<ServiceCard2Components> = ({ service }) => {
+const ServiceAwardCard: React.FC<ServiceAwardComponents> = ({ service }) => {
   const [hasImgError,setHasImgError] = useState(false);
 
   
@@ -207,4 +207,4 @@ const ServiceCardWithAward: React.FC<ServiceCard2Components> = ({ service }) => 
 };
 
 
-export default ServiceCardWithAward;
+export default ServiceAwardCard;
