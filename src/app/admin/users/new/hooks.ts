@@ -1,4 +1,4 @@
-import { ServiceInputSchema } from "./userFormSchema";
+import { UserInputSchema } from "./userFormSchema";
 import { Control } from "react-hook-form";
 import { FieldValues } from "react-hook-form";
 import { FormFactoryProps } from "@/components/form/FormFactory";
@@ -14,10 +14,10 @@ export type FormField<T extends FieldValues> = {
 } & FormFactoryProps<T>;
 
 export const useFormFields = (
-    control: Control<ServiceInputSchema>,
+    control: Control<UserInputSchema>,
     techs?: teckData[],
     defaultIcon?: string
-): { container: string, title: string, fields: FormField<ServiceInputSchema>[] }[] => {
+): { container: string, title: string, fields: FormField<UserInputSchema>[] }[] => {
 
     return [
         {

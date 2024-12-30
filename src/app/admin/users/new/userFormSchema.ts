@@ -9,7 +9,7 @@ const imageSchema = z.instanceof(File)
         message: 'ファイルのサイズは5MB以下でなければなりません。',
     });
 
-const serviceSchema = z.object({
+const userSchema = z.object({
     iconImage: z.union([z.instanceof(File), z.undefined()]).optional()
         .refine(file => file === undefined || imageSchema.safeParse(file).success, {
             message: 'サムネイル画像の形式またはサイズが無効です。',
@@ -32,6 +32,6 @@ const serviceSchema = z.object({
       }),
 });
 
-export type ServiceInputSchema = z.input<typeof serviceSchema>;
-export type ServiceOutputSchema = z.output<typeof serviceSchema>;
-export const resolver = zodResolver(serviceSchema);
+export type UserInputSchema = z.input<typeof userSchema>;
+export type UserOutputSchema = z.output<typeof userSchema>;
+export const resolver = zodResolver(userSchema);

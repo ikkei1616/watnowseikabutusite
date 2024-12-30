@@ -94,11 +94,12 @@ const ImageInput = <T extends FieldValues>({
         </ButtonStyled>
         {preview && type === "image" && <ImagePreview src={preview as string} alt="Preview" />}
         {preview && type === "video" && (
-          <VideoPreview controls>
+          <VideoPreview key={preview as string} controls>
             <source src={preview as string} type="video/mp4" />
             Your browser does not support the video tag.
           </VideoPreview>
         )}
+
       </InputWrapper>
     </FieldWrapper>
   );

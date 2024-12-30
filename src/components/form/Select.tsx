@@ -1,6 +1,6 @@
 import React from 'react';
 import { FieldValues, useController, Control, Path } from 'react-hook-form';
-import { Select, MenuItem } from '@mui/material';
+import { Select, MenuItem, SelectChangeEvent } from '@mui/material';
 import FieldWrapper from './FieldWrapper';
 
 export type Option = {
@@ -15,6 +15,7 @@ export type SelectProps<T extends FieldValues> = {
   options: Option[];
   ending?: string;
   required?: boolean;
+  onChangeItem?: (item:string) => void;
 };
 
 const SelectInput = <T extends FieldValues>({
@@ -23,12 +24,20 @@ const SelectInput = <T extends FieldValues>({
   control,
   name,
   ending,
-  required
+  required,
+  onChangeItem
 }: SelectProps<T>): JSX.Element => {
   const {
     field: { value, onChange, onBlur, ref },
     fieldState: { error },
   } = useController({ name, control });
+
+  const handleChange = (event: SelectChangeEvent) => {
+    onChange(event);
+    if (onChangeItem) {
+      onChangeItem(event.target.value);
+    }
+  }
 
   return (
     <div style={{
@@ -37,7 +46,7 @@ const SelectInput = <T extends FieldValues>({
       <FieldWrapper label={label} errorMessage={error?.message} required={required}>
         <Select
           value={value || ''}
-          onChange={onChange}
+          onChange={handleChange}
           onBlur={onBlur}
           inputRef={ref}
           sx={{
