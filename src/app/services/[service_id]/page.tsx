@@ -305,8 +305,24 @@ export default function ServiceDetailPage({
                   borderRadius: "15px",
                 }}
               >
-                <Box>
-                  <p>画像が見つかりませんでした</p>
+                <Box sx={{ display: "flex", objectFit: "cover" }}>
+                  <p style={{fontSize:"24px"}}>画像が見つかりませんでした</p>
+                  <p
+                    style={{
+                      position: "absolute",
+                      top: "78%",
+                      left: "50%",
+                      fontStyle: "bold",
+                      transform: "translate(-50%, -50%)",
+                      fontSize: "100px",
+                      display: "flex",
+                      opacity: "60%",
+                      color: "#fff",
+                      objectFit: "contain",
+                    }}
+                  >
+                    NotFound
+                  </p>
                 </Box>
               </Box>
             )}
@@ -322,10 +338,19 @@ export default function ServiceDetailPage({
               </p>
               {/* <p className={styles.details}>説明: {service.description}</p> */}
               <p className={styles.details}>チーム名</p>
-              <p className={styles.detailsdata}>
-                {" "}
-                {service.teamName !== "" ? service.teamName : "不明"}
-              </p>
+
+              {service.teamName ? (
+                <>
+                  <p className={styles.detailsdata}> {service.teamName}</p>
+                </>
+              ) : (
+                <p
+                  className={styles.detailsdata}
+                  style={{ opacity: "50%", fontSize: "20px" }}
+                >
+                  チーム名の情報がありません
+                </p>
+              )}
               {/* 関連イベントを表示 */}
               <p className={styles.details}>関連イベント</p>
               {relatedEventName ? (
@@ -333,8 +358,13 @@ export default function ServiceDetailPage({
                   <p className={styles.detailsdata}> {relatedEventName}</p>
                 </>
               ) : (
-                <p className={styles.detailsdata}>関連イベントはありません</p>
-              )}{" "}
+                <p
+                  className={styles.detailsdata}
+                  style={{ opacity: "50%", fontSize: "20px" }}
+                >
+                  関連イベントはありません
+                </p>
+              )}
             </div>
           </div>
           <DetailContainer>
