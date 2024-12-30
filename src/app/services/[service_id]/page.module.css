@@ -6,6 +6,8 @@
   min-height: 100vh;
   background-color: #fafafb;
   flex-direction: column;
+  width: 92%;
+  justify-self: center;
 }
 
 .head {
@@ -13,7 +15,7 @@
   /* margin-left: 60px;
   margin-right: 60px; */
   display: flex;
-  width: 92%;
+  width: 100%;
   border-bottom: 2px solid #00aeef;
 }
 
@@ -38,13 +40,14 @@
   justify-content: center;
   margin-top: 30px;
   width: 100%;
+  margin-bottom: 100px;
 }
 
 .container {
   justify-content: center;
   padding: 37px;
+  width: 100%;
   /* max-width: 900px; */
-  width: 85%;
   background-color: #fff;
   border-radius: 40px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -65,12 +68,15 @@
   font-weight: lighter;
   font-size: 64px;
   color: #00aeef;
+  /* max-width: 70%; */
+  max-height: 113px;
+  z-index: 200;
 }
 
 .comments {
   font-size: 24px;
   color: #333;
-  padding-left: 40px;
+  padding-left: 20px;
   margin-bottom: 8px;
 }
 
@@ -79,11 +85,39 @@
   /* margin-left: 37px; */
 }
 
-.karada img {
+.image {
   min-width: 52%;
   min-height: 320px;
+  margin-top: 40px;
   object-fit: cover;
   border-radius: 30px;
+  border: 1px solid #333;
+}
+.award {
+  display: flex;
+  align-items: start;
+  position:absolute;
+  width: 100%;
+  /* margin-left: 37px; */
+}
+.award img {
+  z-index: 100;
+  display: flex;
+  height: auto;
+  margin-top: 0px;
+  align-self: flex-start;
+  min-width: 70px;
+  max-width: 90%;
+  min-height: fit-content;
+}
+.awardName {
+  font-size: 24px;
+  color: #B09001;
+  margin-top: 10px;
+  /* position: absolute; */
+  margin-left: 10px;
+  margin-bottom: 10px;
+  width: 100%;
 }
 
 .detailsContainer {
@@ -99,15 +133,16 @@
   font-size: 1.1rem;
   color: #878686;
   margin-top: 10px;
-  margin-bottom: -3px;
+  margin-bottom: 0px;
   margin-left: 24px;
   padding-bottom: 8px;
   width: 100%;
   flex-grow: 1;
+  max-height: 40px;
   border-bottom: 2px dotted #555;
 }
 .detailsdata {
-  margin: 14px 24px;
+  margin: 20px 24px;
   font-size: 1.7rem;
   height: 44px;
   display: flex;

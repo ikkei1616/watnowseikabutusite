@@ -21,6 +21,8 @@ import Item from "@/components/Item";
 import { url } from "inspector";
 import CreatorItem from "@/components/CreatorItem";
 
+import { Box } from "@mui/material";
+
 export default function ServiceDetailPage({
   params,
 }: {
@@ -103,11 +105,15 @@ export default function ServiceDetailPage({
             releaseMonth: serviceData.release_month,
             name: serviceData.name,
             teamName: serviceData.team_name,
+            comment: serviceData.comment,
             developmentPeriod: `${serviceData.development_period_num}${serviceData.development_period_unit}`,
             description: serviceData.description,
             image: serviceData.image,
             event: serviceData.events,
-            awardName: serviceData.awards.name,
+
+            awardName:
+              serviceData.awards !== null ? serviceData.awards.name : undefined,
+
             techStack: serviceData.services_technologies.map(
               (technology: any) => technology.technologies
             ),
@@ -264,6 +270,22 @@ export default function ServiceDetailPage({
           </div>
 
           <div className={styles.karada}>
+            <div className={styles.award}>
+              {service.awardName != null ? (
+                <img
+                  src={"/goldbox.svg"}
+                  alt={"award"}
+                  className={styles.awardImage}
+                />
+              ) : (
+                <p></p> // 賞が存在しない場合のフォールバック
+              )}
+              {service.awardName !== null ? (
+                <p className={styles.awardName}>{service.awardName}</p>
+              ) : (
+                <p>省内</p> // 賞が存在しない場合のフォールバック
+              )}
+            </div>
             {service.image ? (
               <img
                 className={styles.image}
@@ -271,24 +293,47 @@ export default function ServiceDetailPage({
                 alt={service.name}
               />
             ) : (
-              <p>画像がありません</p> // 画像が存在しない場合のフォールバック
+              <Box
+                sx={{
+                  position: "relative",
+                  backgroundColor: "#EAEFF2",
+                  margin: "0 auto",
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: "15px",
+                }}
+              >
+                <Box>
+                  <p>画像が見つかりませんでした</p>
+                </Box>
+              </Box>
             )}
+
             <div className={styles.detailsContainer}>
               <p className={styles.details}>作成月</p>
               <p className={styles.detailsdata}>
-                {service.releaseYear}/{service.releaseMonth}<div className={styles.period}>{service.developmentPeriod &&`(${service.developmentPeriod})`}</div>
+                {service.releaseYear}/{service.releaseMonth}
+                <div className={styles.period}>
+                  {service.developmentPeriod &&
+                    `(${service.developmentPeriod})`}
+                </div>
               </p>
               {/* <p className={styles.details}>説明: {service.description}</p> */}
               <p className={styles.details}>チーム名</p>
-              <p className={styles.detailsdata}> {service.teamName}</p>
+              <p className={styles.detailsdata}>
+                {" "}
+                {service.teamName !== "" ? service.teamName : "不明"}
+              </p>
               {/* 関連イベントを表示 */}
+              <p className={styles.details}>関連イベント</p>
               {relatedEventName ? (
                 <>
-                  <p className={styles.details}>関連イベント</p>
                   <p className={styles.detailsdata}> {relatedEventName}</p>
                 </>
               ) : (
-                <p>関連イベントがありません</p>
+                <p className={styles.detailsdata}>関連イベントはありません</p>
               )}{" "}
             </div>
           </div>
