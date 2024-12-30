@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Box from "@mui/material/Box";
 import Link from "next/link";
+import SvgAnimation from "./SvgAnimation";
 
 const SplashScreen = () => {
-  const [bgColor, setBgColor] = useState("#00009F"); // 初期色 (濃い青)
+  const [bgColor, setBgColor] = useState("#fff"); // 初期色 (濃い青)
+  const [isBoxVisible, setIsBoxVisible] = useState(true);
   const [nowLoadingStyle, setNowLoadingStyle] = useState({
     opacity: 0,
     transform: "scale(1)", // 初期サイズ
@@ -61,9 +63,9 @@ const SplashScreen = () => {
         step += 1;
         const progress = Math.min(step / 100, 1); // 0 ~ 1 の範囲で進行度
 
-        // 初期値 (#00009F) から最終値 (#00AEFF) への線形補間
-        const startColor = [0, 0, 159]; // #00009F
-        const endColor = [0, 174, 255]; // #00AEFF
+        // 初期値 (#fff) から最終値 (#85D5F3) への線形補間
+        const startColor = [255, 255, 255]; // #fff
+        const endColor = [133, 213, 243]; // #85D5F3
 
         const interpolatedColor = startColor.map((start, i) =>
           Math.round(start + progress * (endColor[i] - start))
@@ -91,7 +93,7 @@ const SplashScreen = () => {
   }, []);
   return (
     <main style={mainStyle}>
-      <Box
+      {/* <Box
         sx={{
           position: "relative",
         }}
@@ -104,12 +106,44 @@ const SplashScreen = () => {
           }}
         >
           <Image
-            src={"/cat.gif"}
+            src={"/cat_clean.gif"}
             alt={"猫ちゃんの画像"}
             width={500}
             height={500}
             priority
           />
+        </Box>
+      </Box> */}
+      <SvgAnimation />
+      {/* <Box
+        sx={{
+          position: "relative",
+        }}
+      >
+        <Box>
+          {!isBoxVisible ? (
+            <Image
+              src={"box_open.svg"}
+              alt={""}
+              width={120}
+              height={120}
+              style={{
+                animation: "shake 0.2s",
+                animationIterationCount: 2,
+              }}
+            />
+          ) : (
+            <Image
+              src={"box.svg"}
+              alt={""}
+              width={100}
+              height={100}
+              style={{
+                animation: "shake 0.2s",
+                animationIterationCount: 2,
+              }}
+            />
+          )}
         </Box>
         {nowLoadingVisible && (
           <Box
@@ -175,7 +209,7 @@ const SplashScreen = () => {
             イベント一覧
           </Link>
         </Box>
-      </Box>
+      </Box> */}
     </main>
   );
 };
