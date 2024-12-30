@@ -418,7 +418,7 @@ const EditServicesPage = ({
                     .eq('user_id', userID);
 
                 if (xIdError) {
-                    console.error('Error inserting url_web:', xIdError);
+                    console.error('Error inserting x_id:', xIdError);
                     window.alert(xIdError.message);
                     setIsLoading(false);
                     return;
@@ -430,7 +430,7 @@ const EditServicesPage = ({
                     .eq('user_id', userID);
 
                 if (xIdError) {
-                    console.error('Error inserting url_web:', xIdError);
+                    console.error('Error inserting x_id:', xIdError);
                     window.alert(xIdError.message);
                     setIsLoading(false);
                     return;
@@ -442,7 +442,7 @@ const EditServicesPage = ({
                 .insert([{ user_id: userID, x_id: x_id }]);
 
             if (xIdError) {
-                console.error('Error inserting url_web:', xIdError);
+                console.error('Error inserting x_id:', xIdError);
                 window.alert(xIdError.message);
                 setIsLoading(false);
                 return;
@@ -458,7 +458,7 @@ const EditServicesPage = ({
                     .eq('user_id', userID);
 
                 if (instagramIdError) {
-                    console.error('Error inserting url_web:', instagramIdError);
+                    console.error('Error inserting instagram_id:', instagramIdError);
                     window.alert(instagramIdError.message);
                     setIsLoading(false);
                     return;
@@ -470,7 +470,7 @@ const EditServicesPage = ({
                     .eq('user_id', userID);
 
                 if (instagramIdError) {
-                    console.error('Error inserting url_web:', instagramIdError);
+                    console.error('Error inserting instagram_id:', instagramIdError);
                     window.alert(instagramIdError.message);
                     setIsLoading(false);
                     return;
@@ -482,7 +482,7 @@ const EditServicesPage = ({
                 .insert([{ user_id: userID, instagram_id: instagram_id }]);
 
             if (instagramIdError) {
-                console.error('Error inserting url_web:', instagramIdError);
+                console.error('Error inserting instagram_id:', instagramIdError);
                 window.alert(instagramIdError.message);
                 setIsLoading(false);
                 return;
@@ -497,7 +497,7 @@ const EditServicesPage = ({
                     .eq('user_id', userID);
 
                 if (githubIdError) {
-                    console.error('Error inserting url_web:', githubIdError);
+                    console.error('Error inserting github_id:', githubIdError);
                     window.alert(githubIdError.message);
                     setIsLoading(false);
                     return;
@@ -509,7 +509,7 @@ const EditServicesPage = ({
                     .eq('user_id', userID);
 
                 if (githubIdError) {
-                    console.error('Error inserting url_web:', githubIdError);
+                    console.error('Error inserting github_id:', githubIdError);
                     window.alert(githubIdError.message);
                     setIsLoading(false);
                     return;
@@ -521,7 +521,7 @@ const EditServicesPage = ({
                 .insert([{ user_id: userID, github_id: github_id }]);
 
             if (githubIdError) {
-                console.error('Error inserting url_web:', githubIdError);
+                console.error('Error inserting github_id:', githubIdError);
                 window.alert(githubIdError.message);
                 setIsLoading(false);
                 return;
