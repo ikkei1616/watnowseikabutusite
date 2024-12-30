@@ -29,8 +29,8 @@ const serviceSchema = z.object({
   teamMembers: z.string().array().optional(),
   technologiesId: z.number().array().optional(),
   eventYear: z.number().optional(),
-  event_id: z.number().optional(),
-  award_id: z.number().optional(),
+  event_id: z.number().optional().nullable(),
+  award_id: z.number().optional().nullable(),
   url_web: z.string().optional().refine(value => value === '' || z.string().url().safeParse(value).success, {
     message: '無効な URL です。',
   }),
