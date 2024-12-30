@@ -331,7 +331,7 @@ const NewServicesPage = ({
                     url_others: otherURL || "",
                     thumbnailImage: undefined,
                     demoVideo: undefined,
-                    is_visible: serviceData?.is_visible || true,
+                    is_visible: serviceData?.is_visible,
                 });
                 eventsRef.current = events;
                 awardsRef.current = awards;
