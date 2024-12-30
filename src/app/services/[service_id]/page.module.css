@@ -91,7 +91,7 @@
   margin-top: 40px;
   object-fit: cover;
   border-radius: 30px;
-  border: 1px solid #333;
+  /* border: 1px solid #333; */
 }
 .award {
   display: flex;
