@@ -15,9 +15,6 @@ const EventHeader = ({
   title: string;
   eventId: string;
 }) => {
-  
-
-
 
   return (
     <Box>
@@ -25,8 +22,8 @@ const EventHeader = ({
         <Box className={styles.headerInner}>
           <h1 className={styles.title}>{title}</h1>
           <Link href={`/events/${eventId}`} className={styles.button} passHref>
-              <p className={`${styles.text} ${styles.pcText}`}>イベント詳細へ</p>
-              <p className={`${styles.text} ${styles.spText}`}>イベントへ</p>    
+            <p className={`${styles.text} ${styles.pcText}`}>イベント詳細へ</p>
+            <p className={`${styles.text} ${styles.spText}`}>詳細へ</p>    
             <Image
               src="/back_button.svg"
               width={42}
