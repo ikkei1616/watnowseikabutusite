@@ -18,9 +18,9 @@ const videoSchema = z.instanceof(File)
   });
 
 const serviceSchema = z.object({
-  name: z.string().min(1, "サービス名は必須です"),
-  comment: z.string().optional(),
-  description: z.string().optional(),
+  name: z.string().min(1, "サービス名は必須です").max(13, "サービス名は13文字以内で入力してください。"),
+  comment: z.string().max(48, "コメントは48文字以内で入力してください。").optional(),
+  description: z.string().max(48, "サービス詳細は48文字以内で入力してください。").optional(),
   team_name: z.string().optional(),
   development_period_num: z.number().optional(),
   development_period_unit: z.string().optional(),
