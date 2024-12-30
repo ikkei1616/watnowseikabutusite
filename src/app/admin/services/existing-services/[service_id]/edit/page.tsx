@@ -21,8 +21,8 @@ type serviceTableData = {
     development_period_num: number;
     development_period_unit: string;
     eventYear: number;
-    event_id: number;
-    award_id: number;
+    event_id: number | null;
+    award_id: number | null;
     image: string;
     video: string;
     is_visible: boolean;
@@ -75,13 +75,17 @@ const NewServicesPage = ({
     const [videoDataURL, setVideoDataURL] = useState<string | undefined>(undefined);
     const [checkVideoDataURL, setCheckVideoDataURL] = useState<string | undefined>(undefined);
 
-    const [isChangeEventYear, setIsChangeEventYear] = useState(false);
-    const [isChangeEvent, setIsChangeEvent] = useState(false);
-
     const eventsRef = useRef<EventData[]>([]);
     const awardsRef = useRef<AwardData[]>([]);
     const menbersRef = useRef<MenberData[]>([]);
     const techsRef = useRef<TechData[]>([]);
+
+    const [checkTecksData, setCheckTecksData] = useState<number[]>([]);
+    const [checkMembersData, setCheckMembersData] = useState<string[]>([]);
+    const [checkWebURL, setCheckWebURL] = useState<string | undefined>(undefined);
+    const [checkAppURL, setCheckAppURL] = useState<string | undefined>(undefined);
+    const [checkGoogleURL, setCheckGoogleURL] = useState<string | undefined>(undefined);
+    const [checkOtherURL, setCheckOtherURL] = useState<string | undefined>(undefined);
 
     useEffect(() => {
         const fetchEventsData = async () => {
@@ -187,8 +191,6 @@ const NewServicesPage = ({
                             throw new Error(`Error fetching events: ${eventYearError.message}`);
                         }
                         serviceData.eventYear = eventYearData[0].year;
-                        console.log(eventYearData[0]);
-                        console.log(serviceData);
                     }
                     catch (error) {
                         console.error(error);
@@ -308,7 +310,7 @@ const NewServicesPage = ({
         const fetchData = async () => {
             try {
                 const [events, awards, members, techs, serviceData, serviceMembers, serviceTechs, webURL, appURL, googleURL, otherURL]: [EventData[], AwardData[], MenberData[], TechData[], serviceTableData | undefined, serviceMemberData[], serviceTechsData[], string, string, string, string] = await Promise.all([fetchEventsData(), fetchAwardsData(), fetchMenbersData(), fetchTechsData(), fetchServiceData(), fetchServiceMembersData(), fetchServiceTechnologiesData(), fetchurlWebData(), fetchurlAppStoreData(), fetchurlGooglePlayData(), fetchurlOthersData()]);
-                setFormFields(useFormFields(control, events, awards, members, techs, serviceData?.image ? `${serviceData?.image}?${new Date().getTime()}` : undefined, serviceData?.video ? `${serviceData?.video}?${new Date().getTime()}` : undefined, onChangeEventYear,onChangeEvent));
+                setFormFields(useFormFields(control, events, awards, members, techs, serviceData?.image ? `${serviceData?.image}?${new Date().getTime()}` : undefined, serviceData?.video ? `${serviceData?.video}?${new Date().getTime()}` : undefined, onChangeEventYear, onChangeEvent));
                 reset({
                     name: serviceData?.name || "",
                     comment: serviceData?.comment || "",
@@ -321,8 +323,8 @@ const NewServicesPage = ({
                     teamMembers: serviceMembers || [],
                     technologiesId: serviceTechs || [],
                     eventYear: serviceData?.eventYear || 0,
-                    event_id: serviceData?.event_id || 0,
-                    award_id: serviceData?.award_id || 0,
+                    event_id: serviceData?.event_id || null,
+                    award_id: serviceData?.award_id || null,
                     url_web: webURL || "",
                     url_appstore: appURL || "",
                     url_googleplay: googleURL || "",
@@ -337,7 +339,13 @@ const NewServicesPage = ({
                 techsRef.current = techs;
                 setImageDataURL(serviceData?.image);
                 setVideoDataURL(serviceData?.video);
-                onChangeEventYear(serviceData?.eventYear?.toString() || "");
+                setCheckTecksData(serviceTechs);
+                setCheckMembersData(serviceMembers);
+                setCheckWebURL(webURL);
+                setCheckAppURL(appURL);
+                setCheckGoogleURL(googleURL);
+                setCheckOtherURL(otherURL);
+                onChangeEventYear(serviceData?.eventYear?.toString() || "", true);
                 onChangeEvent(serviceData?.event_id?.toString() || "");
 
             } catch (error) {
@@ -349,7 +357,7 @@ const NewServicesPage = ({
         fetchServiceData();
     }, []);
 
-    const onChangeEventYear = async (item: string) => {
+    const onChangeEventYear = async (item: string, isFirst?: boolean) => {
         try {
             const { data: eventsData, error: eventsError } = await supabase
                 .from('events')
@@ -360,9 +368,11 @@ const NewServicesPage = ({
             if (eventsError) {
                 throw new Error(`Error fetching events: ${eventsError.message}`);
             }
-
             eventsRef.current = eventsData.map((event) => ({ value: event.id, label: event.name }));
-            reset({ ...getValues(), event_id: undefined, award_id: undefined });
+            if (isFirst === undefined) {
+                console.log(getValues());
+                reset({ ...getValues(), event_id: null, award_id: null });
+            }
             setFormFields(useFormFields(control, eventsRef.current, [], menbersRef.current, techsRef.current, "", "", onChangeEventYear, onChangeEvent));
         }
         catch (error) {
@@ -401,56 +411,91 @@ const NewServicesPage = ({
 
     const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
         setIsLoading(true);
+        console.log(data);
 
         let imageUrl = '';
         let videoUrl = '';
 
         if (data.thumbnailImage instanceof File) {
             const imageFileName = encodeURIComponent(`${Date.now()}-${data.thumbnailImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
-            const { error: uploadError } = await supabase.storage
-                .from('service_images')
-                .upload(imageFileName, data.thumbnailImage);
+            if (checkImageDataURL) {
+                const { error: uploadError } = await supabase.storage
+                    .from('service_images')
+                    .update(checkImageDataURL, data.thumbnailImage);
 
-            if (uploadError) {
-                console.error('Error uploading file: ', uploadError.message);
-                window.alert(uploadError.message);
-                setIsLoading(false);
-                return;
+                if (uploadError) {
+                    console.error('Error uploading file: ', uploadError.message);
+                    window.alert(uploadError.message);
+                    setIsLoading(false);
+                    return;
+                }
+            } else {
+                const { error: uploadError } = await supabase.storage
+                    .from('service_images')
+                    .upload(imageFileName, data.thumbnailImage);
+
+                if (uploadError) {
+                    console.error('Error uploading file: ', uploadError.message);
+                    window.alert(uploadError.message);
+                    setIsLoading(false);
+                    return;
+                }
             }
 
             const { data: publicImageUrlData } = await supabase.storage
                 .from('service_images')
-                .getPublicUrl(imageFileName);
+                .getPublicUrl(checkImageDataURL ? checkImageDataURL : imageFileName);
 
             imageUrl = publicImageUrlData.publicUrl || '';
         }
 
         if (data.demoVideo instanceof File) {
             const videoFileName = encodeURIComponent(`${Date.now()}-${data.demoVideo.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
-            const { error: uploadError } = await supabase.storage
-                .from('service_videos')
-                .upload(videoFileName, data.demoVideo);
+            if (checkVideoDataURL) {
+                const { error: uploadError } = await supabase.storage
+                    .from('service_videos')
+                    .update(checkVideoDataURL, data.demoVideo);
 
-            if (uploadError) {
-                console.error('Error uploading file: ', uploadError.message);
-                window.alert(uploadError.message);
-                setIsLoading(false);
-                return;
+                if (uploadError) {
+                    console.error('Error uploading file: ', uploadError.message);
+                    window.alert(uploadError.message);
+                    setIsLoading(false);
+                    return;
+                }
+            } else {
+                const { error: uploadError } = await supabase.storage
+                    .from('service_videos')
+                    .upload(videoFileName, data.demoVideo);
+
+                if (uploadError) {
+                    console.error('Error uploading file: ', uploadError.message);
+                    window.alert(uploadError.message);
+                    setIsLoading(false);
+                    return;
+                }
             }
 
             const { data: publicVideoUrlData } = await supabase.storage
                 .from('service_videos')
-                .getPublicUrl(videoFileName);
+                .getPublicUrl(checkVideoDataURL ? checkVideoDataURL : videoFileName);
 
             videoUrl = publicVideoUrlData.publicUrl || '';
         }
 
         const { thumbnailImage, demoVideo, eventYear, teamMembers, url_web, url_appstore, url_googleplay, url_others, technologiesId, ...rest } = data;
+        if (imageDataURL && imageUrl === '') {
+            console.log("egejeogjeogjeogjeogjeo")
+            imageUrl = imageDataURL;
+        }
+        if (videoDataURL && videoUrl === '') {
+            videoUrl = videoDataURL;
+        }
         const submitData = { ...rest, image: imageUrl, video: videoUrl };
 
         const { data: serviceData, error: insertError } = await supabase
             .from('services')
-            .insert([submitData])
+            .update([submitData])
+            .eq('id', serviceID)
             .select();
 
         if (insertError) {
@@ -461,41 +506,123 @@ const NewServicesPage = ({
         }
 
         if (data.teamMembers && data.teamMembers.length > 0) {
-            const { error: teamMembersError } = await supabase
-                .from('users_servicies')
-                .insert(data.teamMembers.map((teamMember) => ({
-                    service_id: serviceData[0].id,
-                    user_id: teamMember,
-                })));
+            if (checkMembersData.length > 0) {
+                const { error: deleteError } = await supabase
+                    .from('users_servicies')
+                    .delete()
+                    .eq('service_id', serviceID);
 
-            if (teamMembersError) {
-                console.error('Error inserting team members:', teamMembersError);
-                window.alert(teamMembersError.message);
-                setIsLoading(false);
-                return;
+                if (deleteError) {
+                    console.error('Error deleting team members:', deleteError);
+                    window.alert(deleteError.message);
+                    setIsLoading(false);
+                    return;
+                }
+
+                const { error: teamMembersError } = await supabase
+                    .from('users_servicies')
+                    .insert(data.teamMembers.map((teamMember) => ({
+                        service_id: serviceID,
+                        user_id: teamMember,
+                    })));
+
+                if (teamMembersError) {
+                    console.error('Error inserting team members:', teamMembersError);
+                    window.alert(teamMembersError.message);
+                    setIsLoading(false);
+                    return;
+                }
+            } else {
+                const { error: teamMembersError } = await supabase
+                    .from('users_servicies')
+                    .insert(data.teamMembers.map((teamMember) => ({
+                        service_id: serviceData[0].id,
+                        user_id: teamMember,
+                    })));
+
+                if (teamMembersError) {
+                    console.error('Error inserting team members:', teamMembersError);
+                    window.alert(teamMembersError.message);
+                    setIsLoading(false);
+                    return;
+                }
             }
         }
 
         if (data.technologiesId && data.technologiesId.length > 0) {
-            const { error: technologiesError } = await supabase
-                .from('services_technologies')
-                .insert(data.technologiesId.map((technologyId) => ({
-                    service_id: serviceData[0].id,
-                    technology_id: technologyId,
-                })));
+            if (checkTecksData.length > 0) {
+                const { error: deleteError } = await supabase
+                    .from('services_technologies')
+                    .delete()
+                    .eq('service_id', serviceID);
 
-            if (technologiesError) {
-                console.error('Error inserting technologies:', technologiesError);
-                window.alert(technologiesError.message);
-                setIsLoading(false);
-                return;
+                if (deleteError) {
+                    console.error('Error deleting techs:', deleteError);
+                    window.alert(deleteError.message);
+                    setIsLoading(false);
+                    return;
+                }
+
+                const { error: techsError } = await supabase
+                    .from('services_technologies')
+                    .insert(data.technologiesId.map((technology) => ({
+                        service_id: serviceID,
+                        technology_id: technology,
+                    })));
+
+                if (techsError) {
+                    console.error('Error inserting techs:', techsError);
+                    window.alert(techsError.message);
+                    setIsLoading(false);
+                    return;
+                }
+            } else {
+                const { error: techsError } = await supabase
+                    .from('services_technologies')
+                    .insert(data.technologiesId.map((technology) => ({
+                        service_id: serviceData[0].id,
+                        technology_id: technology,
+                    })));
+
+                if (techsError) {
+                    console.error('Error inserting techs:', techsError);
+                    window.alert(techsError.message);
+                    setIsLoading(false);
+                    return;
+                }
             }
         }
 
-        if (data.url_web) {
+        if (checkWebURL) {
+            if (url_web === "") {
+                const { error: urlWebError } = await supabase
+                    .from('url_website')
+                    .delete()
+                    .eq('service_id', serviceID);
+
+                if (urlWebError) {
+                    console.error('Error inserting url_web:', urlWebError);
+                    window.alert(urlWebError.message);
+                    setIsLoading(false);
+                    return;
+                }
+            } else {
+                const { error: urlWebError } = await supabase
+                    .from('url_website')
+                    .update([{ url: url_web }])
+                    .eq('service_id', serviceID);
+
+                if (urlWebError) {
+                    console.error('Error inserting url_web:', urlWebError);
+                    window.alert(urlWebError.message);
+                    setIsLoading(false);
+                    return;
+                }
+            }
+        } else if (url_web) {
             const { error: urlWebError } = await supabase
                 .from('url_website')
-                .insert([{ service_id: serviceData[0].id, url: data.url_web }]);
+                .insert([{ service_id: serviceData[0].id, url: url_web }]);
 
             if (urlWebError) {
                 console.error('Error inserting url_web:', urlWebError);
@@ -505,39 +632,117 @@ const NewServicesPage = ({
             }
         }
 
-        if (data.url_appstore) {
-            const { error: urlAppleStoreError } = await supabase
-                .from('url_app_store')
-                .insert([{ service_id: serviceData[0].id, url: data.url_appstore }]);
+        if (checkAppURL) {
+            if (url_appstore === "") {
+                const { error: urlAppStoreError } = await supabase
+                    .from('url_app_store')
+                    .delete()
+                    .eq('service_id', serviceID);
 
-            if (urlAppleStoreError) {
-                console.error('Error inserting url_web:', urlAppleStoreError);
-                window.alert(urlAppleStoreError.message);
+                if (urlAppStoreError) {
+                    console.error('Error inserting url_app:', urlAppStoreError);
+                    window.alert(urlAppStoreError.message);
+                    setIsLoading(false);
+                    return;
+                }
+            } else {
+                const { error: urlAppStoreError } = await supabase
+                    .from('url_app_store')
+                    .update([{ url: url_appstore }])
+                    .eq('service_id', serviceID);
+
+                if (urlAppStoreError) {
+                    console.error('Error inserting url_app:', urlAppStoreError);
+                    window.alert(urlAppStoreError.message);
+                    setIsLoading(false);
+                    return;
+                }
+            }
+        } else if (url_appstore) {
+            const { error: urlAppStoreError } = await supabase
+                .from('url_app_store')
+                .insert([{ service_id: serviceData[0].id, url: url_appstore }]);
+
+            if (urlAppStoreError) {
+                console.error('Error inserting url_app:', urlAppStoreError);
+                window.alert(urlAppStoreError.message);
                 setIsLoading(false);
                 return;
             }
         }
 
-        if (data.url_googleplay) {
+        if (checkGoogleURL) {
+            if (url_googleplay === "") {
+                const { error: urlGooglePlayError } = await supabase
+                    .from('url_google_play')
+                    .delete()
+                    .eq('service_id', serviceID);
+
+                if (urlGooglePlayError) {
+                    console.error('Error inserting url_google:', urlGooglePlayError);
+                    window.alert(urlGooglePlayError.message);
+                    setIsLoading(false);
+                    return;
+                }
+            } else {
+                const { error: urlGooglePlayError } = await supabase
+                    .from('url_google_play')
+                    .update([{ url: url_googleplay }])
+                    .eq('service_id', serviceID);
+
+                if (urlGooglePlayError) {
+                    console.error('Error inserting url_google:', urlGooglePlayError);
+                    window.alert(urlGooglePlayError.message);
+                    setIsLoading(false);
+                    return;
+                }
+            }
+        } else if (url_googleplay) {
             const { error: urlGooglePlayError } = await supabase
                 .from('url_google_play')
-                .insert([{ service_id: serviceData[0].id, url: data.url_googleplay }]);
+                .insert([{ service_id: serviceData[0].id, url: url_googleplay }]);
 
             if (urlGooglePlayError) {
-                console.error('Error inserting url_web:', urlGooglePlayError);
+                console.error('Error inserting url_google:', urlGooglePlayError);
                 window.alert(urlGooglePlayError.message);
                 setIsLoading(false);
                 return;
             }
         }
 
-        if (data.url_others) {
+        if (checkOtherURL) {
+            if (url_others === "") {
+                const { error: urlOthersError } = await supabase
+                    .from('url_others')
+                    .delete()
+                    .eq('service_id', serviceID);
+
+                if (urlOthersError) {
+                    console.error('Error inserting url_others:', urlOthersError);
+                    window.alert(urlOthersError.message);
+                    setIsLoading(false);
+                    return;
+                }
+            } else {
+                const { error: urlOthersError } = await supabase
+                    .from('url_others')
+                    .update([{ url: url_others }])
+                    .eq('service_id', serviceID);
+
+                if (urlOthersError) {
+                    console.error('Error inserting url_others:', urlOthersError);
+                    window.alert(urlOthersError.message);
+                    setIsLoading(false);
+                    return;
+                }
+            }
+        } else if (url_others) {
             const { error: urlOthersError } = await supabase
                 .from('url_others')
-                .insert([{ service_id: serviceData[0].id, url: data.url_others }]);
+                .insert([{ service_id: serviceData[0].id, url: url_others }]);
 
             if (urlOthersError) {
-                console.error('Error inserting url_web:', urlOthersError);
+                console.error('Error inserting url_others:', urlOthersError);
                 window.alert(urlOthersError.message);
                 setIsLoading(false);
                 return;
