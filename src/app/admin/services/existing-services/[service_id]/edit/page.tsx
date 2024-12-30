@@ -409,6 +409,139 @@ const NewServicesPage = ({
         router.push('/admin/services/existing-services');
     }
 
+    const handleDelete = async () => {
+        const confirmDelete = window.confirm("本当に削除しますか？");
+
+        if (!confirmDelete) {
+            return;
+        }
+
+        setIsLoading(true);
+
+        if (checkImageDataURL) {
+            const { error: deleteImageError } = await supabase.storage
+                .from('service_images')
+                .remove([checkImageDataURL]);
+
+            if (deleteImageError) {
+                console.error('Error deleting image:', deleteImageError);
+                window.alert(deleteImageError.message);
+                setIsLoading(false);
+                return;
+            }
+        }
+
+        if (checkVideoDataURL) {
+            const { error: deleteVideoError } = await supabase.storage
+                .from('service_videos')
+                .remove([checkVideoDataURL]);
+
+            if (deleteVideoError) {
+                console.error('Error deleting video:', deleteVideoError);
+                window.alert(deleteVideoError.message);
+                setIsLoading(false);
+                return;
+            }
+        }
+
+        if (checkTecksData.length > 0) {
+            const { error: deleteTechsError } = await supabase
+                .from('services_technologies')
+                .delete()
+                .eq('service_id', serviceID);
+
+            if (deleteTechsError) {
+                console.error('Error deleting technologies:', deleteTechsError);
+                window.alert(deleteTechsError.message);
+                setIsLoading(false);
+                return;
+            }
+        }
+
+        if (checkMembersData.length > 0) {
+            const { error: deleteMembersError } = await supabase
+                .from('users_servicies')
+                .delete()
+                .eq('service_id', serviceID);
+
+            if (deleteMembersError) {
+                console.error('Error deleting members:', deleteMembersError);
+                window.alert(deleteMembersError.message);
+                setIsLoading(false);
+                return;
+            }
+        }
+
+        if (checkWebURL) {
+            const { error: deleteWebURLError } = await supabase
+                .from('url_website')
+                .delete()
+                .eq('service_id', serviceID);
+
+            if (deleteWebURLError) {
+                console.error('Error deleting url_website:', deleteWebURLError);
+                window.alert(deleteWebURLError.message);
+                setIsLoading(false);
+                return;
+            }
+        }
+
+        if (checkAppURL) {
+            const { error: deleteAppURLError } = await supabase
+                .from('url_app_store')
+                .delete()
+                .eq('service_id', serviceID);
+
+            if (deleteAppURLError) {
+                console.error('Error deleting url_app_store:', deleteAppURLError);
+                window.alert(deleteAppURLError.message);
+                setIsLoading(false);
+                return;
+            }
+        }
+
+        if (checkGoogleURL) {
+            const { error: deleteGoogleURLError } = await supabase
+                .from('url_google_play')
+                .delete()
+                .eq('service_id', serviceID);
+
+            if (deleteGoogleURLError) {
+                console.error('Error deleting url_google_play:', deleteGoogleURLError);
+                window.alert(deleteGoogleURLError.message);
+                setIsLoading(false);
+                return;
+            }
+        }
+
+        if (checkOtherURL) {
+            const { error: deleteOtherURLError } = await supabase
+                .from('url_others')
+                .delete()
+                .eq('service_id', serviceID);
+
+            if (deleteOtherURLError) {
+                console.error('Error deleting url_others:', deleteOtherURLError);
+                window.alert(deleteOtherURLError.message);
+                setIsLoading(false);
+                return;
+            }
+        }
+
+        const { error: deleteError } = await supabase
+            .from('services')
+            .delete()
+            .eq('id', serviceID);
+
+        if (deleteError) {
+            console.error('Error deleting user:', deleteError);
+            window.alert(deleteError.message);
+            setIsLoading(false);
+            return;
+        }
+        router.push('/admin/services/existing-services');
+    }
+
     const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
         setIsLoading(true);
         console.log(data);
@@ -763,11 +896,16 @@ const NewServicesPage = ({
             }
             }>
                 <AdminHeader isEditing />
-                <h1 style={{
-                    borderBottom: "1px solid var(--border)",
+                <div style={{
+                    borderBottom: "1px solid #9CABC7",
                     paddingBottom: "12px",
                     marginBottom: "12px",
-                }}>新規サービスページ作成</h1>
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                }}>
+                    <h1>既存サービス編集</h1>
+                    <FormButton name="データ削除" type='delete' onClick={handleDelete} />
+                </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {formFields.map(({ title, fields }, index) => (
                         <section key={index} style={{
@@ -787,8 +925,8 @@ const NewServicesPage = ({
                         gap: '60px',
                         margin: "20px 0"
                     }}>
-                        <FormButton name="キャンセル" type='cancel' onClick={handleCancel} />
-                        <FormButton name="新規作成" type='submit' />
+                        <FormButton name="編集破棄" type='cancel' onClick={handleCancel} />
+                        <FormButton name="編集完了" type='submit' />
                     </div>
                 </form>
             </main>
