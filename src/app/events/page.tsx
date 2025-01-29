@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import styles from "./Page.module.css";
+import styles from "./page.module.css";
 import { EventCard, SkeletonEventCard } from "@/components/EventCard";
 import { supabase } from "@/supabase/supabase";
 import type { Event } from "@/types/Event";
