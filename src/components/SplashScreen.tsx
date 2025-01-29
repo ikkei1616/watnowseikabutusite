@@ -118,8 +118,9 @@ const SplashScreen = () => {
           variant="h1"
           sx={{
             fontSize: "10rem",
+            fontFamily: "HannariMincho",
             letterSpacing: "0.1em",
-            color: "white",
+            color: "var(--text)",
             position: "absolute",
             top: "50%",
             left: "50%",
