@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Box from "@mui/material/Box";
 import Link from "next/link";
-import SvgAnimation from "./SvgAnimation";
+import AnimatedBox from "./AnimatedBox";
 
 const SplashScreen = () => {
   const [bgColor, setBgColor] = useState("#fff"); // 初期色 (濃い青)
@@ -45,17 +45,17 @@ const SplashScreen = () => {
     const fadeOutTimeout = setTimeout(() => {
       setNowLoadingStyle({ opacity: 0, transform: "scale(0)" }); // 縮小とフェードアウト
       setCatGifStyle({ opacity: 1, transform: "scale(1)" }); // フェードイン
-    }, 1500); // 1秒間のフェードイン + 0.5秒待機
+    }, 2500); // 1秒間のフェードイン + 0.5秒待機
 
     // フェードアウト後に非表示にする
     const hideLoadingTimeout = setTimeout(() => {
       setNowLoadingVisible(false);
-    }, 2000); // 1.5秒で完全に消える
+    }, 3000); // 1.5秒で完全に消える
 
     // NOW LOADING の表示時間と縮小フェードアウト
     const linkVisibleTimeout = setTimeout(() => {
       setLinkStyle({ opacity: 1 }); // フェードイン
-    }, 3000);
+    }, 4000);
 
     const bgChangeTimeout = setTimeout(() => {
       let step = 0;
@@ -79,7 +79,7 @@ const SplashScreen = () => {
           clearInterval(interval);
         }
       }, 10); // 30msごとに更新
-    }, 1500); // 1秒待機
+    }, 2500); // 1秒待機
 
     return () => {
       clearTimeout(fadeInTimeout);
@@ -93,9 +93,9 @@ const SplashScreen = () => {
   }, []);
   return (
     <main style={mainStyle}>
-      {/* <Box
+      <Box
         sx={{
-          position: "relative",
+          position: "absolute",
         }}
       >
         <Box
@@ -108,43 +108,18 @@ const SplashScreen = () => {
           <Image
             src={"/cat_clean.gif"}
             alt={"猫ちゃんの画像"}
-            width={500}
-            height={500}
+            width={800}
+            height={800}
             priority
           />
         </Box>
-      </Box> */}
-      <SvgAnimation />
-      {/* <Box
+      </Box>
+      <Box
         sx={{
-          position: "relative",
+          position: "absolute",
         }}
       >
-        <Box>
-          {!isBoxVisible ? (
-            <Image
-              src={"box_open.svg"}
-              alt={""}
-              width={120}
-              height={120}
-              style={{
-                animation: "shake 0.2s",
-                animationIterationCount: 2,
-              }}
-            />
-          ) : (
-            <Image
-              src={"box.svg"}
-              alt={""}
-              width={100}
-              height={100}
-              style={{
-                animation: "shake 0.2s",
-                animationIterationCount: 2,
-              }}
-            />
-          )}
-        </Box>
+        <AnimatedBox />
         {nowLoadingVisible && (
           <Box
             sx={{
@@ -209,7 +184,7 @@ const SplashScreen = () => {
             イベント一覧
           </Link>
         </Box>
-      </Box> */}
+      </Box>
     </main>
   );
 };
