@@ -3,7 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ServiceInputSchema, ServiceOutputSchema, resolver } from "../../../new/userFormSchema";
-import { teckData, FormField, useFormFields } from "../../../new/hooks";
+// TODO: ビルドエラー通して動くようにする
+// import { teckData, FormField, useFormFields } from "../../../new/hooks";
+import { teckData, FormField } from "../../../new/hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
@@ -201,7 +203,8 @@ const EditServicesPage = ({
                 setCheckXData(userXData?.id);
                 setCheckInstagramData(userInstagramData?.id);
                 setCheckGithubData(userGithubData?.id);
-                setFormFields(useFormFields(control, tecksData, userTableData?.imageURL ? `${userTableData?.imageURL}?${new Date().getTime()}` : undefined));
+                // TODO: ビルドエラー通して動くようにする
+                // setFormFields(useFormFields(control, tecksData, userTableData?.imageURL ? `${userTableData?.imageURL}?${new Date().getTime()}` : undefined));
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
