@@ -1,50 +1,71 @@
 .pageHeader {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; /* ビューポートの高さ全体を使用 */
-  background-color: #f7f9fc; /* 背景色を薄いグレーに */
-  padding: 20px;
-  box-sizing: border-box;
-  text-align: center; /* テキストを中央揃え */
+  margin-bottom: 0%;
+  color: #00aeef; /* テキストの色を変更 */
+  font-size: 2.5rem;
+  margin-left: 40px; /* 右にずらすためのマージンを追加 */
+  padding-bottom: 20px;
+  margin-top: 30px;
 }
 
-.pageHeader h1 {
-  margin-bottom: 30px;
-  color: #333;
-  font-size: 2rem;
-  font-weight: bold;
+.container {
+  margin-top: 30px;
+  margin-left: 40px;
+  margin-right: 40px;
+  display: flex; /* 横並びにするためにFlexboxを使用 */
+  justify-content: flex-start; /* コンポーネント間のスペースを調整 */
+  align-items: flex-start; /* 上揃え */
 }
 
 .eventList {
-  list-style-type: none; /* デフォルトのリストスタイルを削除 */
-  margin: 0;
+  list-style-type: none;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 15px; /* 各リストアイテム間にスペースを追加 */
-  align-items: center; /* アイテムを中央に揃える */
+  display: flex; /* 横並びにするためにFlexboxを使用 */
+  flex-direction: column; /* 横方向に並べる */
+  gap: 15px;
+  width: 100%;
+  padding-top: 8px;
+  padding-right: 20px;
+}
+
+.eventItemWrapper {
+  display: flex; /* 子要素をフレックスボックスで表示 */
+  width: auto; /* 自動で幅を調整 */
+  margin-right: 16px; /* コンポーネント間のマージンを設定 */
 }
 
 .eventItem {
-  background-color: #ffffff; /* 背景色を白に設定 */
-  border: 1px solid #ddd; /* 軽いグレーのボーダー */
-  border-radius: 8px; /* 角を丸める */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽いシャドウを追加 */
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: none;
   padding: 15px;
-  width: 100%;
-  max-width: 500px; /* アイテムの最大幅を設定 */
+  max-width: 500px;
 }
 
 .eventLink {
   text-decoration: none;
-  color: #007bff; /* リンクの色を青に設定 */
+  color: #007bff;
   font-size: 1.25rem;
   font-weight: 500;
 }
 
 .eventLink:hover {
   text-decoration: underline;
-  color: #0056b3; /* ホバー時の色を暗めに設定 */
+  color: #0056b3;
+}
+
+.newEventButton {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.newEventButton:hover {
+  background-color: #0056b3;
 }
