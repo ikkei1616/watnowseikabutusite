@@ -4,6 +4,7 @@ import Image from "next/image";
 import Box from "@mui/material/Box";
 import Link from "next/link";
 import AnimatedBox from "./AnimatedBox";
+import { Typography } from "@mui/material";
 
 const SplashScreen = () => {
   const [bgColor, setBgColor] = useState("#fff"); // 初期色 (濃い青)
@@ -113,6 +114,28 @@ const SplashScreen = () => {
             priority
           />
         </Box>
+        <Typography
+          variant="h1"
+          sx={{
+            fontSize: "10rem",
+            letterSpacing: "0.1em",
+            color: "white",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            textAlign: "center",
+            transition: "opacity 2s ease",
+            opacity: catGifStyle.opacity ? 0.5 : 0,
+            fontWeight: "bold",
+            display: "flex",
+            flexDirection: "row",
+            gap: "400px",
+          }}
+        >
+          <span>wat</span>
+          <span>box</span>
+        </Typography>
       </Box>
       <Box
         sx={{
