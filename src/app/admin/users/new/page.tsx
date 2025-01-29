@@ -3,7 +3,9 @@ import React from 'react';
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ServiceInputSchema, ServiceOutputSchema, resolver } from "./userFormSchema";
-import { useFormFields, FormField } from "./hooks";
+// TODO: ビルドエラー通して動くようにする
+// import { useFormFields, FormField } from "./hooks";
+import { FormField } from "./hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
@@ -33,7 +35,8 @@ const NewServicesPage = () => {
         if (techsError) {
           throw new Error(`Error fetching techs: ${techsError.message}`);
         }
-        setFormFields(useFormFields(control, techsData.map((tech) => ({ value: tech.id, label: tech.name })) || []));
+        // TODO: ビルドエラー通して動くようにする
+        // setFormFields(useFormFields(control, techsData.map((tech) => ({ value: tech.id, label: tech.name })) || []));
         setIsFirstLoading(false);
 
       } catch (error) {
