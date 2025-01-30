@@ -1,19 +1,13 @@
 import React from "react";
-import {
-  Box,
-  Card,
-  Button,
-  Typography,
-  CardActions,
-  Divider,
-} from "@mui/material";
+import { Box, Card, Typography, Divider } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import DottedDivider from "@/components/DottedDivider";
 import ServiceCard from "@/components/ServiceCard";
 import type { Service } from "@/types/Service";
 
-import type { Event, EventDetail } from "@/types/Event";
+import type { EventDetail } from "@/types/Event";
+import ServicesContainer from "./ServicesContainer";
 
 interface EventDetailCardProps {
   event?: EventDetail;
@@ -221,18 +215,20 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
         }}
       >
         {services?.length ? (
-          services.map((service) => (
-            <Box
-              key={service.id}
-              sx={{
-                flex: "1 1 calc(33.333% - 16px)", // 幅を3等分（ギャップを考慮）
-                maxWidth: "calc(33.333% - 16px)", // 最大幅を設定
-                boxSizing: "border-box", // パディングとボーダーを含む幅を計算
-              }}
-            >
-              <ServiceCard service={service} />
-            </Box>
-          ))
+          <ServicesContainer>
+            {services.map((service) => (
+              <Box
+                key={service.id}
+                // sx={{
+                //   flex: "1 1 calc(33.333% - 16px)", // 幅を3等分（ギャップを考慮）
+                //   maxWidth: "calc(33.333% - 16px)", // 最大幅を設定
+                //   boxSizing: "border-box", // パディングとボーダーを含む幅を計算
+                // }}
+              >
+                <ServiceCard service={service} />
+              </Box>
+            ))}
+          </ServicesContainer>
         ) : (
           <Typography>登録なし</Typography>
         )}
