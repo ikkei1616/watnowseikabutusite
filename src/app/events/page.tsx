@@ -31,7 +31,7 @@ const EventPage: React.FC = () => {
     const fetchEventCountsByYear = async () => {
       const { data: allEventData, error: allEventError } = await supabase
         .from("events")
-        .select("date");
+        .select("year");
 
       if (allEventError) {
         console.error("Error fetching all events:", allEventError);
@@ -41,7 +41,7 @@ const EventPage: React.FC = () => {
       // 各年のイベント数を計算
       const countByYear: Record<number, number> = {};
       (allEventData as Event[]).forEach((event) => {
-        const year = new Date(event.date).getFullYear(); // 年を取得
+        const year = event.year; // 年を取得
         countByYear[year] = (countByYear[year] || 0) + 1;
       });
       setEventCountByYear(countByYear);
@@ -63,8 +63,7 @@ const EventPage: React.FC = () => {
       const { count, error: countError } = await supabase
         .from("events")
         .select("id", { count: "exact", head: true })
-        .gte("date", `${selectedYear}-01-01`)
-        .lte("date", `${selectedYear}-12-31`);
+        .eq("year", selectedYear);
 
       if (countError) {
         console.error("Error fetching event count:", countError.message);
@@ -77,10 +76,10 @@ const EventPage: React.FC = () => {
 
       const { data: eventsData, error: eventsError } = await supabase
         .from("events")
-        .select("id, name, date, comment, image")
-        .gte("date", `${selectedYear}-01-01`)
-        .lte("date", `${selectedYear}-12-31`)
-        .order("date", { ascending: false })
+        .select("id, name, year, month, comment, image")
+        .eq("year", selectedYear)
+        .order("year", { ascending: false })
+        .order("month", { ascending: false })
         .range(start, end);
 
       if (eventsError) {
