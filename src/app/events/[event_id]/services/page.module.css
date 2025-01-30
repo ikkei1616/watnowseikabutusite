@@ -20,6 +20,11 @@
   padding: 0 4%;
 }
 
+.notFound {
+  font-size: 24px;
+  color:  #00aeef;
+}
+
 @media (min-width:400px) {
   .awardTitle {
     max-width: 368px;
