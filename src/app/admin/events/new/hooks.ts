@@ -41,7 +41,8 @@ export const yearOptions = YEARS_OPTIONS.map((year) => ({
 export const useFormFields = (
   control: Control<EventInputSchema>,
   awardFields:any, //ここよくない後で直して
-  addAwardField: () => void // 表彰フィールドを追加する関数
+  addAwardField: () => void, // 表彰フィールドを追加する関数
+  defaultImage?: string
 ): { container: string; title: string; fields: FormField<EventInputSchema>[] }[] => {
   return [
     {
@@ -108,6 +109,7 @@ export const useFormFields = (
             name: "thumbnailImage",
             label: "サムネイル画像",
             type: "image",
+            defaultValue: defaultImage,
           },
         },
       ],

@@ -134,10 +134,18 @@ const EditEventPage = ({
     const fetchData = async () => {
       try {
         const [eventData, awardsData] = await Promise.all([fetcheventsData(), fetchAwardsData()]);
-        reset({
-          ...eventData,
-          awards: awardsData,
-        });
+        if (eventData) {
+          reset({
+            name: eventData.name,
+            comment: eventData.comment,
+            location: eventData.location,
+            thumbnailImage: undefined,
+            release_year: eventData.release_year,
+            release_month: eventData.release_month,
+            url: eventData.url,
+            awards: awardsData,
+          });
+        }
         setCheckAwardsData(awardsData || []);
         setImageDataURL(eventData?.thumbnailImage);
         const getAwardsFields = (awardsData || []).map((award, index) => [
@@ -163,7 +171,7 @@ const EditEventPage = ({
           },
         ]).flat();
         setAwardFields(getAwardsFields.map(convertToFormField));
-        setFormFields(useFormFields(control, getAwardsFields, addAwardField));
+        setFormFields(useFormFields(control, getAwardsFields, addAwardField, eventData?.thumbnailImage));
       } catch (error) {
         console.error(error);
       }
