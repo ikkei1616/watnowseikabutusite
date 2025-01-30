@@ -8,7 +8,6 @@ import { Typography } from "@mui/material";
 
 const SplashScreen = () => {
   const [bgColor, setBgColor] = useState("#fff"); // 初期色 (濃い青)
-  const [isBoxVisible, setIsBoxVisible] = useState(true);
   const [nowLoadingStyle, setNowLoadingStyle] = useState({
     opacity: 0,
     transform: "scale(1)", // 初期サイズ
