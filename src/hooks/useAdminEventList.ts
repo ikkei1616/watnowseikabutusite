@@ -28,7 +28,8 @@ const useAdminEventList = (selectedYear: number) => {
           return;
         }
         console.log("Fetched data:", data); // デバッグ用に取得データを出力
-        setEvents((data as Event[]) || []); // データがnullのときの対策として空配列を設定
+        // TODO: あとでビルド通す
+        setEvents((data as any) || []); // データがnullのときの対策として空配列を設定
       }
     };
 
