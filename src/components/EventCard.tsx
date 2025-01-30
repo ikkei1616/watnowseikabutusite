@@ -75,7 +75,7 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
             fontFamily: "HannariMincho",
           }}
         >
-          {event.date}
+          {event.year}年{event.month}月
         </Typography>
 
         {/* 詳細ページへのリンクボタン */}

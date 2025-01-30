@@ -133,7 +133,7 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             variant="body1"
             sx={{ color: "#878686", marginTop: "0.3rem", fontSize: "1.3rem" }}
           >
-            {event.date || "登録なし"}
+            {event.year}年{event.month}月
           </Typography>
           <Typography
             variant="body1"
