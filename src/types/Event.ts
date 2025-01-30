@@ -4,9 +4,9 @@ import { Award } from "@/types/Award";
 export interface Event {
   id: string | null;
   name: string;
-  date: string;
+  date?: string;
   comment?: string;
-  image?: string | null;
+  image?: string;
 }
 
 //Event詳細ページで利用する型定義
