@@ -26,10 +26,11 @@ const EventHeader = ({
             <p className={`${styles.text} ${styles.spText}`}>詳細へ</p>    
             <Image
               src="/back_button.svg"
-              width={42}
-              height={42}
-              alt="ボタン"
               className={styles.Image}
+              width={38}
+              height={38}
+              alt="ボタン"
+              
             ></Image>
           </Link>
         </Box>
