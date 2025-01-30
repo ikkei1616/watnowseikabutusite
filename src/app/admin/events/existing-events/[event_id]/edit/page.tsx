@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
+import { useRouter } from "next/navigation";
 import { Form, set, SubmitHandler, useForm } from "react-hook-form";
 import { EventInputSchema, EventOutputSchema, resolver } from "../../../new/eventFormSchema";
 import { useFormFields, FormField, AddAwardField } from "../../../new/hooks";
@@ -28,6 +29,8 @@ const EditEventPage = ({
   const [checkAwardsData, setCheckAwardsData] = useState<{ name: string, order_num: number }[]>([]);
 
   const [awardFields, setAwardFields] = useState<FormField<EventInputSchema>[]>([]);
+
+  const router = useRouter();
 
   const convertToFormField = (awardField: AddAwardField): FormField<EventInputSchema> => {
     return {
@@ -186,82 +189,102 @@ const EditEventPage = ({
 
   const onSubmit: SubmitHandler<EventOutputSchema> = async (data) => {
     console.log("Form submitted!");
-    console.log(data);
 
-    // setIsLoading(true);
+    setIsLoading(true);
 
-    // let imageUrl = '';
+    let imageUrl = '';
+    if (data.thumbnailImage instanceof File) {
+      const imageFileName = encodeURIComponent(`${Date.now()}-${data.thumbnailImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
+      if (checkImageDataURL) {
+        const { error: uploadError } = await supabase.storage
+          .from('event_images')
+          .update(checkImageDataURL, data.thumbnailImage);
 
-    // // サムネイル画像の処理
-    // if (data.thumbnailImage instanceof File) {
-    //   const imageFileName = encodeURIComponent(`${Date.now()}-${data.thumbnailImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
-    //   const { error: uploadError } = await supabase.storage
-    //     .from('event_images')
-    //     .upload(imageFileName, data.thumbnailImage);
+        if (uploadError) {
+          console.error('Error uploading file: ', uploadError.message);
+          window.alert(uploadError.message);
+          setIsLoading(false);
+          return;
+        }
+      } else {
+        const { error: uploadError } = await supabase.storage
+          .from('event_images')
+          .upload(imageFileName, data.thumbnailImage);
 
-    //   if (uploadError) {
-    //     console.error('Error uploading file: ', uploadError.message);
-    //     window.alert(uploadError.message);
-    //     setIsLoading(false);
-    //     return;
-    //   }
+        if (uploadError) {
+          console.error('Error uploading file: ', uploadError.message);
+          window.alert(uploadError.message);
+          setIsLoading(false);
+          return;
+        }
+      }
 
-    //   const { data: publicImageUrlData } = await supabase.storage
-    //     .from('event_images')
-    //     .getPublicUrl(imageFileName);
+      const { data: publicImageUrlData } = await supabase.storage
+        .from('event_images')
+        .getPublicUrl(checkImageDataURL ? checkImageDataURL : imageFileName);
 
-    //   imageUrl = publicImageUrlData.publicUrl || '';
-    // }
+      imageUrl = `${publicImageUrlData.publicUrl}?t=${Date.now()}` || '';
+    }
 
-    // // フォームデータの処理
-    // const { thumbnailImage, awards, release_year, release_month, ...rest } = data;
+    const { thumbnailImage, awards, release_year, release_month, ...rest } = data;
+    if (imageDataURL && imageUrl === '') {
+      imageUrl = imageDataURL;
+    }
+    const submitData = { ...rest, image: imageUrl, year: release_year, month: release_month };
 
-    // const submitData = { ...rest, image: imageUrl, year: release_year, month: release_month };
+    const { error: insertError } = await supabase
+      .from('events')
+      .update(submitData)
+      .eq('id', eventId)
+      .select();
 
-    // const { data: eventData, error: insertError } = await supabase
-    //   .from('events')
-    //   .insert([submitData])
-    //   .select();
+    if (insertError) {
+      console.error('Error inserting event:', insertError);
+      window.alert(insertError.message);
+      setIsLoading(false);
+      return;
+    }
+    if (checkAwardsData.length !== 0) {
+      const { error: deleteError } = await supabase
+        .from('awards')
+        .delete()
+        .eq('event_id', eventId);
 
-    // if (insertError) {
-    //   console.error('Error inserting event:', insertError);
-    //   window.alert(insertError.message);
-    //   setIsLoading(false);
-    //   return;
-    // }
+      if (deleteError) {
+        console.error('Error deleting technologies:', deleteError);
+        return;
+      }
+    }
+    if (data.awards?.length !== 0 && data.awards !== undefined) {
+      const awardsToInsert = data.awards.map((award) => {
+        if (award.name !== '' && award.order_num !== 0) {
+          return {
+            ...award,
+            event_id: eventId,
+          };
+        }
+      });
 
-    // if (data.awards?.length !== 0 && data.awards !== undefined) {
-    //   const awardsToInsert = data.awards.map((award) => {
-    //     if (award.name !== '' && award.order_num !== 0) {
-    //       return {
-    //         ...award,
-    //         event_id: eventData[0].id,
-    //       };
-    //     }
-    //   });
+      const awardsToInsertFiltered = awardsToInsert.filter((award) => award !== undefined);
+      console.log(awardsToInsertFiltered);
 
-    //   const awardsToInsertFiltered = awardsToInsert.filter((award) => award !== undefined);
-    //   console.log(awardsToInsertFiltered);
+      if (awardsToInsertFiltered.length !== 0) {
+        const { error: insertError } = await supabase
+          .from('awards')
+          .upsert(awardsToInsertFiltered)
+          .select();
 
-    //   if (awardsToInsertFiltered.length !== 0) {
-    //     const { error: insertError } = await supabase
-    //       .from('awards')
-    //       .insert(awardsToInsertFiltered)
-    //       .select();
+        if (insertError) {
+          console.error('Error inserting award:', insertError);
+          window.alert(insertError.message);
+          setIsLoading(false);
+          return;
+        }
+      }
+    }
 
-    //     if (insertError) {
-    //       console.error('Error inserting award:', insertError);
-    //       window.alert(insertError.message);
-    //       setIsLoading(false);
-    //       return;
-    //     }
-    //   }
-    // }
-
-    // window.location.href = '/admin/events/existing-events';
+    router.push('/admin/events/existing-events');
   };
-
-  // const formFields = useFormFields(control, awardFields, addAwardField);
 
   return (
     <>
