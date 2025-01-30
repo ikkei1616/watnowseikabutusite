@@ -1,81 +1,296 @@
 "use client";
+import React, { useEffect, useState } from 'react';
+import { Form, set, SubmitHandler, useForm } from "react-hook-form";
+import { EventInputSchema, EventOutputSchema, resolver } from "../../../new/eventFormSchema";
+import { useFormFields, FormField, AddAwardField } from "../../../new/hooks";
+import { FormFactory } from "@/components/form/FormFactory";
+import FormButton from '@/components/form/FormButton';
+import { supabase } from '@/supabase/supabase';
+import LoadingModal from '@/components/loading/LoadingModal';
+import AdminHeader from '@/components/admin/AdminHeader';
+import FormFieldType from '@/types/FormFieldType';
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import LoadingSpinner from "@/components/LoadingSpinner";
-import { supabase } from "@/supabase/supabase";
-import type { EventDetail } from "@/types/Event";
-import EventForm from "@/components/EventForm";
-
-export default function EventEditPage({
+const EditEventPage = ({
   params,
 }: {
   params: { event_id: string };
-}) {
-  const eventID = params.event_id;
-  const router = useRouter();
-  const [event, setEvent] = useState<EventDetail | null>(null);
-  const [loading, setLoading] = useState(true);
+}) => {
+  const { control, handleSubmit, reset, getValues } = useForm<EventInputSchema>({
+    mode: "onChange",
+    resolver: resolver,
+  });
+
+  const eventId = params.event_id;
+  const [formFields, setFormFields] = useState<{ container: string, title: string, fields: FormField<EventInputSchema>[] }[]>([]);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [imageDataURL, setImageDataURL] = useState<string | undefined>(undefined);
+  const [checkImageDataURL, setCheckImageDataURL] = useState<string | undefined>(undefined);
+  const [checkAwardsData, setCheckAwardsData] = useState<{ name: string, order_num: number }[]>([]);
+
+  const [awardFields, setAwardFields] = useState<FormField<EventInputSchema>[]>([]);
+
+  const convertToFormField = (awardField: AddAwardField): FormField<EventInputSchema> => {
+    return {
+      id: awardField.id,
+      type:  awardField.type,
+      props: {
+        control: awardField.props.control,
+        name: awardField.props.name as keyof EventInputSchema,
+        label: awardField.props.label,
+      },
+    };
+  };
+
+  const addAwardField = () => {
+    setAwardFields((prev) => {
+      const maxId = prev.length > 0 ? Math.max(...prev.map(f => f.id)) : 1;
+      const newId = maxId+1;
+  
+      const newFields: AddAwardField[] = [
+        {
+          id: newId,
+          type: FormFieldType.textInput,
+          props: {
+            control,
+            name: `awards[${newId}].name`,
+            label: `表彰名 ${prev.length/2 +1}`,
+            placeholder: "例) 最優秀賞",
+          },
+        },
+        {
+          id: newId + 1,
+          type: FormFieldType.numberInput,
+          props: {
+            control,
+            name: `awards[${newId}].order_num`,
+            label: `受賞数`,
+            placeholder: "例) 1",
+          },
+        },
+      ];
+  
+      const updatedFields = [...prev, ...newFields.map(convertToFormField)];
+  
+      setFormFields(useFormFields(control, updatedFields, addAwardField));
+      console.log(useFormFields(control, updatedFields, addAwardField));
+      return updatedFields;
+    });
+  };
+  
 
   useEffect(() => {
-    const fetchEventData = async () => {
-      if (eventID) {
+    const fetcheventsData = async () => {
+      try {
         const { data: eventData, error: eventError } = await supabase
-          .from("events")
-          .select("*")
-          .eq("id", eventID)
+          .from('events')
+          .select('*')
+          .eq('id', eventId)
           .single();
+
         if (eventError) {
-          console.error("Error fetching awards data:", eventError);
-          return;
-        }
-        if (!eventData) {
-          console.error("Error! data could not be found");
-          return;
+          throw new Error(`Error fetching event: ${eventError.message}`);
         }
 
-        //賞のリストを取得
+        if (eventData.image) {
+          const splitURl = eventData.image.split('/');
+          const fileName = splitURl[splitURl.length - 1];
+          setCheckImageDataURL(fileName);
+        }
+
+        return {
+          name: eventData.name,
+          comment: eventData.comment,
+          location: eventData.location,
+          thumbnailImage: eventData.image,
+          release_year: eventData.year,
+          release_month: eventData.month,
+          url: eventData.url,
+        }
+
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    const fetchAwardsData = async () => {
+      try {
         const { data: awardsData, error: awardsError } = await supabase
-          .from("awards")
-          .select("*")
-          .eq("event_id", eventID)
-          .order("order_num", { ascending: true }); //order_numを昇順にソート
+          .from('awards')
+          .select('*')
+          .eq('event_id', eventId);
 
         if (awardsError) {
-          console.error("Error fetching awards data:", awardsError);
-          return;
+          throw new Error(`Error fetching awards: ${awardsError.message}`);
         }
 
-        setEvent({
+        return awardsData.map((award) => ({
+          name: award.name,
+          order_num: award.order_num,
+        })) || [];
+
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    const fetchData = async () => {
+      try {
+        const [eventData, awardsData] = await Promise.all([fetcheventsData(), fetchAwardsData()]);
+        reset({
           ...eventData,
-          awards: awardsData || [],
+          awards: awardsData,
         });
-        setLoading(false);
+        setCheckAwardsData(awardsData || []);
+        setImageDataURL(eventData?.thumbnailImage);
+        const getAwardsFields  = (awardsData || []).map((award, index) => [
+          {
+            id: index * 2+7,
+            type: FormFieldType.textInput as any,
+            props: {
+              control,
+              name: `awards[${index}].name`,
+              label: `表彰名 ${index + 1}`,
+              placeholder: "例) 最優秀賞",
+            },
+          },
+          {
+            id: index * 2 + 1+7,
+            type: FormFieldType.numberInput,
+            props: {
+              control,
+              name: `awards[${index}].order_num`,
+              label: `受賞数`,
+              placeholder: "例) 1",
+            },
+          },
+        ]).flat();
+        setAwardFields(getAwardsFields.map(convertToFormField));
+        console.log(getAwardsFields.map(convertToFormField));
+        setFormFields(useFormFields(control, getAwardsFields, addAwardField));
+      } catch (error) {
+        console.error(error);
       }
     };
 
-    fetchEventData();
-  }, [eventID]);
+    fetchData();
+  }, [eventId]);
 
-  const handleSuccess = () => {
-    router.push("/admin/events/existing-events");
+  const onSubmit: SubmitHandler<EventOutputSchema> = async (data) => {
+    console.log(data);
+    setIsLoading(true);
+
+    let imageUrl = '';
+
+    // サムネイル画像の処理
+    if (data.thumbnailImage instanceof File) {
+      const imageFileName = encodeURIComponent(`${Date.now()}-${data.thumbnailImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
+      const { error: uploadError } = await supabase.storage
+        .from('event_images')
+        .upload(imageFileName, data.thumbnailImage);
+
+      if (uploadError) {
+        console.error('Error uploading file: ', uploadError.message);
+        window.alert(uploadError.message);
+        setIsLoading(false);
+        return;
+      }
+
+      const { data: publicImageUrlData } = await supabase.storage
+        .from('event_images')
+        .getPublicUrl(imageFileName);
+
+      imageUrl = publicImageUrlData.publicUrl || '';
+    }
+
+    // フォームデータの処理
+    const { thumbnailImage, awards, release_year, release_month, ...rest } = data;
+
+    const submitData = { ...rest, image: imageUrl, year: release_year, month: release_month };
+
+    const { data: eventData, error: insertError } = await supabase
+      .from('events')
+      .insert([submitData])
+      .select();
+
+    if (insertError) {
+      console.error('Error inserting event:', insertError);
+      window.alert(insertError.message);
+      setIsLoading(false);
+      return;
+    }
+
+    if (data.awards?.length !== 0 && data.awards !== undefined) {
+      const awardsToInsert = data.awards.map((award) => {
+        if (award.name !== '' && award.order_num !== 0) {
+          return {
+            ...award,
+            event_id: eventData[0].id,
+          };
+        }
+      });
+
+      const awardsToInsertFiltered = awardsToInsert.filter((award) => award !== undefined);
+      console.log(awardsToInsertFiltered);
+
+      if (awardsToInsertFiltered.length !== 0) {
+        const { error: insertError } = await supabase
+          .from('awards')
+          .insert(awardsToInsertFiltered)
+          .select();
+
+        if (insertError) {
+          console.error('Error inserting award:', insertError);
+          window.alert(insertError.message);
+          setIsLoading(false);
+          return;
+        }
+      }
+    }
+
+    window.location.href = '/admin/events/existing-events';
   };
 
-  if (loading)
-    return (
-      <div>
-        <LoadingSpinner />
-      </div>
-    );
+  // const formFields = useFormFields(control, awardFields, addAwardField);
+
   return (
-    <div>
-      {event && (
-        <EventForm
-          initialEvent={event}
-          isEditing={true}
-          onSuccess={handleSuccess}
-        />
-      )}
-    </div>
+    <>
+      <LoadingModal isOpen={isLoading} />
+      <main style={{
+        width: "90%",
+        margin: "0 auto",
+      }}>
+        <AdminHeader isEditing />
+        <h1 style={{
+          borderBottom: "1px solid #9CABC7",
+          paddingBottom: "12px",
+          marginBottom: "12px",
+        }}>新規イベントページ作成</h1>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {formFields.map(({ title, fields }, index) => (
+            <section key={index} style={{
+              borderBottom: "1px solid #9CABC7",
+              paddingBottom: "12px",
+              marginBottom: "12px",
+            }}>
+              <h3>{title}</h3>
+              {fields.map((field) => (
+                <FormFactory<EventInputSchema> key={field.id} {...field} />
+              ))}
+            </section>
+          ))}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '60px',
+            margin: "20px 0"
+          }}>
+            <FormButton name="キャンセル" type='cancel' onClick={() => window.location.href = '/admin/events'} />
+            <FormButton name="新規作成" type='submit' />
+          </div>
+        </form>
+      </main>
+    </>
   );
-}
+};
+
+export default EditEventPage;

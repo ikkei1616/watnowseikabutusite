@@ -8,6 +8,7 @@ import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
 import LoadingModal from '@/components/loading/LoadingModal';
 import AdminHeader from '@/components/admin/AdminHeader';
+import FormFieldType from '@/types/FormFieldType';
 
 const NewEventPage = () => {
   const { control, handleSubmit } = useForm<EventInputSchema>({
@@ -20,7 +21,7 @@ const NewEventPage = () => {
   const convertToFormField = (awardField: AddAwardField): FormField<EventInputSchema> => {
     return {
         id: awardField.id,
-        type: awardField.type,
+        type: awardField.type as any,
         props: {
             control: awardField.props.control,
             name: awardField.props.name as keyof EventInputSchema,
@@ -34,7 +35,7 @@ const NewEventPage = () => {
     const newFields: AddAwardField[] = [
       {
         id: newId * 2,
-        type: "TEXT_INPUT",
+        type: FormFieldType.textInput,
         props: {
           control,
           name: `awards[${newId}].name`,
@@ -44,7 +45,7 @@ const NewEventPage = () => {
       },
       {
         id: newId * 2 + 1,
-        type: "NUMBER_INPUT",
+        type: FormFieldType.numberInput,
         props: {
           control,
           name: `awards[${newId}].order_num`,
