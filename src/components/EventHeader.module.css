@@ -18,19 +18,24 @@
   font-size: 64px;
   color: #00AEEF;
   white-space:nowrap;
-  font-size: clamp(19px, 5.6vw, 64px);
+  font-size: clamp(19px, 5.5vw, 64px);
 }
 
 .button {
   display: flex;
   align-items: center;
   align-self: flex-end;
+  padding: 5px 0 2px 0;
+}
+
+.button:hover {
+  border-radius:12px;
+  background-color: #c5cfd3;
 }
 
 .text {
   font-family: "HannariMincho";
   font-size: 20px;
-  margin-right: 4%;
   white-space: nowrap;
   font-size: clamp(6px, 2vw, 20px);
 }
@@ -44,6 +49,8 @@
   max-width: 42px;
   width: 5vw;
   height: auto;
+  padding-left: 4%;
+  padding-bottom:2px
 }
 
 @media (min-width:320px) {
