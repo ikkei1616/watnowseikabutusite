@@ -70,7 +70,6 @@ export default function EventDetailPage({
 
     fetchEventData();
     fetchRetatedServices();
-    console.log("services", services);
   }, [eventID, services]);
 
   if (loading) {
