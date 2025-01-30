@@ -47,7 +47,6 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
         overflow: "hidden",
         border: "1px solid",
         borderColor: "#fff",
-        boxShadow: "none",
         fontFamily: "HannariMincho", // カスタムフォントを指定
       }}
     >

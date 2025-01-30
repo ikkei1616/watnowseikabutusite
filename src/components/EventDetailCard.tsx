@@ -42,7 +42,6 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
         overflow: "hidden",
         border: "1px solid",
         borderColor: "#fff",
-        boxShadow: "none",
         fontFamily: "HannariMincho", // カスタムフォントを指定
         margin: "auto",
       }}
