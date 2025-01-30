@@ -1,19 +1,9 @@
-"use client";
 import React from "react";
+import Image from "next/image";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 
 const LoadingModal = ({ isOpen }: { isOpen: boolean }) => {
-  const boxStyle = {
-    width: "100vw",
-    height: "100vh",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "hidden",
-  };
-
   return (
     <Modal
       open={isOpen}
@@ -23,10 +13,30 @@ const LoadingModal = ({ isOpen }: { isOpen: boolean }) => {
         justifyContent: "center",
       }}
     >
-      <Box sx={boxStyle}>
-        <Typography variant="h6" style={{ color: "white" }}>
-          Loading...
-        </Typography>
+      <Box
+        sx={{
+          position: "relative",
+        }}
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            textAlign: "center",
+          }}
+        >
+          <Image
+            src={"/now_loading.svg"}
+            alt={"猫ちゃんの画像"}
+            style={{
+              animation: "rotate 15s linear infinite",
+            }}
+            width={400}
+            height={400}
+          />
+        </Box>
       </Box>
     </Modal>
   );

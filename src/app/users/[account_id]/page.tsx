@@ -15,6 +15,7 @@ import DetailContainer from "@/components/DetailContainer";
 import DetailHeader from "@/components/DetailHeader";
 import DisplaySNS from "@/components/userDetails/DisplaySNS";
 import ServiceCard from "@/components/ServiceCard";
+import ServicesContainer from "@/components/ServicesContainer";
 
 const UserPage = ({ params }: { params: { account_id: string } }) => {
   const accountID = params.account_id;
@@ -37,7 +38,6 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
     <main className={styles.main}>
       <Header mode={HeaderMode.NONE} />
 
-      {/* TODO: 森岡のHeader当てる */}
       <Box
         sx={{
           width: "100%",
@@ -51,28 +51,32 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
 
         <DisplayIconAndName user={userData} />
 
-        <DetailContainer>
-          <DetailHeader title="技術スタック" />
-          <ItemList>
-            {userData.technologies.map((tech) => (
-              <TechItem key={tech.id} technology={tech} />
-            ))}
-          </ItemList>
-        </DetailContainer>
+        {userData.isVisible && (
+          <>
+            <DetailContainer>
+              <DetailHeader title="技術スタック" />
+              <ItemList>
+                {userData.technologies.map((tech) => (
+                  <TechItem key={tech.id} technology={tech} />
+                ))}
+              </ItemList>
+            </DetailContainer>
 
-        <DetailContainer>
-          <DetailHeader title="各種SNSアカウント" />
-          <DisplaySNS user={userData} />
-        </DetailContainer>
+            <DetailContainer>
+              <DetailHeader title="各種SNSアカウント" />
+              <DisplaySNS user={userData} />
+            </DetailContainer>
 
-        <DetailContainer>
-          <DetailHeader title={"作成したサービス"} />
-          <ItemList>
-            {userData.services.map((service, index) => (
-              <ServiceCard key={index} service={service} />
-            ))}
-          </ItemList>
-        </DetailContainer>
+            <DetailContainer>
+              <DetailHeader title={"作成したサービス"} />
+              <ServicesContainer>
+                {userData.services.map((service, index) => (
+                  <ServiceCard key={index} service={service} />
+                ))}
+              </ServicesContainer>
+            </DetailContainer>
+          </>
+        )}
       </Box>
     </main>
   );

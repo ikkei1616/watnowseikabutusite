@@ -10,14 +10,14 @@ export default interface User {
 }
 
 export interface UserDetail extends User {
-  name: string;
-  introduction?: string;
-  technologies: Technology[];
-  githubID?: string;
-  xID?: string;
-  instagramID?: string;
-  services: Service[];
-  isVisible: boolean;
+    name: string;
+    introduction?: string;
+    technologies: Technology[];
+    githubID?: string;
+    xID?: string;
+    instagramID?: string;
+    services: Service[];
+    isVisible: boolean;
 }
 export interface CreatorUser
   extends Pick<
