@@ -1,6 +1,7 @@
 import { supabase } from "@/supabase/supabase";
 import type { EventAllService, Service } from "@/types/Service";
-import { Card, Typography, Box, CardMedia } from "@mui/material";
+import { Card, Typography, Box, CardMedia,CardActions,Button } from "@mui/material";
+import  Link  from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -42,11 +43,10 @@ const ServiceAwardCard: React.FC<ServiceAwardComponents> = ({ service }) => {
           borderRadius: "20px",
         }}
       >
-        {service.awards ? (
           <Box
             sx={{
               display: "flex",
-              backgroundColor: "#F3DF85",
+              backgroundColor: service.awards ? "#F3DF85" :  "#85D5f3",
               justifyContent: "space-between",
               alignItems: "center",
               height: "46px",
@@ -54,7 +54,7 @@ const ServiceAwardCard: React.FC<ServiceAwardComponents> = ({ service }) => {
             }}
           >
             <Typography sx={{}}>{service.name}</Typography>
-            <div
+            {/* <div
               style={{
                 padding: "0",
                 display: "flex",
@@ -93,62 +93,40 @@ const ServiceAwardCard: React.FC<ServiceAwardComponents> = ({ service }) => {
                   }}
                 />
               </a>
-            </div>
-          </Box>
-        ) : (
-          <Box
-            sx={{
-              display: "flex",
-              backgroundColor: "#85D5f3",
-              justifyContent: "space-between",
-              alignItems: "center",
-              height: "46px",
-              padding: "0 5%",
-            }}
-          >
-            <Typography sx={{}}>{service.name}</Typography>
-            <div
-              style={{
-                padding: "0",
-                display: "flex",
-                alignItems: "center",
-                height: "100%",
+            </div> */}
+            <CardActions
+              sx={{
+                paddingRight:"0",
               }}
             >
-              <a
-                href={`/services/${service.id}`}
-                style={{
-                  fontSize: "12px",
-                  whiteSpace: "nowrap",
-                  padding: "0",
-                  color: "primary.main,",
-                }}
-              >
-                詳細を見る
-              </a>
-              <a
-                href={`/services/${service.id}`}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  image="/paper_airplane.svg"
-                  alt="airplane"
-                  style={{
-                    height: "auto",
-                    width: "28px",
-                    padding: "0",
-                    objectFit: "contain",
+              <Link href={`/services/${service.id}`} passHref>
+                <Button
+                  size="small"
+                  color="primary"
+                  
+                  sx={{
+                    padding:"8px 6px 8px 10px",
+                    textTransform: "none",
+                    "&:hover": {
+                      backgroundColor: service.awards ? "#f1cd29" : "#18c0fcdd",
+                      // backgroundColor: "#aaaaaa", // ホバー時の背景色を濃くする
+                    },
+                    fontFamily: "HannariMincho",
                   }}
-                />
-              </a>
-            </div>
+                >
+                  詳細をみる
+                  {/* 画像を挿入 */}
+                  <Image
+                    src={"/paper_airplane.svg"}
+                    alt={"紙飛行機のアイコン"}
+                    height={20}
+                    width={20}
+                  />
+                </Button>
+              </Link>
+            </CardActions>
           </Box>
-        )}
+
 
         <Box
           sx={{
