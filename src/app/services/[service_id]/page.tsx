@@ -256,10 +256,9 @@ export default function ServiceDetailPage({
       <div className={styles.head}>
         <h1 className={styles.servicename}>
           サービス詳細{" "}
-          <h2 className={styles.span}>
-            {" "}
+          <span className={styles.span}>
             <span>　≫</span> {service.name}
-          </h2>
+          </span>
         </h1>
       </div>
       <div className={styles.card}>
@@ -331,10 +330,10 @@ export default function ServiceDetailPage({
               <p className={styles.details}>作成月</p>
               <p className={styles.detailsdata}>
                 {service.releaseYear}/{service.releaseMonth}
-                <div className={styles.period}>
+                <span className={styles.period}>
                   {service.developmentPeriod &&
                     `(${service.developmentPeriod})`}
-                </div>
+                </span>
               </p>
               {/* <p className={styles.details}>説明: {service.description}</p> */}
               <p className={styles.details}>チーム名</p>
@@ -371,14 +370,13 @@ export default function ServiceDetailPage({
             <DetailHeader title="サービスURL" />
             <ItemList>
               {webs.map((url, index) => (
-                <a href={url} target="_blank" rel="noopener noreferrer">
                   <Item
+                    key={index}
                     src={"/paper_airplane_blue.svg"}
                     alt={"url"}
                     text={"webサイト"}
                     href={url}
                   />
-                </a>
               ))}
             </ItemList>
           </DetailContainer>
@@ -386,8 +384,8 @@ export default function ServiceDetailPage({
           <DetailContainer>
             <DetailHeader title="使用技術" />
             <ItemList>
-              {technologies.map((tech) => (
-                <TechItem key={tech.id} technology={tech} />
+              {technologies.map((tech,index) => (
+                <TechItem key={index} technology={tech} />
               ))}
             </ItemList>
           </DetailContainer>
