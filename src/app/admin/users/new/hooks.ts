@@ -13,7 +13,7 @@ export type FormField<T extends FieldValues> = {
     id: number;
 } & FormFactoryProps<T>;
 
-export const useFormFields = (
+export const formFields = (
     control: Control<ServiceInputSchema>,
     techs?: teckData[],
     defaultIcon?: string
