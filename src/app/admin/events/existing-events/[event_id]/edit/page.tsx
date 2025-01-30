@@ -15,7 +15,7 @@ const EditEventPage = ({
 }: {
   params: { event_id: string };
 }) => {
-  const { control, handleSubmit, reset, getValues } = useForm<EventInputSchema>({
+  const { control, handleSubmit, reset, getValues, formState: { errors } } = useForm<EventInputSchema>({
     mode: "onChange",
     resolver: resolver,
   });
@@ -32,7 +32,7 @@ const EditEventPage = ({
   const convertToFormField = (awardField: AddAwardField): FormField<EventInputSchema> => {
     return {
       id: awardField.id,
-      type:  awardField.type,
+      type: awardField.type,
       props: {
         control: awardField.props.control,
         name: awardField.props.name as keyof EventInputSchema,
@@ -43,40 +43,38 @@ const EditEventPage = ({
 
   const addAwardField = () => {
     setAwardFields((prev) => {
-      const maxId = prev.length > 0 ? Math.max(...prev.map(f => f.id)) : 1;
-      const newId = maxId+1;
-  
+      const index = prev.length / 2;
+
       const newFields: AddAwardField[] = [
         {
-          id: newId,
+          id: prev.length + 1,
           type: FormFieldType.textInput,
           props: {
             control,
-            name: `awards[${newId}].name`,
-            label: `表彰名 ${prev.length/2 +1}`,
+            name: `awards[${index}].name`,
+            label: `表彰名 ${prev.length / 2 + 1}`,
             placeholder: "例) 最優秀賞",
           },
         },
         {
-          id: newId + 1,
+          id: prev.length + 2,
           type: FormFieldType.numberInput,
           props: {
             control,
-            name: `awards[${newId}].order_num`,
+            name: `awards[${index}].order_num`,
             label: `受賞数`,
             placeholder: "例) 1",
           },
         },
       ];
-  
+
       const updatedFields = [...prev, ...newFields.map(convertToFormField)];
-  
+
       setFormFields(useFormFields(control, updatedFields, addAwardField));
-      console.log(useFormFields(control, updatedFields, addAwardField));
       return updatedFields;
     });
   };
-  
+
 
   useEffect(() => {
     const fetcheventsData = async () => {
@@ -142,9 +140,9 @@ const EditEventPage = ({
         });
         setCheckAwardsData(awardsData || []);
         setImageDataURL(eventData?.thumbnailImage);
-        const getAwardsFields  = (awardsData || []).map((award, index) => [
+        const getAwardsFields = (awardsData || []).map((award, index) => [
           {
-            id: index * 2+7,
+            id: index * 2 + 7,
             type: FormFieldType.textInput as any,
             props: {
               control,
@@ -154,7 +152,7 @@ const EditEventPage = ({
             },
           },
           {
-            id: index * 2 + 1+7,
+            id: index * 2 + 1 + 7,
             type: FormFieldType.numberInput,
             props: {
               control,
@@ -165,7 +163,6 @@ const EditEventPage = ({
           },
         ]).flat();
         setAwardFields(getAwardsFields.map(convertToFormField));
-        console.log(getAwardsFields.map(convertToFormField));
         setFormFields(useFormFields(control, getAwardsFields, addAwardField));
       } catch (error) {
         console.error(error);
@@ -175,79 +172,85 @@ const EditEventPage = ({
     fetchData();
   }, [eventId]);
 
+  useEffect(() => {
+    console.log("Updated formFields:", formFields);
+  }, [formFields]);
+
   const onSubmit: SubmitHandler<EventOutputSchema> = async (data) => {
+    console.log("Form submitted!");
     console.log(data);
-    setIsLoading(true);
 
-    let imageUrl = '';
+    // setIsLoading(true);
 
-    // サムネイル画像の処理
-    if (data.thumbnailImage instanceof File) {
-      const imageFileName = encodeURIComponent(`${Date.now()}-${data.thumbnailImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
-      const { error: uploadError } = await supabase.storage
-        .from('event_images')
-        .upload(imageFileName, data.thumbnailImage);
+    // let imageUrl = '';
 
-      if (uploadError) {
-        console.error('Error uploading file: ', uploadError.message);
-        window.alert(uploadError.message);
-        setIsLoading(false);
-        return;
-      }
+    // // サムネイル画像の処理
+    // if (data.thumbnailImage instanceof File) {
+    //   const imageFileName = encodeURIComponent(`${Date.now()}-${data.thumbnailImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
+    //   const { error: uploadError } = await supabase.storage
+    //     .from('event_images')
+    //     .upload(imageFileName, data.thumbnailImage);
 
-      const { data: publicImageUrlData } = await supabase.storage
-        .from('event_images')
-        .getPublicUrl(imageFileName);
+    //   if (uploadError) {
+    //     console.error('Error uploading file: ', uploadError.message);
+    //     window.alert(uploadError.message);
+    //     setIsLoading(false);
+    //     return;
+    //   }
 
-      imageUrl = publicImageUrlData.publicUrl || '';
-    }
+    //   const { data: publicImageUrlData } = await supabase.storage
+    //     .from('event_images')
+    //     .getPublicUrl(imageFileName);
 
-    // フォームデータの処理
-    const { thumbnailImage, awards, release_year, release_month, ...rest } = data;
+    //   imageUrl = publicImageUrlData.publicUrl || '';
+    // }
 
-    const submitData = { ...rest, image: imageUrl, year: release_year, month: release_month };
+    // // フォームデータの処理
+    // const { thumbnailImage, awards, release_year, release_month, ...rest } = data;
 
-    const { data: eventData, error: insertError } = await supabase
-      .from('events')
-      .insert([submitData])
-      .select();
+    // const submitData = { ...rest, image: imageUrl, year: release_year, month: release_month };
 
-    if (insertError) {
-      console.error('Error inserting event:', insertError);
-      window.alert(insertError.message);
-      setIsLoading(false);
-      return;
-    }
+    // const { data: eventData, error: insertError } = await supabase
+    //   .from('events')
+    //   .insert([submitData])
+    //   .select();
 
-    if (data.awards?.length !== 0 && data.awards !== undefined) {
-      const awardsToInsert = data.awards.map((award) => {
-        if (award.name !== '' && award.order_num !== 0) {
-          return {
-            ...award,
-            event_id: eventData[0].id,
-          };
-        }
-      });
+    // if (insertError) {
+    //   console.error('Error inserting event:', insertError);
+    //   window.alert(insertError.message);
+    //   setIsLoading(false);
+    //   return;
+    // }
 
-      const awardsToInsertFiltered = awardsToInsert.filter((award) => award !== undefined);
-      console.log(awardsToInsertFiltered);
+    // if (data.awards?.length !== 0 && data.awards !== undefined) {
+    //   const awardsToInsert = data.awards.map((award) => {
+    //     if (award.name !== '' && award.order_num !== 0) {
+    //       return {
+    //         ...award,
+    //         event_id: eventData[0].id,
+    //       };
+    //     }
+    //   });
 
-      if (awardsToInsertFiltered.length !== 0) {
-        const { error: insertError } = await supabase
-          .from('awards')
-          .insert(awardsToInsertFiltered)
-          .select();
+    //   const awardsToInsertFiltered = awardsToInsert.filter((award) => award !== undefined);
+    //   console.log(awardsToInsertFiltered);
 
-        if (insertError) {
-          console.error('Error inserting award:', insertError);
-          window.alert(insertError.message);
-          setIsLoading(false);
-          return;
-        }
-      }
-    }
+    //   if (awardsToInsertFiltered.length !== 0) {
+    //     const { error: insertError } = await supabase
+    //       .from('awards')
+    //       .insert(awardsToInsertFiltered)
+    //       .select();
 
-    window.location.href = '/admin/events/existing-events';
+    //     if (insertError) {
+    //       console.error('Error inserting award:', insertError);
+    //       window.alert(insertError.message);
+    //       setIsLoading(false);
+    //       return;
+    //     }
+    //   }
+    // }
+
+    // window.location.href = '/admin/events/existing-events';
   };
 
   // const formFields = useFormFields(control, awardFields, addAwardField);
@@ -265,7 +268,7 @@ const EditEventPage = ({
           paddingBottom: "12px",
           marginBottom: "12px",
         }}>新規イベントページ作成</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit, (errors) => console.log(errors))}>
           {formFields.map(({ title, fields }, index) => (
             <section key={index} style={{
               borderBottom: "1px solid #9CABC7",
