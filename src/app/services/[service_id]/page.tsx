@@ -305,7 +305,7 @@ export default function ServiceDetailPage({
                 }}
               >
                 <Box sx={{ display: "flex", objectFit: "cover" }}>
-                  <p style={{fontSize:"24px"}}>画像が見つかりませんでした</p>
+                  <p style={{ fontSize: "24px" }}>画像が見つかりませんでした</p>
                   <p
                     style={{
                       position: "absolute",
@@ -329,11 +329,45 @@ export default function ServiceDetailPage({
             <div className={styles.detailsContainer}>
               <p className={styles.details}>作成月</p>
               <p className={styles.detailsdata}>
-                {service.releaseYear}/{service.releaseMonth}
-                <span className={styles.period}>
-                  {service.developmentPeriod &&
-                    `(${service.developmentPeriod})`}
-                </span>
+                {service.releaseYear == null ? (
+                  <span className={styles.period}>
+                    <span
+                      style={{
+                        opacity: "50%",
+                        fontSize: "20px",
+                        marginLeft: "-10px",
+                      }}
+                    >
+                      未掲載の情報です
+                    </span>
+                  </span>
+                ) : (
+                  <span>
+                    {service.releaseYear}/{service.releaseMonth}
+                  </span>
+                )}
+                {service.developmentPeriod !== "nullnull" ? (
+                  //  service.development_period_unit!=null && `(${service.development_period_num}${service.development_period_unit})` }
+                  <span className={styles.period}>
+                    {service.developmentPeriod &&
+                      `(${service.developmentPeriod})`}
+                  </span>
+                ) : service.releaseMonth !== null ? (
+                    <span className={styles.period}>
+                    <span
+                      style={{
+                        opacity: "50%",
+                        fontSize: "16px",
+                      }}
+                    >
+                      （期間不明）
+                    </span>
+                  </span>
+                ) : (
+                    <span>
+                      {/* 年月共に未定の場合期間情報は伝えない */}
+                    </span>
+                )}
               </p>
               {/* <p className={styles.details}>説明: {service.description}</p> */}
               <p className={styles.details}>チーム名</p>
@@ -370,13 +404,13 @@ export default function ServiceDetailPage({
             <DetailHeader title="サービスURL" />
             <ItemList>
               {webs.map((url, index) => (
-                  <Item
-                    key={index}
-                    src={"/paper_airplane_blue.svg"}
-                    alt={"url"}
-                    text={"webサイト"}
-                    href={url}
-                  />
+                <Item
+                  key={index}
+                  src={"/paper_airplane_blue.svg"}
+                  alt={"url"}
+                  text={"webサイト"}
+                  href={url}
+                />
               ))}
             </ItemList>
           </DetailContainer>
@@ -384,7 +418,7 @@ export default function ServiceDetailPage({
           <DetailContainer>
             <DetailHeader title="使用技術" />
             <ItemList>
-              {technologies.map((tech,index) => (
+              {technologies.map((tech, index) => (
                 <TechItem key={index} technology={tech} />
               ))}
             </ItemList>
