@@ -87,7 +87,7 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
               sx={{
                 textTransform: "none",
                 "&:hover": {
-                  backgroundColor: "#D9D9D9", // ホバー時の背景色を濃くする
+                  backgroundColor: "#e4e4e4", // ホバー時の背景色を濃くする
                 },
                 fontFamily: "HannariMincho",
               }}
