@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Card, Typography, Divider } from "@mui/material";
+import { Box, Card, Typography, Divider, Button } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import DottedDivider from "@/components/DottedDivider";
@@ -253,34 +253,39 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
           }}
         />
 
-        {/* 中央のテキストと画像 */}
-        <Typography
-          sx={{
-            whiteSpace: "nowrap", // テキストを折り返さない
-            fontSize: "16px", // フォントサイズ
-            color: "#4D4D4D", // テキストの色
-            display: "flex", // テキストと画像を横並び
-            alignItems: "center",
-            gap: "8px", // テキストと画像の間隔
-          }}
-        >
-          すべてのプロダクトを見る
-          {/* 画像 */}
-          <Box
+        <Link href={`/events/${event.id}/services`} passHref>
+          <Button
+            size="small"
+            color="primary"
             sx={{
-              width: "16px",
-              height: "16px",
-              position: "relative",
+              textTransform: "none",
+              "&:hover": {
+                backgroundColor: "#D9D9D9", // ホバー時の背景色を濃くする
+              },
+              fontFamily: "HannariMincho",
             }}
           >
-            <Image
-              src={"/paper_airplane_blue.svg"} // 画像のパスを指定
-              alt="アイコン"
-              layout="fill"
-              objectFit="contain" // 画像サイズを親に合わせて調整
-            />
-          </Box>
-        </Typography>
+            <Typography
+              sx={{
+                whiteSpace: "nowrap", // テキストを折り返さない
+                fontSize: "16px", // フォントサイズ
+                color: "#4D4D4D", // テキストの色
+                display: "flex", // テキストと画像を横並び
+                alignItems: "center",
+                gap: "8px", // テキストと画像の間隔
+              }}
+            >
+              すべてのプロダクトを見る
+              {/* 画像を挿入 */}
+              <Image
+                src={"/paper_airplane_blue.svg"}
+                alt={"紙飛行機のアイコン"}
+                height={20}
+                width={20}
+              />
+            </Typography>
+          </Button>
+        </Link>
 
         {/* 右側の線 */}
         <Divider
