@@ -29,6 +29,7 @@ const EditEventPage = ({
   const [checkAwardsData, setCheckAwardsData] = useState<{ name: string, order_num: number }[]>([]);
 
   const [awardFields, setAwardFields] = useState<FormField<EventInputSchema>[]>([]);
+  const [isFirstLoading, setIsFirstLoading] = useState(true);
 
   const router = useRouter();
 
@@ -177,15 +178,55 @@ const EditEventPage = ({
         setFormFields(useFormFields(control, getAwardsFields, addAwardField, eventData?.thumbnailImage));
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsFirstLoading(false);
       }
     };
 
     fetchData();
   }, [eventId]);
 
-  useEffect(() => {
-    console.log("Updated formFields:", formFields);
-  }, [formFields]);
+  const handleCancel = () => {
+    const confirmDelete = window.confirm("編集内容が破棄されますがよろしいですか？");
+
+    if (!confirmDelete) {
+      return;
+    }
+    router.push('/admin/events/existing-events');
+  }
+
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm("本当に削除しますか？");
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    const { error: deleteError } = await supabase
+      .from('events')
+      .delete()
+      .eq('id', eventId);
+
+    if (deleteError) {
+      console.error('Error deleting event:', deleteError);
+      window.alert(deleteError.message);
+      return;
+    }
+
+    if (checkAwardsData.length !== 0) {
+      const { error: deleteError } = await supabase
+        .from('awards')
+        .delete()
+        .eq('event_id', eventId);
+
+      if (deleteError) {
+        console.error('Error deleting technologies:', deleteError);
+        return;
+      }
+    }
+
+    router.push('/admin/events/existing-events');
+  }
 
   const onSubmit: SubmitHandler<EventOutputSchema> = async (data) => {
     console.log("Form submitted!");
@@ -294,34 +335,41 @@ const EditEventPage = ({
         margin: "0 auto",
       }}>
         <AdminHeader isEditing />
-        <h1 style={{
-          borderBottom: "1px solid #9CABC7",
-          paddingBottom: "12px",
-          marginBottom: "12px",
-        }}>新規イベントページ作成</h1>
-        <form onSubmit={handleSubmit(onSubmit, (errors) => console.log(errors))}>
-          {formFields.map(({ title, fields }, index) => (
-            <section key={index} style={{
-              borderBottom: "1px solid #9CABC7",
-              paddingBottom: "12px",
-              marginBottom: "12px",
-            }}>
-              <h3>{title}</h3>
-              {fields.map((field) => (
-                <FormFactory<EventInputSchema> key={field.id} {...field} />
-              ))}
-            </section>
-          ))}
+        {!isFirstLoading && <div>
           <div style={{
+            borderBottom: "1px solid #9CABC7",
+            paddingBottom: "12px",
+            marginBottom: "12px",
             display: 'flex',
-            justifyContent: 'center',
-            gap: '60px',
-            margin: "20px 0"
+            justifyContent: 'space-between',
           }}>
-            <FormButton name="キャンセル" type='cancel' onClick={() => window.location.href = '/admin/events'} />
-            <FormButton name="新規作成" type='submit' />
+            <h1>既存イベント編集</h1>
+            <FormButton name="データ削除" type='delete' onClick={handleDelete} />
           </div>
-        </form>
+          <form onSubmit={handleSubmit(onSubmit, (errors) => console.log(errors))}>
+            {formFields.map(({ title, fields }, index) => (
+              <section key={index} style={{
+                borderBottom: "1px solid #9CABC7",
+                paddingBottom: "12px",
+                marginBottom: "12px",
+              }}>
+                <h3>{title}</h3>
+                {fields.map((field) => (
+                  <FormFactory<EventInputSchema> key={field.id} {...field} />
+                ))}
+              </section>
+            ))}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '60px',
+              margin: "20px 0"
+            }}>
+              <FormButton name="編集破棄" type='cancel' onClick={handleCancel} />
+              <FormButton name="編集完了" type='submit' />
+            </div>
+          </form>
+        </div>}
       </main>
     </>
   );
