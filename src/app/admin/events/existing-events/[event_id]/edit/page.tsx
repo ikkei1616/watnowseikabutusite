@@ -1,9 +1,9 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from "next/navigation";
 import { Form, set, SubmitHandler, useForm } from "react-hook-form";
 import { EventInputSchema, EventOutputSchema, resolver } from "../../../new/eventFormSchema";
-import { useFormFields, FormField, AddAwardField } from "../../../new/hooks";
+import { createFormFields, FormField, AddAwardField } from "../../../new/hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
@@ -28,6 +28,8 @@ const EditEventPage = ({
   const [checkImageDataURL, setCheckImageDataURL] = useState<string | undefined>(undefined);
   const [checkAwardsData, setCheckAwardsData] = useState<{ name: string, order_num: number }[]>([]);
 
+  const defaultImage = useRef<string | undefined>(undefined);
+
   const [awardFields, setAwardFields] = useState<FormField<EventInputSchema>[]>([]);
   const [isFirstLoading, setIsFirstLoading] = useState(true);
 
@@ -47,11 +49,12 @@ const EditEventPage = ({
 
   const addAwardField = () => {
     setAwardFields((prev) => {
-      const index = prev.length / 2;
+      const index = (prev.length +7);
+
 
       const newFields: AddAwardField[] = [
         {
-          id: prev.length + 1,
+          id: index,
           type: FormFieldType.textInput,
           props: {
             control,
@@ -61,7 +64,7 @@ const EditEventPage = ({
           },
         },
         {
-          id: prev.length + 2,
+          id:index + 1,
           type: FormFieldType.numberInput,
           props: {
             control,
@@ -73,8 +76,6 @@ const EditEventPage = ({
       ];
 
       const updatedFields = [...prev, ...newFields.map(convertToFormField)];
-
-      setFormFields(useFormFields(control, updatedFields, addAwardField));
       return updatedFields;
     });
   };
@@ -97,6 +98,7 @@ const EditEventPage = ({
           const splitURl = eventData.image.split('/');
           const fileName = splitURl[splitURl.length - 1];
           setCheckImageDataURL(fileName);
+          defaultImage.current = eventData.image;
         }
 
         return {
@@ -175,7 +177,6 @@ const EditEventPage = ({
           },
         ]).flat();
         setAwardFields(getAwardsFields.map(convertToFormField));
-        setFormFields(useFormFields(control, getAwardsFields, addAwardField, eventData?.thumbnailImage));
       } catch (error) {
         console.error(error);
       } finally {
@@ -185,6 +186,10 @@ const EditEventPage = ({
 
     fetchData();
   }, [eventId]);
+
+  useEffect(() => {
+    setFormFields(createFormFields(control, awardFields, addAwardField, defaultImage.current));
+  }, [defaultImage.current, awardFields]);
 
   const handleCancel = () => {
     const confirmDelete = window.confirm("編集内容が破棄されますがよろしいですか？");
@@ -230,101 +235,102 @@ const EditEventPage = ({
 
   const onSubmit: SubmitHandler<EventOutputSchema> = async (data) => {
     console.log("Form submitted!");
+    console.log(data);
 
-    setIsLoading(true);
+    // setIsLoading(true);
 
-    let imageUrl = '';
-    if (data.thumbnailImage instanceof File) {
-      const imageFileName = encodeURIComponent(`${Date.now()}-${data.thumbnailImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
-      if (checkImageDataURL) {
-        const { error: uploadError } = await supabase.storage
-          .from('event_images')
-          .update(checkImageDataURL, data.thumbnailImage);
+    // let imageUrl = '';
+    // if (data.thumbnailImage instanceof File) {
+    //   const imageFileName = encodeURIComponent(`${Date.now()}-${data.thumbnailImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
+    //   if (checkImageDataURL) {
+    //     const { error: uploadError } = await supabase.storage
+    //       .from('event_images')
+    //       .update(checkImageDataURL, data.thumbnailImage);
 
-        if (uploadError) {
-          console.error('Error uploading file: ', uploadError.message);
-          window.alert(uploadError.message);
-          setIsLoading(false);
-          return;
-        }
-      } else {
-        const { error: uploadError } = await supabase.storage
-          .from('event_images')
-          .upload(imageFileName, data.thumbnailImage);
+    //     if (uploadError) {
+    //       console.error('Error uploading file: ', uploadError.message);
+    //       window.alert(uploadError.message);
+    //       setIsLoading(false);
+    //       return;
+    //     }
+    //   } else {
+    //     const { error: uploadError } = await supabase.storage
+    //       .from('event_images')
+    //       .upload(imageFileName, data.thumbnailImage);
 
-        if (uploadError) {
-          console.error('Error uploading file: ', uploadError.message);
-          window.alert(uploadError.message);
-          setIsLoading(false);
-          return;
-        }
-      }
+    //     if (uploadError) {
+    //       console.error('Error uploading file: ', uploadError.message);
+    //       window.alert(uploadError.message);
+    //       setIsLoading(false);
+    //       return;
+    //     }
+    //   }
 
-      const { data: publicImageUrlData } = await supabase.storage
-        .from('event_images')
-        .getPublicUrl(checkImageDataURL ? checkImageDataURL : imageFileName);
+    //   const { data: publicImageUrlData } = await supabase.storage
+    //     .from('event_images')
+    //     .getPublicUrl(checkImageDataURL ? checkImageDataURL : imageFileName);
 
-      imageUrl = `${publicImageUrlData.publicUrl}?t=${Date.now()}` || '';
-    }
+    //   imageUrl = `${publicImageUrlData.publicUrl}?t=${Date.now()}` || '';
+    // }
 
-    const { thumbnailImage, awards, release_year, release_month, ...rest } = data;
-    if (imageDataURL && imageUrl === '') {
-      imageUrl = imageDataURL;
-    }
-    const submitData = { ...rest, image: imageUrl, year: release_year, month: release_month };
+    // const { thumbnailImage, awards, release_year, release_month, ...rest } = data;
+    // if (imageDataURL && imageUrl === '') {
+    //   imageUrl = imageDataURL;
+    // }
+    // const submitData = { ...rest, image: imageUrl, year: release_year, month: release_month };
 
-    const { error: insertError } = await supabase
-      .from('events')
-      .update(submitData)
-      .eq('id', eventId)
-      .select();
+    // const { error: insertError } = await supabase
+    //   .from('events')
+    //   .update(submitData)
+    //   .eq('id', eventId)
+    //   .select();
 
-    if (insertError) {
-      console.error('Error inserting event:', insertError);
-      window.alert(insertError.message);
-      setIsLoading(false);
-      return;
-    }
-    if (checkAwardsData.length !== 0) {
-      const { error: deleteError } = await supabase
-        .from('awards')
-        .delete()
-        .eq('event_id', eventId);
+    // if (insertError) {
+    //   console.error('Error inserting event:', insertError);
+    //   window.alert(insertError.message);
+    //   setIsLoading(false);
+    //   return;
+    // }
+    // if (checkAwardsData.length !== 0) {
+    //   const { error: deleteError } = await supabase
+    //     .from('awards')
+    //     .delete()
+    //     .eq('event_id', eventId);
 
-      if (deleteError) {
-        console.error('Error deleting technologies:', deleteError);
-        return;
-      }
-    }
-    if (data.awards?.length !== 0 && data.awards !== undefined) {
-      const awardsToInsert = data.awards.map((award) => {
-        if (award.name !== '' && award.order_num !== 0) {
-          return {
-            ...award,
-            event_id: eventId,
-          };
-        }
-      });
+    //   if (deleteError) {
+    //     console.error('Error deleting technologies:', deleteError);
+    //     return;
+    //   }
+    // }
+    // if (data.awards?.length !== 0 && data.awards !== undefined) {
+    //   const awardsToInsert = data.awards.map((award) => {
+    //     if (award.name !== '' && award.order_num !== 0) {
+    //       return {
+    //         ...award,
+    //         event_id: eventId,
+    //       };
+    //     }
+    //   });
 
-      const awardsToInsertFiltered = awardsToInsert.filter((award) => award !== undefined);
-      console.log(awardsToInsertFiltered);
+    //   const awardsToInsertFiltered = awardsToInsert.filter((award) => award !== undefined);
+    //   console.log(awardsToInsertFiltered);
 
-      if (awardsToInsertFiltered.length !== 0) {
-        const { error: insertError } = await supabase
-          .from('awards')
-          .upsert(awardsToInsertFiltered)
-          .select();
+    //   if (awardsToInsertFiltered.length !== 0) {
+    //     const { error: insertError } = await supabase
+    //       .from('awards')
+    //       .upsert(awardsToInsertFiltered)
+    //       .select();
 
-        if (insertError) {
-          console.error('Error inserting award:', insertError);
-          window.alert(insertError.message);
-          setIsLoading(false);
-          return;
-        }
-      }
-    }
+    //     if (insertError) {
+    //       console.error('Error inserting award:', insertError);
+    //       window.alert(insertError.message);
+    //       setIsLoading(false);
+    //       return;
+    //     }
+    //   }
+    // }
 
-    router.push('/admin/events/existing-events');
+    // router.push('/admin/events/existing-events');
   };
 
   return (

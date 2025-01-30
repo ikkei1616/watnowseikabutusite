@@ -38,7 +38,7 @@ export const yearOptions = YEARS_OPTIONS.map((year) => ({
 }));
 
 // 動的なフォームフィールド生成
-export const useFormFields = (
+export const createFormFields = (
   control: Control<EventInputSchema>,
   awardFields:any, //ここよくない後で直して
   addAwardField: () => void, // 表彰フィールドを追加する関数

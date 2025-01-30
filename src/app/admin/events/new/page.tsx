@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { EventInputSchema, EventOutputSchema, resolver } from "./eventFormSchema";
-import { useFormFields, FormField, AddAwardField } from "./hooks";
+import { createFormFields, FormField, AddAwardField } from "./hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
@@ -134,7 +134,7 @@ const NewEventPage = () => {
     window.location.href = '/admin/events/existing-events';
   };
 
-  const formFields = useFormFields(control, awardFields, addAwardField);
+  const formFields = createFormFields(control, awardFields, addAwardField);
 
   return (
     <>
