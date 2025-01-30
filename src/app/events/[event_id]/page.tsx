@@ -92,7 +92,7 @@ export default function EventDetailPage({
           },
         }}
       >
-        <PageHeader title="イベント詳細" pageTitle={event.name} />
+        <PageHeader title="イベント詳細" />
       </Box>
       <EventDetailCard event={event} services={services} />
     </main>

@@ -7,11 +7,9 @@ import Divider from "@mui/material/Divider";
 
 const PageHeader = ({
   title,
-  pageTitle,
   children,
 }: {
   title: string;
-  pageTitle: string;
   children?: React.ReactNode;
 }) => {
   return (
@@ -35,23 +33,7 @@ const PageHeader = ({
         >
           {title}
         </Typography>
-        <Typography
-          sx={{
-            paddingLeft: "16px",
-            color: "#00AEEF",
-            fontSize: "2rem",
-            fontFamily: "HannariMincho",
-            "@media screen and (max-width: 900px)": {
-              fontSize: "1.5rem",
-            },
-            "@media screen and (max-width: 750px)": {
-              fontSize: "1rem",
-            },
-          }}
-          aria-label="display arrow"
-        >
-          ＞
-        </Typography>
+
         <Typography
           sx={{
             paddingLeft: "16px",
@@ -66,9 +48,7 @@ const PageHeader = ({
             },
           }}
           variant="h1"
-        >
-          {pageTitle}
-        </Typography>
+        ></Typography>
         {children}
       </Box>
       <Divider
