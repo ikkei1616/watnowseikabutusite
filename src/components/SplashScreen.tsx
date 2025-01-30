@@ -23,7 +23,7 @@ const SplashScreen = () => {
   });
 
   const mainStyle = {
-    backgroundColor: bgColor,
+    backgroundColor: linkStyle.opacity ? "#85D5F3AA" : bgColor,
     width: "100vw",
     height: "100vh",
     paddingTop: 0,
@@ -31,6 +31,7 @@ const SplashScreen = () => {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    transition: "background-color 1.5s ease",
   };
 
   useEffect(() => {
@@ -59,27 +60,7 @@ const SplashScreen = () => {
     }, 4000);
 
     const bgChangeTimeout = setTimeout(() => {
-      let step = 0;
-      const interval = setInterval(() => {
-        step += 1;
-        const progress = Math.min(step / 100, 1); // 0 ~ 1 の範囲で進行度
-
-        // 初期値 (#fff) から最終値 (#85D5F3) への線形補間
-        const startColor = [255, 255, 255]; // #fff
-        const endColor = [133, 213, 243]; // #85D5F3
-
-        const interpolatedColor = startColor.map((start, i) =>
-          Math.round(start + progress * (endColor[i] - start))
-        );
-
-        setBgColor(
-          `rgb(${interpolatedColor[0]}, ${interpolatedColor[1]}, ${interpolatedColor[2]})`
-        );
-
-        if (progress === 1) {
-          clearInterval(interval);
-        }
-      }, 10); // 30msごとに更新
+      setBgColor("var(--light-primary)"); // 最終色 (薄い青)
     }, 2500); // 1秒待機
 
     return () => {
