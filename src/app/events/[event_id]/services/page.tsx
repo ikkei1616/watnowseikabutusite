@@ -9,14 +9,15 @@ import { EventAllService } from "@/types/Service";
 import { HeaderMode } from "@/types/HeaderMode";
 import { Box, Typography } from "@mui/material";
 import styles from "./page.module.css";
+import  LoadingModal  from "@/components/loading/LoadingModal";
 
 
 
 const EventServices = ({ params }: { params: { event_id: string } }) => {
   const [eventId] = useState<string>(params.event_id);
-  const [isEvent, setIsEvent] = useState(true);
-  const [eventName, setEventName] = useState<string>("");
+  const [eventName, setEventName] = useState<string|null>("");
   const [test, setTest] = useState<EventAllService[]>([]);
+  const [isLoading,setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,10 +30,11 @@ const EventServices = ({ params }: { params: { event_id: string } }) => {
         .from("events")
         .select("*")
         .eq("id", eventId);
-      
-        if (eventError) {
+
+        if (!eventData || eventData?.length === 0) {
           console.log("Error fetching event data:", eventError?.message);
-          setIsEvent(false)
+          setEventName(null);
+          setIsLoading(false)
           return;
         }
 
@@ -64,6 +66,7 @@ const EventServices = ({ params }: { params: { event_id: string } }) => {
       // setEventName(eventName as EventName[] || [])
       if (eventName && eventName.length > 0) {
         setEventName(eventName[0].name || "");
+        setIsLoading(false);
       }
     };
 
@@ -71,7 +74,11 @@ const EventServices = ({ params }: { params: { event_id: string } }) => {
     fetchData();
   }, [eventId]);
 
-  if (isEvent) {
+  if (isLoading) {
+    return <LoadingModal isOpen={true}></LoadingModal>
+  }
+
+  if (!eventName) {
     return (
       <>
         <Header mode={HeaderMode.SERVICES}></Header>
@@ -88,6 +95,27 @@ const EventServices = ({ params }: { params: { event_id: string } }) => {
       </>
       
     )
+  }
+
+  if (test.length === 0) {
+    return (
+      <>
+        <Header mode={HeaderMode.SERVICES}></Header>
+        <EventHeader title={eventName} eventId={eventId}></EventHeader>
+        <Box
+          sx={{
+            width:"100%",
+            height:"50vh",
+            display:"grid",
+            placeItems:"center",
+          }}
+        >
+          <p className={styles.notFound}>サービスが見つかりませんでした！</p>
+        </Box> 
+      </>
+      
+    )
+
   }
 
 
