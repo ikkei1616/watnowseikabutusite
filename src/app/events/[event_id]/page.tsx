@@ -3,18 +3,8 @@
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
-import LoadingSpinner from "@/components/LoadingSpinner";
 import { supabase } from "@/supabase/supabase";
-import {
-  Card,
-  CardContent,
-  Typography,
-  CardActions,
-  Button,
-  Box,
-  Divider,
-  Skeleton,
-} from "@mui/material";
+import { CardActions, Button, Box, Divider } from "@mui/material";
 import type { EventDetail } from "@/types/Event";
 import PageHeader from "@/components/PageHeader";
 import Header from "@/components/Header";
@@ -23,6 +13,7 @@ import EventDetailCard from "@/components/EventDetailCard";
 import type { Service } from "@/types/Service";
 import Image from "next/image";
 import Link from "next/link";
+import LoadingPage from "@/components/loading/LoadingPage";
 
 export default function EventDetailPage({
   params,
@@ -84,7 +75,7 @@ export default function EventDetailPage({
   }, [eventID]);
 
   if (loading) {
-    return <LoadingSpinner />;
+    return <LoadingPage />;
   }
 
   if (!event) {
