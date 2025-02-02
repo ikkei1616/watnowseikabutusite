@@ -81,7 +81,7 @@ export default function EventDetailPage({
 
     fetchEventData();
     fetchRetatedServices();
-  }, [eventID, services]);
+  }, [eventID]);
 
   if (loading) {
     return <LoadingSpinner />;
