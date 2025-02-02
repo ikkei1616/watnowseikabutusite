@@ -159,7 +159,7 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
               {event.url ? (
                 <Link href={event.url}>{event.url}</Link>
               ) : (
-                <Typography>登録なし</Typography>
+                <Typography component={"span"}>登録なし</Typography>
               )}
             </Typography>
           </Box>
