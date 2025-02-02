@@ -128,7 +128,7 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             <DottedDivider color="#878686" />
             <Typography
               variant="body1"
-              sx={{ color: "#878686", marginTop: "0.3rem", fontSize: "1.3rem" }}
+              sx={{ marginTop: "0.3rem", fontSize: "1.3rem" }}
             >
               {event.year}年{event.month}月
             </Typography>
@@ -141,7 +141,7 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             <DottedDivider color="#878686" />
             <Typography
               variant="body1"
-              sx={{ color: "#878686", marginTop: "0.3rem", fontSize: "1.3rem" }}
+              sx={{ marginTop: "0.3rem", fontSize: "1.3rem" }}
             >
               {event.location || "登録なし"}
             </Typography>
@@ -154,7 +154,7 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             <DottedDivider color="#878686" />
             <Typography
               variant="body1"
-              sx={{ color: "#878686", fontSize: "1rem", marginTop: "0.3rem" }}
+              sx={{ fontSize: "1rem", marginTop: "0.3rem" }}
             >
               {event.url ? (
                 <Link href={event.url}>{event.url}</Link>
