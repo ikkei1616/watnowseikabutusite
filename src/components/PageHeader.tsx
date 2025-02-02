@@ -15,7 +15,12 @@ const PageHeader = ({
   return (
     <Box>
       <Box
-        sx={{ display: "flex", alignItems: "flex-end", textAlign: "center" }}
+        sx={{
+          display: "flex",
+          alignItems: "flex-end",
+          textAlign: "center",
+          marginBottom: "8px",
+        }}
       >
         <Typography
           sx={{
@@ -51,10 +56,10 @@ const PageHeader = ({
         ></Typography>
         {children}
       </Box>
-      <Divider
+      {/* <Divider
         variant="fullWidth"
         sx={{ borderColor: "#00AEEF", paddingTop: "16px" }}
-      />
+      /> */}
     </Box>
   );
 };

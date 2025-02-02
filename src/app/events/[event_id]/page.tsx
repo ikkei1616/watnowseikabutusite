@@ -5,13 +5,24 @@ import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { supabase } from "@/supabase/supabase";
-import { Box } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  CardActions,
+  Button,
+  Box,
+  Divider,
+  Skeleton,
+} from "@mui/material";
 import type { EventDetail } from "@/types/Event";
 import PageHeader from "@/components/PageHeader";
 import Header from "@/components/Header";
 import { HeaderMode } from "@/types/HeaderMode";
 import EventDetailCard from "@/components/EventDetailCard";
 import type { Service } from "@/types/Service";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function EventDetailPage({
   params,
@@ -92,7 +103,53 @@ export default function EventDetailPage({
           },
         }}
       >
-        <PageHeader title="イベント詳細" />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "flex-end", // 下方揃え
+            justifyContent: "space-between", // 左右に配置
+            paddingTop: "0.5rem",
+            paddingBottom: "0",
+            paddingLeft: "1rem",
+            paddingRight: "1rem",
+            position: "relative",
+            fontFamily: "HannariMincho",
+          }}
+        >
+          <PageHeader title="イベント詳細" />
+
+          {/* 詳細ページへのリンクボタン */}
+          <CardActions>
+            <Link href={`/events`} passHref>
+              <Button
+                size="small"
+                color="primary"
+                sx={{
+                  textTransform: "none",
+                  "&:hover": {
+                    backgroundColor: "#D9D9D9", // ホバー時の背景色を濃くする
+                  },
+                  fontFamily: "HannariMincho",
+                  alignItems: "flex-end",
+                  textAlign: "center",
+                }}
+              >
+                イベント一覧に戻る
+                {/* 画像を挿入 */}
+                <Image
+                  src={"/back_button.svg"}
+                  alt={"戻るボタン"}
+                  height={20}
+                  width={20}
+                />
+              </Button>
+            </Link>
+          </CardActions>
+        </Box>
+        <Divider
+          variant="fullWidth"
+          sx={{ borderColor: "#00AEEF", paddingTop: "8px" }}
+        />
       </Box>
       <EventDetailCard event={event} services={services} />
     </main>

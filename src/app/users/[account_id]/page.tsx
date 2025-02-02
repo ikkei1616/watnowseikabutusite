@@ -47,7 +47,7 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
           },
         }}
       >
-        <PageHeader title="ユーザ詳細" pageTitle={userData.nickname} />
+        <PageHeader title="ユーザ詳細" />
 
         <DisplayIconAndName user={userData} />
 
