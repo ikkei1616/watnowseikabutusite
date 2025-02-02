@@ -194,7 +194,6 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             marginLeft: "2rem",
             marginRight: "1rem",
             marginTop: "1rem",
-            marginBottom: "1rem",
           }}
         >
           <Typography
@@ -213,7 +212,9 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             display: "flex", // Flexbox レイアウトを有効化
             flexWrap: "wrap", // 必要に応じて折り返し
             gap: "16px", // カード間の間隔
-            padding: "16px", // コンテナの内側の余白
+            paddingLeft: "16px", // コンテナの内側の余白
+            paddingRight: "16px",
+            paddingBottom: "16px",
             justifyContent: "flex-start", // 左詰めで表示
             marginLeft: "1rem",
           }}
