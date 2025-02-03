@@ -41,6 +41,7 @@ const ServiceAwardCard: React.FC<ServiceAwardComponents> = ({ service }) => {
           // maxHeight: "306px",
           height: "306px",
           borderRadius: "20px",
+          paddingBottom: "10px"
         }}
       >
           <Box
@@ -53,47 +54,17 @@ const ServiceAwardCard: React.FC<ServiceAwardComponents> = ({ service }) => {
               padding: "0 5%",
             }}
           >
-            <Typography sx={{}}>{service.name}</Typography>
-            {/* <div
-              style={{
-                padding: "0",
-                display: "flex",
-                alignItems: "center",
-                height: "100%",
+            <Typography 
+              sx={{
+                display: "-webkit-box", // 表示をボックス形式に
+                WebkitLineClamp: 1, // 行数を4行に制限
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
               }}
             >
-              <a
-                href={`/services/${service.id}`}
-                style={{
-                  fontSize: "12px",
-                  whiteSpace: "nowrap",
-                  padding: "0",
-                  color: "primary.main,",
-                }}
-              >
-                詳細を見る
-              </a>
-              <a
-                href={`/services/${service.id}`}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  image="/paper_airplane.svg"
-                  alt="airplane"
-                  style={{
-                    height: "auto",
-                    width: "28px",
-                    padding: "0",
-                    objectFit: "contain",
-                  }}
-                />
-              </a>
-            </div> */}
+              {service.name}
+              </Typography>
             <CardActions
               sx={{
                 paddingRight:"0",
@@ -174,6 +145,11 @@ const ServiceAwardCard: React.FC<ServiceAwardComponents> = ({ service }) => {
           <Typography
             sx={{
               fontSize: "12px",
+              display: "-webkit-box", // 表示をボックス形式に
+              WebkitLineClamp: 2, // 行数を4行に制限
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             }}
           >
             {service.description}
