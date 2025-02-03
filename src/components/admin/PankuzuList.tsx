@@ -18,7 +18,6 @@ const PankuzuList = ({ pankuzu }: { pankuzu: Pankuzu[] }) => {
             <Typography
               component="div"
               sx={{
-                fontFamily: "HannariMincho",
                 fontSize: "1.5rem",
                 color: "#0063BF",
                 borderBottom: "2px solid #0063BF",
@@ -34,7 +33,6 @@ const PankuzuList = ({ pankuzu }: { pankuzu: Pankuzu[] }) => {
             <Typography
               component="div"
               sx={{
-                fontFamily: "HannariMincho",
                 fontSize: "1.5rem",
                 color: "#0063BF",
               }}
@@ -44,42 +42,6 @@ const PankuzuList = ({ pankuzu }: { pankuzu: Pankuzu[] }) => {
           )}
         </React.Fragment>
       ))}
-      {/* <Link href={"/admin"}>
-        <Typography
-          component="div"
-          sx={{
-            fontFamily: "HannariMincho",
-            fontSize: "1.5rem",
-            color: "#0063BF",
-            borderBottom: "2px solid #0063BF",
-          }}
-        >
-          ジャンル選択
-        </Typography>
-      </Link>
-      <Typography
-        component="div"
-        sx={{
-          fontFamily: "HannariMincho",
-          fontSize: "1.5rem",
-          color: "#0063BF",
-        }}
-      >
-        ＞
-      </Typography>
-      <Link href={"/admin/users"}>
-        <Typography
-          component="div"
-          sx={{
-            fontFamily: "HannariMincho",
-            fontSize: "1.5rem",
-            color: "#0063BF",
-            borderBottom: "2px solid #0063BF",
-          }}
-        >
-          ユーザ
-        </Typography>
-      </Link> */}
     </Box>
   );
 };
