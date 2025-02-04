@@ -237,7 +237,7 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
               ))}
             </ServicesContainer>
           ) : (
-            <Typography>登録なし</Typography>
+            <Typography sx={{ marginTop: "1rem" }}>登録なし</Typography>
           )}
         </Box>
         <Box
@@ -246,7 +246,7 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             alignItems: "center",
             gap: "8px",
             width: "100%", // 全体の幅
-            paddingLeft: "1rem", // 左側の余白
+            paddingLeft: "2rem", // 左側の余白
             paddingRight: "1rem", // 右側の余白
             paddingBottom: "2rem", // 下側の余白
           }}
