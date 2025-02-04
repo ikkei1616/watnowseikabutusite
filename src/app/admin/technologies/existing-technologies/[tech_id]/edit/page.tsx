@@ -83,6 +83,7 @@ const EditTechnologiesPage = ({
                     iconImage: technologyTableData?.image,
                     name: technologyTableData?.name,
                 });
+                setImageDataURL(technologyTableData?.imageURL);
                 setFormFields(createFormFields(control, technologyTableData?.imageURL ? `${technologyTableData?.imageURL}?${new Date().getTime()}` : undefined));
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -174,7 +175,7 @@ const EditTechnologiesPage = ({
                 .from('technology_icons')
                 .getPublicUrl(checkImageDataURL ? checkImageDataURL : imageFileName);
 
-            imageUrl = publicImageUrlData.publicUrl || '';
+            imageUrl = `${publicImageUrlData.publicUrl}?t=${Date.now()}` || '';
         }
 
         const { iconImage, ...rest } = data;
