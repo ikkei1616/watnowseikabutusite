@@ -234,103 +234,101 @@ const EditEventPage = ({
   }
 
   const onSubmit: SubmitHandler<EventOutputSchema> = async (data) => {
-    console.log("Form submitted!");
-    console.log(data);
 
-    // setIsLoading(true);
+    setIsLoading(true);
 
-    // let imageUrl = '';
-    // if (data.thumbnailImage instanceof File) {
-    //   const imageFileName = encodeURIComponent(`${Date.now()}-${data.thumbnailImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
-    //   if (checkImageDataURL) {
-    //     const { error: uploadError } = await supabase.storage
-    //       .from('event_images')
-    //       .update(checkImageDataURL, data.thumbnailImage);
+    let imageUrl = '';
+    if (data.thumbnailImage instanceof File) {
+      const imageFileName = encodeURIComponent(`${Date.now()}-${data.thumbnailImage.name.replace(/[^a-zA-Z0-9.]/g, '_')}`);
+      if (checkImageDataURL) {
+        const { error: uploadError } = await supabase.storage
+          .from('event_images')
+          .update(checkImageDataURL, data.thumbnailImage);
 
-    //     if (uploadError) {
-    //       console.error('Error uploading file: ', uploadError.message);
-    //       window.alert(uploadError.message);
-    //       setIsLoading(false);
-    //       return;
-    //     }
-    //   } else {
-    //     const { error: uploadError } = await supabase.storage
-    //       .from('event_images')
-    //       .upload(imageFileName, data.thumbnailImage);
+        if (uploadError) {
+          console.error('Error uploading file: ', uploadError.message);
+          window.alert(uploadError.message);
+          setIsLoading(false);
+          return;
+        }
+      } else {
+        const { error: uploadError } = await supabase.storage
+          .from('event_images')
+          .upload(imageFileName, data.thumbnailImage);
 
-    //     if (uploadError) {
-    //       console.error('Error uploading file: ', uploadError.message);
-    //       window.alert(uploadError.message);
-    //       setIsLoading(false);
-    //       return;
-    //     }
-    //   }
+        if (uploadError) {
+          console.error('Error uploading file: ', uploadError.message);
+          window.alert(uploadError.message);
+          setIsLoading(false);
+          return;
+        }
+      }
 
-    //   const { data: publicImageUrlData } = await supabase.storage
-    //     .from('event_images')
-    //     .getPublicUrl(checkImageDataURL ? checkImageDataURL : imageFileName);
+      const { data: publicImageUrlData } = await supabase.storage
+        .from('event_images')
+        .getPublicUrl(checkImageDataURL ? checkImageDataURL : imageFileName);
 
-    //   imageUrl = `${publicImageUrlData.publicUrl}?t=${Date.now()}` || '';
-    // }
+      imageUrl = `${publicImageUrlData.publicUrl}?t=${Date.now()}` || '';
+    }
 
-    // const { thumbnailImage, awards, release_year, release_month, ...rest } = data;
-    // if (imageDataURL && imageUrl === '') {
-    //   imageUrl = imageDataURL;
-    // }
-    // const submitData = { ...rest, image: imageUrl, year: release_year, month: release_month };
+    const { thumbnailImage, awards, release_year, release_month, ...rest } = data;
+    if (imageDataURL && imageUrl === '') {
+      imageUrl = imageDataURL;
+    }
+    const submitData = { ...rest, image: imageUrl, year: release_year, month: release_month };
 
-    // const { error: insertError } = await supabase
-    //   .from('events')
-    //   .update(submitData)
-    //   .eq('id', eventId)
-    //   .select();
+    const { error: insertError } = await supabase
+      .from('events')
+      .update(submitData)
+      .eq('id', eventId)
+      .select();
 
-    // if (insertError) {
-    //   console.error('Error inserting event:', insertError);
-    //   window.alert(insertError.message);
-    //   setIsLoading(false);
-    //   return;
-    // }
-    // if (checkAwardsData.length !== 0) {
-    //   const { error: deleteError } = await supabase
-    //     .from('awards')
-    //     .delete()
-    //     .eq('event_id', eventId);
+    if (insertError) {
+      console.error('Error inserting event:', insertError);
+      window.alert(insertError.message);
+      setIsLoading(false);
+      return;
+    }
+    if (checkAwardsData.length !== 0) {
+      const { error: deleteError } = await supabase
+        .from('awards')
+        .delete()
+        .eq('event_id', eventId);
 
-    //   if (deleteError) {
-    //     console.error('Error deleting technologies:', deleteError);
-    //     return;
-    //   }
-    // }
-    // if (data.awards?.length !== 0 && data.awards !== undefined) {
-    //   const awardsToInsert = data.awards.map((award) => {
-    //     if (award.name !== '' && award.order_num !== 0) {
-    //       return {
-    //         ...award,
-    //         event_id: eventId,
-    //       };
-    //     }
-    //   });
+      if (deleteError) {
+        console.error('Error deleting technologies:', deleteError);
+        return;
+      }
+    }
+    if (data.awards?.length !== 0 && data.awards !== undefined) {
+      const awardsToInsert = data.awards.map((award) => {
+        if (award.name !== '' && award.order_num !== 0) {
+          return {
+            ...award,
+            event_id: eventId,
+          };
+        }
+      });
 
-    //   const awardsToInsertFiltered = awardsToInsert.filter((award) => award !== undefined);
-    //   console.log(awardsToInsertFiltered);
+      const awardsToInsertFiltered = awardsToInsert.filter((award) => award !== undefined);
 
-    //   if (awardsToInsertFiltered.length !== 0) {
-    //     const { error: insertError } = await supabase
-    //       .from('awards')
-    //       .upsert(awardsToInsertFiltered)
-    //       .select();
 
-    //     if (insertError) {
-    //       console.error('Error inserting award:', insertError);
-    //       window.alert(insertError.message);
-    //       setIsLoading(false);
-    //       return;
-    //     }
-    //   }
-    // }
+      if (awardsToInsertFiltered.length !== 0) {
+        const { error: insertError } = await supabase
+          .from('awards')
+          .upsert(awardsToInsertFiltered)
+          .select();
 
-    // router.push('/admin/events/existing-events');
+        if (insertError) {
+          console.error('Error inserting award:', insertError);
+          window.alert(insertError.message);
+          setIsLoading(false);
+          return;
+        }
+      }
+    }
+
+    router.push('/admin/events/existing-events');
   };
 
   return (
