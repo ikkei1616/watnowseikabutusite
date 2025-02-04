@@ -3,7 +3,7 @@ import React from 'react';
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { UserInputSchema, UserOutputSchema, resolver } from "./userFormSchema";
-import { useFormFields, FormField } from "./hooks";
+import { createFormFields, FormField } from "./hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
@@ -33,7 +33,8 @@ const NewUsersPage = () => {
         if (techsError) {
           throw new Error(`Error fetching techs: ${techsError.message}`);
         }
-        setFormFields(useFormFields(control, techsData.map((tech) => ({ value: tech.id, label: tech.name })) || []));
+
+        setFormFields(createFormFields(control, techsData.map((tech) => ({ value: tech.id, label: tech.name })) || []));
         setIsFirstLoading(false);
 
       } catch (error) {
