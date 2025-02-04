@@ -282,7 +282,7 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
                   gap: "8px", // テキストと画像の間隔
                 }}
               >
-                すべてのプロダクトを見る
+                全てのプロダクトを見る
                 {/* 画像を挿入 */}
                 <Image
                   src={"/paper_airplane_blue.svg"}
