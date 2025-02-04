@@ -54,7 +54,7 @@ export const releaseMonth = [
     { value: 12, label: "12" },
 ];
 
-export const useFormFields = (
+export const createFormFields = (
     control: Control<ServiceInputSchema>,
     events: EventData[],
     awards: AwardData[],

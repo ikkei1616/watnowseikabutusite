@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from "next/navigation";
 import { set, SubmitHandler, useForm } from "react-hook-form";
 import { ServiceInputSchema, ServiceOutputSchema, resolver } from "../../../new/serviceFormSchema";
-import { useFormFields, FormField, EventData, AwardData, MenberData, TechData } from "../../../new/hooks";
+import { createFormFields, FormField, EventData, AwardData, MenberData, TechData } from "../../../new/hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
@@ -310,7 +310,7 @@ const NewServicesPage = ({
         const fetchData = async () => {
             try {
                 const [events, awards, members, techs, serviceData, serviceMembers, serviceTechs, webURL, appURL, googleURL, otherURL]: [EventData[], AwardData[], MenberData[], TechData[], serviceTableData | undefined, serviceMemberData[], serviceTechsData[], string, string, string, string] = await Promise.all([fetchEventsData(), fetchAwardsData(), fetchMenbersData(), fetchTechsData(), fetchServiceData(), fetchServiceMembersData(), fetchServiceTechnologiesData(), fetchurlWebData(), fetchurlAppStoreData(), fetchurlGooglePlayData(), fetchurlOthersData()]);
-                setFormFields(useFormFields(control, events, awards, members, techs, serviceData?.image ? `${serviceData?.image}?${new Date().getTime()}` : undefined, serviceData?.video ? `${serviceData?.video}?${new Date().getTime()}` : undefined, onChangeEventYear, onChangeEvent));
+                setFormFields(createFormFields(control, events, awards, members, techs, serviceData?.image ? `${serviceData?.image}?${new Date().getTime()}` : undefined, serviceData?.video ? `${serviceData?.video}?${new Date().getTime()}` : undefined, onChangeEventYear, onChangeEvent));
                 reset({
                     name: serviceData?.name || "",
                     comment: serviceData?.comment || "",
@@ -373,7 +373,7 @@ const NewServicesPage = ({
                 console.log(getValues());
                 reset({ ...getValues(), event_id: null, award_id: null });
             }
-            setFormFields(useFormFields(control, eventsRef.current, [], menbersRef.current, techsRef.current, "", "", onChangeEventYear, onChangeEvent));
+            setFormFields(createFormFields(control, eventsRef.current, [], menbersRef.current, techsRef.current, "", "", onChangeEventYear, onChangeEvent));
         }
         catch (error) {
             console.error(error);
@@ -393,7 +393,7 @@ const NewServicesPage = ({
             }
 
             awardsRef.current = awardsData.map((award) => ({ value: award.id, label: award.name }));
-            setFormFields(useFormFields(control, eventsRef.current, awardsRef.current, menbersRef.current, techsRef.current, "", "", onChangeEventYear, onChangeEvent));
+            setFormFields(createFormFields(control, eventsRef.current, awardsRef.current, menbersRef.current, techsRef.current, "", "", onChangeEventYear, onChangeEvent));
         }
         catch (error) {
             console.error(error);

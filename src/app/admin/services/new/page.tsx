@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from "next/navigation";
 import { set, SubmitHandler, useForm } from "react-hook-form";
 import { ServiceInputSchema, ServiceOutputSchema, resolver } from "./serviceFormSchema";
-import { useFormFields, FormField,EventData, AwardData, MenberData, TechData } from "./hooks";
+import { createFormFields, FormField,EventData, AwardData, MenberData, TechData } from "./hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
@@ -70,7 +70,7 @@ const NewServicesPage = () => {
         awardsRef.current = Awards;
         menbersRef.current = Menbers;
         techsRef.current = Techs;
-        setFormFields(useFormFields(control, Events, [], Menbers, Techs, "", "", onChangeEventYear,onChangeEvent));
+        setFormFields(createFormFields(control, Events, [], Menbers, Techs, "", "", onChangeEventYear,onChangeEvent));
       } catch (error) {
         console.error(error);
       }
@@ -93,7 +93,7 @@ const NewServicesPage = () => {
 
       eventsRef.current = eventsData.map((event) => ({ value: event.id, label: event.name }));
       reset({ ...getValues(), event_id: undefined, award_id: undefined});
-      setFormFields(useFormFields(control, eventsRef.current, [], menbersRef.current, techsRef.current, "", "", onChangeEventYear,onChangeEvent));
+      setFormFields(createFormFields(control, eventsRef.current, [], menbersRef.current, techsRef.current, "", "", onChangeEventYear,onChangeEvent));
     }
     catch (error) {
       console.error(error);
@@ -113,7 +113,7 @@ const NewServicesPage = () => {
       }
 
       awardsRef.current = awardsData.map((award) => ({ value: award.id, label: award.name }));
-      setFormFields(useFormFields(control, eventsRef.current, awardsRef.current, menbersRef.current, techsRef.current, "", "", onChangeEventYear,onChangeEvent));
+      setFormFields(createFormFields(control, eventsRef.current, awardsRef.current, menbersRef.current, techsRef.current, "", "", onChangeEventYear,onChangeEvent));
     }
     catch (error) {
       console.error(error);
