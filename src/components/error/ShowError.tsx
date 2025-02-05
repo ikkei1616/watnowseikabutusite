@@ -5,7 +5,13 @@ import { Typography } from "@mui/material";
 import Header from "@/components/Header";
 import { HeaderMode } from "@/types/HeaderMode";
 
-const ShowError = ({ errorMessage }: { errorMessage: string }) => {
+const ShowError = ({
+  errorMessage,
+  children,
+}: {
+  errorMessage?: string;
+  children?: React.ReactNode;
+}) => {
   return (
     <main>
       <Header mode={HeaderMode.NONE} />
@@ -30,6 +36,7 @@ const ShowError = ({ errorMessage }: { errorMessage: string }) => {
             width: "100%",
             height: "fit-content",
             display: "flex",
+            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
             marginTop: "4rem",
@@ -39,24 +46,24 @@ const ShowError = ({ errorMessage }: { errorMessage: string }) => {
             <Typography
               variant="h1"
               sx={{
-                width: "100%",
-                textAlign: "center",
                 fontSize: "2rem",
-                position: "absolute",
-                top: "20%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
+                paddingBottom: "60px",
               }}
             >
               {errorMessage}
             </Typography>
           )}
+          {children}
           <Image
             src={"/cat.gif"}
             alt={"猫ちゃんの画像"}
             width={500}
             height={500}
             priority
+            style={{
+              margin: "-150px",
+              zIndex: -1,
+            }}
           />
         </Box>
       </Box>
