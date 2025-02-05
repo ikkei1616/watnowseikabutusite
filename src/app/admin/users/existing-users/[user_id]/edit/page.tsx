@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { ServiceInputSchema, ServiceOutputSchema, resolver } from "../../../new/userFormSchema";
-import { teckData, FormField, useFormFields } from "../../../new/hooks";
+import { UserInputSchema, UserOutputSchema, resolver } from "../../../new/userFormSchema";
+import { teckData, FormField, createFormFields } from "../../../new/hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
@@ -31,7 +31,7 @@ const EditServicesPage = ({
     params: { user_id: string };
 }
 ) => {
-    const { control, handleSubmit, reset } = useForm<ServiceInputSchema>({
+    const { control, handleSubmit, reset } = useForm<UserInputSchema>({
         mode: "onChange",
         resolver: resolver,
         defaultValues: {
@@ -47,7 +47,7 @@ const EditServicesPage = ({
         },
     });
     const userID = params.user_id;
-    const [formFields, setFormFields] = useState<{ container: string, title: string, fields: FormField<ServiceInputSchema>[] }[]>([]);
+    const [formFields, setFormFields] = useState<{ container: string, title: string, fields: FormField<UserInputSchema>[] }[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isFirstLoading, setIsFirstLoading] = useState(true);
 
@@ -184,7 +184,7 @@ const EditServicesPage = ({
         const fetchData = async () => {
             try {
                 const [tecksData, userTableData, userTechsData, userXData, userInstagramData, userGithubData]: [teckData[] | undefined, userTableData | undefined, userTechsData[] | [], snsTableData | undefined, snsTableData | undefined, snsTableData | undefined] = await Promise.all([fetchTecksData(), fetchUserData(), fetchUserTecksData(), fetchUserXData(), fetchUserInstagramData(), fetchUserGithubData()]);
-                console.log(userTableData);
+
                 reset({
                     iconImage: userTableData?.image,
                     name: userTableData?.name,
@@ -201,7 +201,7 @@ const EditServicesPage = ({
                 setCheckXData(userXData?.id);
                 setCheckInstagramData(userInstagramData?.id);
                 setCheckGithubData(userGithubData?.id);
-                setFormFields(useFormFields(control, tecksData, userTableData?.imageURL ? `${userTableData?.imageURL}?${new Date().getTime()}` : undefined));
+                setFormFields(createFormFields(control, tecksData, userTableData?.imageURL ? `${userTableData?.imageURL}?${new Date().getTime()}` : undefined));
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
@@ -314,7 +314,7 @@ const EditServicesPage = ({
         router.push('/admin/users/existing-users');
     }
 
-    const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
+    const onSubmit: SubmitHandler<UserOutputSchema> = async (data) => {
         setIsLoading(true);
         let imageUrl = '';
 
@@ -418,7 +418,7 @@ const EditServicesPage = ({
                     .eq('user_id', userID);
 
                 if (xIdError) {
-                    console.error('Error inserting url_web:', xIdError);
+                    console.error('Error inserting x_id:', xIdError);
                     window.alert(xIdError.message);
                     setIsLoading(false);
                     return;
@@ -430,7 +430,7 @@ const EditServicesPage = ({
                     .eq('user_id', userID);
 
                 if (xIdError) {
-                    console.error('Error inserting url_web:', xIdError);
+                    console.error('Error inserting x_id:', xIdError);
                     window.alert(xIdError.message);
                     setIsLoading(false);
                     return;
@@ -442,7 +442,7 @@ const EditServicesPage = ({
                 .insert([{ user_id: userID, x_id: x_id }]);
 
             if (xIdError) {
-                console.error('Error inserting url_web:', xIdError);
+                console.error('Error inserting x_id:', xIdError);
                 window.alert(xIdError.message);
                 setIsLoading(false);
                 return;
@@ -458,7 +458,7 @@ const EditServicesPage = ({
                     .eq('user_id', userID);
 
                 if (instagramIdError) {
-                    console.error('Error inserting url_web:', instagramIdError);
+                    console.error('Error inserting instagram_id:', instagramIdError);
                     window.alert(instagramIdError.message);
                     setIsLoading(false);
                     return;
@@ -470,7 +470,7 @@ const EditServicesPage = ({
                     .eq('user_id', userID);
 
                 if (instagramIdError) {
-                    console.error('Error inserting url_web:', instagramIdError);
+                    console.error('Error inserting instagram_id:', instagramIdError);
                     window.alert(instagramIdError.message);
                     setIsLoading(false);
                     return;
@@ -482,7 +482,7 @@ const EditServicesPage = ({
                 .insert([{ user_id: userID, instagram_id: instagram_id }]);
 
             if (instagramIdError) {
-                console.error('Error inserting url_web:', instagramIdError);
+                console.error('Error inserting instagram_id:', instagramIdError);
                 window.alert(instagramIdError.message);
                 setIsLoading(false);
                 return;
@@ -497,7 +497,7 @@ const EditServicesPage = ({
                     .eq('user_id', userID);
 
                 if (githubIdError) {
-                    console.error('Error inserting url_web:', githubIdError);
+                    console.error('Error inserting github_id:', githubIdError);
                     window.alert(githubIdError.message);
                     setIsLoading(false);
                     return;
@@ -509,7 +509,7 @@ const EditServicesPage = ({
                     .eq('user_id', userID);
 
                 if (githubIdError) {
-                    console.error('Error inserting url_web:', githubIdError);
+                    console.error('Error inserting github_id:', githubIdError);
                     window.alert(githubIdError.message);
                     setIsLoading(false);
                     return;
@@ -521,7 +521,7 @@ const EditServicesPage = ({
                 .insert([{ user_id: userID, github_id: github_id }]);
 
             if (githubIdError) {
-                console.error('Error inserting url_web:', githubIdError);
+                console.error('Error inserting github_id:', githubIdError);
                 window.alert(githubIdError.message);
                 setIsLoading(false);
                 return;
@@ -560,7 +560,7 @@ const EditServicesPage = ({
                             }}>
                                 <h3>{title}</h3>
                                 {fields.map((field) => (
-                                    <FormFactory<ServiceInputSchema> key={field.id} {...field} />
+                                    <FormFactory<UserInputSchema> key={field.id} {...field} />
                                 ))}
                             </section>
                         ))}

@@ -11,6 +11,7 @@ const theme = createTheme({
     },
   },
   typography: {
+    fontFamily: "HannariMincho, sans-serif",
     allVariants: {
       color: "#4D4D4D",
     },

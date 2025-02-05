@@ -2,8 +2,8 @@
 import React from 'react';
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { ServiceInputSchema, ServiceOutputSchema, resolver } from "./userFormSchema";
-import { useFormFields, FormField } from "./hooks";
+import { UserInputSchema, UserOutputSchema, resolver } from "./userFormSchema";
+import { createFormFields, FormField } from "./hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
@@ -11,12 +11,12 @@ import AdminHeader from '@/components/admin/AdminHeader';
 import LoadingModal from '@/components/loading/LoadingModal';
 import { useEffect, useState } from "react";
 
-const NewServicesPage = () => {
-  const { control, handleSubmit } = useForm<ServiceInputSchema>({
+const NewUsersPage = () => {
+  const { control, handleSubmit } = useForm<UserInputSchema>({
     mode: "onChange",
     resolver: resolver,
   });
-  const [formFields, setFormFields] = useState<{ container: string, title: string, fields: FormField<ServiceInputSchema>[] }[]>([]);
+  const [formFields, setFormFields] = useState<{ container: string, title: string, fields: FormField<UserInputSchema>[] }[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isFirstLoading, setIsFirstLoading] = useState(true);
 
@@ -33,7 +33,8 @@ const NewServicesPage = () => {
         if (techsError) {
           throw new Error(`Error fetching techs: ${techsError.message}`);
         }
-        setFormFields(useFormFields(control, techsData.map((tech) => ({ value: tech.id, label: tech.name })) || []));
+
+        setFormFields(createFormFields(control, techsData.map((tech) => ({ value: tech.id, label: tech.name })) || []));
         setIsFirstLoading(false);
 
       } catch (error) {
@@ -53,7 +54,7 @@ const NewServicesPage = () => {
     router.push('/admin/users');
   }
 
-  const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
+  const onSubmit: SubmitHandler<UserOutputSchema> = async (data) => {
     setIsLoading(true);
 
     let imageUrl = '';
@@ -87,7 +88,7 @@ const NewServicesPage = () => {
       .select();
 
     if (insertError) {
-      console.error('Error inserting service:', insertError);
+      console.error('Error inserting User:', insertError);
       window.alert(insertError.message);
       setIsLoading(false);
       return;
@@ -175,7 +176,7 @@ const NewServicesPage = () => {
               }}>
                 <h3>{title}</h3>
                 {fields.map((field) => (
-                  <FormFactory<ServiceInputSchema> key={field.id} {...field} />
+                  <FormFactory<UserInputSchema> key={field.id} {...field} />
                 ))}
               </section>
             ))}
@@ -195,4 +196,4 @@ const NewServicesPage = () => {
   );
 };
 
-export default NewServicesPage;
+export default NewUsersPage;
