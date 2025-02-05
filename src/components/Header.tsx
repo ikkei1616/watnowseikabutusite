@@ -31,7 +31,6 @@ const MobileHeader = () => {
     >
       <Typography
         sx={{
-          fontFamily: "HannariMincho",
           textAlign: "center",
         }}
       >
@@ -141,7 +140,6 @@ const DesktopHeader = ({ mode }: { mode: HeaderMode }) => {
         <Typography
           sx={{
             color: mode === linkMode ? "#4D4D4D" : "white",
-            fontFamily: "HannariMincho",
           }}
         >
           {text}
@@ -193,7 +191,6 @@ const DesktopHeader = ({ mode }: { mode: HeaderMode }) => {
             >
               <Typography
                 sx={{
-                  fontFamily: "HannariMincho",
                   lineHeight: "1.25",
                   color: "white",
                 }}
@@ -254,7 +251,6 @@ const CoreHeader = ({
             component="div"
             sx={{
               fontSize: "1.25rem",
-              fontFamily: "HannariMincho",
               lineHeight: "0.85",
               fontWeight: "regular",
               color: "#3F4154",
@@ -274,7 +270,6 @@ const CoreHeader = ({
               component="div"
               sx={{
                 fontSize: "4rem",
-                fontFamily: "HannariMincho",
                 lineHeight: "0.85",
                 fontWeight: "regular",
                 "@media screen and (max-width: 700px)": {
