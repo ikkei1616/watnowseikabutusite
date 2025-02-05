@@ -36,12 +36,10 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
           display: "flex",
           flexDirection: "column",
           width: "100%",
-
           borderRadius: "12px",
           overflow: "hidden",
           border: "1px solid",
           borderColor: "#fff",
-          fontFamily: "HannariMincho", // カスタムフォントを指定
         }}
       >
         <Box
@@ -54,7 +52,6 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             paddingLeft: "1rem",
             paddingRight: "1rem",
             position: "relative",
-            fontFamily: "HannariMincho",
           }}
         >
           {/* イベント名を表示 */}
@@ -65,7 +62,6 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
               fontSize: "3rem", // カスタムフォントサイズを指定
               backgroundColor: "#fff",
               padding: "0.5rem 1rem", // 上下左右の余白
-              fontFamily: "HannariMincho",
             }}
           >
             {event.name}
@@ -178,7 +174,6 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             sx={{
               fontSize: "1.4rem",
               color: "#00AEEF",
-              fontFamily: "HannariMincho",
             }}
           >
             イベント詳細
@@ -202,7 +197,6 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             sx={{
               fontSize: "1.4rem",
               color: "#00AEEF",
-              fontFamily: "HannariMincho",
             }}
           >
             代表サービス
@@ -269,7 +263,6 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
                 "&:hover": {
                   backgroundColor: "#D9D9D9", // ホバー時の背景色を濃くする
                 },
-                fontFamily: "HannariMincho",
               }}
             >
               <Typography
