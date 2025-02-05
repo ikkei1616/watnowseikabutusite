@@ -39,15 +39,24 @@ const ShowError = ({
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            marginTop: "4rem",
+            marginTop: "3rem",
           }}
         >
+          <Typography
+            variant="h1"
+            sx={{
+              fontSize: "2rem",
+              paddingBottom: "20px",
+            }}
+          >
+            Error
+          </Typography>
           {errorMessage && (
             <Typography
-              variant="h1"
+              variant="h2"
               sx={{
-                fontSize: "2rem",
-                paddingBottom: "60px",
+                fontSize: "1.5rem",
+                paddingBottom: "40px",
               }}
             >
               {errorMessage}
