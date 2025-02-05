@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import { supabase } from "@/supabase/supabase";
@@ -14,6 +13,7 @@ import type { Service } from "@/types/Service";
 import Image from "next/image";
 import Link from "next/link";
 import LoadingPage from "@/components/loading/LoadingPage";
+import BackButton from "@/components/BackButton";
 
 export default function EventDetailPage({
   params,
@@ -25,7 +25,6 @@ export default function EventDetailPage({
   const [event, setEvent] = useState<EventDetail | null>(null);
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
 
   // event_idの変更をトリガーにしてsetEventを実行
   useEffect(() => {
@@ -88,10 +87,7 @@ export default function EventDetailPage({
       <Box
         sx={{
           width: "100%",
-          padding: "40px",
-          "@media screen and (max-width: 600px)": {
-            padding: "20px",
-          },
+          padding: "2rem",
         }}
       >
         <Box
@@ -99,43 +95,13 @@ export default function EventDetailPage({
             display: "flex",
             alignItems: "flex-end", // 下方揃え
             justifyContent: "space-between", // 左右に配置
-            paddingTop: "0.5rem",
-            paddingBottom: "0",
-            paddingLeft: "1rem",
-            paddingRight: "1rem",
+            padding: "0.5rem 1rem 0 1rem",
             position: "relative",
-            fontFamily: "HannariMincho",
           }}
         >
           <PageHeader title="イベント詳細" />
 
-          {/* 詳細ページへのリンクボタン */}
-          <CardActions>
-            <Link href={`/events`} passHref>
-              <Button
-                size="small"
-                color="primary"
-                sx={{
-                  textTransform: "none",
-                  "&:hover": {
-                    backgroundColor: "#D9D9D9", // ホバー時の背景色を濃くする
-                  },
-                  fontFamily: "HannariMincho",
-                  alignItems: "flex-end",
-                  textAlign: "center",
-                }}
-              >
-                イベント一覧に戻る
-                {/* 画像を挿入 */}
-                <Image
-                  src={"/back_button.svg"}
-                  alt={"戻るボタン"}
-                  height={20}
-                  width={20}
-                />
-              </Button>
-            </Link>
-          </CardActions>
+          <BackButton ButtonTitle="イベント一覧へ戻る" />
         </Box>
         <Divider
           variant="fullWidth"
