@@ -10,8 +10,6 @@ import Header from "@/components/Header";
 import { HeaderMode } from "@/types/HeaderMode";
 import EventDetailCard from "@/components/EventDetailCard";
 import type { Service } from "@/types/Service";
-import Image from "next/image";
-import Link from "next/link";
 import LoadingPage from "@/components/loading/LoadingPage";
 import BackButton from "@/components/BackButton";
 
@@ -100,7 +98,6 @@ export default function EventDetailPage({
           }}
         >
           <PageHeader title="イベント詳細" />
-
           <BackButton ButtonTitle="イベント一覧へ戻る" />
         </Box>
         <Divider
