@@ -155,7 +155,9 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
               sx={{ fontSize: "1rem", marginTop: "0.3rem" }}
             >
               {event.url ? (
-                <Link href={event.url}>{event.url}</Link>
+                <Box sx={{ overflow: "hidden", wordBreak: "break-word" }}>
+                  <Link href={event.url}>{event.url}</Link>
+                </Box>
               ) : (
                 <Typography component={"span"} sx={{ fontSize: "1.3rem" }}>
                   登録なし
