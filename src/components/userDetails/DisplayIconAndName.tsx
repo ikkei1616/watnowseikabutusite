@@ -94,7 +94,6 @@ const DisplayIconAndName = ({ user }: { user: DisplayIconAndNameProps }) => {
               sx={{
                 paddingLeft: "8px",
                 fontSize: "2rem",
-                fontFamily: "HannariMincho",
                 "@media screen and (max-width: 900px)": {
                   fontSize: "1.5rem",
                 },
@@ -110,7 +109,6 @@ const DisplayIconAndName = ({ user }: { user: DisplayIconAndNameProps }) => {
               sx={{
                 paddingLeft: "8px",
                 fontSize: "1.5rem",
-                fontFamily: "HannariMincho",
                 opacity: 0.8,
                 "@media screen and (max-width: 900px)": {
                   fontSize: "1.25rem",
@@ -129,7 +127,6 @@ const DisplayIconAndName = ({ user }: { user: DisplayIconAndNameProps }) => {
               variant="body1"
               sx={{
                 fontSize: "1.4rem",
-                fontFamily: "HannariMincho",
                 padding: "8px",
                 //   はみ出たら折り返す
                 overflowWrap: "break-word",
@@ -169,7 +166,6 @@ const DisplayIconAndName = ({ user }: { user: DisplayIconAndNameProps }) => {
                 variant="body1"
                 sx={{
                   fontSize: "1.4rem",
-                  fontFamily: "HannariMincho",
                   textAlign: "center",
                   //   はみ出たら折り返す
                   overflowWrap: "break-word",
