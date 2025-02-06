@@ -2,29 +2,41 @@ import { ServiceInputSchema } from "./serviceFormSchema";
 import { Control } from "react-hook-form";
 import { FieldValues } from "react-hook-form";
 import { FormFactoryProps } from "@/components/form/FormFactory";
-import { supabase } from '../../../../supabase/supabase';
-import { useEffect, useState } from "react";
+import { YEARS_OPTIONS } from "@/const";
 
-
-type FormField<T extends FieldValues> = {
+export type FormField<T extends FieldValues> = {
     id: number;
 } & FormFactoryProps<T>;
 
-const generateYearOptions = (startYear: number) => {
-    const currentYear = new Date().getFullYear();
-    return Array.from({ length: currentYear - startYear + 1 }, (_, index) => {
-        const year = startYear + index;
-        return { value: year, label: year.toString() };
-    });
-};
+export type EventData = {
+    value: string;
+    label: string;
+}
 
-export const yearOptions = generateYearOptions(2020);
+export type AwardData = {
+    value: string;
+    label: string;
+}
+
+export type MenberData = {
+    value: string;
+    label: string;
+}
+
+export type TechData = {
+    value: string;
+    label: string;
+}
+
+export const yearOptions = YEARS_OPTIONS.map((year) => {
+    return { value: year, label: `${year}` };
+});
 
 export const period = [
-    { value: "days", label: "日" },
-    { value: "weeks", label: "週" },
-    { value: "months", label: "月" },
-    { value: "years", label: "年" },
+    { value: "日間", label: "日" },
+    { value: "週間", label: "週" },
+    { value: "カ月間", label: "カ月" },
+    { value: "年間", label: "年" },
 ]
 
 export const releaseMonth = [
@@ -42,63 +54,17 @@ export const releaseMonth = [
     { value: 12, label: "12" },
 ];
 
-export const useFormFields = (
+export const createFormFields = (
     control: Control<ServiceInputSchema>,
+    events: EventData[],
+    awards: AwardData[],
+    menbers: MenberData[],
+    techs: TechData[],
+    defaultThumbnail?: string,
+    defaultDemo?: string,
+    onChangeEventYear?: (item:string) => void,
+    onChangeEvent?: (item:string) => void,
 ): { container: string, title: string, fields: FormField<ServiceInputSchema>[] }[] => {
-    const [events, setEvents] = useState<{ value: string; label: string }[]>([]);
-    const [awards, setAwards] = useState<{ value: string; label: string }[]>([]);
-    const [menbers, setMenbers] = useState<{ value: string; label: string }[]>([]);
-    const [techs, setTechs] = useState<{ value: string; label: string }[]>([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const { data: eventsData, error: eventsError } = await supabase
-                    .from('events')
-                    .select('id, name')
-                    .order('id', { ascending: true });
-
-                if (eventsError) {
-                    throw new Error(`Error fetching events: ${eventsError.message}`);
-                }
-
-                const { data: awardsData, error: awardsError } = await supabase
-                    .from('awards')
-                    .select('id, name') // 必要なカラムを指定
-                    .order('id', { ascending: true });
-
-                if (awardsError) {
-                    throw new Error(`Error fetching awards: ${awardsError.message}`);
-                }
-                const { data: menbersData, error: menbersError } = await supabase
-                    .from('users')
-                    .select('id, name, nickname')
-
-                if (menbersError) {
-                    throw new Error(`Error fetching menbers: ${menbersError.message}`);
-                }
-                const { data: techsData, error: techsError } = await supabase
-                    .from('technologies')
-                    .select('id, name')
-
-                if (techsError) {
-                    throw new Error(`Error fetching techs: ${techsError.message}`);
-                }
-
-                // イベントと賞の情報を状態に設定
-                setEvents(eventsData.map((event) => ({ value: event.id, label: event.name })) || []);
-                setAwards(awardsData.map((award) => ({ value: award.id, label: award.name })) || []);
-                setMenbers(menbersData.map((menber) => ({ value: menber.id, label: `${menber.name}　(${menber.nickname})` })) || []);
-                setTechs(techsData.map((tech) => ({ value: tech.id, label: tech.name })) || []);
-
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
 
     return [
         {
@@ -217,6 +183,7 @@ export const useFormFields = (
                         label: "イベントの変更",
                         options: yearOptions,
                         ending: "年開催",
+                        onChangeItem: onChangeEventYear,
                     },
                 },
                 {
@@ -226,6 +193,7 @@ export const useFormFields = (
                         control,
                         name: "event_id",
                         options: events,
+                        onChangeItem: onChangeEvent,
                     },
                 },
                 {
@@ -297,7 +265,8 @@ export const useFormFields = (
                         control,
                         name: "thumbnailImage",
                         label: "サムネイル画像",
-                        type: "image"
+                        type: "image",
+                        defaultValue: defaultThumbnail,
                     }
                 },
                 {
@@ -307,7 +276,8 @@ export const useFormFields = (
                         control,
                         name: "demoVideo",
                         label: "デモ動画",
-                        type: "video"
+                        type: "video",
+                        defaultValue: defaultDemo,
                     }
                 }
             ]

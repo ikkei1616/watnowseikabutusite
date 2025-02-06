@@ -47,7 +47,9 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
         overflow: "hidden",
         border: "1px solid",
         borderColor: "#fff",
-        fontFamily: "HannariMincho", // カスタムフォントを指定
+
+        boxShadow: "none",
+
       }}
     >
       <Box
@@ -60,7 +62,6 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
           paddingLeft: "1rem",
           paddingRight: "1rem",
           position: "relative",
-          fontFamily: "HannariMincho",
         }}
       >
         {/* 日付を表示 */}
@@ -71,7 +72,6 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
             fontSize: "1.4rem", // カスタムフォントサイズを指定
             backgroundColor: "#fff",
             padding: "0.5rem 1rem", // 上下左右の余白
-            fontFamily: "HannariMincho",
           }}
         >
           {event.year}年{event.month}月
@@ -88,7 +88,6 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
                 "&:hover": {
                   backgroundColor: "#D9D9D9", // ホバー時の背景色を濃くする
                 },
-                fontFamily: "HannariMincho",
               }}
             >
               詳細をみる
@@ -162,7 +161,6 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
             alignItems: "flex-start",
             height: "100%",
             width: "60%", // 幅を相対的に設定
-            fontFamily: "HannariMincho",
           }}
         >
           <CardContent
@@ -185,7 +183,6 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
                   whiteSpace: "nowrap", // テキストを1行に制限
                   overflow: "hidden", // あふれた部分を非表示に
                   textOverflow: "ellipsis", // あふれた部分を "..." に
-                  fontFamily: "HannariMincho",
                 }}
               >
                 {event.name}
@@ -205,7 +202,6 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
                   WebkitBoxOrient: "vertical",
                   overflow: "hidden",
                   textOverflow: "ellipsis", // あふれた部分を "..." で表示
-                  fontFamily: "HannariMincho",
                 }}
               >
                 {event.comment}
