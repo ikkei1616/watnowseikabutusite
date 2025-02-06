@@ -85,8 +85,6 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
               backgroundColor: "##f0f0f0",
               borderRadius: "8px", // 画像のボーダーを曲げる
               overflow: "hidden",
-              marginTop: "1rem",
-              marginBottom: "1rem",
               marginLeft: { xs: "1rem", sm: "2.5rem" },
               marginRight: { xs: "1rem", sm: "2.5rem" },
             }}
