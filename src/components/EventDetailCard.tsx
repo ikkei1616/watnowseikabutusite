@@ -57,7 +57,7 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             variant="subtitle1"
             color="#00AEEF"
             sx={{
-              fontSize: "clamp(1rem, 8vw, 3rem)", // カスタムフォントサイズを指定
+              fontSize: "clamp(1rem, 6vw, 3rem)", // カスタムフォントサイズを指定
               backgroundColor: "#fff",
               padding: "0.5rem 0", // 上下左右の余白
               whiteSpace: "nowrap", // 1行に固定
