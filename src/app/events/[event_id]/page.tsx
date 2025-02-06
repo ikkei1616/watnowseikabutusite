@@ -85,7 +85,7 @@ export default function EventDetailPage({
       <Box
         sx={{
           width: "100%",
-          padding: "2rem",
+          padding: { xs: "2rem 1rem 1rem 1rem", sm: "2rem" },
         }}
       >
         <Box
@@ -98,7 +98,10 @@ export default function EventDetailPage({
           }}
         >
           <PageHeader title="イベント詳細" />
-          <BackButton ButtonTitle="イベント一覧へ戻る" />
+          <BackButton
+            ButtonTitle="イベント一覧へ戻る"
+            MobileButtonTitle="一覧へ戻る"
+          />
         </Box>
         <Divider
           variant="fullWidth"

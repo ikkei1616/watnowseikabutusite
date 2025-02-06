@@ -5,9 +5,10 @@ import { Butterfly_Kids } from "next/font/google";
 
 interface BackButtonProps {
   ButtonTitle: string;
+  MobileButtonTitle: string;
 }
 
-const BackButton = ({ ButtonTitle }: BackButtonProps) => {
+const BackButton = (props: BackButtonProps) => {
   const isMobile = useMediaQuery("(max-width:600px)");
   return (
     <CardActions>
@@ -24,7 +25,7 @@ const BackButton = ({ ButtonTitle }: BackButtonProps) => {
             textAlign: "center",
           }}
         >
-          {isMobile ? "" : ButtonTitle}
+          {isMobile ? props.MobileButtonTitle : props.ButtonTitle}
 
           {/* 画像を挿入 */}
           <Image

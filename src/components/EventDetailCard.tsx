@@ -19,16 +19,14 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
   services,
 }) => {
   if (!event) {
-    return <div>イベント情報がありません。</div>; // event が undefined の場合のフォールバック
+    return <div>イベント情報がありません。</div>;
   }
-
-  //   <DottedDivider color="#878686" />
 
   return (
     <Box
       sx={{
         width: "100%",
-        padding: "0 80px 80px 80px",
+        padding: { xs: "0 1.5rem 1.5rem 1.5rem", sm: "0 5rem 5rem 5rem" },
       }}
     >
       <Card
@@ -59,9 +57,12 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             variant="subtitle1"
             color="#00AEEF"
             sx={{
-              fontSize: "3rem", // カスタムフォントサイズを指定
+              fontSize: "clamp(1rem, 8vw, 3rem)", // カスタムフォントサイズを指定
               backgroundColor: "#fff",
-              padding: "0.5rem 1rem", // 上下左右の余白
+              padding: "0.5rem 0", // 上下左右の余白
+              whiteSpace: "nowrap", // 1行に固定
+              overflow: "hidden", // はみ出しを防ぐ
+              textOverflow: "ellipsis", // 「...」で省略
             }}
           >
             {event.name}
@@ -69,12 +70,16 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
         </Box>
         <Box
           sx={{
-            display: "flex", //横並びのレイアウト
+            display: "flex",
+            flexDirection: {
+              xs: "column", // モバイル: 縦並び
+              sm: "row", // タブレット以上: 横並び
+            },
           }}
         >
           <Box
             sx={{
-              width: "50%", // 幅を相対的に設定
+              width: { xs: "90%", sm: "50%" }, // 幅を相対的に設定
               aspectRatio: "16/9", // 画像のアスペクト比を固定
               position: "relative",
               backgroundColor: "##f0f0f0",
@@ -82,17 +87,17 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
               overflow: "hidden",
               marginTop: "1rem",
               marginBottom: "1rem",
-              marginLeft: "2.5rem",
-              marginRight: "2.5rem",
+              marginLeft: { xs: "1rem", sm: "2.5rem" },
+              marginRight: { xs: "1rem", sm: "2.5rem" },
             }}
           >
             {event.image ? (
               <Image
                 src={event.image}
                 alt={`${event.name}の画像`}
-                layout="fill" // 親のBox全体をカバー
+                layout="fill"
                 objectFit="cover"
-                style={{ borderRadius: "8px" }} // ボーダーの半径を設定
+                style={{ borderRadius: "8px" }} // 画像のボーダーを曲げる
               />
             ) : (
               <Box
@@ -111,11 +116,10 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
           </Box>
           <Box
             sx={{
-              marginleft: "1rem",
+              marginLeft: "1rem",
               marginRight: "1.5rem",
               marginTop: "1rem",
               marginBottom: "1rem",
-              flexGrow: 1,
             }}
           >
             <Typography variant="body1" sx={{ color: "#878686" }}>
@@ -164,8 +168,8 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
         </Box>
         <Box
           sx={{
-            marginLeft: "2rem",
-            marginRight: "1rem",
+            marginLeft: { xs: "1rem", sm: "2rem" },
+            marginRight: { xs: "1rem", sm: "2rem" },
             marginTop: "1rem",
             marginBottom: "1rem",
           }}
@@ -188,8 +192,8 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
 
         <Box
           sx={{
-            marginLeft: "2rem",
-            marginRight: "1rem",
+            marginLeft: { xs: "1rem", sm: "2rem" },
+            marginRight: { xs: "1rem", sm: "2rem" },
             marginTop: "1rem",
           }}
         >
@@ -207,12 +211,12 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
           sx={{
             display: "flex", // Flexbox レイアウトを有効化
             flexWrap: "wrap", // 必要に応じて折り返し
-            gap: "16px", // カード間の間隔
-            paddingLeft: "16px", // コンテナの内側の余白
-            paddingRight: "16px",
-            paddingBottom: "16px",
+            paddingLeft: "1rem", // コンテナの内側の余白
+            paddingRight: "1rem",
+            paddingBottom: "1rem",
             justifyContent: "flex-start", // 左詰めで表示
-            marginLeft: "1rem",
+            marginLeft: { sm: "1rem" },
+            marginRight: { sm: "1rem" },
           }}
         >
           {services?.length ? (
@@ -240,8 +244,8 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             alignItems: "center",
             gap: "8px",
             width: "100%", // 全体の幅
-            paddingLeft: "2rem", // 左側の余白
-            paddingRight: "1rem", // 右側の余白
+            paddingLeft: { xs: "1rem", sm: "2rem" },
+            paddingRight: { xs: "1rem", sm: "2rem" }, // 右側の余白
             paddingBottom: "2rem", // 下側の余白
           }}
         >
