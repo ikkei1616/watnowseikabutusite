@@ -1,8 +1,8 @@
 "use client";
 import React from 'react';
 import { SubmitHandler, useForm } from "react-hook-form";
-import { ServiceInputSchema, ServiceOutputSchema, resolver } from "./technologiesFormSchema";
-import { useFormFields } from "./hooks";
+import { TechnologyInputSchema, TechnologyOutputSchema, resolver } from "./technologiesFormSchema";
+import { createFormFields } from "./hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
@@ -10,14 +10,14 @@ import AdminHeader from '@/components/admin/AdminHeader';
 import LoadingModal from '@/components/loading/LoadingModal';
 
 const NewServicesPage = () => {
-  const { control, handleSubmit } = useForm<ServiceInputSchema>({
+  const { control, handleSubmit } = useForm<TechnologyInputSchema>({
     mode: "onChange",
     resolver: resolver,
   });
 
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
+  const onSubmit: SubmitHandler<TechnologyOutputSchema> = async (data) => {
     setIsLoading(true);
 
     let imageUrl = '';
@@ -60,7 +60,7 @@ const NewServicesPage = () => {
     window.location.href = '/admin/technologies/existing-technologies';
   };
 
-  const formFields = useFormFields(control);
+  const formFields = createFormFields(control);
 
   return (
     <>
@@ -85,7 +85,7 @@ const NewServicesPage = () => {
             }}>
               <h3>{title}</h3>
               {fields.map((field) => (
-                <FormFactory<ServiceInputSchema> key={field.id} {...field} />
+                <FormFactory<TechnologyInputSchema> key={field.id} {...field} />
               ))}
             </section>
           ))}
