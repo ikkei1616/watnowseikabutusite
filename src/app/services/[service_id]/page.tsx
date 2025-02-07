@@ -90,9 +90,7 @@ export default function ServiceDetailPage({
         console.log(serviceData);
 
         if (serviceError || !serviceData) {
-          console.error(
-            "Error fetching event data:"
-          );
+          console.error("Error fetching event data:");
           setService(null); // サービスデータがない場合はnullに設定
         } else {
           const fetchedServiceData: ServiceDetail = {
@@ -217,7 +215,6 @@ export default function ServiceDetailPage({
           return;
         }
         setWebs(serviceWebData.map((item) => item.url));
-
       }
     };
 
@@ -229,7 +226,9 @@ export default function ServiceDetailPage({
   }
 
   if (!serviceID || !service) {
-    return <ShowError errorMessage="サービスが見つかりませんでした"></ShowError>
+    return (
+      <ShowError errorMessage="サービスが見つかりませんでした"></ShowError>
+    );
   }
 
   return (
@@ -246,10 +245,8 @@ export default function ServiceDetailPage({
       </div>
       <div className={styles.card}>
         <div className={styles.container}>
-          <div className={styles.atama}>
-            <h3 className={styles.title}>{service.name}</h3>
-            <p className={styles.comments}>{service.comment}</p>
-          </div>
+          <h3 className={styles.title}>{service.name}</h3>
+          <p className={styles.comments}>- {service.comment}</p>
 
           <div className={styles.karada}>
             <div className={styles.award}>
@@ -335,7 +332,7 @@ export default function ServiceDetailPage({
                       `(${service.developmentPeriod})`}
                   </span>
                 ) : service.releaseMonth !== null ? (
-                    <span className={styles.period}>
+                  <span className={styles.period}>
                     <span
                       style={{
                         opacity: "50%",
@@ -346,9 +343,7 @@ export default function ServiceDetailPage({
                     </span>
                   </span>
                 ) : (
-                    <span>
-                      {/* 年月共に未定の場合期間情報は伝えない */}
-                    </span>
+                  <span>{/* 年月共に未定の場合期間情報は伝えない */}</span>
                 )}
               </p>
               <p className={styles.details}>チーム名</p>
