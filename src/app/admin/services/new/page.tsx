@@ -1,8 +1,9 @@
 "use client";
-import React from 'react';
-import { SubmitHandler, useForm } from "react-hook-form";
+import React, { useState, useEffect, useRef } from 'react';
+import { useRouter } from "next/navigation";
+import { set, SubmitHandler, useForm } from "react-hook-form";
 import { ServiceInputSchema, ServiceOutputSchema, resolver } from "./serviceFormSchema";
-import { useFormFields } from "./hooks";
+import { createFormFields, FormField,EventData, AwardData, MenberData, TechData } from "./hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
@@ -10,12 +11,123 @@ import AdminHeader from '@/components/admin/AdminHeader';
 import LoadingModal from '@/components/loading/LoadingModal';
 
 const NewServicesPage = () => {
-  const { control, handleSubmit } = useForm<ServiceInputSchema>({
+  const { control, handleSubmit, reset, getValues } = useForm<ServiceInputSchema>({
     mode: "onChange",
     resolver: resolver,
   });
 
-  const [isLoading, setIsLoading] = React.useState(false);
+  const router = useRouter();
+
+  const [formFields, setFormFields] = useState<{ container: string, title: string, fields: FormField<ServiceInputSchema>[] }[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const eventsRef = useRef<EventData[]>([]);
+  const awardsRef = useRef<AwardData[]>([]);
+  const menbersRef = useRef<MenberData[]>([]);
+  const techsRef = useRef<TechData[]>([]);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data: eventsData, error: eventsError } = await supabase
+          .from('events')
+          .select('id, name')
+          .order('id', { ascending: true });
+
+        if (eventsError) {
+          throw new Error(`Error fetching events: ${eventsError.message}`);
+        }
+
+        const { data: awardsData, error: awardsError } = await supabase
+          .from('awards')
+          .select('id, name')
+          .order('id', { ascending: true });
+
+        if (awardsError) {
+          throw new Error(`Error fetching awards: ${awardsError.message}`);
+        }
+        const { data: menbersData, error: menbersError } = await supabase
+          .from('users')
+          .select('id, name, nickname')
+
+        if (menbersError) {
+          throw new Error(`Error fetching menbers: ${menbersError.message}`);
+        }
+        const { data: techsData, error: techsError } = await supabase
+          .from('technologies')
+          .select('id, name')
+
+        if (techsError) {
+          throw new Error(`Error fetching techs: ${techsError.message}`);
+        }
+
+        const Events = eventsData.map((event) => ({ value: event.id, label: event.name }));
+        const Awards = awardsData.map((award) => ({ value: award.id, label: award.name }));
+        const Menbers = menbersData.map((menber) => ({ value: menber.id, label: `${menber.name}　(${menber.nickname})` }));
+        const Techs = techsData.map((tech) => ({ value: tech.id, label: tech.name }));
+        eventsRef.current = Events;
+        awardsRef.current = Awards;
+        menbersRef.current = Menbers;
+        techsRef.current = Techs;
+        setFormFields(createFormFields(control, Events, [], Menbers, Techs, "", "", onChangeEventYear,onChangeEvent));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const onChangeEventYear = async (item:string) => {
+    try{
+      const { data: eventsData, error: eventsError } = await supabase
+        .from('events')
+        .select('id, name')
+        .order('id', { ascending: true })
+        .eq('year', item);
+
+      if (eventsError) {
+        throw new Error(`Error fetching events: ${eventsError.message}`);
+      }
+
+      eventsRef.current = eventsData.map((event) => ({ value: event.id, label: event.name }));
+      reset({ ...getValues(), event_id: undefined, award_id: undefined});
+      setFormFields(createFormFields(control, eventsRef.current, [], menbersRef.current, techsRef.current, "", "", onChangeEventYear,onChangeEvent));
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }
+
+  const onChangeEvent = async (item:string) => {
+    try{
+      const { data: awardsData, error: awardsError } = await supabase
+        .from('awards')
+        .select('id, name')
+        .order('id', { ascending: true })
+        .eq('event_id', item);
+
+      if (awardsError) {
+        throw new Error(`Error fetching awards: ${awardsError.message}`);
+      }
+
+      awardsRef.current = awardsData.map((award) => ({ value: award.id, label: award.name }));
+      setFormFields(createFormFields(control, eventsRef.current, awardsRef.current, menbersRef.current, techsRef.current, "", "", onChangeEventYear,onChangeEvent));
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }
+
+  const handleCancel = () => {
+    const confirmDelete = window.confirm("編集内容が破棄されますがよろしいですか？");
+
+    if (!confirmDelete) {
+      return;
+    }
+    router.push('/admin/services');
+  }
 
   const onSubmit: SubmitHandler<ServiceOutputSchema> = async (data) => {
     setIsLoading(true);
@@ -110,10 +222,10 @@ const NewServicesPage = () => {
       }
     }
 
-    if(data.url_web){
+    if (data.url_web) {
       const { error: urlWebError } = await supabase
         .from('url_website')
-        .insert([{service_id: serviceData[0].id, url: data.url_web}]);
+        .insert([{ service_id: serviceData[0].id, url: data.url_web }]);
 
       if (urlWebError) {
         console.error('Error inserting url_web:', urlWebError);
@@ -123,10 +235,10 @@ const NewServicesPage = () => {
       }
     }
 
-    if(data.url_appstore){
+    if (data.url_appstore) {
       const { error: urlAppleStoreError } = await supabase
         .from('url_app_store')
-        .insert([{service_id: serviceData[0].id, url: data.url_appstore}]);
+        .insert([{ service_id: serviceData[0].id, url: data.url_appstore }]);
 
       if (urlAppleStoreError) {
         console.error('Error inserting url_web:', urlAppleStoreError);
@@ -136,10 +248,10 @@ const NewServicesPage = () => {
       }
     }
 
-    if(data.url_googleplay){
+    if (data.url_googleplay) {
       const { error: urlGooglePlayError } = await supabase
         .from('url_google_play')
-        .insert([{service_id: serviceData[0].id, url: data.url_googleplay}]);
+        .insert([{ service_id: serviceData[0].id, url: data.url_googleplay }]);
 
       if (urlGooglePlayError) {
         console.error('Error inserting url_web:', urlGooglePlayError);
@@ -149,10 +261,10 @@ const NewServicesPage = () => {
       }
     }
 
-    if(data.url_others){
+    if (data.url_others) {
       const { error: urlOthersError } = await supabase
         .from('url_others')
-        .insert([{service_id: serviceData[0].id, url: data.url_others}]);
+        .insert([{ service_id: serviceData[0].id, url: data.url_others }]);
 
       if (urlOthersError) {
         console.error('Error inserting url_web:', urlOthersError);
@@ -162,20 +274,20 @@ const NewServicesPage = () => {
       }
     }
 
-    window.location.href = '/admin/services/existing-services';
+    router.push('/admin/services/existing-services');
   };
 
-  const formFields = useFormFields(control);
+
 
   return (
     <>
-    <LoadingModal isOpen={isLoading} />
+      <LoadingModal isOpen={isLoading} />
       <main style={{
         width: "90%",
         margin: "0 auto",
       }
       }>
-        <AdminHeader isEditing/>
+        <AdminHeader isEditing />
         <h1 style={{
           borderBottom: "1px solid var(--border)",
           paddingBottom: "12px",
@@ -200,7 +312,7 @@ const NewServicesPage = () => {
             gap: '60px',
             margin: "20px 0"
           }}>
-            <FormButton name="キャンセル" type='cancel' onClick={() => window.location.href = '/admin/services'}/>
+            <FormButton name="キャンセル" type='cancel' onClick={handleCancel} />
             <FormButton name="新規作成" type='submit' />
           </div>
         </form>

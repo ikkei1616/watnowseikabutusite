@@ -9,7 +9,7 @@ const imageSchema = z.instanceof(File)
     message: 'ファイルのサイズは5MB以下でなければなりません。',
   });
 
-const serviceSchema = z.object({
+const technologySchema = z.object({
   name: z.string().min(1, "技術名は必須です"),
   iconImage: z.union([z.instanceof(File), z.undefined()]).optional()
   .refine(file => file === undefined || imageSchema.safeParse(file).success, {
@@ -17,6 +17,6 @@ const serviceSchema = z.object({
   }),
 });
 
-export type ServiceInputSchema = z.input<typeof serviceSchema>;
-export type ServiceOutputSchema = z.output<typeof serviceSchema>;
-export const resolver = zodResolver(serviceSchema);
+export type TechnologyInputSchema = z.input<typeof technologySchema>;
+export type TechnologyOutputSchema = z.output<typeof technologySchema>;
+export const resolver = zodResolver(technologySchema);

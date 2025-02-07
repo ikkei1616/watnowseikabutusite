@@ -26,7 +26,6 @@ const AdminHeader = ({ isEditing }: { isEditing?: boolean }) => {
         component="div"
         sx={{
           fontSize: "2.25rem",
-          fontFamily: "HannariMincho",
           lineHeight: "0.85",
           fontWeight: "regular",
           color: "white",
@@ -65,7 +64,6 @@ const AdminHeader = ({ isEditing }: { isEditing?: boolean }) => {
           <Typography
             sx={{
               fontSize: "1.5rem",
-              fontFamily: "HannariMincho",
               lineHeight: "0.85",
               fontWeight: "regular",
               color: "white",

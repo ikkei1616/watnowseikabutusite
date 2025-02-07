@@ -95,7 +95,6 @@ export const EventYearList: React.FC<EventYearListProps> = ({
             alignItems: "center",
             padding: "10px 0",
             marginLeft: "20px",
-            fontFamily: "HannariMincho",
           }}
           disablePadding
         >
@@ -134,7 +133,6 @@ export const EventYearList: React.FC<EventYearListProps> = ({
               sx={{
                 color: "gray",
                 fontSize: "18px",
-                fontFamily: "HannariMincho",
               }}
             >
               {event.count} event{event.count > 1 ? "s" : ""}
@@ -143,7 +141,6 @@ export const EventYearList: React.FC<EventYearListProps> = ({
             <Typography
               variant="h4"
               color="inherit"
-              sx={{ fontFamily: "HannariMincho" }}
             >
               {event.year}
             </Typography>
