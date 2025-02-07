@@ -93,7 +93,6 @@ export default function EventDetailPage({
             display: "flex",
             alignItems: "flex-end", // 下方揃え
             justifyContent: "space-between", // 左右に配置
-            padding: "0.5rem 1rem 0 1rem",
             position: "relative",
           }}
         >
@@ -105,7 +104,6 @@ export default function EventDetailPage({
         </Box>
         <Divider
           variant="fullWidth"
-          sx={{ borderColor: "#00AEEF", paddingTop: "8px" }}
         />
       </Box>
       <EventDetailCard event={event} services={services} />

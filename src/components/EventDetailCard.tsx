@@ -38,6 +38,7 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
           overflow: "hidden",
           border: "1px solid",
           borderColor: "#fff",
+          padding: "10px 37px 37px 37px",
         }}
       >
         <Box
@@ -45,10 +46,6 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             display: "flex",
             alignItems: "flex-end", // 下方揃え
             justifyContent: "space-between", // 日付とボタンを左右に配置
-            paddingTop: "0.5rem",
-            paddingBottom: "0",
-            paddingLeft: "1rem",
-            paddingRight: "1rem",
             position: "relative",
           }}
         >
@@ -59,9 +56,6 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             sx={{
               fontSize: "clamp(1rem, 6vw, 3rem)", // カスタムフォントサイズを指定
               backgroundColor: "#fff",
-              paddingTop: "0.5rem ",
-              paddingBottom: "0.5rem",
-              paddingLeft: { xs: "0.2rem", md: "1.5rem" },
               whiteSpace: "nowrap", // 1行に固定
               overflow: "hidden", // はみ出しを防ぐ
               textOverflow: "ellipsis", // 「...」で省略
@@ -72,58 +66,45 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
         </Box>
         <Box
           sx={{
+            paddingTop: "37px",
             display: "flex",
             flexDirection: {
               xs: "column", // モバイル: 縦並び
               md: "row", // タブレット以上: 横並び
             },
+            alignItems: "center",
+            gap: "24px",
           }}
         >
+          {event.image ? (
+            <Image
+              src={event.image}
+              alt={`${event.name}の画像`}
+              width={500}
+              height={500}
+              priority
+              style={{
+                height: "auto",
+                width: "100%",
+              }}
+            />
+          ) : (
+            <Box
+              sx={{
+                backgroundColor: "#D9D9D9",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "300px",
+                width: "100%",
+              }}
+            >
+              画像がありません
+            </Box>
+          )}
           <Box
             sx={{
-              width: { xs: "90%", sm: "70%", md: "50%" }, // 幅を相対的に設定
-              aspectRatio: "16/9", // 画像のアスペクト比を固定
-              position: "relative",
-              backgroundColor: "#f0f0f0",
-              borderRadius: "8px", // 画像のボーダーを曲げる
-              overflow: "hidden",
-              marginLeft: { xs: "1rem", md: "2.5rem" },
-              marginRight: { xs: "1rem", md: "2.5rem" },
-            }}
-          >
-            {event.image ? (
-              <Image
-                src={event.image}
-                alt={`${event.name}の画像`}
-                layout="fill"
-                objectFit="cover"
-                style={{
-                  transform: "scale(1.1)",
-                }}
-              />
-            ) : (
-              <Box
-                sx={{
-                  backgroundColor: "#D9D9D9",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: "100%",
-                  width: "100%",
-                }}
-              >
-                画像がありません
-              </Box>
-            )}
-          </Box>
-          <Box
-            sx={{
-              marginLeft: "1rem",
-              marginRight: { xs: "1rem", md: "2rem" },
-              marginTop: "1rem",
-              marginBottom: "1rem",
-
-              width: { xs: "90%", md: "50%" },
+              width: "100%",
             }}
           >
             <Typography variant="body1" sx={{ color: "#878686" }}>
@@ -135,14 +116,11 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             </Box>
             <Typography
               variant="body1"
-              sx={{ marginTop: "0.3rem", fontSize: "1.3rem" }}
+              sx={{ fontSize: "1.3rem", padding: "14px 0" }}
             >
               {event.year}年{event.month}月
             </Typography>
-            <Typography
-              variant="body1"
-              sx={{ color: "#878686", marginTop: "0.7rem" }}
-            >
+            <Typography variant="body1" sx={{ color: "#878686" }}>
               開催場所
             </Typography>
             <Box sx={{ flexGrow: 1 }}>
@@ -150,14 +128,11 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             </Box>
             <Typography
               variant="body1"
-              sx={{ marginTop: "0.3rem", fontSize: "1.3rem" }}
+              sx={{ fontSize: "1.3rem", padding: "14px 0" }}
             >
               {event.location || "登録なし"}
             </Typography>
-            <Typography
-              variant="body1"
-              sx={{ color: "#878686", marginTop: "0.7rem" }}
-            >
+            <Typography variant="body1" sx={{ color: "#878686" }}>
               関連情報
             </Typography>
             <Box sx={{ flexGrow: 1 }}>
@@ -165,7 +140,7 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             </Box>
             <Typography
               variant="body1"
-              sx={{ fontSize: "1rem", marginTop: "0.3rem" }}
+              sx={{ fontSize: "1rem", padding: "14px 0" }}
             >
               {event.url ? (
                 <Box sx={{ overflow: "hidden", wordBreak: "break-word" }}>
@@ -179,41 +154,30 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             </Typography>
           </Box>
         </Box>
-        <Box
-          sx={{
-            marginLeft: { xs: "1rem", md: "2rem" },
-            marginRight: { xs: "1rem", md: "2rem" },
-            marginTop: "1rem",
-            marginBottom: "1rem",
-          }}
-        >
+        <Box>
           <Typography
             sx={{
               fontSize: "1.4rem",
               color: "#00AEEF",
+              paddingTop: "10px",
             }}
           >
             イベント詳細
           </Typography>
           <DottedDivider color="#00AEEF" />
-          <Box sx={{ marginTop: "1rem" }}>
-            <Typography sx={{ lineHeight: 1.5 }}>
+          <Box>
+            <Typography sx={{ lineHeight: 1.5, paddingTop: "10px" }}>
               {event.comment ? event.comment : "コメントはありません"}
             </Typography>
           </Box>
         </Box>
 
-        <Box
-          sx={{
-            marginLeft: { xs: "1rem", md: "2rem" },
-            marginRight: { xs: "1rem", md: "2rem" },
-            marginTop: "1rem",
-          }}
-        >
+        <Box>
           <Typography
             sx={{
               fontSize: "1.4rem",
               color: "#00AEEF",
+              paddingTop: "10px",
             }}
           >
             代表サービス
@@ -224,31 +188,20 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
           sx={{
             display: "flex", // Flexbox レイアウトを有効化
             flexWrap: "wrap", // 必要に応じて折り返し
-            paddingLeft: "1rem", // コンテナの内側の余白
-            paddingRight: "1rem",
-            paddingBottom: "1rem",
             justifyContent: "flex-start", // 左詰めで表示
-            marginLeft: { md: "1rem" },
-            marginRight: { md: "1rem" },
+            paddingTop: "10px",
           }}
         >
           {services?.length ? (
             <ServicesContainer>
               {services.map((service) => (
-                <Box
-                  key={service.id}
-                  // sx={{
-                  //   flex: "1 1 calc(33.333% - 16px)", // 幅を3等分（ギャップを考慮）
-                  //   maxWidth: "calc(33.333% - 16px)", // 最大幅を設定
-                  //   boxSizing: "border-box", // パディングとボーダーを含む幅を計算
-                  // }}
-                >
+                <Box key={service.id}>
                   <ServiceCard service={service} />
                 </Box>
               ))}
             </ServicesContainer>
           ) : (
-            <Typography sx={{ marginTop: "1rem" }}>登録なし</Typography>
+            <Typography>登録なし</Typography>
           )}
         </Box>
         <Box
@@ -259,7 +212,6 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             width: "100%", // 全体の幅
             paddingLeft: { xs: "1rem", md: "2rem" },
             paddingRight: { xs: "1rem", md: "2rem" }, // 右側の余白
-            paddingBottom: "2rem", // 下側の余白
           }}
         >
           {/* 左側の線 */}
