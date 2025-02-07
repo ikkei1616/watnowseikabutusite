@@ -1,5 +1,6 @@
-import LoadingPage from "@/components/loading/LoadingPage";
+"use client";
+import SplashScreen from "@/components/SplashScreen";
 
 export default function Home() {
-  return <LoadingPage />;
+  return <SplashScreen />;
 }

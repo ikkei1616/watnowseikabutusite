@@ -30,7 +30,6 @@ const SelectYearOptions = ({
     backgroundPosition: "left bottom",
     "& .MuiTypography-root": {
       flexGrow: 1,
-      fontFamily: "HannariMincho",
       fontSize: "1.5rem",
       color: "var(--text)",
     },

@@ -16,6 +16,7 @@ import DetailHeader from "@/components/DetailHeader";
 import DisplaySNS from "@/components/userDetails/DisplaySNS";
 import ServiceCard from "@/components/ServiceCard";
 import ServicesContainer from "@/components/ServicesContainer";
+import ErrorPage from "@/components/error/ShowError";
 
 const UserPage = ({ params }: { params: { account_id: string } }) => {
   const accountID = params.account_id;
@@ -26,12 +27,7 @@ const UserPage = ({ params }: { params: { account_id: string } }) => {
   }
 
   if (!userData) {
-    return (
-      <main className={styles.main_center}>
-        <Header mode={HeaderMode.NONE} />
-        <h2>存在しないユーザです</h2>
-      </main>
-    );
+    return <ErrorPage errorMessage="存在しないユーザです" />;
   }
 
   return (
