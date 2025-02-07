@@ -43,6 +43,8 @@ const EventServices = ({ params }: { params: { event_id: string } }) => {
         .from("services")
         .select("id, name , image, description, award_id, awards (id,name)")
         .eq("event_id", eventId)
+        .order("award_id",{ascending: true})
+        .order("release_year",{ ascending: false })
         .returns<EventAllService[]>();
 
       if (error) {
@@ -115,7 +117,6 @@ const EventServices = ({ params }: { params: { event_id: string } }) => {
       </>
       
     )
-
   }
 
 

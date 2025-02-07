@@ -28,7 +28,8 @@ const Home: React.FC = () => {
       const { data, error } = await supabase
         .from("services")
         .select("id,name,image,description")
-        .order("id", { ascending: true })
+        .order("release_year",{ ascending: false })
+        .order("release_month",{ ascending: false })
         .range(start,end);
         console.log(data)
 
@@ -66,8 +67,9 @@ const Home: React.FC = () => {
     const fetchService = async () => {
       const { data, error } = await supabase
         .from("services")
-        .select("id,name,image")
-        .order("id", { ascending: true })
+        .select("id,name,image,description")
+        .order("release_year",{ ascending: false })
+        .order("release_month",{ ascending: false })
         .range(start,end)
       if (error) {
         console.error("Error fetching events:", error);
