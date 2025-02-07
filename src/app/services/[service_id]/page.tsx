@@ -22,6 +22,7 @@ import { url } from "inspector";
 import CreatorItem from "@/components/CreatorItem";
 
 import { Box } from "@mui/material";
+import ShowError from "@/components/error/ShowError";
 
 export default function ServiceDetailPage({
   params,
@@ -245,7 +246,8 @@ export default function ServiceDetailPage({
   }
 
   if (!serviceID || !service) {
-    return <p className={styles.notFound}>イベントが見つかりませんでした。</p>;
+    // return <p className={styles.notFound}>イベントが見つかりませんでした。</p>;
+    return <ShowError errorMessage="サービスが見つかりませんでした"></ShowError>
   }
 
   return (
