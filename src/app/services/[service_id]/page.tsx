@@ -7,9 +7,6 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { supabase } from "@/supabase/supabase";
 import type { ServiceDetail } from "@/types/Service";
 
-import type { Award } from "@/types/Award";
-import { serialize } from "v8";
-import { serverHooks } from "next/dist/server/app-render/entry-base";
 import Header from "@/components/Header";
 import Technology from "@/types/Technology";
 import { HeaderMode } from "@/types/HeaderMode";
@@ -18,7 +15,6 @@ import DetailHeader from "@/components/DetailHeader";
 import ItemList from "@/components/ItemList";
 import TechItem from "@/components/TechItem";
 import Item from "@/components/Item";
-import { url } from "inspector";
 import CreatorItem from "@/components/CreatorItem";
 
 import { Box } from "@mui/material";
@@ -96,7 +92,6 @@ export default function ServiceDetailPage({
         if (serviceError || !serviceData) {
           console.error(
             "Error fetching event data:"
-            // serviceError || awardsError
           );
           setService(null); // サービスデータがない場合はnullに設定
         } else {
@@ -223,18 +218,6 @@ export default function ServiceDetailPage({
         }
         setWebs(serviceWebData.map((item) => item.url));
 
-        //   const { data: creators, error: creatorsError } = await supabase
-        //     .from("users")
-        //     .select("*")
-        //     .eq("service_id", serviceID);
-        //   console.log(serviceWebData);
-
-        //   if (serviceWebError || !serviceWebData) {
-        //     console.error("Error fetching URLs:", serviceWebError);
-        //     setWebs([]);
-        //     return;
-        //   }
-        //   setWebs(serviceWebData.map((item) => item.url));
       }
     };
 
@@ -246,14 +229,12 @@ export default function ServiceDetailPage({
   }
 
   if (!serviceID || !service) {
-    // return <p className={styles.notFound}>イベントが見つかりませんでした。</p>;
     return <ShowError errorMessage="サービスが見つかりませんでした"></ShowError>
   }
 
   return (
     <main className={styles.fullScreen}>
       <Header mode={HeaderMode.NONE} />
-      {/* <div className={styles.Header}></div> */}
 
       <div className={styles.head}>
         <h1 className={styles.servicename}>
@@ -349,7 +330,6 @@ export default function ServiceDetailPage({
                   </span>
                 )}
                 {service.developmentPeriod !== "nullnull" ? (
-                  //  service.development_period_unit!=null && `(${service.development_period_num}${service.development_period_unit})` }
                   <span className={styles.period}>
                     {service.developmentPeriod &&
                       `(${service.developmentPeriod})`}
@@ -371,7 +351,6 @@ export default function ServiceDetailPage({
                     </span>
                 )}
               </p>
-              {/* <p className={styles.details}>説明: {service.description}</p> */}
               <p className={styles.details}>チーム名</p>
 
               {service.teamName ? (
@@ -437,25 +416,9 @@ export default function ServiceDetailPage({
 
           <DetailContainer>
             <DetailHeader title="説明" />
-            {/* <ItemList>
-              {technologies.map((tech) => (
-                <TechItem key={tech.id} technology={tech} />
-              ))}
-            </ItemList> */}
+
             <div className={styles.desda}>{service.description}</div>
           </DetailContainer>
-
-          {/* 賞のリストを表示 */}
-          {/* {service.awards && service.awards.length > 0 && (
-          <div className={styles.awardsContainer}>
-            <h2 className={styles.title}>賞一覧</h2>
-            {service.awards.map((award: Award, index: number) => (
-              <div key={index} className={styles.awardItem}>
-                {award.order_num}. {award.name}
-              </div>
-            ))}
-          </div>
-        )} */}
         </div>
       </div>
     </main>
