@@ -18,6 +18,7 @@ import CreatorItem from "@/components/CreatorItem";
 import { Box } from "@mui/material";
 import ShowError from "@/components/error/ShowError";
 import LoadingPage from "@/components/loading/LoadingPage";
+import Image from "next/image";
 
 export default function ServiceDetailPage({
   params,
@@ -242,9 +243,11 @@ export default function ServiceDetailPage({
             {
               service.awardName != null ? (
                 <div className={styles.award}>
-                  <img
+                  <Image
                     src={"/goldbox.svg"}
                     alt={"award"}
+                    width={70}
+                    height={70}
                     className={styles.awardImage}
                   />
                   <p className={styles.awardName}>{service.awardName}</p>
@@ -252,9 +255,11 @@ export default function ServiceDetailPage({
               ) : null // 賞が存在しない場合のフォールバック
             }
             {service.image ? (
-              <img
+              <Image
                 className={styles.image}
                 src={service.image}
+                width={300}
+                height={300}
                 alt={service.name}
               />
             ) : (
