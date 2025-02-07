@@ -1,5 +1,5 @@
 
-import Award  from "@/types/Award";
+import { Award } from "@/types/Award";
 import { ReactNode } from "react";
 
 //Service一覧ページで利用する型定義
