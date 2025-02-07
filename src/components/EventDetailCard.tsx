@@ -84,7 +84,7 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
               width: { xs: "90%", sm: "50%" }, // 幅を相対的に設定
               aspectRatio: "16/9", // 画像のアスペクト比を固定
               position: "relative",
-              backgroundColor: "##f0f0f0",
+              backgroundColor: "#f0f0f0",
               borderRadius: "8px", // 画像のボーダーを曲げる
               overflow: "hidden",
               marginLeft: { xs: "1rem", sm: "2.5rem" },
@@ -97,7 +97,9 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
                 alt={`${event.name}の画像`}
                 layout="fill"
                 objectFit="cover"
-                style={{ borderRadius: "8px" }} // 画像のボーダーを曲げる
+                style={{
+                  transform: "scale(1.1)",
+                }}
               />
             ) : (
               <Box
