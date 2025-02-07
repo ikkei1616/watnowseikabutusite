@@ -9,7 +9,6 @@ const DetailHeader = ({ title }: { title: string }) => {
         sx={{
           paddingLeft: "8px",
           fontSize: "1.5rem",
-          fontFamily: "HannariMincho",
           color: "#00AEEF",
         }}
       >

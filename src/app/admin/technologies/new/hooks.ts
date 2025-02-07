@@ -1,15 +1,16 @@
-import { ServiceInputSchema } from "./technologiesFormSchema";
+import { TechnologyInputSchema } from "./technologiesFormSchema";
 import { Control } from "react-hook-form";
 import { FieldValues } from "react-hook-form";
 import { FormFactoryProps } from "@/components/form/FormFactory";
 
-type FormField<T extends FieldValues> = {
+export type FormField<T extends FieldValues> = {
     id: number;
 } & FormFactoryProps<T>;
 
-export const useFormFields = (
-    control: Control<ServiceInputSchema>,
-): { container: string, title: string, fields: FormField<ServiceInputSchema>[] }[] => {
+export const createFormFields = (
+    control: Control<TechnologyInputSchema>,
+    defaultIcon?: string,
+): { container: string, title: string, fields: FormField<TechnologyInputSchema>[] }[] => {
     return [
         {
             container: "technologiesInfo",
@@ -22,7 +23,8 @@ export const useFormFields = (
                         control,
                         name: "iconImage",
                         label: "アイコン画像",
-                        type: "image"
+                        type: "image",
+                        defaultValue: defaultIcon,
                     }
                 },
                 {
