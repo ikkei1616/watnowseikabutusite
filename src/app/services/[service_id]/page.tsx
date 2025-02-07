@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import { supabase } from "@/supabase/supabase";
@@ -30,11 +29,8 @@ export default function ServiceDetailPage({
   const [service, setService] = useState<ServiceDetail | null>(null);
   const [relatedEventName, setRelatedEventName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
   const [technologies, setTechnologies] = useState<Technology[]>([]);
   const [webs, setWebs] = useState<string[]>([]);
-  const [apples, setapples] = useState<string[]>([]);
-  const [creators, setCreators] = useState<string[]>([]);
 
   // service_idの変更をトリガーにしてsetServiceを実行
   useEffect(() => {
@@ -86,8 +82,6 @@ export default function ServiceDetailPage({
           )
           .eq("id", serviceID)
           .single();
-        console.log(`serviceID: ${serviceID}`);
-        console.log(serviceData);
 
         if (serviceError || !serviceData) {
           console.error("Error fetching event data:");
@@ -124,7 +118,6 @@ export default function ServiceDetailPage({
               ),
             })),
           };
-          console.log(fetchedServiceData);
 
           setService(fetchedServiceData);
 
@@ -143,7 +136,6 @@ export default function ServiceDetailPage({
         }
 
         setLoading(false); // ここでローディング終了
-        console.log(serviceData);
       }
     };
     fetchServiceData();
@@ -158,7 +150,6 @@ export default function ServiceDetailPage({
             .from("services_technologies")
             .select("technology_id")
             .eq("service_id", serviceID);
-        console.log(serviceTechData);
 
         if (serviceTechError || !serviceTechData) {
           console.error("Error fetching technology IDs:", serviceTechError);
@@ -207,7 +198,6 @@ export default function ServiceDetailPage({
           .from("url_website")
           .select("url")
           .eq("service_id", serviceID);
-        console.log(serviceWebData);
 
         if (serviceWebError || !serviceWebData) {
           console.error("Error fetching URLs:", serviceWebError);
@@ -418,15 +408,4 @@ export default function ServiceDetailPage({
       </div>
     </main>
   );
-}
-function setUrl(arg0: null) {
-  throw new Error("Function not implemented.");
-}
-
-function item(
-  value: { url: any },
-  index: number,
-  array: { url: any }[]
-): string {
-  throw new Error("Function not implemented.");
 }
