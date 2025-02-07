@@ -27,9 +27,10 @@ const Home: React.FC = () => {
     const fetchService = async () => {
       const { data, error } = await supabase
         .from("services")
-        .select("id,name,image")
+        .select("id,name,image,description")
         .order("id", { ascending: true })
         .range(start,end);
+        console.log(data)
 
       if (error) {
         console.error("Error fetching events:", error);
