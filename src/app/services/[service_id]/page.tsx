@@ -239,22 +239,18 @@ export default function ServiceDetailPage({
           <p className={styles.comments}>- {service.comment}</p>
 
           <div className={styles.karada}>
-            <div className={styles.award}>
-              {service.awardName != null ? (
-                <img
-                  src={"/goldbox.svg"}
-                  alt={"award"}
-                  className={styles.awardImage}
-                />
-              ) : (
-                <p></p> // 賞が存在しない場合のフォールバック
-              )}
-              {service.awardName !== null ? (
-                <p className={styles.awardName}>{service.awardName}</p>
-              ) : (
-                <p>省内</p> // 賞が存在しない場合のフォールバック
-              )}
-            </div>
+            {
+              service.awardName != null ? (
+                <div className={styles.award}>
+                  <img
+                    src={"/goldbox.svg"}
+                    alt={"award"}
+                    className={styles.awardImage}
+                  />
+                  <p className={styles.awardName}>{service.awardName}</p>
+                </div>
+              ) : null // 賞が存在しない場合のフォールバック
+            }
             {service.image ? (
               <img
                 className={styles.image}
