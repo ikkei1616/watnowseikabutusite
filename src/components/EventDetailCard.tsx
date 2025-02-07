@@ -59,7 +59,9 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             sx={{
               fontSize: "clamp(1rem, 6vw, 3rem)", // カスタムフォントサイズを指定
               backgroundColor: "#fff",
-              padding: "0.5rem 0", // 上下左右の余白
+              paddingTop: "0.5rem ",
+              paddingBottom: "0.5rem",
+              paddingLeft: { xs: "0.2rem", sm: "1.5rem" },
               whiteSpace: "nowrap", // 1行に固定
               overflow: "hidden", // はみ出しを防ぐ
               textOverflow: "ellipsis", // 「...」で省略
