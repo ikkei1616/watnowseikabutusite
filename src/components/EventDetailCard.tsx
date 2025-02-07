@@ -115,15 +115,20 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
           <Box
             sx={{
               marginLeft: "1rem",
-              marginRight: "1.5rem",
+              marginRight: { xs: "1rem", sm: "2rem" },
               marginTop: "1rem",
               marginBottom: "1rem",
+
+              width: { xs: "90%", sm: "50%" },
             }}
           >
             <Typography variant="body1" sx={{ color: "#878686" }}>
               開催月
             </Typography>
-            <DottedDivider color="#878686" />
+            {/* <DottedDivider color="#878686" /> */}
+            <Box sx={{ flexGrow: 1 }}>
+              <DottedDivider color="#878686" />
+            </Box>
             <Typography
               variant="body1"
               sx={{ marginTop: "0.3rem", fontSize: "1.3rem" }}
@@ -136,7 +141,9 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             >
               開催場所
             </Typography>
-            <DottedDivider color="#878686" />
+            <Box sx={{ flexGrow: 1 }}>
+              <DottedDivider color="#878686" />
+            </Box>
             <Typography
               variant="body1"
               sx={{ marginTop: "0.3rem", fontSize: "1.3rem" }}
@@ -149,7 +156,9 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             >
               関連情報
             </Typography>
-            <DottedDivider color="#878686" />
+            <Box sx={{ flexGrow: 1 }}>
+              <DottedDivider color="#878686" />
+            </Box>
             <Typography
               variant="body1"
               sx={{ fontSize: "1rem", marginTop: "0.3rem" }}
