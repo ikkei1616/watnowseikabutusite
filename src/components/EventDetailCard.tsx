@@ -26,7 +26,7 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
     <Box
       sx={{
         width: "100%",
-        padding: { xs: "0 1.5rem 1.5rem 1.5rem", sm: "0 5rem 5rem 5rem" },
+        padding: { xs: "0 1.5rem 1.5rem 1.5rem", md: "0 5rem 5rem 5rem" },
       }}
     >
       <Card
@@ -61,7 +61,7 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
               backgroundColor: "#fff",
               paddingTop: "0.5rem ",
               paddingBottom: "0.5rem",
-              paddingLeft: { xs: "0.2rem", sm: "1.5rem" },
+              paddingLeft: { xs: "0.2rem", md: "1.5rem" },
               whiteSpace: "nowrap", // 1行に固定
               overflow: "hidden", // はみ出しを防ぐ
               textOverflow: "ellipsis", // 「...」で省略
@@ -75,20 +75,20 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             display: "flex",
             flexDirection: {
               xs: "column", // モバイル: 縦並び
-              sm: "row", // タブレット以上: 横並び
+              md: "row", // タブレット以上: 横並び
             },
           }}
         >
           <Box
             sx={{
-              width: { xs: "90%", sm: "50%" }, // 幅を相対的に設定
+              width: { xs: "90%", sm: "70%", md: "50%" }, // 幅を相対的に設定
               aspectRatio: "16/9", // 画像のアスペクト比を固定
               position: "relative",
               backgroundColor: "#f0f0f0",
               borderRadius: "8px", // 画像のボーダーを曲げる
               overflow: "hidden",
-              marginLeft: { xs: "1rem", sm: "2.5rem" },
-              marginRight: { xs: "1rem", sm: "2.5rem" },
+              marginLeft: { xs: "1rem", md: "2.5rem" },
+              marginRight: { xs: "1rem", md: "2.5rem" },
             }}
           >
             {event.image ? (
@@ -119,11 +119,11 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
           <Box
             sx={{
               marginLeft: "1rem",
-              marginRight: { xs: "1rem", sm: "2rem" },
+              marginRight: { xs: "1rem", md: "2rem" },
               marginTop: "1rem",
               marginBottom: "1rem",
 
-              width: { xs: "90%", sm: "50%" },
+              width: { xs: "90%", md: "50%" },
             }}
           >
             <Typography variant="body1" sx={{ color: "#878686" }}>
@@ -181,8 +181,8 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
         </Box>
         <Box
           sx={{
-            marginLeft: { xs: "1rem", sm: "2rem" },
-            marginRight: { xs: "1rem", sm: "2rem" },
+            marginLeft: { xs: "1rem", md: "2rem" },
+            marginRight: { xs: "1rem", md: "2rem" },
             marginTop: "1rem",
             marginBottom: "1rem",
           }}
@@ -205,8 +205,8 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
 
         <Box
           sx={{
-            marginLeft: { xs: "1rem", sm: "2rem" },
-            marginRight: { xs: "1rem", sm: "2rem" },
+            marginLeft: { xs: "1rem", md: "2rem" },
+            marginRight: { xs: "1rem", md: "2rem" },
             marginTop: "1rem",
           }}
         >
@@ -228,8 +228,8 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             paddingRight: "1rem",
             paddingBottom: "1rem",
             justifyContent: "flex-start", // 左詰めで表示
-            marginLeft: { sm: "1rem" },
-            marginRight: { sm: "1rem" },
+            marginLeft: { md: "1rem" },
+            marginRight: { md: "1rem" },
           }}
         >
           {services?.length ? (
@@ -257,8 +257,8 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             alignItems: "center",
             gap: "8px",
             width: "100%", // 全体の幅
-            paddingLeft: { xs: "1rem", sm: "2rem" },
-            paddingRight: { xs: "1rem", sm: "2rem" }, // 右側の余白
+            paddingLeft: { xs: "1rem", md: "2rem" },
+            paddingRight: { xs: "1rem", md: "2rem" }, // 右側の余白
             paddingBottom: "2rem", // 下側の余白
           }}
         >
