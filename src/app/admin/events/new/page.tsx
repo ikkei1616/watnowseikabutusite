@@ -1,20 +1,61 @@
 "use client";
-import React from 'react';
+import React, {useState} from 'react';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { EventInputSchema, EventOutputSchema, resolver } from "./eventFormSchema";
-import { useFormFields } from "./hooks";
+import { createFormFields, FormField, AddAwardField } from "./hooks";
 import { FormFactory } from "@/components/form/FormFactory";
 import FormButton from '@/components/form/FormButton';
 import { supabase } from '@/supabase/supabase';
 import LoadingModal from '@/components/loading/LoadingModal';
 import AdminHeader from '@/components/admin/AdminHeader';
-import { date } from 'zod';
+import FormFieldType from '@/types/FormFieldType';
 
 const NewEventPage = () => {
   const { control, handleSubmit } = useForm<EventInputSchema>({
     mode: "onChange",
     resolver: resolver,
   });
+
+  const [awardFields, setAwardFields] = useState<FormField<EventInputSchema>[]>([]);
+
+  const convertToFormField = (awardField: AddAwardField): FormField<EventInputSchema> => {
+    return {
+        id: awardField.id,
+        type: awardField.type as any,
+        props: {
+            control: awardField.props.control,
+            name: awardField.props.name as keyof EventInputSchema,
+            label: awardField.props.label,
+        },
+    };
+};
+
+  const addAwardField = () => {
+    const newId = awardFields.length/2;
+    const newFields: AddAwardField[] = [
+      {
+        id: newId * 2,
+        type: FormFieldType.textInput,
+        props: {
+          control,
+          name: `awards[${newId}].name`,
+          label: `表彰名 ${newId + 1}`,
+          placeholder: "例) 最優秀賞",
+        },
+      },
+      {
+        id: newId * 2 + 1,
+        type: FormFieldType.numberInput,
+        props: {
+          control,
+          name: `awards[${newId}].order_num`,
+          label: `受賞数`,
+          placeholder: "例) 1",
+        },
+      },
+    ];
+    setAwardFields((prev) => [...prev, ...newFields.map(convertToFormField)]);
+  };
 
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -72,10 +113,13 @@ const NewEventPage = () => {
         }
       });
 
-      if (awardsToInsert.length !== 0) {
+      const awardsToInsertFiltered = awardsToInsert.filter((award) => award !== undefined);
+      console.log(awardsToInsertFiltered);
+
+      if (awardsToInsertFiltered.length !== 0) {
         const { error: insertError } = await supabase
           .from('awards')
-          .insert(awardsToInsert)
+          .insert(awardsToInsertFiltered)
           .select();
 
         if (insertError) {
@@ -90,7 +134,7 @@ const NewEventPage = () => {
     window.location.href = '/admin/events/existing-events';
   };
 
-  const formFields = useFormFields(control);
+  const formFields = createFormFields(control, awardFields, addAwardField);
 
   return (
     <>
