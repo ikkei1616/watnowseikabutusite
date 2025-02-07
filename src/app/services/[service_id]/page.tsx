@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
-import LoadingSpinner from "@/components/LoadingSpinner";
 import { supabase } from "@/supabase/supabase";
 import type { ServiceDetail } from "@/types/Service";
 
@@ -19,6 +18,7 @@ import CreatorItem from "@/components/CreatorItem";
 
 import { Box } from "@mui/material";
 import ShowError from "@/components/error/ShowError";
+import LoadingPage from "@/components/loading/LoadingPage";
 
 export default function ServiceDetailPage({
   params,
@@ -222,7 +222,7 @@ export default function ServiceDetailPage({
   }, [serviceID]);
 
   if (loading) {
-    return <LoadingSpinner />;
+    return <LoadingPage />;
   }
 
   if (!serviceID || !service) {
