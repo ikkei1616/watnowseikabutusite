@@ -204,74 +204,71 @@ const EventDetailCard: React.FC<EventDetailCardProps> = ({
             <Typography>登録なし</Typography>
           )}
         </Box>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            width: "100%", // 全体の幅
-            paddingLeft: { xs: "1rem", md: "2rem" },
-            paddingRight: { xs: "1rem", md: "2rem" }, // 右側の余白
-          }}
-        >
-          {/* 左側の線 */}
-          <Divider
+        {services && services?.length > 0 && (
+          <Box
             sx={{
-              flexGrow: 1, // 残りのスペースを埋める
-              borderColor: "#00AEEF", // 線の色
-              borderWidth: "1px", // 線の太さ
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              width: "100%", // 全体の幅
+              // 右側の余白
             }}
-          />
-
-          <Link href={`/events/${event.id}/services`} passHref>
-            <Button
-              size="small"
-              color="primary"
+          >
+            {/* 左側の線 */}
+            <Divider
               sx={{
-                textTransform: "none",
-                "&:hover": {
-                  backgroundColor: "#D9D9D9", // ホバー時の背景色を濃くする
-                },
+                flexGrow: 1, // 残りのスペースを埋める
+                borderColor: "#00AEEF", // 線の色
+                borderWidth: "1px", // 線の太さ
               }}
-            >
-              <Typography
+            />
+
+            <Link href={`/events/${event.id}/services`} passHref>
+              <Button
+                size="small"
+                color="primary"
                 sx={{
-                  whiteSpace: "nowrap", // テキストを折り返さない
-                  fontSize: "16px", // フォントサイズ
-                  color: "#4D4D4D", // テキストの色
-                  display: "flex", // テキストと画像を横並び
-                  alignItems: "center",
-                  gap: "8px", // テキストと画像の間隔
+                  textTransform: "none",
+                  "&:hover": {
+                    backgroundColor: "#D9D9D9", // ホバー時の背景色を濃くする
+                  },
                 }}
               >
-                全てのプロダクトを見る
-                {/* 画像を挿入 */}
-                <Image
-                  src={"/paper_airplane_blue.svg"}
-                  alt={"紙飛行機のアイコン"}
-                  height={20}
-                  width={20}
-                />
-              </Typography>
-            </Button>
-          </Link>
+                <Typography
+                  sx={{
+                    whiteSpace: "nowrap", // テキストを折り返さない
+                    fontSize: "16px", // フォントサイズ
+                    color: "#4D4D4D", // テキストの色
+                    display: "flex", // テキストと画像を横並び
+                    alignItems: "center",
+                    gap: "8px", // テキストと画像の間隔
+                  }}
+                >
+                  全てのプロダクトを見る
+                  {/* 画像を挿入 */}
+                  <Image
+                    src={"/paper_airplane_blue.svg"}
+                    alt={"紙飛行機のアイコン"}
+                    height={20}
+                    width={20}
+                  />
+                </Typography>
+              </Button>
+            </Link>
 
-          {/* 右側の線 */}
-          <Divider
-            sx={{
-              flexGrow: 1, // 残りのスペースを埋める
-              borderColor: "#00AEEF", // 線の色
-              borderWidth: "1px", // 線の太さ
-            }}
-          />
-        </Box>
+            {/* 右側の線 */}
+            <Divider
+              sx={{
+                flexGrow: 1, // 残りのスペースを埋める
+                borderColor: "#00AEEF", // 線の色
+                borderWidth: "1px", // 線の太さ
+              }}
+            />
+          </Box>
+        )}
       </Card>
     </Box>
   );
 };
 
 export default EventDetailCard;
-
-{
-  /* <ServiceCard service={service} /> */
-}
