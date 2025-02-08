@@ -12,6 +12,7 @@ import EventDetailCard from "@/components/EventDetailCard";
 import type { Service } from "@/types/Service";
 import LoadingPage from "@/components/loading/LoadingPage";
 import BackButton from "@/components/BackButton";
+import ErrorPage from "@/components/error/ShowError";
 
 export default function EventDetailPage({
   params,
@@ -35,13 +36,12 @@ export default function EventDetailPage({
           .single();
 
         if (eventError) {
-          console.error("Error fetching event:", eventError);
-          return;
+          console.error("Error fetching events:", eventError);
+          setLoading(false);
         } else {
           setEvent(eventData as EventDetail);
           setLoading(false);
         }
-        setLoading(false);
       }
     };
     const fetchRetatedServices = async () => {
@@ -76,7 +76,7 @@ export default function EventDetailPage({
   }
 
   if (!event) {
-    return <p className={styles.notFound}>イベントが見つかりませんでした。</p>;
+    return <ErrorPage errorMessage="イベントが見つかりませんでした" />;
   }
 
   return (
@@ -102,9 +102,7 @@ export default function EventDetailPage({
             MobileButtonTitle="一覧へ戻る"
           />
         </Box>
-        <Divider
-          variant="fullWidth"
-        />
+        <Divider variant="fullWidth" />
       </Box>
       <EventDetailCard event={event} services={services} />
     </main>
