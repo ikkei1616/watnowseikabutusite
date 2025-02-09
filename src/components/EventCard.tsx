@@ -37,16 +37,13 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
     <Card
       sx={{
         display: "flex",
-        flexDirection: "column", // カード全体を縦に配置
-        width: "85%",
-        maxWidth: "1000px", // 最大幅を設定
-        marginLeft: "auto",
+        flexDirection: "column",
+        width: "100%",
         borderRadius: "12px",
         overflow: "hidden",
         border: "1px solid",
         borderColor: "#fff",
-
-        boxShadow: "none",
+        marginBottom: "40px",
       }}
     >
       <Box
