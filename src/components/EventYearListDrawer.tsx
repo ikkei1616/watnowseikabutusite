@@ -42,20 +42,20 @@ export const EventYearListDrawer: React.FC<EventYearListProps> = ({
         disableFocusRipple // フォーカス時の波紋エフェクトを無効化
         style={{
           position: "fixed",
-          left: 0,
+          left: -10,
           top: "50%",
           transform: "translateY(-50%)",
           padding: 0, // 余白を削除
-          width: 60, // ボタンの幅（円の直径）
-          height: 60, // ボタンの高さ（円の直径）
-          borderRadius: "0 50% 50% 0", // 円の右半分を残す形状
+          width: 45, // ボタンの幅（円の直径）
+          height: 45, // ボタンの高さ（円の直径）
+          borderRadius: "0 50% 50% 0", // 円の右半分
         }}
       >
         <Image
           src="/drawerIcon.svg"
           alt="drawer"
-          width={60}
-          height={60}
+          width={45}
+          height={45}
           style={{
             transition: "transform 0.2s ease-in-out", // 画像拡大のアニメーション
           }}

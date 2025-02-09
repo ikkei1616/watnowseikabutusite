@@ -138,6 +138,14 @@ const EventPage: React.FC = () => {
         />
       </Box>
 
+      <Box sx={{ display: { xs: "block", md: "none" } }}>
+        <EventYearListDrawer
+          eventCountByYear={eventCountByYear}
+          onYearSelect={handleYearSelect}
+          selectedYear={selectedYear}
+        />
+      </Box>
+
       {isLoading ? (
         <Box
           sx={{
@@ -192,21 +200,6 @@ const EventPage: React.FC = () => {
             ))}
           </Box>
         </Box>
-        // <div className={styles.container}>
-        //   <EventYearList
-        //     eventCountByYear={eventCountByYear}
-        //     onYearSelect={handleYearSelect}
-        //     selectedYear={selectedYear}
-        //   />
-
-        //   <div className={styles.eventList}>
-        //     {events.map((event) => (
-        //       <div className={styles.eventItemWrapper} key={event.id}>
-        //         <EventCard event={event} />
-        //       </div>
-        //     ))}
-        //   </div>
-        // </div>
       )}
 
       <Pagination
@@ -231,11 +224,6 @@ const EventPage: React.FC = () => {
             color: "#fff !important",
           },
         }}
-      />
-      <EventYearListDrawer
-        eventCountByYear={eventCountByYear}
-        onYearSelect={handleYearSelect}
-        selectedYear={selectedYear}
       />
     </main>
   );
