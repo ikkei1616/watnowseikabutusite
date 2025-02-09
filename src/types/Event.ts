@@ -4,7 +4,8 @@ import { Award } from "@/types/Award";
 export interface Event {
   id: string | null;
   name: string;
-  date: string;
+  year: number;
+  month: number;
   comment?: string;
   image?: string | null;
 }
@@ -13,5 +14,4 @@ export interface Event {
 export interface EventDetail extends Event {
   url?: string;
   location?: string;
-  awards: Award[];
 }

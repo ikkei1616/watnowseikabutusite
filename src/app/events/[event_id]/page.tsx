@@ -1,12 +1,18 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
-import LoadingSpinner from "@/components/LoadingSpinner";
 import { supabase } from "@/supabase/supabase";
+import { CardActions, Button, Box, Divider } from "@mui/material";
 import type { EventDetail } from "@/types/Event";
-import type { Award } from "@/types/Award";
+import PageHeader from "@/components/PageHeader";
+import Header from "@/components/Header";
+import { HeaderMode } from "@/types/HeaderMode";
+import EventDetailCard from "@/components/EventDetailCard";
+import type { Service } from "@/types/Service";
+import LoadingPage from "@/components/loading/LoadingPage";
+import BackButton from "@/components/BackButton";
+import ErrorPage from "@/components/error/ShowError";
 
 export default function EventDetailPage({
   params,
@@ -16,8 +22,8 @@ export default function EventDetailPage({
   const eventID = params.event_id;
 
   const [event, setEvent] = useState<EventDetail | null>(null);
+  const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
 
   // event_idの変更をトリガーにしてsetEventを実行
   useEffect(() => {
@@ -29,60 +35,76 @@ export default function EventDetailPage({
           .eq("id", eventID)
           .single();
 
-        const { data: awardsData, error: awardsError } = await supabase
-          .from("awards")
-          .select("*")
-          .eq("event_id", eventID)
-          .order("order_num", { ascending: true });
-
-        if (eventError || awardsError) {
-          console.error(
-            "Error fetching event or awards data:",
-            eventError || awardsError
-          );
-          setEvent(null);
+        if (eventError) {
+          console.error("Error fetching events:", eventError);
+          setLoading(false);
         } else {
-          setEvent({
-            ...eventData,
-            awards: awardsData || [],
-          } as EventDetail);
+          setEvent(eventData as EventDetail);
+          setLoading(false);
         }
-        setLoading(false);
+      }
+    };
+    const fetchRetatedServices = async () => {
+      if (eventID) {
+        try {
+          const { data: serviceData, error: serviceError } = await supabase
+            .from("services") // テーブル名
+            .select("*") // すべての列を取得
+            .eq("event_id", eventID) // event_id が一致するものを絞り込み
+            .order("event_id", { ascending: true }) // event_id の昇順でソート
+            .limit(3); // 最大 3 件まで取得
+
+          if (serviceError) {
+            console.error("Error fetching services:", serviceError);
+            return;
+          }
+
+          // データが正常に取得できた場合
+          setServices(serviceData as Service[]);
+        } catch (error) {
+          console.error("Unexpected error:", error);
+        }
       }
     };
 
     fetchEventData();
+    fetchRetatedServices();
   }, [eventID]);
 
   if (loading) {
-    return <LoadingSpinner />;
+    return <LoadingPage />;
   }
 
   if (!event) {
-    return <p className={styles.notFound}>イベントが見つかりませんでした。</p>;
+    return <ErrorPage errorMessage="イベントが見つかりませんでした" />;
   }
 
   return (
-    <main className={styles.fullScreen}>
-      <div className={styles.container}>
-        <h1 className={styles.title}>{event.name}</h1>
-        <p className={styles.description}>{event.comment}</p>
-        <p className={styles.details}>開催日: {event.date}</p>
-        <p className={styles.details}>URL: {event.url}</p>
-        <p className={styles.details}>開催場所: {event.location}</p>
-
-        {/* 賞のリストを表示 */}
-        {event.awards && event.awards.length > 0 && (
-          <div className={styles.awardsContainer}>
-            <h2 className={styles.title}>賞一覧</h2>
-            {event.awards.map((award: Award, index: number) => (
-              <div key={index} className={styles.awardItem}>
-                {award.order_num}. {award.name}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+    <main className={styles.main}>
+      <Header mode={HeaderMode.EVENTS} />
+      <Box
+        sx={{
+          width: "100%",
+          padding: { xs: "2rem 1rem 1rem 1rem", sm: "2rem" },
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "flex-end", // 下方揃え
+            justifyContent: "space-between", // 左右に配置
+            position: "relative",
+          }}
+        >
+          <PageHeader title="イベント詳細" />
+          <BackButton
+            ButtonTitle="イベント一覧へ戻る"
+            MobileButtonTitle="一覧へ戻る"
+          />
+        </Box>
+        <Divider variant="fullWidth" />
+      </Box>
+      <EventDetailCard event={event} services={services} />
     </main>
   );
 }
