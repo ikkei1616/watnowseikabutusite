@@ -51,7 +51,7 @@ export const SkeletonEventYearList: React.FC = () => {
             animation="wave" // 波状のアニメーション
             sx={{
               height: "85px",
-              width: "100%",
+              width: "60%",
               borderRadius: "8px", // ボタンのスタイルと一致
               backgroundColor: "#e0e0e0", // スケルトンの背景色
               "&:hover": {
@@ -80,9 +80,10 @@ export const EventYearList: React.FC<EventYearListProps> = ({
   return (
     <List
       sx={{
-        position: "relative",
-        maxWidth: "300px",
-        width: "150px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        gap: "10px",
       }}
     >
       {events.map((event) => (
@@ -90,18 +91,15 @@ export const EventYearList: React.FC<EventYearListProps> = ({
           key={event.year}
           sx={{
             display: "flex",
-            alignItems: "center",
-            padding: "10px 0",
-            marginLeft: "20px",
+            justifyContent: "flex-start",
+            gap: "5%",
           }}
-          disablePadding
         >
           {/* 左側の縦線 */}
           <Divider
             orientation="vertical"
             flexItem
             sx={{
-              marginRight: "8px",
               borderWidth: "1px",
               borderColor: "#00AEEF",
             }}
@@ -111,10 +109,12 @@ export const EventYearList: React.FC<EventYearListProps> = ({
             onClick={() => onYearSelect(event.year)}
             sx={{
               textTransform: "none",
-              flexGrow: 1,
               display: "flex",
               flexDirection: "column", // 2行の情報を縦に並べる
-              alignItems: "flex-start", // 左寄せ
+              alignItems: "center", // 左寄せ
+              width: "60%", // ボタン全体の幅を確保
+              height: "85px", // ボタンの高さを指定
+              borderRadius: "8px",
               color: "#00AEEF",
               backgroundColor:
                 selectedYear === event.year ? "#f0f0f0" : "inherit", // グレーの背景色を選択された年にのみ追加
@@ -122,7 +122,6 @@ export const EventYearList: React.FC<EventYearListProps> = ({
                 backgroundColor:
                   selectedYear === event.year ? "#D3D3D3" : "#f0f0f0", // ホバー時の背景色
               },
-              width: "100%", // ボタン全体の幅を確保
             }}
           >
             {/* イベント数 */}
@@ -130,7 +129,7 @@ export const EventYearList: React.FC<EventYearListProps> = ({
               variant="subtitle1"
               sx={{
                 color: "gray",
-                fontSize: "18px",
+                fontSize: "1rem",
               }}
             >
               {event.count} event{event.count > 1 ? "s" : ""}

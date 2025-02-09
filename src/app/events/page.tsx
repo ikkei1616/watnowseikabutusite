@@ -159,21 +159,46 @@ const EventPage: React.FC = () => {
           </Box>
         </Box>
       ) : (
-        <div className={styles.container}>
-          <EventYearList
-            eventCountByYear={eventCountByYear}
-            onYearSelect={handleYearSelect}
-            selectedYear={selectedYear}
-          />
-
-          <div className={styles.eventList}>
+        <Box
+          sx={{
+            display: "flex",
+            margin: "50px 5%",
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+            gap: "5%",
+          }}
+        >
+          <Box sx={{ width: "20%" }}>
+            <EventYearList
+              eventCountByYear={eventCountByYear}
+              onYearSelect={handleYearSelect}
+              selectedYear={selectedYear}
+            />
+          </Box>
+          <Box sx={{ width: "75%" }}>
             {events.map((event) => (
               <div className={styles.eventItemWrapper} key={event.id}>
                 <EventCard event={event} />
               </div>
             ))}
-          </div>
-        </div>
+          </Box>
+        </Box>
+        // <div className={styles.container}>
+        //   <EventYearList
+        //     eventCountByYear={eventCountByYear}
+        //     onYearSelect={handleYearSelect}
+        //     selectedYear={selectedYear}
+        //   />
+
+        //   <div className={styles.eventList}>
+        //     {events.map((event) => (
+        //       <div className={styles.eventItemWrapper} key={event.id}>
+        //         <EventCard event={event} />
+        //       </div>
+        //     ))}
+        //   </div>
+        // </div>
       )}
 
       <Pagination
