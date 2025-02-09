@@ -43,7 +43,6 @@ export const EventYearListDrawer: React.FC<EventYearListProps> = ({
         style={{
           position: "fixed",
           left: -10,
-          top: "50%",
           transform: "translateY(-50%)",
           padding: 0, // 余白を削除
           width: 45, // ボタンの幅（円の直径）

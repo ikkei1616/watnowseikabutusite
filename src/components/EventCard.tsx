@@ -23,9 +23,9 @@ export const SkeletonEventCard: React.FC = () => {
       <Skeleton
         variant="rectangular"
         sx={{
-          width: "100%", // EventCard の幅と一致
-          height: "280px", // 高さを指定（EventCard の大きさに合わせて調整）
-          borderRadius: "12px", // EventCard と同じ borderRadius
+          width: "100%",
+          height: "280px",
+          borderRadius: "12px",
         }}
       />
     </Box>
@@ -39,6 +39,7 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
         display: "flex",
         flexDirection: "column",
         width: "100%",
+        height: "280px", // `EventCard` の最小高さに合わせる
         borderRadius: "12px",
         overflow: "hidden",
         border: "1px solid",
