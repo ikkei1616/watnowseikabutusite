@@ -14,6 +14,7 @@ import {
 } from "@/components/EventYearList";
 import theme from "@/theme";
 import PageHeader from "@/components/PageHeader";
+import EventYearListDrawer from "@/components/EventYearListDrawer";
 
 const ITEMS_PER_PAGE = 5; // 1ページあたりのイベント数
 
@@ -246,6 +247,11 @@ const EventPage: React.FC = () => {
             color: "#fff !important",
           },
         }}
+      />
+      <EventYearListDrawer
+        eventCountByYear={eventCountByYear}
+        onYearSelect={handleYearSelect}
+        selectedYear={selectedYear}
       />
     </main>
   );
