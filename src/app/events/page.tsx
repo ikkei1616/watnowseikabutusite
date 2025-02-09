@@ -125,12 +125,38 @@ const EventPage: React.FC = () => {
         }}
       />
       {isLoading ? (
-        <div className={styles.container}>
-          <SkeletonEventYearList />
-          <div className={styles.eventList}>
+        // <div className={styles.container}>
+        //   <SkeletonEventYearList />
+        //   <div className={styles.eventList}>
+        //     <SkeletonEventCard />
+        //   </div>
+        // </div>
+
+        //.styles.eventList
+        // list-style-type: none;
+        // padding: 0;
+        // display: flex; /* 横並びにするためにFlexboxを使用 */
+        // flex-direction: column; /* 横方向に並べる */
+        // gap: 15px;
+        // width: 100%;
+        // padding-top: 8px;
+        // padding-right: 20px;
+        <Box
+          sx={{
+            display: "flex",
+            margin: "auto 90px",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "flex-start",
+          }}
+        >
+          <Box>
+            <SkeletonEventYearList />
+          </Box>
+          <Box>
             <SkeletonEventCard />
-          </div>
-        </div>
+          </Box>
+        </Box>
       ) : (
         <div className={styles.container}>
           <EventYearList
