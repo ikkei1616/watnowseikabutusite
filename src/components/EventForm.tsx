@@ -4,11 +4,11 @@
 import React, { useState } from "react";
 import styles from "./EventForm.module.css";
 import { supabase } from "@/supabase/supabase";
-import type { EventDetail } from "@/types/Event";
-import type { Award } from "@/types/Award";
+import type { AdminEventDetail } from "@/types/Event";
+import type { AwardDetail } from "@/types/Award";
 
 export interface EventFormProps {
-  initialEvent?: EventDetail;
+  initialEvent?: AdminEventDetail;
   isEditing: boolean; //新規イベント作成ページなのか編集ページを管理
   onSuccess: () => void;
 }
@@ -26,7 +26,7 @@ const EventForm: React.FC<EventFormProps> = ({
   isEditing,
   onSuccess,
 }) => {
-  const [event, setEvent] = useState<EventDetail>(initialEvent);
+  const [event, setEvent] = useState<AdminEventDetail>(initialEvent);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -44,7 +44,7 @@ const EventForm: React.FC<EventFormProps> = ({
   //賞の編集
   const handleAwardChange = (
     index: number,
-    field: keyof Award,
+    field: keyof AwardDetail,
     value: string | null
   ) => {
     const updatedAwards = event.awards ? [...event.awards] : [];

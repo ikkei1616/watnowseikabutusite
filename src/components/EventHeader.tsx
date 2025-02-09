@@ -4,9 +4,6 @@ import Box from "@mui/material/Box";
 import styles from "./EventHeader.module.css";
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect } from "react";
-import { EventName } from "@/types/Event";
-import { useMediaQuery } from "react-responsive";
 
 const EventHeader = ({
   title,

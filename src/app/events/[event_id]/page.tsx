@@ -77,7 +77,7 @@ export default function EventDetailPage({
             <h2 className={styles.title}>賞一覧</h2>
             {event.awards.map((award: Award, index: number) => (
               <div key={index} className={styles.awardItem}>
-                {award.order_num}. {award.name}
+                {/* {award.order_num}. {award.name} */}
               </div>
             ))}
           </div>

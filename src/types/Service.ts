@@ -21,7 +21,7 @@ export interface EventAllService {
   image: string;
   description?: string;
   comment?: string;
-  award_id: string;
+  award_id?: string;
   awards?: {id:string,name:string};
 }
 
