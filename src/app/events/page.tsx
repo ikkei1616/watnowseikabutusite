@@ -118,23 +118,13 @@ const EventPage: React.FC = () => {
   return (
     <main>
       <Header mode={HeaderMode.EVENTS} />
-      {/* <Box
-        sx={{
-          width: "100%",
-          padding: "40px",
-          "@media screen and (max-width: 600px)": {
-            padding: "20px",
-          },
-        }}
-      >
-        <PageHeader title="ユーザ詳細" /> */}
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-start",
           alignItems: "flex-start",
-          padding: { xs: "2rem 1rem 1rem 1rem", sm: "2rem" },
+          padding: { xs: "2rem 3rem", md: "2rem " },
         }}
       >
         <PageHeader title="イベント一覧" />
@@ -149,36 +139,25 @@ const EventPage: React.FC = () => {
       </Box>
 
       {isLoading ? (
-        // <div className={styles.container}>
-        //   <SkeletonEventYearList />
-        //   <div className={styles.eventList}>
-        //     <SkeletonEventCard />
-        //   </div>
-        // </div>
-
-        //.styles.eventList
-        // list-style-type: none;
-        // padding: 0;
-        // display: flex; /* 横並びにするためにFlexboxを使用 */
-        // flex-direction: column; /* 横方向に並べる */
-        // gap: 15px;
-        // width: 100%;
-        // padding-top: 8px;
-        // padding-right: 20px;
         <Box
           sx={{
             display: "flex",
             margin: "20px 5%",
-            flexDirection: "row",
+            flexDirection: { xs: "column", md: "row" },
             justifyContent: "flex-start",
-            alignItems: "flex-start",
+            alignItems: { xs: "center", md: "flex-start" },
             gap: "5%",
           }}
         >
-          <Box sx={{ width: "20%" }}>
+          <Box sx={{ width: "20%", display: { xs: "none", md: "block" } }}>
             <SkeletonEventYearList />
           </Box>
-          <Box sx={{ width: "75%" }}>
+          <Box
+            sx={{
+              width: { xs: "90%", md: "75%" },
+              margin: { xs: "auto", md: "0" },
+            }}
+          >
             <SkeletonEventCard />
           </Box>
         </Box>
@@ -187,20 +166,25 @@ const EventPage: React.FC = () => {
           sx={{
             display: "flex",
             margin: "20px 5%",
-            flexDirection: "row",
+            flexDirection: { xs: "column", md: "row" },
             justifyContent: "flex-start",
-            alignItems: "flex-start",
+            alignItems: { xs: "center", md: "flex-start" },
             gap: "5%",
           }}
         >
-          <Box sx={{ width: "20%" }}>
+          <Box sx={{ width: "20%", display: { xs: "none", md: "block" } }}>
             <EventYearList
               eventCountByYear={eventCountByYear}
               onYearSelect={handleYearSelect}
               selectedYear={selectedYear}
             />
           </Box>
-          <Box sx={{ width: "75%" }}>
+          <Box
+            sx={{
+              width: { xs: "90%", md: "75%" },
+              margin: { xs: "auto", md: "0" },
+            }}
+          >
             {events.map((event) => (
               <div className={styles.eventItemWrapper} key={event.id}>
                 <EventCard event={event} />

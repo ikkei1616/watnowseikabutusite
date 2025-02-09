@@ -30,7 +30,6 @@
 .eventItemWrapper {
   display: flex; /* 子要素をフレックスボックスで表示 */
   width: auto; /* 自動で幅を調整 */
-  margin-right: 16px; /* コンポーネント間のマージンを設定 */
 }
 
 .eventItem {
