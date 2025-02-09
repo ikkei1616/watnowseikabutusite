@@ -13,6 +13,7 @@ import {
   SkeletonEventYearList,
 } from "@/components/EventYearList";
 import theme from "@/theme";
+import PageHeader from "@/components/PageHeader";
 
 const ITEMS_PER_PAGE = 5; // 1ページあたりのイベント数
 
@@ -116,14 +117,36 @@ const EventPage: React.FC = () => {
   return (
     <main>
       <Header mode={HeaderMode.EVENTS} />
-      <h1 className={styles.pageHeader}>イベント一覧</h1>
-      <Divider
+      {/* <Box
         sx={{
-          width: "95%",
-          margin: "0 auto",
-          borderColor: "#00AEEF",
+          width: "100%",
+          padding: "40px",
+          "@media screen and (max-width: 600px)": {
+            padding: "20px",
+          },
         }}
-      />
+      >
+        <PageHeader title="ユーザ詳細" /> */}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          alignItems: "flex-start",
+          padding: { xs: "2rem 1rem 1rem 1rem", sm: "2rem" },
+        }}
+      >
+        <PageHeader title="イベント一覧" />
+
+        <Divider
+          sx={{
+            width: "100%",
+            margin: "0 auto",
+            borderColor: "#00AEEF",
+          }}
+        />
+      </Box>
+
       {isLoading ? (
         // <div className={styles.container}>
         //   <SkeletonEventYearList />
@@ -144,7 +167,7 @@ const EventPage: React.FC = () => {
         <Box
           sx={{
             display: "flex",
-            margin: "50px 5%",
+            margin: "20px 5%",
             flexDirection: "row",
             justifyContent: "flex-start",
             alignItems: "flex-start",
@@ -162,7 +185,7 @@ const EventPage: React.FC = () => {
         <Box
           sx={{
             display: "flex",
-            margin: "50px 5%",
+            margin: "20px 5%",
             flexDirection: "row",
             justifyContent: "flex-start",
             alignItems: "flex-start",
