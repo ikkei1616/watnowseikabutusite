@@ -21,9 +21,10 @@ export const SkeletonEventYearList: React.FC = () => {
   return (
     <List
       sx={{
-        position: "relative",
-        width: "300px",
-        marginRight: "55px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        gap: "10px",
       }}
     >
       {Array.from({ length: itemCount }).map((_, index) => (
@@ -31,18 +32,15 @@ export const SkeletonEventYearList: React.FC = () => {
           key={index}
           sx={{
             display: "flex",
-            alignItems: "center",
-            padding: "10px 0",
-            marginLeft: "20px",
+            justifyContent: "flex-start",
+            gap: "10%",
           }}
-          disablePadding
         >
           {/* 左側の縦線 */}
           <Divider
             orientation="vertical"
             flexItem
             sx={{
-              marginRight: "8px",
               borderWidth: "1px",
               borderColor: "#00AEEF",
             }}
@@ -52,8 +50,8 @@ export const SkeletonEventYearList: React.FC = () => {
             variant="rectangular"
             animation="wave" // 波状のアニメーション
             sx={{
-              height: "85px", // ボタンの高さに合わせる
-              width: "130px",
+              height: "85px",
+              width: "100%",
               borderRadius: "8px", // ボタンのスタイルと一致
               backgroundColor: "#e0e0e0", // スケルトンの背景色
               "&:hover": {
@@ -138,10 +136,7 @@ export const EventYearList: React.FC<EventYearListProps> = ({
               {event.count} event{event.count > 1 ? "s" : ""}
             </Typography>
             {/* 年 */}
-            <Typography
-              variant="h4"
-              color="inherit"
-            >
+            <Typography variant="h4" color="inherit">
               {event.year}
             </Typography>
           </Button>

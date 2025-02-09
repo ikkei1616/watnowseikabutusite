@@ -144,16 +144,17 @@ const EventPage: React.FC = () => {
         <Box
           sx={{
             display: "flex",
-            margin: "auto 90px",
+            margin: "50px 5%",
             flexDirection: "row",
-            justifyContent: "center",
+            justifyContent: "flex-start",
             alignItems: "flex-start",
+            gap: "5%",
           }}
         >
-          <Box>
+          <Box sx={{ width: "20%" }}>
             <SkeletonEventYearList />
           </Box>
-          <Box>
+          <Box sx={{ width: "75%" }}>
             <SkeletonEventCard />
           </Box>
         </Box>

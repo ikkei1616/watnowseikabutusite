@@ -24,8 +24,6 @@ export const SkeletonEventCard: React.FC = () => {
         variant="rectangular"
         sx={{
           width: "100%", // EventCard の幅と一致
-
-          maxWidth: "1000px", // EventCard の最大幅と一致
           height: "280px", // 高さを指定（EventCard の大きさに合わせて調整）
           borderRadius: "12px", // EventCard と同じ borderRadius
         }}
@@ -49,7 +47,6 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
         borderColor: "#fff",
 
         boxShadow: "none",
-
       }}
     >
       <Box
