@@ -24,7 +24,7 @@ export const SkeletonEventCard: React.FC = () => {
         variant="rectangular"
         sx={{
           width: "100%",
-          height: "280px",
+          height: "280px", //fix
           borderRadius: "12px",
         }}
       />
@@ -39,7 +39,7 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
         display: "flex",
         flexDirection: "column",
         width: "100%",
-        height: "280px", // `EventCard` の最小高さに合わせる
+
         borderRadius: "12px",
         overflow: "hidden",
         border: "1px solid",
@@ -64,9 +64,9 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
           variant="subtitle1"
           color="#00AEEF"
           sx={{
-            fontSize: "1.4rem", // カスタムフォントサイズを指定
+            fontSize: "clamp(1rem, 3vw, 2rem)", // カスタムフォントサイズを指定
             backgroundColor: "#fff",
-            padding: "0.5rem 1rem", // 上下左右の余白
+            padding: "0.5rem 1rem 0.5rem 0", // 上下左右の余白
           }}
         >
           {event.year}年{event.month}月
@@ -108,17 +108,24 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
       />
 
       {/* カードの内容部分 */}
-      <Box sx={{ display: "flex", alignItems: "center", padding: "1rem" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "1rem",
+          gap: "1rem",
+        }}
+      >
         {/* 画像部分 */}
         <Box
           sx={{
             width: "40%", // 幅を相対的に設定
             aspectRatio: "16/9", // 画像のアスペクト比を固定
             position: "relative",
-            backgroundColor: "##f0f0f0",
+            backgroundColor: "#f0f0f0",
             borderRadius: "8px", // 画像のボーダーを曲げる
             overflow: "hidden",
-            marginRight: "1rem",
           }}
         >
           {/* 画像がある場合は画像を表示し、ない場合はメッセージを表示 */}
@@ -126,7 +133,7 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
             <Image
               src={event.image}
               alt={`${event.name}の画像`}
-              layout="fill" // 親のBox全体をカバー
+              layout="fill"
               objectFit="cover"
               style={{ borderRadius: "8px" }} // ボーダーの半径を設定
             />
@@ -151,58 +158,51 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
         {/* テキスト部分 */}
         <Box
           sx={{
-            flexGrow: 1,
             display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
             alignItems: "flex-start",
             height: "100%",
-            width: "60%", // 幅を相対的に設定
+            width: "50%", // 幅を相対的に設定
           }}
         >
-          <CardContent
-            sx={{
-              padding: "0",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "flex-start",
-              height: "100%",
-            }}
+          {/* イベントの題名部分 */}
+          <Box
+            sx={{ display: "flex", alignContent: "flex-start", width: "100%" }}
           >
-            {/* イベントの題名部分 */}
-            <Box>
-              <Typography
-                variant="h5"
-                component="div"
-                gutterBottom
-                sx={{
-                  paddingTop: "20px",
-                  whiteSpace: "nowrap", // テキストを1行に制限
-                  overflow: "hidden", // あふれた部分を非表示に
-                  textOverflow: "ellipsis", // あふれた部分を "..." に
-                }}
-              >
-                {event.name}
-              </Typography>
-            </Box>
+            <Typography
+              variant="h5"
+              gutterBottom
+              sx={{
+                fontSize: "clamp(1rem, 3vw, 1.5rem)", // カスタムフォントサイズを指定
 
-            {/* イベントの内容部分 */}
-            <Box>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{
-                  lineHeight: "2.0", // 行間を調整
-                  fontSize: "18px", // フォントサイズを指定
-                  display: "-webkit-box", // 表示をボックス形式に
-                  WebkitLineClamp: 4, // 行数を4行に制限
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis", // あふれた部分を "..." で表示
-                }}
-              >
-                {event.comment}
-              </Typography>
-            </Box>
-          </CardContent>
+                whiteSpace: "nowrap", // テキストを1行に制限
+                overflow: "hidden", // あふれた部分を非表示に
+                textOverflow: "ellipsis", // あふれた部分を "..." に
+              }}
+            >
+              {event.name}
+            </Typography>
+          </Box>
+
+          {/* イベントの内容部分 */}
+          <Box>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{
+                lineHeight: { xs: 1.5, md: 2 }, // 行間を調整
+                fontSize: "clamp(0.8rem, 1.5vw, 2rem)", // フォントサイズを指定
+                display: "-webkit-box", // 表示をボックス形式に
+                WebkitLineClamp: { xs: 3, md: 4 }, // 行数を4行に制限
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+                textOverflow: "ellipsis", // あふれた部分を "..." で表示
+              }}
+            >
+              {event.comment}
+            </Typography>
+          </Box>
         </Box>
       </Box>
     </Card>
