@@ -81,7 +81,7 @@ export default function EventDetailPage({
 
   return (
     <main className={styles.main}>
-      <Header mode={HeaderMode.EVENTS} />
+      <Header mode={HeaderMode.NONE} />
       <Box
         sx={{
           width: "100%",
