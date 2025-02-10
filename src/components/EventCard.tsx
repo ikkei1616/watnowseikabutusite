@@ -61,12 +61,11 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
       >
         {/* 日付を表示 */}
         <Typography
-          variant="subtitle1"
           color="#00AEEF"
           sx={{
             fontSize: "clamp(1rem, 3vw, 2rem)", // カスタムフォントサイズを指定
             backgroundColor: "#fff",
-            padding: "0.5rem 1rem 0.5rem 0", // 上下左右の余白
+            padding: "0.5rem 1rem 0.5rem 0.5rem", // 上下左右の余白
           }}
         >
           {event.year}年{event.month}月
@@ -163,7 +162,7 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
             justifyContent: "flex-start",
             alignItems: "flex-start",
             height: "100%",
-            width: "50%", // 幅を相対的に設定
+            width: "60%", // 幅を相対的に設定
           }}
         >
           {/* イベントの題名部分 */}
