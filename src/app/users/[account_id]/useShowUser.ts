@@ -8,6 +8,7 @@ interface fetchService {
     id: string;
     name: string;
     image: string;
+    comment: string;
   };
 }
 
@@ -26,7 +27,7 @@ const useShowUser = (accountID: string) => {
         github(github_id),
         x(x_id),
         instagram(instagram_id),
-        users_servicies(service_id(id, name, image)),
+        users_servicies(service_id(id, name, image, comment)),
         users_technologies(technology_id(id, name, image))
         `
         )
@@ -59,6 +60,7 @@ const useShowUser = (accountID: string) => {
                 id: users_service.service_id.id,
                 name: users_service.service_id.name,
                 image: users_service.service_id.image,
+                comment: users_service.service_id.comment,
               })
           ),
           isVisible: data?.is_visible,
