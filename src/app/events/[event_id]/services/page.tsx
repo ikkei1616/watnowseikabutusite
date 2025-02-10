@@ -1,7 +1,7 @@
 "use client";
 import { supabase } from "@/supabase/supabase";
 import { useEffect, useState } from "react";
-import ServiceAwardCard from "@/components/ServiceAwardCard";
+import ServiceCard from "@/components/ServiceCard";
 import Header from "@/components/Header";
 import EventHeader from "@/components/EventHeader";
 import ServicesContainer from "@/components/ServicesContainer";
@@ -127,7 +127,7 @@ const EventServices = ({ params }: { params: { event_id: string } }) => {
       {/* <EventHeader title={eventName[0].name} eventId={eventId}></EventHeader> */}
       <ServicesContainer>
         {test.map((service) => (
-          <ServiceAwardCard key={service.id} service={service}></ServiceAwardCard>
+          <ServiceCard key={service.id} service={service}></ServiceCard>
         ))}
       </ServicesContainer>
     </>
