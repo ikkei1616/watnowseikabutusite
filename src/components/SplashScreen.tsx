@@ -204,7 +204,7 @@ const SplashScreen = () => {
               }}
             >
               <Image
-                src={"/cat_clean.png"}
+                src={"/cat_clean.gif"}
                 alt={"猫ちゃんの画像"}
                 width={200}
                 height={200}
@@ -290,7 +290,7 @@ const SplashScreen = () => {
             }}
           >
             <Image
-              src={"/cat_clean.png"}
+              src={"/cat_clean.gif"}
               alt={"猫ちゃんの画像"}
               width={300}
               height={300}
