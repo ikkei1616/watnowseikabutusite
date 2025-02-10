@@ -9,9 +9,9 @@ import { supabase } from "@/supabase/supabase";
 import type { Service } from "@/types/Service";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ServiceCard from "@/components/ServiceCard";
-import Pagination from "@mui/material/Pagination";
-import PaginationItem from "@mui/material/PaginationItem";
-import Stack from "@mui/material/Stack";
+import Pagination from '@mui/material/Pagination';
+import PaginationItem from '@mui/material/PaginationItem';
+import Stack from '@mui/material/Stack';
 
 const Home: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
@@ -27,9 +27,11 @@ const Home: React.FC = () => {
     const fetchService = async () => {
       const { data, error } = await supabase
         .from("services")
-        .select("id,name,image")
-        .order("id", { ascending: true })
-        .range(start, end);
+        .select("id,name,image,comment")
+        .order("release_year",{ ascending: false })
+        .order("release_month",{ ascending: false })
+        .range(start,end);
+        console.log(data)
 
       if (error) {
         console.error("Error fetching events:", error);
@@ -64,9 +66,10 @@ const Home: React.FC = () => {
     const fetchService = async () => {
       const { data, error } = await supabase
         .from("services")
-        .select("id,name,image")
-        .order("id", { ascending: true })
-        .range(start, end);
+        .select("id,name,image,comment")
+        .order("release_year",{ ascending: false })
+        .order("release_month",{ ascending: false })
+        .range(start,end)
       if (error) {
         console.error("Error fetching events:", error);
       } else {
