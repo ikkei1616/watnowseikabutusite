@@ -27,7 +27,7 @@ const Home: React.FC = () => {
     const fetchService = async () => {
       const { data, error } = await supabase
         .from("services")
-        .select("id,name,image,description")
+        .select("id,name,image,comment")
         .order("release_year",{ ascending: false })
         .order("release_month",{ ascending: false })
         .range(start,end);
@@ -66,7 +66,7 @@ const Home: React.FC = () => {
     const fetchService = async () => {
       const { data, error } = await supabase
         .from("services")
-        .select("id,name,image,description")
+        .select("id,name,image,comment")
         .order("release_year",{ ascending: false })
         .order("release_month",{ ascending: false })
         .range(start,end)

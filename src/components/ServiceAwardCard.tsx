@@ -152,7 +152,7 @@ const ServiceAwardCard: React.FC<ServiceAwardComponents> = ({ service }) => {
               textOverflow: "ellipsis",
             }}
           >
-            {service.description}
+            {service.comment}
           </Typography>
         </Box>
       </Card>
