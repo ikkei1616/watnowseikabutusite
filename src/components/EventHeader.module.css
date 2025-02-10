@@ -1,0 +1,89 @@
+@charset "UTF-8";
+.header {
+  padding: 123px 4% 0 4%;
+  width:100%;
+  margin-bottom: 20px;
+}
+
+.headerInner {
+  width: 100%;
+  border-bottom: 1px solid #00AEEF;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.title {
+  font-family: "HannariMincho";
+  font-size: 64px;
+  color: #00AEEF;
+  white-space:nowrap;
+  font-size: clamp(19px, 5.5vw, 64px);
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  align-self: flex-end;
+  padding: 5px 0 2px 0;
+}
+
+.button:hover {
+  border-radius:12px;
+  background-color: #c5cfd3;
+}
+
+.text {
+  font-family: "HannariMincho";
+  font-size: 20px;
+  white-space: nowrap;
+  font-size: clamp(6px, 2vw, 20px);
+}
+
+.spText {
+  display: none;
+  font-size: 14px;
+}
+
+.Image {
+  max-width: 42px;
+  width: 5vw;
+  height: auto;
+  padding-left: 4%;
+  padding-bottom:2px
+}
+
+@media (min-width:320px) {
+  .header {
+    padding-top: 90px;
+  }
+}
+
+@media (max-width:500px) {
+  .pcText {
+    display: none;
+  }
+
+  .spText {
+    display: block;
+  }
+}
+
+@media (min-width: 601px) {
+  .header {
+    padding-top: 102px;
+  }
+}
+
+
+@media (min-width:701px) {
+  .header {
+    padding-top: 120px;
+  }
+}
+
+@media (min-width: 901px) {
+  .header {
+    padding-top: 124px;
+  }
+}

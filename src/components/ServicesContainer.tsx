@@ -6,16 +6,16 @@ const ServicesContainer = ({ children }: { children: React.ReactNode }) => {
     <Box
       sx={{
         width: "100%",
-        margin: "33px 0 0 0",
+        margin: "33px 0 30px 0",
+        padding: "0 20px",
         display: "grid",
         gridTemplateColumns: "repeat(1, minmax(0, 368px))",
-        gridTemplateRows: "repeat(auto-fit, minmax(0, 306px))",
         justifyContent: "center",
         columnGap: "60px",
         rowGap: "56px",
         "@media screen and (min-width: 840px)": {
           gridTemplateColumns: "repeat(2, minmax(0, 368px))",
-          gridTemplateRows: "repeat(auto-fit, minmax(0, 306px))",
+        
           justifyContent: "center",
           columnGap: "60px",
           rowGap: "40px",

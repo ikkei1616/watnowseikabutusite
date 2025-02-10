@@ -23,11 +23,9 @@ export const SkeletonEventCard: React.FC = () => {
       <Skeleton
         variant="rectangular"
         sx={{
-          width: "100%", // EventCard の幅と一致
-
-          maxWidth: "1000px", // EventCard の最大幅と一致
-          height: "280px", // 高さを指定（EventCard の大きさに合わせて調整）
-          borderRadius: "12px", // EventCard と同じ borderRadius
+          width: "100%",
+          height: "280px", //fix
+          borderRadius: "12px",
         }}
       />
     </Box>
@@ -39,10 +37,9 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
     <Card
       sx={{
         display: "flex",
-        flexDirection: "column", // カード全体を縦に配置
-        width: "85%",
-        maxWidth: "1000px", // 最大幅を設定
-        marginLeft: "auto",
+        flexDirection: "column",
+        width: "100%",
+
         borderRadius: "12px",
         overflow: "hidden",
         border: "1px solid",
@@ -64,15 +61,14 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
       >
         {/* 日付を表示 */}
         <Typography
-          variant="subtitle1"
           color="#00AEEF"
           sx={{
-            fontSize: "1.4rem", // カスタムフォントサイズを指定
+            fontSize: "clamp(1rem, 3vw, 2rem)", // カスタムフォントサイズを指定
             backgroundColor: "#fff",
             padding: "0.5rem 1rem", // 上下左右の余白
           }}
         >
-          {event.date}
+          {event.year}年{event.month}月
         </Typography>
 
         {/* 詳細ページへのリンクボタン */}
@@ -84,7 +80,7 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
               sx={{
                 textTransform: "none",
                 "&:hover": {
-                  backgroundColor: "#D9D9D9", // ホバー時の背景色を濃くする
+                  backgroundColor: "#e4e4e4", // ホバー時の背景色を濃くする
                 },
               }}
             >
@@ -111,17 +107,24 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
       />
 
       {/* カードの内容部分 */}
-      <Box sx={{ display: "flex", alignItems: "center", padding: "1rem" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "1rem",
+          gap: "1rem",
+        }}
+      >
         {/* 画像部分 */}
         <Box
           sx={{
             width: "40%", // 幅を相対的に設定
             aspectRatio: "16/9", // 画像のアスペクト比を固定
             position: "relative",
-            backgroundColor: "##f0f0f0",
+            backgroundColor: "#f0f0f0",
             borderRadius: "8px", // 画像のボーダーを曲げる
             overflow: "hidden",
-            marginRight: "1rem",
           }}
         >
           {/* 画像がある場合は画像を表示し、ない場合はメッセージを表示 */}
@@ -129,7 +132,7 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
             <Image
               src={event.image}
               alt={`${event.name}の画像`}
-              layout="fill" // 親のBox全体をカバー
+              layout="fill"
               objectFit="cover"
               style={{ borderRadius: "8px" }} // ボーダーの半径を設定
             />
@@ -154,8 +157,9 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
         {/* テキスト部分 */}
         <Box
           sx={{
-            flexGrow: 1,
             display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
             alignItems: "flex-start",
             height: "100%",
             width: "60%", // 幅を相対的に設定

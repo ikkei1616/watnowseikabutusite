@@ -234,7 +234,7 @@ const CoreHeader = ({
         },
       }}
     >
-      <Link href={"/services"}>
+      <Link href={"/"}>
         <Box
           sx={{
             minWidth: "18rem",

@@ -8,8 +8,21 @@ import { CreatorUser } from "./User";
 export interface Service {
   id: string | null;
   name: string;
-  image?: string;
+  image: string;
+  description?: string;
   comment?: string;
+  award_id?: string;
+  awards?: Award;
+}
+
+export interface EventAllService {
+  id: string | null;
+  name: string;
+  image: string;
+  description?: string;
+  comment?: string;
+  award_id?: string;
+  awards?: {id:string,name:string};
 }
 
 //Service詳細ページで利用する型定義
