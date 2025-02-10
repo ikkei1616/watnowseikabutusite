@@ -7,7 +7,7 @@ import Header from "@/components/Header";
 import { HeaderMode } from "@/types/HeaderMode";
 import { supabase } from "@/supabase/supabase";
 import type { Service } from "@/types/Service";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import LoadingPage from "@/components/loading/LoadingPage";
 import ServiceCard from "@/components/ServiceCard";
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
@@ -83,7 +83,7 @@ const Home: React.FC = () => {
   }, [page]);
 
   if (loading) {
-    return <LoadingSpinner />;
+    return <LoadingPage />;
   }
 
   const handlePageChange = (
