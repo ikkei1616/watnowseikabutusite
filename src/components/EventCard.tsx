@@ -185,7 +185,6 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
                   whiteSpace: "nowrap", // テキストを1行に制限
                   overflow: "hidden", // あふれた部分を非表示に
                   textOverflow: "ellipsis", // あふれた部分を "..." に
-                  fontFamily: "HannariMincho",
                 }}
               >
                 {event.name}
