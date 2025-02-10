@@ -181,10 +181,11 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
                 component="div"
                 gutterBottom
                 sx={{
-                  paddingTop: "20px",
+                  paddingTop: "10px",
                   whiteSpace: "nowrap", // テキストを1行に制限
                   overflow: "hidden", // あふれた部分を非表示に
                   textOverflow: "ellipsis", // あふれた部分を "..." に
+                  fontSize: { xs: "1rem", md: "1.75rem" }, // フォントサイズを指定
                 }}
               >
                 {event.name}
@@ -198,7 +199,7 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
                 color="text.secondary"
                 sx={{
                   lineHeight: "2.0", // 行間を調整
-                  fontSize: "18px", // フォントサイズを指定
+                  fontSize: { xs: "0.7rem", md: "1.25rem" }, // フォントサイズを指定
                   display: "-webkit-box", // 表示をボックス形式に
                   WebkitLineClamp: 4, // 行数を4行に制限
                   WebkitBoxOrient: "vertical",
