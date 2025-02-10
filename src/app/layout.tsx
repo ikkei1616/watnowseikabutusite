@@ -9,9 +9,10 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "watbox",
-  description: "watnowの成果物一覧サイト",
-  openGraph:{
+  description: "watnowプロダクト一覧サイト",
+  openGraph: {
     title: "watbox",
+    description: "watnowプロダクト一覧サイト",
     images: [
       {
         url: "https://watbox.vercel.app/ogp.png",
