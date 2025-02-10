@@ -44,7 +44,9 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
         overflow: "hidden",
         border: "1px solid",
         borderColor: "#fff",
+
         marginBottom: "40px",
+
       }}
     >
       <Box
