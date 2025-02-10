@@ -13,6 +13,8 @@ import {
   SkeletonEventYearList,
 } from "@/components/EventYearList";
 import theme from "@/theme";
+import PageHeader from "@/components/PageHeader";
+import EventYearListDrawer from "@/components/EventYearListDrawer";
 
 const ITEMS_PER_PAGE = 5; // 1ページあたりのイベント数
 
@@ -116,37 +118,88 @@ const EventPage: React.FC = () => {
   return (
     <main>
       <Header mode={HeaderMode.EVENTS} />
-      <h1 className={styles.pageHeader}>イベント一覧</h1>
-      <Divider
+      <Box
         sx={{
-          width: "95%",
-          margin: "0 auto",
-          borderColor: "#00AEEF",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          alignItems: "flex-start",
+          padding: { xs: "2rem 3rem", md: "2rem " },
         }}
-      />
-      {isLoading ? (
-        <div className={styles.container}>
-          <SkeletonEventYearList />
-          <div className={styles.eventList}>
-            <SkeletonEventCard />
-          </div>
-        </div>
-      ) : (
-        <div className={styles.container}>
-          <EventYearList
-            eventCountByYear={eventCountByYear}
-            onYearSelect={handleYearSelect}
-            selectedYear={selectedYear}
-          />
+      >
+        <PageHeader title="イベント一覧" />
 
-          <div className={styles.eventList}>
+        <Divider
+          sx={{
+            width: "100%",
+            margin: "0 auto",
+            borderColor: "#00AEEF",
+          }}
+        />
+      </Box>
+
+      <Box sx={{ display: { xs: "block", md: "none" } }}>
+        <EventYearListDrawer
+          eventCountByYear={eventCountByYear}
+          onYearSelect={handleYearSelect}
+          selectedYear={selectedYear}
+        />
+      </Box>
+
+      {isLoading ? (
+        <Box
+          sx={{
+            display: "flex",
+            margin: "20px 5%",
+            flexDirection: { xs: "column", md: "row" },
+            justifyContent: "flex-start",
+            alignItems: { xs: "center", md: "flex-start" },
+            gap: "5%",
+          }}
+        >
+          <Box sx={{ width: "20%", display: { xs: "none", md: "block" } }}>
+            <SkeletonEventYearList />
+          </Box>
+          <Box
+            sx={{
+              width: { xs: "90%", md: "75%" },
+              margin: { xs: "auto", md: "0" },
+            }}
+          >
+            <SkeletonEventCard />
+          </Box>
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            margin: "20px 5%",
+            flexDirection: { xs: "column", md: "row" },
+            justifyContent: "flex-start",
+            alignItems: { xs: "center", md: "flex-start" },
+            gap: "5%",
+          }}
+        >
+          <Box sx={{ width: "20%", display: { xs: "none", md: "block" } }}>
+            <EventYearList
+              eventCountByYear={eventCountByYear}
+              onYearSelect={handleYearSelect}
+              selectedYear={selectedYear}
+            />
+          </Box>
+          <Box
+            sx={{
+              width: { xs: "90%", md: "75%" },
+              margin: { xs: "auto", md: "0" },
+            }}
+          >
             {events.map((event) => (
               <div className={styles.eventItemWrapper} key={event.id}>
                 <EventCard event={event} />
               </div>
             ))}
-          </div>
-        </div>
+          </Box>
+        </Box>
       )}
 
       <Pagination
