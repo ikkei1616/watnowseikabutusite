@@ -44,9 +44,7 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
         overflow: "hidden",
         border: "1px solid",
         borderColor: "#fff",
-
-        marginBottom: "40px",
-
+        boxShadow: "none",
       }}
     >
       <Box
@@ -67,7 +65,7 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
           sx={{
             fontSize: "clamp(1rem, 3vw, 2rem)", // カスタムフォントサイズを指定
             backgroundColor: "#fff",
-            padding: "0.5rem 1rem 0.5rem 0.5rem", // 上下左右の余白
+            padding: "0.5rem 1rem", // 上下左右の余白
           }}
         >
           {event.year}年{event.month}月
@@ -167,43 +165,52 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
             width: "60%", // 幅を相対的に設定
           }}
         >
-          {/* イベントの題名部分 */}
-          <Box
-            sx={{ display: "flex", alignContent: "flex-start", width: "100%" }}
+          <CardContent
+            sx={{
+              padding: "0",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-start",
+              height: "100%",
+            }}
           >
-            <Typography
-              variant="h5"
-              gutterBottom
-              sx={{
-                fontSize: "clamp(1rem, 3vw, 1.5rem)", // カスタムフォントサイズを指定
+            {/* イベントの題名部分 */}
+            <Box>
+              <Typography
+                variant="h5"
+                component="div"
+                gutterBottom
+                sx={{
+                  paddingTop: "20px",
+                  whiteSpace: "nowrap", // テキストを1行に制限
+                  overflow: "hidden", // あふれた部分を非表示に
+                  textOverflow: "ellipsis", // あふれた部分を "..." に
+                  fontFamily: "HannariMincho",
+                }}
+              >
+                {event.name}
+              </Typography>
+            </Box>
 
-                whiteSpace: "nowrap", // テキストを1行に制限
-                overflow: "hidden", // あふれた部分を非表示に
-                textOverflow: "ellipsis", // あふれた部分を "..." に
-              }}
-            >
-              {event.name}
-            </Typography>
-          </Box>
-
-          {/* イベントの内容部分 */}
-          <Box>
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{
-                lineHeight: { xs: 1.5, md: 2 }, // 行間を調整
-                fontSize: "clamp(0.8rem, 1.5vw, 2rem)", // フォントサイズを指定
-                display: "-webkit-box", // 表示をボックス形式に
-                WebkitLineClamp: { xs: 3, md: 4 }, // 行数を4行に制限
-                WebkitBoxOrient: "vertical",
-                overflow: "hidden",
-                textOverflow: "ellipsis", // あふれた部分を "..." で表示
-              }}
-            >
-              {event.comment}
-            </Typography>
-          </Box>
+            {/* イベントの内容部分 */}
+            <Box>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{
+                  lineHeight: "2.0", // 行間を調整
+                  fontSize: "18px", // フォントサイズを指定
+                  display: "-webkit-box", // 表示をボックス形式に
+                  WebkitLineClamp: 4, // 行数を4行に制限
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis", // あふれた部分を "..." で表示
+                }}
+              >
+                {event.comment}
+              </Typography>
+            </Box>
+          </CardContent>
         </Box>
       </Box>
     </Card>
