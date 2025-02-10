@@ -47,7 +47,9 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
         overflow: "hidden",
         border: "1px solid",
         borderColor: "#fff",
+
         boxShadow: "none",
+
       }}
     >
       <Box
@@ -72,7 +74,7 @@ export const EventCard: React.FC<EventCardProp> = ({ event }) => {
             padding: "0.5rem 1rem", // 上下左右の余白
           }}
         >
-          {event.date}
+          {event.year}年{event.month}月
         </Typography>
 
         {/* 詳細ページへのリンクボタン */}
