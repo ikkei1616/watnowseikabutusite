@@ -19,7 +19,7 @@ const DisplaySNS = ({ user }: { user: DisplaySNSProps }) => {
       )}
       {user.xID && (
         <Item
-          text={`@${user.xID}hgeohogheogheoghoehg`}
+          text={`@${user.xID}`}
           href={`${X_URL}${user.xID}`}
           src={"/x.svg"}
           alt={"xのアイコン"}

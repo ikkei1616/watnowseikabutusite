@@ -1,17 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import styles from "./page.module.css";
 import Header from "@/components/Header";
 import { HeaderMode } from "@/types/HeaderMode";
 import { supabase } from "@/supabase/supabase";
 import type { Service } from "@/types/Service";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import LoadingPage from "@/components/loading/LoadingPage";
 import ServiceCard from "@/components/ServiceCard";
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
-import Stack from '@mui/material/Stack';
 
 const Home: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
@@ -83,7 +81,7 @@ const Home: React.FC = () => {
   }, [page]);
 
   if (loading) {
-    return <LoadingSpinner />;
+    return <LoadingPage />;
   }
 
   const handlePageChange = (
